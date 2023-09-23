@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/report/report.css"></link>
+    <link rel="stylesheet" href="/css/report/sales.css"></link>
+</head>
+
+<body>
+    {{>reportBar}}
+    <br>
+    <center>
+        <div class="container-sales">
+            <!--this is the dashboard-->
+            <div class="select-date">
+                <table class="dash-board-date">
+                    <tr>
+                        <td class="text-muted">Date initial</td>
+                        <td class="text-muted">date finished</td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" type="date"></td>
+                        <td><input class="form-control" type="date"></td>
+                        <td><button class="btn-dash-board-date"><i class="fi fi-rr-search"></i></button></td>
+                    </tr>
+                </table>
+                <br><br>
+                <hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!---dashboard--->
+                <div class="tab_box">
+                    <button class="tab_btn active"><i class="fi-container fi-sr-world"></i>General Sale</button>
+                    <button class="tab_btn"><i class="fi-container fi-sr-briefcase"></i>Departments</button>
+                    <button class="tab_btn"><i class="fi-container fi-rr-box-open"></i>Articles</button>
+                    <button class="tab_btn"><i class="fi-container fi-ss-package"></i>Seller</button>
+                    <button class="tab_btn"><i class="fi-container fi-sr-piggy-bank"></i>sales and income</button>
+                    <button class="tab_btn"><i class="fi-container fi-sr-user"></i>Client</button>
+                    <button class="tab_btn"><i class="fi-container fi-sr-filter"></i>Filter</button>
+                    <div class="line"></div>
+                </div>
+                <div class="content_box">
+                    <div class="content-sales active">
+                        {{>dashboard/characterGraphic}}
+                        <br>
+                        <div>
+                            <canvas id="companyExpenses"></canvas>
+                        </div>
+                    </div>
+                    <div class="content-sales">
+                        {{>dashboard/characterGraphic}}
+                    </div>
+                    <div class="content-sales">
+                        {{>dashboard/characterGraphic}}
+                    </div>
+                    <div class="content-sales">
+                        {{>dashboard/characterGraphic}}
+                    </div>
+                    <div class="content-sales">
+                        {{>dashboard/characterGraphic}}
+                    </div>
+                    <div class="content-sales">
+                        {{>dashboard/characterGraphic}}
+                    </div>
+                    <div class="content-sales">
+                        <table class="dash-board-date">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Company <i class="fi fi-rs-building"></i></td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="opcion1"></option>
+                                        <option value="opcion1">All</option>
+                                    </select>
+                                </td>
+                                <td width="20px"><button class="btn btn-success btn-block"><i
+                                            class="fi fi-rr-search"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td> Country <i class="fi fi-br-world"></i></td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="opcion1">Opción 1</option>
+                                        <option value="opcion1">All</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn btn-success btn-block"><i class="fi fi-rr-search"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> State <i class="fi fi-ss-flag"></i></td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="opcion1">Opción 1</option>
+                                        <option value="opcion1">All</option>
+                                    </select>
+                                </td>
+                                <td width="20px"><button class="btn btn-success btn-block"><i
+                                            class="fi fi-rr-search"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td> Manager <i class="fi fi-sr-user"></i></td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="opcion1">Ticket</option>
+                                        <option value="opcion1">Bills</option>
+                                        <option value="opcion1">Bills CFDI</option>
+                                        <option value="opcion1">All</option>
+                                    </select>
+                                </td>
+                                <td width="20px"><button class="btn btn-success btn-block"><i
+                                            class="fi fi-rr-search"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td> Branch <i class="fi fi-sr-store-alt"></i></td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="opcion1">Opción 1</option>
+                                        <option value="opcion1">All</option>
+                                    </select>
+                                </td>
+                                <td width="20px"><button class="btn btn-success btn-block"><i
+                                            class="fi fi-rr-search"></i></button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <!--this is the type dashboard for __________________________________________________________________
+        <div class="tab_box">
+            <button class="tab_btn active"><i class="fi-container fi-sr-world"></i>General</button>
+            <button class="tab_btn"><i class="fi-container fi-sr-hamburger-soda"></i>Article</button>
+            <button class="tab_btn"><i class="fi-container fi-rr-box-open"></i>Pack</button>
+            <button class="tab_btn"><i class="fi-container fi-ss-package"></i>Seller</button>
+            <button class="tab_btn"><i class="fi-container fi-rs-badge-percent"></i>Discount</button>
+            <div class="line"></div>
+        </div>
+        <div class="content_box">
+            <div class="content-sales active">
+                <table class="dash-board-date">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-dash" checked="checked"> All the box <i class="fi fi-sr-cash-register"></i></td>
+                        <td>
+                            <select class="form-control">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion1">Opción 1</option>
+                            </select>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-dash" checked="checked"> All the user <i class="fi fi-sr-user"></i></td>
+                        <td>
+                            <select class="form-control">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion1">Opción 1</option>
+                            </select>
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-dash" checked="checked"> All the client <i class="fi fi-ss-users"></i></td>
+                        <td>
+                            <select class="form-control">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion1">Opción 1</option>
+                            </select>
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-dash"> All the sellers <i class="fi fi-ss-package"></i></td>
+                        <td>
+                            <select class="form-control">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion1">Opción 1</option>
+                            </select>
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-dash"> All the documents <i class="fi fi-ss-document"></i></td>
+                        <td>
+                            <select class="form-control">
+                                <option value="opcion1">Ticket</option>
+                                <option value="opcion1">Bills</option>
+                                <option value="opcion1">Bills CFDI</option>
+                                <option value="opcion1"></option>
+                            </select>
+                        </td>
+                    </tr>                        
+                </table>
+            </div>
+            <div class="content-sales">
+                <h2>2</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quasi fugit dolor incidunt obcaecati
+                    iusto temporibus atque omnis accusamus et dolore hic rem eveniet est, veritatis unde dignissimos,
+                    provident corporis.
+                </p>
+            </div>
+            <div class="content-sales">
+                <h2>3</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quasi fugit dolor incidunt obcaecati
+                    iusto temporibus atque omnis accusamus et dolore hic rem eveniet est, veritatis unde dignissimos,
+                    provident corporis.
+                </p>
+            </div>
+            <div class="content-sales">
+                <h2>4</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quasi fugit dolor incidunt obcaecati
+                    iusto temporibus atque omnis accusamus et dolore hic rem eveniet est, veritatis unde dignissimos,
+                    provident corporis.
+                </p>
+            </div>
+            <div class="content-sales">
+                <h2>5</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quasi fugit dolor incidunt obcaecati
+                    iusto temporibus atque omnis accusamus et dolore hic rem eveniet est, veritatis unde dignissimos,
+                    provident corporis.
+                </p>
+            </div>
+        </div>-->
+        </div>
+    </center>
+
+
+    <script>
+        const tabs = document.querySelectorAll('.tab_btn');
+        const all_content = document.querySelectorAll('.content-sales');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', (e) => {
+                tabs.forEach(tab => { tab.classList.remove('active') });
+                tab.classList.add('active');
+
+                var line = document.querySelector('.line');
+                line.style.width = e.target.offsetWidth + "px";
+                line.style.left = e.target.offsetLeft + "px";
+
+                all_content.forEach(content => {
+                    content.classList.remove('active');
+                })
+                all_content[index].classList.add('active');
+            })
+        })
+    </script>
+</body>
+
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/report/company_report.js"></script>

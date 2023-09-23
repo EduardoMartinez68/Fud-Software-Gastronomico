@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Árbol de versiones con JointJS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.4.0/joint.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.4.0/joint.min.js"></script>
+</head>
+<body>
+  <div id="paper"></div>
+
+  <script>
+    // Crear el lienzo para dibujar
+    var graph = new joint.dia.Graph();
+    var paper = new joint.dia.Paper({
+      el: document.getElementById('paper'),
+      width: 800,
+      height: 600,
+      model: graph
+    });
+
+    // Definir los nodos y conexiones del árbol de versiones
+    var version1 = new joint.shapes.standard.Circle({
+      position: { x: 100, y: 100 },
+      size: { width: 80, height: 80 },
+      attrs: { body: { fill: 'lightblue' }, label: { text: 'Versión 1' } }
+    });
+
+    var version2 = new joint.shapes.standard.Circle({
+      position: { x: 300, y: 100 },
+      size: { width: 80, height: 80 },
+      attrs: { body: { fill: 'lightblue' }, label: { text: 'Versión 2' } }
+    });
+
+    var link = new joint.shapes.standard.Link({
+      source: { id: version1.id },
+      target: { id: version2.id },
+      attrs: { line: { stroke: 'black' } }
+    });
+
+    // Agregar los nodos y conexiones al grafo
+    graph.addCells([version1, version2, link]);
+  </script>
+</body>
+</html>

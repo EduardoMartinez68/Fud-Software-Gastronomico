@@ -1,0 +1,91 @@
+.container-sales{
+    width: 66%;
+    background-color: white;
+    padding: 30px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.1);
+    border-radius: 1rem;
+}
+
+.tab_box{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid rgba(299,299,299);
+    font-size: 18px;
+    font-weight: 600;
+    position: relative;
+}
+
+.tab_box .tab_btn.active{
+    color: var(--color-company);
+}
+
+.tab_btn{
+    font-size: 18px;
+    font-weight: 600; 
+    color: #919191;  
+    background: none;
+    border: none;
+    padding: 18px;
+}
+
+.content_box{
+    padding: 1px;
+}
+
+.content_box .content-sales{
+    display: none;
+    animation: moving .5s ease;
+}
+@keyframes moving {
+    from{transform: translateX(50px);opacity: 0;}
+    to{transform: translateX(0px);opacity: 1;}
+}
+.content_box .content-sales.active{
+    display: block;
+}
+.content_box .content-sales h2{
+    margin-bottom: 10px;
+}
+
+.line{
+    position: absolute;
+    top: 53px;
+    left: 5%;
+    width: 10%; /*20*/
+    height: 5px;
+    background-color: var(--color-company);
+    border-radius: 10px;
+    transition: all .3s ease-in-out;
+}
+
+.fi-container {
+    padding-right: .5rem;
+}
+
+/*DASHBOARD DATE*/
+.dash-board-date{
+    border-collapse: collapse; 
+    width: 60%; 
+}
+
+.dash-board-date td {
+    padding-right: 10px;
+}
+
+.dash-board-date td {
+    margin-bottom: 10px;
+    padding-top: 7px;
+}
+
+.btn-dash-board-date{
+    border: 0;
+    background: transparent;
+    width: 50%;
+}
+
+/**/
+.checkbox-dash{
+    padding-right: .5rem;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/store/reservation/main.css">
+    <!-- GOOGLE FONTs -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- ANIMATE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+    <link rel="stylesheet" href="/css/cart/cart.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header-mobile">
+            <button class="open-menu-store" id="open-menu-store"><i class="fi fi-rr-menu-burger"></i></button>
+        </header>
+        <aside class="">
+            <button class="close-menu-store" id="close-menu-store"><i class="fi fi-rr-x"></i></button>
+            <header>
+                <h1 class="logo"></h1>
+            </header>
+            <nav>
+                {{>menuStore}}
+            </nav>
+            <footer>
+                <p class="text-footer">© 2023 Ice Cloude</p>
+            </footer>
+        </aside>   
+
+        <div class="content">
+            <div class="contact-wrapper animated bounceInUp">
+                <div class="contact-form">
+                    <h3><i class="fi-reservation fi-rs-calendar"></i> Please fill with your request</h3>
+                    <form action="">
+                        <p>
+                            <label>Name</label>
+                            <input type="text" name="name">
+                        </p>
+                        <p>
+                            <label>Last Name</label>
+                            <input type="text" name="lastName">
+                        </p>
+                        <p>
+                            <label>Email</label>
+                            <input type="email" name="email">
+                        </p>
+                        <p>
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone">
+                        </p>
+                        <p>
+                            <label>check in</label>
+                            <input type="date" id="date" name="date">
+                        </p>
+                        <p></p>
+                        <p>
+                            <label>Reason</label>
+                            <select id="typeEvent" name="typeEvent">
+                                <option value="Party">Party</option>
+                                <option value="Birthday">Birthday</option>
+                                <option value="Graduation">Graduation</option>
+                                <option value="Month day">Month Day</option>
+                                <option value="Dad day">Dad Day</option>
+                                <option value="other">other</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>Pack</label>
+                            <select id="typeEvent" name="typeEvent">
+                                <option value="other_pack">other</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>time in</label>
+                            <input type="time" id="timeIn" name="timeIn">
+                        </p>
+                        <p>
+                            <label>time out</label>
+                            <input type="time" id="timeIn" name="timeOut">
+                        </p>
+                        <p>
+                            <label>Adults</label>
+                            <input type="number" id="cantAdults" name="adults" min="0" step="1" >
+                        </p>
+                        <p>
+                            <label>child</label>
+                            <input type="number" id="cantChild" name="cantChild" min="0" step="1" >
+                        </p>
+                        <p class="block">
+                        <label>Message</label> 
+                            <textarea name="message" rows="3"></textarea>
+                        </p>
+                        <p class="block">
+                            <button>
+                                Send
+                            </button>
+                        </p>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h4>More Info</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i>Name company</li>
+                        <li><i class="fas fa-phone"></i> (111) 111 111 111</li>
+                        <li><i class="fas fa-envelope-open-text"></i> contact@website.com</li>
+                    </ul>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero provident ipsam necessitatibus repellendus?</p>
+                    <p>Company.com</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--this script is for increment or decrement the adult number ir child number-->
+    <script>
+        function increment_cant(input) {
+            var cantInput = document.getElementById(input);
+            var cant = parseInt(cantInput.value);
+            cantInput.value = parseInt(cant.value) + 1;
+        }
+
+        function decrement_cant(input){
+            var cantInput = document.getElementById(input);
+            var cant = parseInt(cantInput.value);
+            if (cant > 0) {
+                cantInput.value = parseInt(cant.value) - 1;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!---
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Horarios de Empleados</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+</head>
+<body>
+  <div id="calendario"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
+  <script src="/js/manager/schedulesUi.js"></script>
+</body>
+</html>
+--->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/report/sales.css">
+    <link rel="stylesheet" href="/css/home.css">
+
+</head>
+<body>
+    <br><br>
+    <center>
+        <div class="container-sales">
+            <!--this is the dashboard-->
+            <div class="select-date">
+                <table class="dash-board-date">
+                    <tr>
+                        <td>Clave</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input class="form-control" placeholder="Search a clave...">
+                        </td>
+                        <td><button class="btn-dash-board-date"><i class="fi fi-rr-search"></i></button></td>
+                    </tr>
+                    <tr>
+                        <td><br></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Country</td>
+                        <td class="text-muted">State</td>
+                        <td class="text-muted">Branch</td>
+                        <td class="text-muted">Name</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control">
+                                <option>Option</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control">
+                                <option>Option</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control">
+                                <option>Option</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control">
+                                <option>Option</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <br><br>
+                <hr>
+            </div>
+
+            <div id='calendar'></div>
+    </center>
+
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar')
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                height: 'auto', // Ajustar automáticamente la altura del calendario
+                slotDuration: '00:30:00', // Duración de cada intervalo de tiempo en el calendario (en este caso, 30 minutos)
+                slotMinTime: '00:00:00', // Hora de inicio del calendario
+                slotMaxTime: '24:00:00', // Hora de finalización del calendario
+                eventColor: '#ff0000', // Establece el color de los eventos (aquí se usa rojo como ejemplo)
+                eventBackgroundColor: '#FF2B2B', // Establece el color de fondo de los eventos (aquí se usa un tono claro de rojo como ejemplo)
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay'
+                },
+                events: [
+                    {
+                        title: 'Empleado A - Turno 1',
+                        start: '2023-16-18T08:00:00',
+                        end: '2023-16-18T13:30:00'
+                    },
+                    {
+                        title: 'Empleado A - Turno 2',
+                        start: '2023-07-18T14:00:00',
+                        end: '2023-07-18T18:30:00'
+                    },
+                    // Puedes agregar más eventos para representar los horarios de otros empleados
+                ]
+            })
+            calendar.render()
+        })
+    </script>
+    <script src="/js/manager/schedulesUi.js"></script>
+</body>
+
+</html>

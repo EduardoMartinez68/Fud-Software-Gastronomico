@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300&family=Didact+Gothic&family=Tajawal:wght@200&display=swap');
+.title-schedules{
+    font-family: 'Tajawal', sans-serif;
+}
+
+.table-data-schedules{
+    border-collapse: collapse;
+    width: 85%;
+}
+
+.table-data-schedules td{
+    padding-right: 4rem;
+}
+
+.table-data-schedules td{
+    margin: 1rem;
+    padding-right: 4rem;
+    padding: .25rem;
+}
+
+.my-schedules{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.my-schedules td{
+    padding: 1rem;
+    border-bottom: 1px solid rgb(198,199,200);
+}
+
+.my-schedules  tr{
+    padding: 1rem;
+}
+
+.my-schedules  tr:last-child td {
+    padding: 1rem;
+    border-bottom: none;
+  }
+
+.btn-delate-schedules{
+    height: 100%;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    align-items: center;
+}
+
+.fi-schedules {
+    color: red;
+    font-size: 1.25rem;
+}
+
+.fi-add-schedules{
+    color: rgba(0,0,0,.5);
+}
+
+.fi-add-schedules.schedule-active{
+    color: white;
+}
+
+.btn-add-schedules{
+    height: 100%;
+    width: 100%;
+    border: 0;
+    align-items: center;    
+    border-radius: .5rem;
+    background: transparent;
+}
+
+.td-delete{
+    align-items: center;    
+}
+
+.td-add-schedules{
+    align-items: center;    
+    width: 1rem; 
+    background: var(--color-company);
+}
+
+.hrs-schedule{
+    padding-right: .25rem;
+}
+.m-schedule{
+    padding-left: .25rem;
+}
+
+/*                                    employee schedules                         */
+.fi-attendance {
+    color: var(--color-confirmation);
+}
+
+.btn-justification{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    align-items: center;
+}
+
+.fi-employee-setting {
+    color: black;
+    font-size: .8rem;
+    padding-left: .5rem;
+}
+
+.fi-employee-setting:hover {
+    font-size: 1rem;
+}

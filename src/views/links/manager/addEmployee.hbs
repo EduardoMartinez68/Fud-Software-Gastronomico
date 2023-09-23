@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+</head>
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/links/addCompany" method="POST">
+                            <div class="form-group" >
+                                <center>
+                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="imgEmployee" class="userImg">
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="imagen" accept="image/*" class="form-control" id="inputImg">
+                            </div>                          
+                            <div class="form-group">
+                                <lable>Name *</lable><br>
+                                <input type="tex" class="form-control" name="name" placeholder="Name Company" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <lable>Last Name *</lable><br>
+                                <input type="tex" class="form-control" name="name" placeholder="Name Company">
+                            </div>
+                            <div class="form-group">
+                                <lable>Alias *</lable><br>
+                                <input type="tex" class="form-control" name="alias" placeholder="Alias">
+                            </div>
+                            <div class="form-group">
+                                <lable>Type user</lable><br>
+                                <!--for of the type user-->
+                                <select class="form-control">
+                                    <option value="opcion1">Vendedor</option>
+                                    <option value="opcion2">Limpiador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <lable>Role</lable><br>
+                                <!--for of the role-->
+                                <select class="form-control">
+                                    <option value="opcion1">Vendedor</option>
+                                    <option value="opcion2">Limpiador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <lable>Phone</lable><br>
+                                <input type="tex" class="form-control" name="phone" placeholder="Phone">
+                            </div>
+                            <div class="form-group">
+                                <lable>Cell Phone</lable><br>
+                                <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone">
+                            </div>
+                            <div class="form-group">
+                                <lable>E-mail *</lable><br>
+                                <input type="email" class="form-control" name="email" placeholder="E-mail">
+                            </div>
+                            <div class="form-group">
+                                <lable>Contry *</lable><br>
+                                <!--for of the contry-->
+                                <select class="form-control">
+                                    <option value="opcion1">Mexico</option>
+                                    <option value="opcion2">Chile</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <lable>Municipality *</lable><br>
+                                <input type="tex" class="form-control" name="municipality" placeholder="Municipality">
+                            </div>
+                            <div class="form-group">
+                                <lable>City *</lable><br>
+                                <input type="tex" class="form-control" name="city" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <lable>Cologne *</lable><br>
+                                <input type="tex" class="form-control" name="cologne" placeholder="Cologne">
+                            </div>
+                            <div class="form-group">
+                                <lable>Street *</lable><br>
+                                <input type="tex" class="form-control" name="street" placeholder="Street">
+                            </div>
+                            <div class="form-group">
+                                <lable>Outer Numbers</lable><br>
+                                <input type="tex" class="form-control" name="num_o" placeholder="Outer Number">
+                            </div>
+                            <div class="form-group">
+                                <lable>Interior Number</lable><br>
+                                <input type="tex" class="form-control" name="num_i" placeholder="Interior Number">
+                            </div>
+                            <div class="form-group">
+                                <lable>Postal Code *</lable><br>
+                                <input type="tex" class="form-control" name="postal_code" placeholder="Interior Number">
+                            </div>
+                            <div class="form-group">
+                                <lable>
+                                    <i class="fi-session fi-rr-user">Birday *</i>
+                                    <input type="date" id="birday" name="birday" class="form-control">
+                                </lable>
+                            </div>       
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/manager/addEmployee.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/manager/schedules.css">
+</head>
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <center><h2 class="title-schedules">SCHEDULES SETTING</h2></center>
+                        <br>
+                        <table class="table-data-schedules">
+                            <tr>
+                                <th><lable>Name *</lable><br></th>
+                                <th><lable>Description *</lable></th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Schedule name"></td>
+                                <td><input type="tex" class="form-control" placeholder="Description"></td>
+                            </tr>
+                            <tr>
+                                <td><lable>Color</lable></th>
+                                <td><lable>Tolerance time (minutes)</lable></td>
+                            </tr>
+                            <tr>
+                                <td><input type="color" id="colorPicker" class="form-control form-control-color"></td>
+                                <td><input type="number" id="numero" class="form-control" min="0" step="any" value="0"></td>
+                            </tr>
+                        </table>
+                        <br><br>
+                        <hr>
+                        <center>
+                            <table class="my-schedules">
+                                <tr>
+                                    <th></th>
+                                    <th><center>Day</center></th>
+                                    <th><center>Entry time</center></th>
+                                    <th></th>
+                                    <th><center>Departure</center></th>
+                                    <th></th>
+                                    <th><center>Subtotal</center></th>
+                                </tr>
+
+                                <tr class="Monday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-monday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-monday"></i></button></td>
+                                    <td>Monday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="starMonday" disabled="false"  oninput="calculateHoursWorkedInADay('Monday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-monday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finishMonday" oninput="calculateHoursWorkedInADay('Monday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-monday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-monday">0</label><label class="hrs-schedule">h</label><label id="minutes-monday">0</label><label class="m-schedule">m</label></td>
+                                </tr>
+
+                                <tr class="Tuesday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-thuesday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-thuesday"></i></button></td>
+                                    <td>Thuesday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="starThuesday" disabled="false" oninput="calculateHoursWorkedInADay('Tuesday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-thuesday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finishThuesday" oninput="calculateHoursWorkedInADay('Tuesday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-thuesday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-tuesday">0</label><label class="hrs-schedule">h</label><label id="minutes-tuesday">0</label><label class="m-schedule">m</label></td>
+
+                                </tr>
+
+                                <tr class="Wednesday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-wednesday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-wednesday"></i></button></td>
+                                    <td>Wednesday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="starWednesday" disabled="false" oninput="calculateHoursWorkedInADay('Wednesday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-wednesday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finishWednesday" oninput="calculateHoursWorkedInADay('Wednesday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-wednesday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-wednesday">0</label><label class="hrs-schedule">h</label><label id="minutes-wednesday">0</label><label class="m-schedule">m</label></td>
+                                </tr>
+
+                                <tr class="Thursday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-Thursday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-Thursday"></i></button></td>
+                                    <td>Thursday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="star-Thursday" disabled="false" oninput="calculateHoursWorkedInADay('Thursday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-Thursday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finish-Thursday" oninput="calculateHoursWorkedInADay('Thursday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-Thursday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-Thursday">0</label><label class="hrs-schedule">h</label><label id="minutes-Thursday">0</label><label class="m-schedule">m</label></td>
+                                </tr>       
+
+                                <tr class="Friday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-Friday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-Friday"></i></button></td>
+                                    <td>Friday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="star-Friday" disabled="false" oninput="calculateHoursWorkedInADay('Friday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-Friday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finish-Friday" oninput="calculateHoursWorkedInADay('Friday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-Friday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-Friday">0</label><label class="hrs-schedule">h</label><label id="minutes-Friday">0</label><label class="m-schedule">m</label></td>
+                                </tr>         
+
+                                <tr class="Saturday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-Saturday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-Saturday"></i></button></td>
+                                    <td>Saturday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="star-Saturday" disabled="false" oninput="calculateHoursWorkedInADay('Saturday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-Saturday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finish-Saturday" oninput="calculateHoursWorkedInADay('Saturday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-Saturday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-Saturday">0</label><label class="hrs-schedule">h</label><label id="minutes-Saturday">0</label><label class="m-schedule">m</label></td>
+                                </tr>            
+
+                                <tr class="Sunday">
+                                    <td class="td-add-schedules schedule-active"><button class="btn-add-schedules" id="btn-on-Sunday"><i class="fi-add-schedules fi-sr-clock-three" id="i-on-Sunday"></i></button></td>
+                                    <td>Sunday</td>
+                                    <td>
+                                        <input type="time" class="form-control" id="star-Sunday" disabled="false" oninput="calculateHoursWorkedInADay('Sunday')">
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-start-Sunday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td>
+                                        <input type="time" class="form-control" disabled="false" id="finish-Sunday" oninput="calculateHoursWorkedInADay('Sunday')"> 
+                                    </td>
+                                    <td class="td-delete"><button class="btn-delate-schedules" id="btn-delate-finish-Sunday"><i class="fi-schedules fi-br-cross-small"></i></button></td>
+                                    <td><label class="hrs-schedule" id="hours-Sunday">0</label><label class="hrs-schedule">h</label><label id="minutes-Sunday">0</label><label class="m-schedule">m</label></td>
+                                </tr>                                                                            
+                                <!--total-->
+                                <tr>
+                                    <td></td>
+                                    <td>Total:</td>
+                                    <td></td>
+                                    <td class="td-delete"></td>
+                                    <td></td>
+                                    <td class="td-delete"></td>
+                                    <td><label class="hrs-schedule" id="totalHourse">0</label><label class="hrs-schedule">h</label><label id="totalMinutes">0</label><label class="m-schedule">m</label></td>
+                                </tr>
+                            </table>
+                        </center>
+
+                        <button class="btn btn-success btn-block">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/manager/schedules.js"></script>
+
+    <script>
+        // Obtener el campo de entrada
+        const inputNumero = document.getElementById('numero');
+
+        // Agregar un evento de escucha para el evento de entrada de teclado
+        inputNumero.addEventListener('keypress', function(event) {
+        const charCode = event.which ? event.which : event.keyCode;
+        if (charCode < 48 || charCode > 57) {
+            event.preventDefault(); // Prevenir la entrada de caracteres no numéricos
+        }
+        });
+
+
+    </script>
+</body>
+</html>

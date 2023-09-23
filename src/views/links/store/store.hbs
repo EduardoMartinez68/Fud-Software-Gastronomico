@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/cart/cart.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header-mobile">
+            <button class="open-menu-store" id="open-menu-store"><i class="fi fi-rr-menu-burger"></i></button>
+        </header>
+
+        <aside class="">
+            <button class="close-menu-store" id="close-menu-store"><i class="fi fi-rr-x"></i></button>
+            <header>
+                <h1 class="logo"></h1>
+            </header>
+            <nav>
+                {{>menuStore}}
+            </nav>
+            <footer>
+                <p class="text-footer">© 2023 Ice Cloude</p>
+            </footer>
+        </aside>
+        <main>
+            <h2 class="title-principal">Menu</h2>
+            {{>browserStore}}
+
+
+            <!--for-->
+            <div class="conteiner-products">
+                <div class="product">
+                    <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
+                        class="product-img">
+                    <div class="product-character">
+                        <h3 class="product-name">Hamburger</h3>
+                        <p class="product-price">69</p>
+                        <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/cinnabon-churro-chillata-drink-1583251719.jpg"
+                        class="product-img">
+                    <div class="product-character">
+                        <h3 class="product-name">Cafe</h3>
+                        <p class="product-price">15</p>
+                        <button class="btn-add-product" name="Cafe" onclick="addProduct(this)">Add</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </main>
+    </div>
+    <script src="/js/menu.js"></script>
+    <script src="/js/store/search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/cart/cart.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header-mobile">
+            <button class="open-menu-store" id="open-menu-store"><i class="fi fi-rr-menu-burger"></i></button>
+        </header>
+
+        <aside class="">
+            <button class="close-menu-store" id="close-menu-store"><i class="fi fi-rr-x"></i></button>
+            <header>
+                <h1 class="logo"></h1>
+            </header>
+            <nav>
+                {{>menuStore}}
+            </nav>
+            <footer>
+                <p class="text-footer">© 2023 Ice Cloude</p>
+            </footer>
+        </aside>
+        <main>
+            <h2 class="title-principal">Sale history</h2>
+            <!--for-->
+            <div class="conteiner-cart">
+                <p class="empty-cart disabled">Your cart is empty<i class="fi fi-rr-sad-tear"></i></p>
+                <div class="cart-products">
+                    <!--for-->
+                    <div class="cart-product">
+                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg" class="product-img">
+                        <div class="cart-product-name">
+                            <small>Product</small>
+                            <p>Hamburger</p>
+                        </div>
+                        <div class="cart-product-price">
+                            <small>Price $</small>
+                            <p>69</p>
+                        </div>
+                        <div class="cart-product-quantity">
+                            <small>amount</small>
+                            <p>1</p>
+                        </div>
+                        <div class="cart-product-discount">
+                            <small>Discount</small>
+                            <p>0</p>
+                        </div>
+                        <div class="cart-product-total">
+                            <small>Total</small>
+                            <p>69</p>
+                        </div>
+                        <div class="cart-product-total">
+                            <small>Customer</small>
+                            <p>public customer</p>
+                        </div>                      
+                    </div>
+                    <!--for-->
+                </div>
+
+
+            </div>
+        </main>
+    </div>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

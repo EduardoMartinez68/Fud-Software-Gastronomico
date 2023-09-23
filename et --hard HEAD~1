@@ -1,0 +1,23 @@
+[33mcommit 6ed529ae9f4ac3cfe6575c3b2194f5e68ceb0c3e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Eduardo Antonio Martinez <eduardoa4848@Outlook.es>
+Date:   Sun Jul 2 13:49:36 2023 -0500
+
+    Se actualiza interfaz, se aagrega a la interfaz la barra de busqueda, el apartado de other con ingreso de dinero, salida de caja, reservaciones, ordenes, etc
+
+[33mcommit ee24056cce691ba37d4569958416e9241d9b6765[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Eduardo Antonio Martinez <eduardoa4848@Outlook.es>
+Date:   Fri Jun 9 13:45:19 2023 -0500
+
+    Se agrega la conexion con python y la web de horarios termina su estilo
+
+[33mcommit e687ade30ead9334a2f65c9c23d5bf0c30e3ac71[m
+Author: Eduardo Antonio Martinez <eduardoa4848@Outlook.es>
+Date:   Thu Jun 8 18:48:39 2023 -0500
+
+    Se modifica el css, se agrega los horarios a medias
+
+[33mcommit 507484064d8223b3154185b2f4830e29038e3323[m
+Author: Eduardo Antonio Martinez <eduardoa4848@Outlook.es>
+Date:   Wed Jun 7 18:10:26 2023 -0500
+
+    upload the proyect

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+</head>
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/links/addCompany" method="POST">
+                            <div class="form-group" >
+                                <center>
+                                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" id="imgEmployee" class="userImg">
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="imagen" accept="image/*" class="form-control" id="inputImg">
+                            </div>         
+                            <div class="form-group">
+                                <label>Barcode *</label><br>
+                                <input type="tex" class="form-control" name="name" placeholder="Barcode" autofocus>
+                            </div>                 
+                            <div class="form-group">
+                                <label>Name *</label><br>
+                                <input type="tex" class="form-control" name="name" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Character</label><br>
+                                <input type="tex" class="form-control" name="alias" placeholder="Character">
+                            </div>
+
+                            <!--option-->
+                            <table width="100%">
+                                <tr>
+                                    <th><label>Department</label></th>
+                                    <th><label>Category</label></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <!--for of the type user-->
+                                            <select class="form-control">
+                                                <option value="opcion1">None</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <!--for of the type user-->
+                                            <select class="form-control">
+                                                <option value="opcion1">None</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="form-group">
+                                <input type="tex" class="form-control" name="phone" placeholder="SAT key">
+                            </div>
+
+                            <br>
+                            <h6 class="txt-separators">Price</h6>
+                            <div class="form-group">
+                                <label>Product cost</label><br>
+                                <input type="email" class="form-control" name="email" placeholder="Product cost">
+                            </div>
+                            <div class="form-group">
+                                <label>Price *</label><br>
+                                <div class="form-control">
+                                    <label>Utility<i class="fi-label fi-rs-percentage"></i></label><br>
+                                    <input type="email" class="form-control" name="email" placeholder="Utility">
+                                    <label>Final price<i class="fi-label fi-rs-dollar"></i></label><br>
+                                    <input type="email" class="form-control" name="email" placeholder="Final price">
+                                </div>
+                            </div>
+
+                            <br>
+                            <h6 class="txt-separators">Additional</h6>
+                            <div class="form-control">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox"  class="form-check-input check-box-app" value="" id="check1">
+                                    <label class="form-check-label" for="check1">Control inventory of this product</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-control">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox"  class="form-check-input check-box-app" value="" id="check2">
+                                    <label class="form-check-label" for="check2">This product is sold in bulk</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/manager/addEmployee.js"></script>
+</body>
+</html>

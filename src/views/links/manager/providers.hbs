@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .btn-add{
+            color: var(--color-company);
+        }
+        .btn-add:hover{
+            color: var(--color-company);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <center>
+                    <h5 class="form-group sub-title">Providers</h5>
+                    <hr>
+                </center>
+                <table>
+                    <tr><td><label>Search a providers</label></td></tr>
+                    <tr>
+                        <td><input type="tex" class="form-control" placeholder="Search..." autofocus></td>
+                        <td width="10%"><button class="btn"><i class="fi fi-br-search"></i></button></td>
+                        <td width="10%"><a href="add-providers"><button class="btn btn-add"><i class="fi fi-sr-user-add"></i> Add</button></a></td>
+                    </tr>
+                </table>
+                <div class="card">
+                    <div class="card-body">
+                        <table width="100%" border="1" class="table-information">
+                            <tr>
+                                <th><label>No. Provider</label></th>
+                                <th><label>Name/representative</label></th>
+                                <th><label>Alias</label></th>
+                                <th><label>Cellphone/Phone</label></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>0011001</td>
+                                <td>Eduardo</td>
+                                <td>Ed</td>
+                                <td>4444444</td>
+                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
+                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>0011001</td>
+                                <td>Eduardo</td>
+                                <td>Ed</td>
+                                <td>4444444</td>
+                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
+                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>0011001</td>
+                                <td>Eduardo</td>
+                                <td>Ed</td>
+                                <td>4444444</td>
+                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
+                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function btn_edit(){
+            window.location.href = "/links/edit-providers"; 
+        }
+
+        function btn_delate(){
+            questionMessage('Provider Delete','Are you sure to remove this provider?')
+        }
+    </script>
+</body>
+
+</html>

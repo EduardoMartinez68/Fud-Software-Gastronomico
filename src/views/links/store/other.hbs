@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/cart/cart.css">
+    <link rel="stylesheet" href="/css/store/other.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header-mobile">
+            <button class="open-menu-store" id="open-menu-store"><i class="fi fi-rr-menu-burger"></i></button>
+        </header>
+
+        <aside class="">
+            <button class="close-menu-store" id="close-menu-store"><i class="fi fi-rr-x"></i></button>
+            <header>
+                <h1 class="logo"></h1>
+            </header>
+            <nav>
+                {{>menuStore}}
+            </nav>
+            <footer>
+                <p class="text-footer">© 2023 Ice Cloude</p>
+            </footer>
+        </aside>
+        <main>
+            <h2 class="title-principal">Other</h2>
+
+            <div class="container bg-light rounded">
+                <div class="h4 font-weight-bold text-center py-3">Explore more</div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
+                                    <img src="https://img.freepik.com/iconos-gratis/bandeja-entrada_318-866131.jpg"
+                                        alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Deposit money</b> <a href="#">
+                                        <p class="text-muted">23 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
+                                    <img src="https://img.freepik.com/iconos-gratis/bandeja-salida_318-526842.jpg"
+                                        alt=""> </div>
+                                <div class="d-flex flex-column"> <b>withdrawals</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white" onclick="nextWeb('reservation')">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/2983/2983719.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Reservation</b><a href="#">
+                                        <p class="text-muted">32 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 my-lg-3 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3899/3899250.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Orders</b> <a href="#">
+                                        <p class="text-muted">28 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 my-lg-3 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pink">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3366/3366601.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Returns</b> <a href="#">
+                                        <p class="text-muted">6 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-3 my-3">
+                        <div class="box bg-white" onclick="nextWeb('salesHistory')">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-cyan">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/365/365301.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Sale History</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1244/1244688.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Customer</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white" onclick="nextWeb('providers')">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/2293/2293644.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Providers</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white" onclick="nextWeb('report')">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/888/888274.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Report</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-green">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/5153/5153809.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Box cut</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-lg-0 my-3">
+                        <div class="box bg-white">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/4400/4400828.png" alt=""> </div>
+                                <div class="d-flex flex-column"> <b>Sign off</b> <a href="#">
+                                        <p class="text-muted">5 classes</p>
+                                    </a> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+    <script src="/js/store/other.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+
+</html>

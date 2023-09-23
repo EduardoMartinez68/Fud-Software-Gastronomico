@@ -1,0 +1,41 @@
+<div class="browser">
+    <button class="btn-search-browser"><i class="fi-browser fi-rr-search" onclick="searchBarCode()"></i></button>
+    <input placeholder="Search..." class="barCode" id="barCode" autofocus>
+    <button class="btn-barcode-browser"><i class="fi-browser fi-ts-barcode-read" onclick="onCamera()"></i></button>
+</div>
+
+
+<script>
+    function onCamera() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                var videoElement = document.getElementById('videoElement');
+                videoElement.srcObject = stream;
+            })
+            .catch(function (error) {
+                errorMessage("We couldn't access the camera");
+            });
+    }
+</script>
+
+<script>
+    var barCodeInput = document.getElementById('barCode');
+    barCodeInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            searchBarCode();
+        }
+    });
+
+    function searchBarCode(){
+        var product=document.getElementById('barCode').value;
+        if (isNaN(product)){
+            notificationMessage(product,'this product was added to the cart with success')
+            document.getElementById('barCode').value="";
+        }
+        else{
+            setTimeout(function() {
+            errorMessage('This barcode does not exist', 'You need to enter a valid barcode');
+            }, 61); // Retraso de 1 segundo (1000 milisegundos)
+        }
+    }
+</script>

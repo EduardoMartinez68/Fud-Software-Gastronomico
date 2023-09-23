@@ -1,0 +1,35 @@
+.body-session{
+    height: 100%;
+    background: linear-gradient(to right, var(--color-session1),var(--color-session2));
+}
+
+.title-session{
+    font-size: 35px;
+    font-family:Arial, Helvetica, sans-serif;
+    color: rgba(0,0,0,.8);
+}
+
+.link-session{
+    font-size: 15px;
+    color: rgba(0,0,0,.5);
+    text-decoration: none;
+    padding-right: 4px;
+}
+
+.input-login{
+    width: 100%;
+}
+
+.fi-session{
+    font-size: 14px;
+}
+
+.link-singUp{
+    font-size: 15px;
+    color: var(--color-company);
+    text-decoration: none;
+}
+
+.body-session .form-group{
+    padding: 0px;
+}

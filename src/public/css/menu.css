@@ -1,0 +1,185 @@
+/*MENU*/
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300&family=Didact+Gothic&family=Tajawal:wght@200&display=swap');
+@import url('https://cdn-uicons.flaticon.com/uicons-thin-straight/css/uicons-thin-straight.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css');
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family:"Poppins", sans-serif;
+}
+
+body{
+    height: 100vh;
+    background: white;
+}
+
+.liMenu{
+    content: "";
+}
+
+.ulMenu{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.navMenu{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    height: 100%;
+    left:0;
+    background: #fff;
+    width: 43px; /*43*/
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+
+    height: 100vh;
+}
+
+.liMenu .logo{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    margin: 10px 0 0 10px;
+    text-decoration: none;
+}
+
+.liMenu .logo img{
+    width: 40px;
+    height: 45px;
+    border-radius: 25%;
+}
+
+.liMenu .logo span{
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.aMenu{
+    position: relative;
+    color: rgb(85,83,83);
+    font-size: 14px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.fi{
+    padding-left: 2px;
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top:-1px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.nav-item{
+    position: relative;
+    top:-4px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.aMenu:hover{
+    background: #eee;
+}
+
+.navMenu:hover{
+    width: 280px;
+    transition: all 0.5s ease;
+}
+
+.logout{
+    position: absolute;
+    bottom:0;
+    text-decoration: none;
+    color: rgb(241, 64, 64);
+}
+
+.logout i{
+    color: rgb(241, 64, 64);
+}
+
+/*WORKS*/
+.descriptionWindow{
+    width: 100%;
+    height: 50px;
+    background-color: var(--color-company);
+    /*background-color: rgb(97, 53, 253);*/
+}
+
+
+.headDescription{
+    position: absolute;
+    padding: 0 2rem;
+}
+
+.navbar{
+    width: 100%;
+    height: 50px;
+    /*max-width: 1200px;*/
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    align-items: center;
+    padding-block-end: 10px;
+}
+
+.navbar .links{
+    display: flex;
+    gap:2rem;
+}
+
+.navbar .toggle_btn{
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+.fid{
+    color: white;
+    font-size: 25px;
+    padding-right: 15px;
+    font-family: 'Didact Gothic', sans-serif;
+}
+
+.titleDesciption{
+    padding-left: 90%;
+}
+
+.titleDesciption .des{
+    color: white;
+    font-size: 25px;
+    /*font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;*/
+    align-items: center;
+    font-family: 'Didact Gothic', sans-serif;
+    padding-block-end: 10px;
+}
+
+.action-btn{
+    background-color: var(--color-company);
+}

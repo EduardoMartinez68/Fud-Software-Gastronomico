@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel="stylesheet" href="/css/report/report.css">
+    </link>
+    <link rel="stylesheet" href="/css/report/sales.css">
+    </link>
+</head>
+
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <center>
+                    <h5 class="form-group sub-title">Provider Data</h5>
+                    <hr>
+                </center>
+                <div class="card">
+                    <div class="card-body">
+                        <!---dashboard--->
+                        <div class="tab_box">
+                            <button class="tab_btn active"><i class="fi-container fi-sr-truck-loading"></i>Basic
+                                Data</button>
+                            <button class="tab_btn"><i class="fi-container fi-ss-truck-moving"></i>Billing
+                                Information</button>
+                            <div class="line"></div>
+                        </div>
+                        <div class="content_box">
+                            <div class="content-sales active">
+                                <form action="/links/addCompany" method="POST">
+                                    <div class="form-group">
+                                        <label>Representative *</label><br>
+                                        <input type="tex" class="form-control" name="name" placeholder="Representative"
+                                            autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Name representative*</label><br>
+                                        <input type="tex" class="form-control" name="name" placeholder="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Alias</label><br>
+                                        <input type="tex" class="form-control" name="alias" placeholder="Alias">
+                                    </div>
+
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>R.F.C *</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="R.F.C">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>C.U.R.P *</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="C.U.R.P">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Phone</label><br>
+                                                    <input type="tex" class="form-control" name="phone"
+                                                        placeholder="Phone">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Cell Phone</label><br>
+                                                    <input type="tex" class="form-control" name="cell_phone"
+                                                        placeholder="Cell Phone">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="form-group">
+                                        <label>E-mail</label><br>
+                                        <input type="email" class="form-control" name="email" placeholder="E-mail">
+                                    </div>
+
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Credit Limit</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Credit Limit">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Day Credit</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Day Credit">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="content-sales">
+                                <form action="/links/addCompany" method="POST">
+                                    <div class="form-group">
+                                        <label>Business Name *</label><br>
+                                        <input type="tex" class="form-control" name="name" placeholder="Representative"
+                                            autofocus>
+                                    </div>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>R.F.C *</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="R.F.C">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>C.U.R.P</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="C.U.R.P">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Phone</label><br>
+                                                    <input type="tex" class="form-control" name="phone"
+                                                        placeholder="Phone">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Cell Phone</label><br>
+                                                    <input type="tex" class="form-control" name="cell_phone"
+                                                        placeholder="Cell Phone">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Address</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Address">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Outdoor Number</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Outdoor Number">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Interior number</label><br>
+                                                    <input type="tex" class="form-control" name="phone"
+                                                        placeholder="Interior number">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Postal Code</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Postal Code">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Cologne</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Cologne">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>City</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="City">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Location</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Location">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>State</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="State">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label>Country</label><br>
+                                                    <input type="tex" class="form-control" name="municipality"
+                                                        placeholder="Country">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const tabs = document.querySelectorAll('.tab_btn');
+        const all_content = document.querySelectorAll('.content-sales');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', (e) => {
+                tabs.forEach(tab => { tab.classList.remove('active') });
+                tab.classList.add('active');
+
+                var line = document.querySelector('.line');
+                line.style.width = e.target.offsetWidth + "px";
+                line.style.left = e.target.offsetLeft + "px";
+
+                all_content.forEach(content => {
+                    content.classList.remove('active');
+                })
+                all_content[index].classList.add('active');
+            })
+        })
+    </script>
+</body>
+
+</html>

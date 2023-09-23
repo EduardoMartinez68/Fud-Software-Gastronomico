@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/session.css">
+</head>
+<body>
+    <section class="body-session">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="/fud/signup" method="POST">
+                                <center><h1 class="title-session">Sing Up</h1></center>
+                                <br>
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-user">Name *</i>
+                                        <input type="text" id="Name" name="Name" placeholder="Name" class="form-control" autofocus>
+                                    </lable>
+                                </div>   
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-user">User name *</i>
+                                        <input type="text" id="userName" name="userName" placeholder="User Name" class="form-control">
+                                    </lable>
+                                </div>     
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-envelope">E-mail *</i>
+                                        <input type="email" id="email" name="email" placeholder="E-mail" class="form-control">
+                                    </lable>
+                                </div>           
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-lock">Password *</i>
+                                        <input type="password" id="password" name="password"  placeholder="password" class="form-control">
+                                    </lable>
+                                </div>  
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-lock">Confirm Password*</i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword"  placeholder="Confirm Password" class="form-control">
+                                    </lable>
+                                </div>      
+                                <div class="form-group">
+                                    <lable>
+                                        <i class="fi-session fi-rr-user">Birthday *</i>
+                                        <input type="date" id="birthday" name="birthday" class="form-control">
+                                    </lable>
+                                </div>        
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-block">Sing Up</button>
+                                    <br><br>
+                                    <center>
+                                    <label class="link-session" for="acceptTerms">Read our</label><a class="link-singUp" href="terms_conditions" target="_blank">terminition and conditions</a>
+                                    <br>
+                                    <input type="checkbox" id="acceptTerms" name="acceptTerms"><label class="link-session">..I accept the terms and conditions</label>
+                                    <br><br>
+                                </div>
+                                </center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

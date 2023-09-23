@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/cart/cart.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header-mobile">
+            <button class="open-menu-store" id="open-menu-store"><i class="fi fi-rr-menu-burger"></i></button>
+        </header>
+
+        <aside class="">
+            <button class="close-menu-store" id="close-menu-store"><i class="fi fi-rr-x"></i></button>
+            <header>
+                <h1 class="logo"></h1>
+            </header>
+            <nav>
+                <ul class="menu-cart"> 
+                    <li><a href="store"><button class="btn-menu button-categority btn-return"><i class="fi-cart fi-sr-undo"></i>Keep buying</button></a></li>
+                    <li><a href="cart"><button class="btn-menu button-categority active"><i class="fi-cart fi-sr-cart-shopping-fast"></i>Cart<span class="num-products-in-cart">0</span></button></a></li>
+                </ul>
+            </nav>
+            <footer>
+                <p class="text-footer">© 2023 Ice Cloude</p>
+            </footer>
+        </aside>
+        <main>
+            <h2 class="title-principal">My cart</h2>
+            <div class="conteiner-cart">
+                <p class="empty-cart disabled">Your cart is empty<i class="fi fi-rr-sad-tear"></i></p>
+                <div class="cart-products">
+                    <!--for-->
+                    <div class="cart-product">
+                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg" class="product-img">
+                        <div class="cart-product-name">
+                            <small>Product</small>
+                            <p class="p-data-cart">Hamburger</p>
+                        </div>
+                        <div class="cart-product-price">
+                            <small>Price $</small>
+                            <p class="p-data-cart">69</p>
+                        </div>
+                        <div class="cart-product-quantity">
+                            <small>amount</small>
+                            <p class="p-data-cart">1</p>
+                        </div>
+                        <div class="cart-product-discount">
+                            <small>Discount %</small>
+                            <p><button class="btn-discount" onclick="discount_message('Discount','')">0</button></p>
+                        </div>
+                        <div class="cart-product-total">
+                            <small>Total</small>
+                            <p class="p-data-cart">69</p>
+                        </div>
+                        <button class="cart-delete-product" onclick="questionMessage('Delete product','Would you like delete this product?')"><i class="fi fi-rs-trash"></i></button>
+                    </div>
+                    <!--for-->
+
+                </div>
+
+                <div class="accion-cart">
+                    <div class="cart-accion-left">
+                        <button class="cart-accion-empty" onclick="questionMessage('Delete cart','Would you like delate all thg cart?')">Empty cart</button>
+                    </div>
+                    <div class="cart-accion-right">
+                        <div class="cart-accion-total">
+                            <p>Total</p>
+                            <p id="total" name="total">69</p><p>$</p>
+                        </div>
+                        <button class="cart-accion-buy">Buy now</button>
+                    </div>
+                </div>
+
+                <p class="cart-buy-message disabled">Thanks for your purchase<i class="fi fi-rs-laugh-beam"></i></p>
+            </div>
+
+
+        </main>
+    </div>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+</head>
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/fud/addCompany" method="POST" enctype="multipart/form-data">
+                            <div class="form-group" >
+                                <center>
+                                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" class="logoCompany" id="imgEmployee">
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+                            </div>                          
+                                <div class="form-group">
+                                    <lable>Name company *</lable><br>
+                                    <input type="tex" class="form-control" name="name" placeholder="Name Company"  maxlength="50" pattern="^\S{0,50}$" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Alias *</lable><br>
+                                    <input type="tex" class="form-control" name="alias" placeholder="Alias"  maxlength="10" pattern="^\S{0,10}$" required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Description</lable><br>
+                                    <textarea class="form-control" name="description" placeholder="Description" rows="2" maxlength="100" pattern="^\S{0,100}$"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Representative *</lable><br>
+                                    <input type="tex" class="form-control" name="representative" placeholder="Representative"  maxlength="50" pattern="^\S{0,50}$" required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Phone</lable><br>
+                                    <input type="tex" class="form-control" name="phone" placeholder="Phone"  maxlength="16" pattern="^\S{0,16}$">
+                                </div>
+                                <div class="form-group">
+                                    <lable>Cell Phone</lable><br>
+                                    <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone"  maxlength="16" pattern="^\S{0,16}$">
+                                </div>
+                                <div class="form-group">
+                                    <lable>E-mail *</lable><br>
+                                    <input type="email" class="form-control" name="email" placeholder="E-mail"  maxlength="100" pattern="^\S{0,100}$" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <lable>Country *</lable><br>
+                                    <select id="country" class="form-control" name="country">
+                                        {{#each country}}
+                                            <option value="{{id}}">{{name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <lable>Municipality *</lable><br>
+                                    <input type="tex" class="form-control" name="municipality"  placeholder="Municipality" required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>City *</lable><br>
+                                    <input type="tex" class="form-control" name="city" placeholder="City"  required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Cologne *</lable><br>
+                                    <input type="tex" class="form-control" name="cologne" placeholder="Cologne" required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Street *</lable><br>
+                                    <input type="tex" class="form-control" name="street" placeholder="Street"  maxlength="20" pattern="^\S{0,20}$" required>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Outer Numbers</lable><br>
+                                    <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5" pattern="^\S{0,5}$">
+                                </div>
+                                <div class="form-group">
+                                    <lable>Interior Number</lable><br>
+                                    <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5" pattern="^\S{0,5}$">
+                                </div>
+                                <div class="form-group">
+                                    <lable>Postal Code *</lable><br>
+                                    <input type="tex" class="form-control" name="postal_code" placeholder="Interior Number"  pattern="[0-9]{5}" required>
+                                </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/manager/addEmployee.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+    <script src="js/chosen.jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".chosen-select").chosen({no_results_text:'No hay resultados para '});
+    });
+    </script>
+
+
+</body>
+</html>

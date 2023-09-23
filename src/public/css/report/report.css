@@ -1,0 +1,54 @@
+.table-report{
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.table-report td{
+    width: 100%;
+}
+
+.table-report tr td  {
+    width: 20%;
+    max-width: 20%;
+}
+
+.td-report{
+    width: 20%;
+    max-width: 20%;
+    background: var(--color-body);
+    background: white;
+    border-radius: 2rem;
+    padding: 10px;
+}
+
+
+.btn{
+    border: 0px;
+}
+
+.btn-primary{
+    background-color: var(--color-company);
+}
+
+.btn-primary:hover{
+    background-color: var(--color-hover);
+}
+.fi-download {
+    color: white;
+    font-size: .9rem;
+    padding-right: 3px;
+}
+
+.stat{
+    border-right: 1px solid var(--color-body);
+}
+.fi-success{
+}
+.card-dashboard{
+    background-color: white;
+    border-radius: 1rem;
+    padding-top: .9rem;
+    margin-right: 8px; /* Ajusta el valor según la separación deseada */
+    margin-bottom: 10px; 
+    width: 19%;
+}

@@ -1,0 +1,29 @@
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+<section class="descriptionWindow">
+
+    <head class="headDescription">
+        <div class="navbar">
+            <ul class="titleDesciption">
+                <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</a></span>
+                <i class="fi-des fi-sr-hat-chef"></i>
+            </ul>
+        </div>
+    </head>
+</section>
+
+
+<!--this script will be that the description of the web choose depending in where is the user-->
+<script>
+    var url = window.location.href;
+    var works = url.split("/");
+    var description = works.pop();
+    document.getElementById("des").textContent = text_convert(description);
+
+    function text_convert(title) {
+        var textConvert = title.replace(/-/g, ' ');
+        if (textConvert==''){
+            return 'Füd'
+        }
+        return textConvert;
+    }
+</script>

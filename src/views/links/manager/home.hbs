@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/home.css">
+    
+</head>
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <a href="add-company"><img src="/img/add.png"></a>
+                </div>
+            </div>
+            <!--this is a loop for add the companies-->
+            {{#each companies}}
+                <div class="col-md-3">
+                    
+                    <div class="card text-center" id="{{id}}" onclick="handleDivClick(this.id)" onmouseover="showBtnCompanies(this.id)" onmouseout="hideBtnCompanies(this.id)">
+                        {{#if path_logo}}
+                            <img src="/img/uploads/{{path_logo}}" class="company-logo">
+                        {{else}}
+                            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png">
+                        {{/if}}
+                    </div>
+
+                    <!--add the company name-->
+                    {{#if path_logo}}
+                        <div>
+                            <center><p class="name-company" id="{{name}}"></p></center>
+                        </div>
+                    {{else}}
+                        <div>
+                            <center><p>{{name}}</p></center>
+                        </div>
+                    {{/if}}
+
+                    <!--edit
+                    <div class="btn-companies" id="btn-companies-{{id}}">
+                        <a class="moved-button" id="{{id}}" href="/fud/{{id}}/edit-company"><i class="fi-btn-companies fi-sr-pencil"></i></a>
+                        <button class="moved-button" id="{{id}}" onclick="delate_company(this.id)"><i class="fi-btn-companies fi-sr-trash"></i></button>
+                    </div>-->
+                </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Seleccionar todas las imágenes con la clase "company-logo"
+        $(".company-logo").each(function(){
+            var img = $(this);
+
+            // Crear una nueva imagen para verificar la existencia
+            var tempImg = new Image();
+            tempImg.src = img.attr("src");
+
+            // Verificar si la imagen se cargó correctamente
+            tempImg.onload = function() {
+                // La imagen existe, no se necesita hacer nada
+            };
+
+            tempImg.onerror = function() {
+                // La imagen no existe, cambiar la fuente a la imagen predeterminada
+                img.attr("src", "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png");
+            };
+        });   
+    });
+    </script>
+    <script>
+        company-home
+      
+        function handleDivClick(id) {
+            window.location.href = "/fud/"+id+"/company-home";
+        }
+
+        function delate_company(id){
+            questionMessage("Confirmation", "Are you sure?").then((userConfirmed) => {
+                if (userConfirmed){
+                    window.location.href = "/fud/"+id+"/delate-company";
+                }
+             });
+        }
+    </script>
+
+    <script>
+        function showBtnCompanies(id) {
+            document.getElementById("btn-companies-"+id).style.display = "block";
+        }
+
+        function hideBtnCompanies(id) {
+            document.getElementById("btn-companies-"+id).style.display = "none";
+        }
+    </script>
+</body>
+</html>
