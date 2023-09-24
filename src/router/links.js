@@ -40,6 +40,10 @@ router.get('/terms-and-conditions',(req,res)=>{
     res.render(companyName+'/web/terms_conditions');
 })
 
+router.get('/dish',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/dish');
+})
+
 router.get('/addDish',isLoggedIn,(req,res)=>{
     res.render(companyName+'/manager/addDish');
 })
