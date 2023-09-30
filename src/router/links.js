@@ -29,6 +29,51 @@ async function get_image(id){
     return result.rows[0].path_logo;
 }
 
+async function get_data(req){
+    const {id}=req.params;
+    var id_user=parseInt(req.user.id);
+
+    var queryText = 'SELECT * FROM products_dish_supplies Where id_company=$1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    return result.rows[0];
+}
+
+async function check_company(req){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var values = [id,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const company=result.rows;
+    return company;
+}
+
+async function get_department(req){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM product_department WHERE id_company= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+async function get_category(req){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM product_category WHERE id_company= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+async function get_data_company(req,nameTable){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM '+nameTable+' WHERE id_company= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
 
 const companyName='links'
 ///links of the web
@@ -40,12 +85,17 @@ router.get('/terms-and-conditions',(req,res)=>{
     res.render(companyName+'/web/terms_conditions');
 })
 
-router.get('/dish',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/dish');
+router.get('/:id/dish',isLoggedIn,async (req,res)=>{
+    const company=await check_company(req);
+    const saucers=await get_data(req);
+    res.render(companyName+'/store/dish',{company,saucers});
 })
 
-router.get('/addDish',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/addDish');
+router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
+    //we need get all the Department and Category of the company
+    const departments=await get_data_company(req,'product_department');
+    const categories=await get_data_company(req,'product_category');
+    res.render(companyName+'/manager/addDish',{departments,categories});
 })
 
 ///links of the store
@@ -104,14 +154,8 @@ router.get('/add-company',isLoggedIn,async(req,res)=>{
 
 router.get('/:id/edit-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
-
-    const {id}=req.params;
-    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
-    var values = [id,parseInt(req.user.id)];
-    const result = await database.query(queryText, values);
-    const company=result.rows
-
-    if(result.rows.length>0){
+    const company=await check_company(req);
+    if(company.length>0){
         res.render('links/manager/editCompany',{company,country});
     }
     else{
@@ -139,9 +183,9 @@ router.get('/:id/company-home',isLoggedIn,async(req,res)=>{
     var values = [id,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const company=result.rows;
-
+    console.log(company);
     if(result.rows.length>0){
-        res.render('links/manager/homeCompany');
+        res.render('links/manager/homeCompany',{company});
     }
     else{
         res.redirect('/fud/home');

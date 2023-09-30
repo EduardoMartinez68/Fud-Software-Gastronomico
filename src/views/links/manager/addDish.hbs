@@ -10,7 +10,7 @@
             <div class="col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/links/addCompany" method="POST">
+                        <form action="/links/addCompany" method="POST" id="myForm">
                             <div class="form-group" >
                                 <center>
                                     <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" id="imgEmployee" class="userImg">
@@ -21,40 +21,50 @@
                             </div>         
                             <div class="form-group">
                                 <label>Barcode *</label><br>
-                                <input type="tex" class="form-control" name="name" placeholder="Barcode" autofocus>
+                                <input type="tex" class="form-control" name="name" placeholder="Barcode" autofocus required>
                             </div>                 
                             <div class="form-group">
                                 <label>Name *</label><br>
-                                <input type="tex" class="form-control" name="name" placeholder="Name">
+                                <input type="tex" class="form-control" name="name" placeholder="Name" required>
                             </div>
                             <div class="form-group">
                                 <label>Character</label><br>
-                                <input type="tex" class="form-control" name="alias" placeholder="Character">
+                                <textarea type="textarea" class="form-control" name="alias" placeholder="Character"></textarea>
                             </div>
 
                             <!--option-->
                             <table width="100%">
                                 <tr>
                                     <th><label>Department</label></th>
+                                    <th></th>
                                     <th><label>Category</label></th>
+                                    <th></th>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="form-group">
                                             <!--for of the type user-->
                                             <select class="form-control">
-                                                <option value="opcion1">None</option>
+                                                <option value="-1">None</option>
+                                                {{#each departments}}
+                                                    <option value={{id}}>{{name}}</option>
+                                                {{/each}}
                                             </select>
                                         </div>
                                     </td>
+                                    <td><button class="btn-add" onclick="add_departments('department')" id="btn-departments"  type="button">+</button></td>
                                     <td>
                                         <div class="form-group">
                                             <!--for of the type user-->
                                             <select class="form-control">
-                                                <option value="opcion1">None</option>
+                                                <option value="-1">None</option>
+                                                {{#each categories}}
+                                                    <option value={{id}}>{{name}}</option>
+                                                {{/each}}
                                             </select>
                                         </div>
                                     </td>
+                                    <td><button class="btn-add" id="btn-categories" type="button">+</button></td>
                                 </tr>
                             </table>
 
@@ -63,6 +73,7 @@
                             </div>
 
                             <br>
+                            <hr>
                             <h6 class="txt-separators">Price</h6>
                             <div class="form-group">
                                 <label>Product cost</label><br>
@@ -79,6 +90,7 @@
                             </div>
 
                             <br>
+                            <hr>
                             <h6 class="txt-separators">Additional</h6>
                             <div class="form-control">
                                 <div class="form-check form-switch">
@@ -95,7 +107,7 @@
                             </div>
                             <br>
                             <div class="form-group">
-                                <button class="btn btn-success btn-block">Save</button>
+                                <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
                             </div>
                         </form>
                     </div>
@@ -104,6 +116,44 @@
         </div>
     </div>
 
+    <script>
+    function add_departments(data){
+        Swal.fire({
+        title: 'Create a new '+data,
+        input: 'text',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        showLoaderOnConfirm: true,
+        preConfirm: (login) => {
+            return fetch(`//api.github.com/users/${login}`)
+            .then(response => {
+                if (!response.ok) {
+                throw new Error(response.statusText)
+                }
+                return response.json()
+            })
+            .catch(error => {
+                Swal.showValidationMessage(
+                `Request failed: ${error}`
+                )
+            })
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+            title: `${result.value.login}'s avatar`,
+            imageUrl: result.value.avatar_url
+            })
+        }
+        })
+    }
+    </script>
+
     <script src="/js/manager/addEmployee.js"></script>
+    <script src="/js/store/other.js"></script>
 </body>
 </html>

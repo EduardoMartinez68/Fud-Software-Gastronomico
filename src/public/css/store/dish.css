@@ -30,6 +30,23 @@
     color: white;
 }
 
+.img-card-description{
+    width: 25%;
+    height: 25%;
+}
+
+.card-information{
+    overflow: auto;
+    height: 700px;
+}
+
+.fi-item{
+    font-size: 1rem;
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-right: .5rem;
+}
+
 /*TABLE*/
 .card-table{
     width: 100%;

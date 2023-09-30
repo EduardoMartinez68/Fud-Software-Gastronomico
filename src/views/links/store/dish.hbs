@@ -8,62 +8,54 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Records</h4>
-                    </div>
-                    <div class="card-body">
                         <!--this is the search-->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <table class="card-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="td1"><input type="text" placeholder="Search a product..." class="form-control" autofocus></th>
-                                            <th class="td2"><button class="btn-add">+</button></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-
+                        {{#each company}}
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th class="td1"><input type="text" placeholder="Search a product..." class="form-control" autofocus></th>
+                                        <th class="td2"><button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-dish')">+</button></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        {{/each}}
+                    </div>
+                    <div class="card-body card-information">
                         <!--this add all the product of the client-->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <img class="img-info" src="https://media.gq.com.mx/photos/649391b89ec62ce6c5b091a5/4:3/w_2668,h_2001,c_limit/mejores-hamburguesas.jpg">
-                                <strong>Hamburger</strong>
+                        {{#each saucers}}
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    {{#if img}}
+                                        <img class="img-info" src="https://media.gq.com.mx/photos/649391b89ec62ce6c5b091a5/4:3/w_2668,h_2001,c_limit/mejores-hamburguesas.jpg">
+                                    {{else}}
+                                        <img class="img-info" src="https://cdn-icons-png.flaticon.com/512/776/776443.png">
+                                    {{/if}}
+                                    <strong>{{name}}</strong>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <img class="img-info" src="https://hips.hearstapps.com/hmg-prod/images/refrescos-portada-1653207586.jpg?crop=0.564xw:1.00xh;0.119xw,0&resize=1200:*">
-                                <strong>Soda</strong>
-                            </div>
-                        </div>
-
-
+                        {{/each}}
                     </div>
                 </div>
             </div>
 
             <div class="col-md-8">
                 <!--This is the card for see the description of the product-->
-                <div class="card text-center mb-4">
+                <div class="card text-center mb-4">          
                     <div class="card-body">
-                        <label>01010001</label><br>
-                        <img class="img-description" src="https://media.gq.com.mx/photos/649391b89ec62ce6c5b091a5/4:3/w_2668,h_2001,c_limit/mejores-hamburguesas.jpg"><br>
+                        <label>barcode</label><br>
+                        <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/776/776443.png"><br>
 
-                        <strong>Hamburger</strong>
-                        <strong>120 $</strong>
+                        <strong>Name</strong>
+                        <strong>price $</strong>
                         <br><br>
 
-                        <button class="card-btn-description">Order details</button>
-                        <button class="card-btn-description">History</button>
-                        <button class="card-btn-description">--PZA</button>
+                        <button class="card-btn-description"><i class="fi-item fi-rr-box-alt"></i>Order details</button>
+                        <button class="card-btn-description"><i class="fi-item fi-rr-time-past"></i>History</button>
+                        <button class="card-btn-description"><i class="fi-item fi-ts-box-open"></i>--PZA</button>
                         <br><br>
 
                         <label>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est obcaecati sed nisi pariatur inventore,
-                            sint, quidem veniam repellendus, sit quas nostrum eligendi cum!
+                            Description 
                         </label>
                         <br>
                         <strong>Price $:</strong>
@@ -72,15 +64,15 @@
                         <br>
                         <div class="card mb-4">
                             <div class="card-bod">
-                               <table class="my-table-price">
+                            <table class="my-table-price">
                                     <thead>
                                         <tr>
                                             <th><label>Tax included</label></th>
                                             <th><label>without taxation</label></th>
                                         </tr>
                                         <tr>
-                                            <th><h6>$110</h6></th>
-                                            <th><h6>$120</h6></th>
+                                            <th><h6>$0</h6></th>
+                                            <th><h6>$0</h6></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -91,4 +83,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Obtén todos los elementos <div> con la clase "card mb-4"
+        var cardElements = document.querySelectorAll('.card-body');
+
+        // Agrega un evento de clic a cada elemento
+        cardElements.forEach(function(cardElement) {
+            cardElement.addEventListener('click', function() {
+                // Cuando se hace clic en un elemento, imprime "Hola mundo" en la consola o en la página
+                console.log("Hola mundo");
+                // Si deseas mostrar "Hola mundo" en la página, puedes usar la siguiente línea:
+                // document.write("Hola mundo");
+            });
+        });
+    </script>
+
+    <script src="/js/store/other.js"></script>
 </body>
