@@ -96,7 +96,8 @@ router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
     const departments=await get_data_company(req,'product_department');
     const categories=await get_data_company(req,'product_category');
     res.render(companyName+'/manager/addDish',{departments,categories});
-})
+});
+
 
 ///links of the store
 router.get('/store',isLoggedIn,(req,res)=>{

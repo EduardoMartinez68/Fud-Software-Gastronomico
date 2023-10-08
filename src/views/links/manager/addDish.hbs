@@ -64,28 +64,39 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td><button class="btn-add" id="btn-categories" type="button">+</button></td>
+                                    <td><button class="btn-add" onclick="add_departments('category')" id="btn-categories"  type="button">+</button></td>
                                 </tr>
                             </table>
 
                             <div class="form-group">
+                                <label>SAT key</label><br>
                                 <input type="tex" class="form-control" name="phone" placeholder="SAT key">
                             </div>
 
+                            <div class="form-group">
+                                <!--for of the type user-->
+                                <label>Unity</label><br>
+                                <select class="form-control">
+                                    <option value="1">Part</option>
+                                    <option value="2">Gram</option>
+                                    <option value="3">Kg</option>
+                                    <option value="4">Pack</option>
+                                </select>
+                            </div>
                             <br>
                             <hr>
                             <h6 class="txt-separators">Price</h6>
                             <div class="form-group">
                                 <label>Product cost</label><br>
-                                <input type="email" class="form-control" name="email" placeholder="Product cost">
+                                <input type="number" id="productCost" class="form-control" name="email" placeholder="Product cost">
                             </div>
                             <div class="form-group">
                                 <label>Price *</label><br>
                                 <div class="form-control">
                                     <label>Utility<i class="fi-label fi-rs-percentage"></i></label><br>
-                                    <input type="email" class="form-control" name="email" placeholder="Utility">
+                                    <input type="number" id="utilityPrice" class="form-control" name="unity_price" placeholder="Utility">
                                     <label>Final price<i class="fi-label fi-rs-dollar"></i></label><br>
-                                    <input type="email" class="form-control" name="email" placeholder="Final price">
+                                    <input type="number" id="finalPrice" class="form-control" name="email" placeholder="Final price">
                                 </div>
                             </div>
 
@@ -115,44 +126,11 @@
             </div>
         </div>
     </div>
+    <!--add a new category or add a new department-->
+    <script src="/js/manager/addDish/addDepartmentMessage.js"></script>
+    <script src="/js/manager/addDish/calculatePrice.js"></script>
 
-    <script>
-    function add_departments(data){
-        Swal.fire({
-        title: 'Create a new '+data,
-        input: 'text',
-        inputAttributes: {
-            autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        showLoaderOnConfirm: true,
-        preConfirm: (login) => {
-            return fetch(`//api.github.com/users/${login}`)
-            .then(response => {
-                if (!response.ok) {
-                throw new Error(response.statusText)
-                }
-                return response.json()
-            })
-            .catch(error => {
-                Swal.showValidationMessage(
-                `Request failed: ${error}`
-                )
-            })
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-            title: `${result.value.login}'s avatar`,
-            imageUrl: result.value.avatar_url
-            })
-        }
-        })
-    }
-    </script>
-
+    <!---location.reload()-->
     <script src="/js/manager/addEmployee.js"></script>
     <script src="/js/store/other.js"></script>
 </body>
