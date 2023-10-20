@@ -84,3 +84,14 @@ function create_a_new_image(req){
 
     return '';
 }
+
+//add department
+passport.use('local.add_department', new LocalStrategy({
+    usernameField: 'name',
+    passwordField: 'alias',
+    passReqToCallback: true
+}, async (req ,name, password, done) => {
+    console.log(req.body);
+    done(null,false,req.flash(req.body));
+}));
+

@@ -16,6 +16,11 @@
     padding-right: 4px;
 }
 
+.link-session:hover{
+    transition: .5s;
+    color:var(--color-company);
+}
+
 .input-login{
     width: 100%;
 }

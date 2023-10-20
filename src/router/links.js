@@ -86,17 +86,43 @@ router.get('/terms-and-conditions',(req,res)=>{
 })
 
 router.get('/:id/dish',isLoggedIn,async (req,res)=>{
-    const company=await check_company(req);
+    const company=await check_company(req); //req.company.rows; //
     const saucers=await get_data(req);
+    console.log(req)
     res.render(companyName+'/store/dish',{company,saucers});
-})
+});
 
 router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
     //we need get all the Department and Category of the company
     const departments=await get_data_company(req,'product_department');
     const categories=await get_data_company(req,'product_category');
-    res.render(companyName+'/manager/addDish',{departments,categories});
+    res.render(companyName+'/manager/dish/addDish',{departments,categories});
 });
+
+router.get('/:id/add-department',isLoggedIn,async (req,res)=>{
+    const company=await check_company(req);
+    const saucers=await get_data(req);
+    res.render(companyName+'/store/dish',{company,saucers});
+});
+
+router.get('/:id/food-department',isLoggedIn,async (req,res)=>{
+    const company=await check_company(req);
+    const department=await get_data(req);
+    res.render(companyName+'/store/dish',{company,saucers});
+});
+
+router.post('/add_department', (req, res) => {
+    // Captura los datos del cuerpo de la solicitud
+    const { name, description } = req.body;
+  
+    // Realiza alguna lógica de procesamiento con los datos (puedes almacenarlos en una base de datos, por ejemplo)
+    // Aquí, simplemente se muestra la información en la consola
+    console.log('Nombre del departamento:', name);
+    console.log('Descripción del departamento:', description);
+  
+    // Responde con una respuesta JSON para indicar el éxito
+    res.json({ message: 'Datos del departamento recibidos con éxito' });
+  });
 
 
 ///links of the store
@@ -127,15 +153,15 @@ router.get('/recipes',isLoggedIn,(req,res)=>{
 
 ///links of the manager
 router.get('/add-employee',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/addEmployee');
+    res.render(companyName+'/manager/employee/addEmployee');
 })
 
 router.get('/add-schedules',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/addSchedules');
+    res.render(companyName+'/manager/employee/addSchedules');
 })
 
 router.get('/employee-schedules',isLoggedIn,(req,res)=>{
-    res.render('links/manager/employeeSchedules');
+    res.render('links/manager/employee/employeeSchedules');
 })
 
 
@@ -149,7 +175,7 @@ router.get('/home',isLoggedIn,async(req,res)=>{
 
 router.get('/add-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
-    res.render('links/manager/addCompanys',{country});
+    res.render('links/manager/company/addCompanys',{country});
 });
 
 
@@ -157,7 +183,7 @@ router.get('/:id/edit-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     const company=await check_company(req);
     if(company.length>0){
-        res.render('links/manager/editCompany',{company,country});
+        res.render('links/manager/company/editCompany',{company,country});
     }
     else{
         res.redirect('/fud/home');
@@ -179,19 +205,30 @@ async function get_country(){
 }
 
 router.get('/:id/company-home',isLoggedIn,async(req,res)=>{
-    const {id}=req.params;
-    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
-    var values = [id,parseInt(req.user.id)];
-    const result = await database.query(queryText, values);
-    const company=result.rows;
-    console.log(company);
-    if(result.rows.length>0){
-        res.render('links/manager/homeCompany',{company});
+    req.company=await search_the_company_of_the_user(req);
+
+    if(the_user_have_this_company(req.company)){
+        const company=req.company.rows;
+        res.render('links/manager/company/homeCompany',{company});
     }
     else{
         res.redirect('/fud/home');
     }
 });
+
+function the_user_have_this_company(company){
+    return company.rows.length>0;
+}
+
+async function search_the_company_of_the_user(req){
+    //we will search the company of the user 
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var values = [id,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    
+    return result;
+}
 
 router.get('/:id/Dashboard',isLoggedIn,async(req,res)=>{
     const {id}=req.params;
@@ -202,23 +239,23 @@ router.get('/:id/Dashboard',isLoggedIn,async(req,res)=>{
 
 
 router.get('/report',isLoggedIn,(req,res)=>{
-    res.render("links/manager/report");
+    res.render("links/manager/reports/report");
 })
 
 router.get('/schedule',isLoggedIn,(req,res)=>{
-    res.render("links/manager/schedule");
+    res.render("links/manager/employee/schedule");
 })
 
 router.get('/add-providers',isLoggedIn,(req,res)=>{
-    res.render("links/manager/addProviders");
+    res.render("links/manager/providers/addProviders");
 })
 
 router.get('/edit-providers',isLoggedIn,(req,res)=>{
-    res.render("links/manager/editProviders");
+    res.render("links/manager/providers/editProviders");
 })
 
 router.get('/providers',(req,res)=>{
-    res.render("links/manager/providers");
+    res.render("links/manager/providers/providers");
 })
 
 /*reports*/

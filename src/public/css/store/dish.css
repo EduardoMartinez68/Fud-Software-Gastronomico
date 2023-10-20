@@ -26,8 +26,10 @@
 .card-btn-description{
     border-radius: .4rem;
     width: 16.66%;
+    height: 6.5%;
     background-color: var(--color-company);
     color: white;
+    align-items: center;
 }
 
 .img-card-description{

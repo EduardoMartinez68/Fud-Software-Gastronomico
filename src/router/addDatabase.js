@@ -74,6 +74,22 @@ async function add_company(company){
     }
 }
 
+async function add_department(name,description){
+    var queryText = 'INSERT INTO product_department (id_company, name, description)'
+        +'VALUES ($1, $2, $3)';
+
+    var values = [name,description] 
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+}
+
+
+
 addDatabase.add_company=async (company)=>{
     var queryText = 'INSERT INTO companys (id_user, path_logo, name,alias,description,representative,ceo,id_country,'
         +'phone,cell_phone,email,street,num_ext,num_int,postal_code,cologne,city,states)'
