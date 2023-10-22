@@ -108,8 +108,10 @@ router.get('/:id/add-department',isLoggedIn,async (req,res)=>{
 router.get('/:id/food-department',isLoggedIn,async (req,res)=>{
     const company=await check_company(req);
     const department=await get_data(req);
-    res.render(companyName+'/store/dish',{company,saucers});
+    res.render(companyName+'/manager/areas/department')
+    //res.render(companyName+'/store/dish',{company,department});
 });
+
 
 router.post('/add_department', (req, res) => {
     // Captura los datos del cuerpo de la solicitud

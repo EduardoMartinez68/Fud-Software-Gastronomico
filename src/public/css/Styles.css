@@ -227,6 +227,9 @@ body {
 }
 
 
+.fi-department{
+    font-size: .8rem
+}
 /**/
 @import url("//harvesthq.github.io/chosen/chosen.css");
 .chosen-container {
