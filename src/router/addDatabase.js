@@ -74,6 +74,22 @@ async function add_company(company){
     }
 }
 
+async function add_product_department(department){
+    var queryText = 'INSERT INTO product_department (id_company, name, description)'
+        +'VALUES ($1, $2, $3)';
+
+    var values = [department.id_company,department.name,department.description] 
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+};
+
+
+
 async function add_department(name,description){
     var queryText = 'INSERT INTO product_department (id_company, name, description)'
         +'VALUES ($1, $2, $3)';
@@ -88,26 +104,6 @@ async function add_department(name,description){
     }
 }
 
-
-
-addDatabase.add_company=async (company)=>{
-    var queryText = 'INSERT INTO companys (id_user, path_logo, name,alias,description,representative,ceo,id_country,'
-        +'phone,cell_phone,email,street,num_ext,num_int,postal_code,cologne,city,states)'
-        +'VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)';
-
-    var values = [company.id_user,company.logo,company.name,company.alias,company.description,company.representative,company.ceo,
-                company.id_country,company.phone,company.cell_phone,company.email,company.street,company.num_o,company.num_i,company.postal_code,
-                company.cologne,company.city,company.streets] 
-    try{
-        await database.query(queryText, values);
-        return true;
-    } catch (error) {
-        console.error('Error al insertar en la base de datos:', error);
-        return false;
-    }
-};
-
-
 //add company
 /*
 router.get('/',async (req,res)=>{
@@ -118,5 +114,6 @@ router.get('/',async (req,res)=>{
 
 
 module.exports={
-    add_company
+    add_company,
+    add_product_department
 };

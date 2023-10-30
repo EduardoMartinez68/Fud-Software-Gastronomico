@@ -17,6 +17,11 @@
     --color-cancel-hover: rgb(187, 44, 58);
 }
 
+.fi-icon{
+    padding: .6rem;
+    font-size: 1rem;
+}
+
 .container-message {
     background: transparent;
     position: absolute;

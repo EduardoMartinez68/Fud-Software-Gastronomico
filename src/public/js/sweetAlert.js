@@ -28,7 +28,7 @@ function errorMessage(title,text){
     });
 }
 
-function questionMessage(title, text) {
+async function questionMessage(title, text) {
     return new Promise((resolve) => {
         Swal.fire({
             title: title,
@@ -48,6 +48,52 @@ function questionMessage(title, text) {
                 // User clicked the "Cancel" button
                 resolve(false);
             }
+        });
+    });
+}
+
+async function new_data_departments(title) {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Name">' +
+                '<br> <input id="swal-input2" class="swal2-input" placeholder="Description">',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#swal-input1').value;
+                const description = Swal.getPopup().querySelector('#swal-input2').value;
+                const data = [name, description];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
+async function edit_data_departments(title,name,description) {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Name" value="' + name + '">' +
+                '<br> <input id="swal-input2" class="swal2-input" placeholder="Description" value="' + description + '">',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#swal-input1').value;
+                const description = Swal.getPopup().querySelector('#swal-input2').value;
+                const data = [name, description];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
         });
     });
 }

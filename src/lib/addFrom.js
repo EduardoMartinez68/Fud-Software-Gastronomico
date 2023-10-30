@@ -88,10 +88,47 @@ function create_a_new_image(req){
 //add department
 passport.use('local.add_department', new LocalStrategy({
     usernameField: 'name',
-    passwordField: 'alias',
+    passwordField: 'name',
     passReqToCallback: true
 }, async (req ,name, password, done) => {
     console.log(req.body);
-    done(null,false,req.flash(req.body));
+    if(!await this_department_exists(req,name)){
+        const newDepartment=get_new_department(req);
+        if(await addDatabase.add_product_department(newDepartment)){
+            done(null,false,req.flash('success','the department was add with success'));
+        }
+        else{
+            done(null,false,req.flash('message','Could not add to database'));
+        }
+    }
+    else{
+        done(null,false,req.flash('message','This department already exists'));
+    }
 }));
 
+function get_new_department(req){
+    //get the data of the new department
+    const {name,description} = req.body;
+    const {id}=req.params;
+
+    //add the department
+    const department={
+        id_company:id,
+        name:name,
+        description:description
+    }  
+
+    return department;
+
+}
+
+async function this_department_exists(req,name){
+    //get the id of the company
+    const {id}=req.params;
+    
+    //we going to search this department in the list of the database
+    var queryText = 'SELECT * FROM product_department Where id_company = $1 and name= $2';
+    var values = [id,name];
+    var companies=await database.query(queryText, values);
+    return companies.rows.length>0;
+}

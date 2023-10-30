@@ -5,6 +5,8 @@ const database=require('../database');
 const databaseM=require('../mongodb');
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 
+//const delateDatabase=require('delateDatabase');
+
 //delate image
 const fs = require('fs');
 const path = require('path');
@@ -43,6 +45,15 @@ async function check_company(req){
     const {id}=req.params;
     var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
     var values = [id,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const company=result.rows;
+    return company;
+}
+
+async function check_company_other(req){
+    const {id_company}=req.params;
+    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var values = [id_company,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const company=result.rows;
     return company;
@@ -107,26 +118,81 @@ router.get('/:id/add-department',isLoggedIn,async (req,res)=>{
 
 router.get('/:id/food-department',isLoggedIn,async (req,res)=>{
     const company=await check_company(req);
-    const department=await get_data(req);
-    res.render(companyName+'/manager/areas/department')
-    //res.render(companyName+'/store/dish',{company,department});
+    const departments=await get_department(req);
+    res.render(companyName+'/manager/areas/department',{company,departments})
 });
 
+router.get('/:id_company/:id/delate-food-department',isLoggedIn,async (req,res)=>{
+    const company=await check_company_other(req);
+    const {id,id_company}=req.params;
 
-router.post('/add_department', (req, res) => {
-    // Captura los datos del cuerpo de la solicitud
-    const { name, description } = req.body;
-  
-    // Realiza alguna lógica de procesamiento con los datos (puedes almacenarlos en una base de datos, por ejemplo)
-    // Aquí, simplemente se muestra la información en la consola
-    console.log('Nombre del departamento:', name);
-    console.log('Descripción del departamento:', description);
-  
-    // Responde con una respuesta JSON para indicar el éxito
-    res.json({ message: 'Datos del departamento recibidos con éxito' });
-  });
+    //we will watch if the user have this company
+    if(company.length>0){
+        //we going to see if we can delate the department 
+        if(await delate_product_department(id)){
+            res.redirect('/fud/'+id_company+'/food-department');
+        }
+        else{
+            res.redirect('/fud/home');
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+});
+
+router.get('/:id_company/:id/:name/:description/edit-food-department',isLoggedIn,async (req,res)=>{
+    const company=await check_company_other(req);
+    const {id_company,id,name,description}=req.params;
+
+    //we will watch if the user have this company
+    if(company.length>0){
+        //we going to see if we can delate the department 
+        if(await update_product_department(id,name,description)){
+            res.redirect('/fud/'+id_company+'/food-department');
+        }
+        else{
+            res.redirect('/fud/home');
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+});
+
+async function delate_product_department(id){
+    var queryText = 'DELETE FROM product_department WHERE id = $1';
+    var values = [id];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar el registro en la base de datos:', error);
+        return false;
+    }
+};
+
+async function update_product_department(id, name, description) {
+    var values = [name, description, id];
+    var queryText = 'UPDATE product_department SET name = $1, description = $2 WHERE id = $3';
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al actualizar el registro en la base de datos:', error);
+        return false;
+    }
+}
 
 
+
+async function this_department_be(){
+    return true;
+}
 ///links of the store
 router.get('/store',isLoggedIn,(req,res)=>{
     res.render(companyName+'/store/store');

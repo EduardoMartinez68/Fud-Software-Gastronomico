@@ -33,18 +33,6 @@ router.post('/fud/login',passport.authenticate('local.login',{
     failureFlash:true
 }));
 
-/*
-router.post('/fud/login',(req,res,next)=>{
-    passport.authenticate('local.login',{
-        successRedirect:'/fud/profile',
-        failureRedirect:'/fud/login',
-        failureFlash:true
-    })(req,res,next);
-})
-*/
-
-
-
 //from
 router.post('/fud/addCompany',passport.authenticate('local.add_company',{
     successRedirect: '/fud/add-company',
@@ -58,7 +46,13 @@ router.post('/fud/editCompany',passport.authenticate('local.edit_company',{
     failureFlash:true
 }));
 
+router.post('/fud/:id/add-department',passport.authenticate('local.add_department',{
+    successRedirect: '/fud/home', // /fud/:id/food-department
+    failureRedirect: '/fud/home',
+    failureFlash:true
+}));
 
+//fud/13/food-department
 
 
 
