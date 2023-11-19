@@ -1,29 +1,4 @@
-
-{
-  "name": "web",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon src/"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "connect-flash": "^0.1.1",
-    "express": "^4.18.2",
-    "express-handlebars": "^7.0.7",
-    "express-session": "^1.17.3",
-    "express-validator": "^7.0.1",
-    "morgan": "^1.10.0",
-    "passport-local": "^1.0.0",
-    "pg": "^8.11.0",
-    "postgres": "^3.3.5",
-    "timeago.js": "^4.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
-  }
-}
+npm i express express-handlebars express-session morgan bcryptjs passport passport-local timeago.js connect-flash express-validator pg connect-pg-simple multer
+npm i uuid
+npm install dotenv
+npm i nodemon -D

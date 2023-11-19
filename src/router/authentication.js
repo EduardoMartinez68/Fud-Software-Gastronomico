@@ -52,6 +52,11 @@ router.post('/fud/:id/add-department',passport.authenticate('local.add_departmen
     failureFlash:true
 }));
 
+router.post('/fud/:id/add-category',passport.authenticate('local.add_category',{
+    successRedirect: '/fud/home', // /fud/:id/food-department
+    failureRedirect: '/fud/home',
+    failureFlash:true
+}));
 //fud/13/food-department
 
 

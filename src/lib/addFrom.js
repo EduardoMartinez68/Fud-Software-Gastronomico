@@ -132,3 +132,51 @@ async function this_department_exists(req,name){
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
 }
+
+//add category
+passport.use('local.add_category', new LocalStrategy({
+    usernameField: 'name',
+    passwordField: 'name',
+    passReqToCallback: true
+}, async (req ,name, password, done) => {
+    console.log(req.body);
+    if(!await this_category_exists(req,name)){
+        const newDepartment=get_new_category(req);
+        if(await addDatabase.add_product_category(newDepartment)){
+            done(null,false,req.flash('success','the department was add with success'));
+        }
+        else{
+            done(null,false,req.flash('message','Could not add to database'));
+        }
+    }
+    else{
+        done(null,false,req.flash('message','This department already exists'));
+    }
+}));
+
+function get_new_category(req){
+    //get the data of the new department
+    const {name,description} = req.body;
+    const {id}=req.params;
+
+    //add the department
+    const department={
+        id_company:id,
+        name:name,
+        description:description
+    }  
+
+    return department;
+
+}
+
+async function this_category_exists(req,name){
+    //get the id of the company
+    const {id}=req.params;
+    
+    //we going to search this department in the list of the database
+    var queryText = 'SELECT * FROM product_department Where id_company = $1 and name= $2';
+    var values = [id,name];
+    var companies=await database.query(queryText, values);
+    return companies.rows.length>0;
+}

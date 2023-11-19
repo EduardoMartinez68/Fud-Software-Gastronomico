@@ -59,24 +59,6 @@ async function check_company_other(req){
     return company;
 }
 
-async function get_department(req){
-    const {id}=req.params;
-    var queryText = 'SELECT * FROM product_department WHERE id_company= $1';
-    var values = [id];
-    const result = await database.query(queryText, values);
-    const data=result.rows;
-    return data;
-}
-
-async function get_category(req){
-    const {id}=req.params;
-    var queryText = 'SELECT * FROM product_category WHERE id_company= $1';
-    var values = [id];
-    const result = await database.query(queryText, values);
-    const data=result.rows;
-    return data;
-}
-
 async function get_data_company(req,nameTable){
     const {id}=req.params;
     var queryText = 'SELECT * FROM '+nameTable+' WHERE id_company= $1';
@@ -109,6 +91,136 @@ router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
     const categories=await get_data_company(req,'product_category');
     res.render(companyName+'/manager/dish/addDish',{departments,categories});
 });
+
+//----------------------------------------------------------------category
+async function get_category(req){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM product_category WHERE id_company= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+async function delate_product_category(id){
+    var queryText = 'DELETE FROM product_category WHERE id = $1';
+    var values = [id];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar el registro en la base de datos:', error);
+        return false;
+    }
+};
+
+router.get('/:id/food-category',isLoggedIn,async (req,res)=>{
+    const company=await check_company(req);
+    const categories=await get_category(req);
+    res.render(companyName+'/manager/areas/category',{company,categories})
+});
+
+router.get('/:id/add-category',isLoggedIn,async (req,res)=>{
+    const company=await check_company(req);
+    const saucers=await get_data(req);
+    res.render(companyName+'/store/dish',{company,saucers});
+});
+
+router.get('/:id_company/:id/delate-food-category',isLoggedIn,async (req,res)=>{
+    const company=await check_company_other(req);
+    const {id,id_company}=req.params;
+
+    //we will watch if the user have this company
+    if(company.length>0){
+        //we going to see if we can delate the department 
+        if(await delate_product_category(id)){
+            res.redirect('/fud/'+id_company+'/food-category');
+        }
+        else{
+            res.redirect('/fud/home');
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+});
+
+router.get('/:id_company/:id/delate-food-category',isLoggedIn,async (req,res)=>{
+    const company=await check_company_other(req);
+    const {id,id_company}=req.params;
+
+    //we will watch if the user have this company
+    if(company.length>0){
+        //we going to see if we can delate the department 
+        if(await delate_product_category(id)){
+            res.redirect('/fud/'+id_company+'/food-category');
+        }
+        else{
+            res.redirect('/fud/home');
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+});
+
+router.get('/:id_company/:id/:name/:description/edit-food-category',isLoggedIn,async (req,res)=>{
+    const company=await check_company_other(req);
+    const {id_company,id,name,description}=req.params;
+
+    //we will watch if the user have this company
+    if(company.length>0){
+        //we going to see if we can delate the department 
+        if(await update_product_category(id,name,description)){
+            res.redirect('/fud/'+id_company+'/food-category');
+        }
+        else{
+            res.redirect('/fud/home');
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+});
+
+async function update_product_category(id, name, description) {
+    var values = [name, description, id];
+    var queryText = 'UPDATE product_category SET name = $1, description = $2 WHERE id = $3';
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al actualizar el registro en la base de datos:', error);
+        return false;
+    }
+}
+
+//----------------------------------------------------------------department
+async function get_department(req){
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM product_department WHERE id_company= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+async function delate_product_department(id){
+    var queryText = 'DELETE FROM product_department WHERE id = $1';
+    var values = [id];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar el registro en la base de datos:', error);
+        return false;
+    }
+};
 
 router.get('/:id/add-department',isLoggedIn,async (req,res)=>{
     const company=await check_company(req);
@@ -161,19 +273,6 @@ router.get('/:id_company/:id/:name/:description/edit-food-department',isLoggedIn
     }
 
 });
-
-async function delate_product_department(id){
-    var queryText = 'DELETE FROM product_department WHERE id = $1';
-    var values = [id];
-
-    try {
-        await database.query(queryText, values);
-        return true;
-    } catch (error) {
-        console.error('Error al eliminar el registro en la base de datos:', error);
-        return false;
-    }
-};
 
 async function update_product_department(id, name, description) {
     var values = [name, description, id];

@@ -88,6 +88,26 @@ async function add_product_department(department){
     }
 };
 
+async function add_product_category(department){
+    var queryText = 'INSERT INTO product_category (id_company, name, description)'
+        +'VALUES ($1, $2, $3)';
+
+    var values = [department.id_company,department.name,department.description] 
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+};
+
+
+
+
+
+//////////////////////---
+
 
 
 async function add_department(name,description){
@@ -115,5 +135,6 @@ router.get('/',async (req,res)=>{
 
 module.exports={
     add_company,
-    add_product_department
+    add_product_department,
+    add_product_category
 };
