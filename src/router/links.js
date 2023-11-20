@@ -69,6 +69,7 @@ async function get_data_company(req,nameTable){
 }
 
 const companyName='links'
+
 ///links of the web
 router.get('/identify',isNotLoggedIn,(req,res)=>{
     res.render(companyName+'/web/identify'); //this web is for return your user
@@ -87,9 +88,10 @@ router.get('/:id/dish',isLoggedIn,async (req,res)=>{
 
 router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
     //we need get all the Department and Category of the company
+    const company=await check_company(req);
     const departments=await get_data_company(req,'product_department');
     const categories=await get_data_company(req,'product_category');
-    res.render(companyName+'/manager/dish/addDish',{departments,categories});
+    res.render(companyName+'/manager/dish/addDish',{company,departments,categories});
 });
 
 //----------------------------------------------------------------category

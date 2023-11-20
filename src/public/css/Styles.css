@@ -29,6 +29,7 @@
     transform: translateX(+22.5%);
 }
 
+
 /*styles messages*/
 .btn-confirm-message {
     background: var(--color-confirmation);

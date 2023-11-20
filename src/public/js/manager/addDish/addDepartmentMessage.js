@@ -1,5 +1,5 @@
 ///
-async function add_departments22(data) {
+async function add_departments(data) {
     Swal.fire({
         title: 'Create a new ' + data,
         html:
@@ -43,7 +43,7 @@ async function add_departments22(data) {
 }
 
 ///
-function add_departments(data) {
+function add_departments2(data) {
     Swal.fire({
         title: 'Create a new ' + data,
         html:

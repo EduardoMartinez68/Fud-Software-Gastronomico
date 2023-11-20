@@ -3,6 +3,12 @@
 <head>
     <link rel="stylesheet" href="/css/addUser/addUser.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel="stylesheet" href="/css/report/report.css">
+    </link>
+    <link rel="stylesheet" href="/css/report/sales.css">
+    </link>
 </head>
 <body>
     <div class="container p-4">
@@ -18,108 +24,133 @@
                             </div>
                             <div class="form-group">
                                 <input type="file" name="imagen" accept="image/*" class="form-control" id="inputImg">
-                            </div>         
-                            <div class="form-group">
-                                <label>Barcode *</label><br>
-                                <input type="tex" class="form-control" name="name" placeholder="Barcode" autofocus required>
-                            </div>                 
-                            <div class="form-group">
-                                <label>Name *</label><br>
-                                <input type="tex" class="form-control" name="name" placeholder="Name" required>
+                            </div>        
+
+                            <!--bar navigation--> 
+                            <div class="tab_box">
+                                <button class="tab_btn active"><i class="fi-container fi-sr-truck-loading"></i>Data Product</button>
+                                <button class="tab_btn"><i class="fi-container fi-sr-sack-dollar"></i>Price</button>
+                                <button class="tab_btn"><i class="fi-container fi-sr-usd-circle"></i>Taxes</button>
+                                <button class="tab_btn"><i class="fi-container fi-rr-settings-sliders"></i>Others</button>
+                                <div class="line"></div>
                             </div>
-                            <div class="form-group">
-                                <label>Character</label><br>
-                                <textarea type="textarea" class="form-control" name="alias" placeholder="Character"></textarea>
+                            <!--bar navigation--> 
+                        <div class="content_box">
+                            <div class="content-sales active">
+                                <div class="form-group">
+                                    <label>Barcode *</label><br>
+                                    <input type="tex" class="form-control" name="name" placeholder="Barcode" autofocus required>
+                                </div>                 
+                                <div class="form-group">
+                                    <label>Name *</label><br>
+                                    <input type="tex" class="form-control" name="name" placeholder="Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Character</label><br>
+                                    <textarea type="textarea" class="form-control" name="alias" placeholder="Character"></textarea>
+                                </div>
+
+                                <!--option-->
+                                <table width="100%">
+                                    <tr>
+                                        <th><label>Department</label></th>
+                                        <th></th>
+                                        <th><label>Category</label></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <!--for of the type user-->
+                                                <select class="form-control">
+                                                    <option value="-1">None</option>
+                                                    {{#each departments}}
+                                                        <option value={{id}}>{{name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        {{#each company}}
+                                            <td><button class="btn-add" onclick="nextWeb('{{id}}/food-department')" id="btn-departments"  type="button">+</button></td> <!---add_departments('department')--->
+                                        {{/each}}
+                                        <td>
+                                            <div class="form-group">
+                                                <!--for of the type user-->
+                                                <select class="form-control">
+                                                    <option value="-1">None</option>
+                                                    {{#each categories}}
+                                                        <option value={{id}}>{{name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        {{#each company}}
+                                            <td><button class="btn-add" onclick="nextWeb('{{id}}/food-category')" id="btn-categories"  type="button">+</button></td> <!---add_departments('category')--->
+                                        {{/each}}
+                                    </tr>
+                                </table>
+
+                                <div class="form-group">
+                                    <label>SAT key</label><br>
+                                    <input type="tex" class="form-control" name="phone" placeholder="SAT key">
+                                </div>
+
+                                <div class="form-group">
+                                    <!--for of the type user-->
+                                    <label>Unity</label><br>
+                                    <select class="form-control">
+                                        <option value="1">Part</option>
+                                        <option value="2">Gram</option>
+                                        <option value="3">Kg</option>
+                                        <option value="4">Pack</option>
+                                    </select>
+                                </div>
+                            </div>
+                        
+
+                            <div class="content-sales">
+                                <h6 class="txt-separators">Price</h6>
+                                <div class="form-group">
+                                    <label>Product cost</label><br>
+                                    <input type="number" id="productCost" class="form-control" name="email" placeholder="Product cost">
+                                </div>
+                                <div class="form-group">
+                                    <label>Price *</label><br>
+                                    <div class="form-control">
+                                        <label>Utility<i class="fi-label fi-rs-percentage"></i></label><br>
+                                        <input type="number" id="utilityPrice" class="form-control" name="unity_price" placeholder="Utility">
+                                        <label>Final price<i class="fi-label fi-rs-dollar"></i></label><br>
+                                        <input type="number" id="finalPrice" class="form-control" name="email" placeholder="Final price">
+                                    </div>
+                                </div>
                             </div>
 
-                            <!--option-->
-                            <table width="100%">
-                                <tr>
-                                    <th><label>Department</label></th>
-                                    <th></th>
-                                    <th><label>Category</label></th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <!--for of the type user-->
-                                            <select class="form-control">
-                                                <option value="-1">None</option>
-                                                {{#each departments}}
-                                                    <option value={{id}}>{{name}}</option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><button class="btn-add" onclick="add_departments('department')" id="btn-departments"  type="button">+</button></td>
-                                    <td>
-                                        <div class="form-group">
-                                            <!--for of the type user-->
-                                            <select class="form-control">
-                                                <option value="-1">None</option>
-                                                {{#each categories}}
-                                                    <option value={{id}}>{{name}}</option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><button class="btn-add" onclick="add_departments('category')" id="btn-categories"  type="button">+</button></td>
-                                </tr>
-                            </table>
-
-                            <div class="form-group">
-                                <label>SAT key</label><br>
-                                <input type="tex" class="form-control" name="phone" placeholder="SAT key">
+                            <div class="content-sales">
+                                <h6 class="txt-separators">Texas</h6>
                             </div>
 
-                            <div class="form-group">
-                                <!--for of the type user-->
-                                <label>Unity</label><br>
-                                <select class="form-control">
-                                    <option value="1">Part</option>
-                                    <option value="2">Gram</option>
-                                    <option value="3">Kg</option>
-                                    <option value="4">Pack</option>
-                                </select>
-                            </div>
-                            <br>
-                            <hr>
-                            <h6 class="txt-separators">Price</h6>
-                            <div class="form-group">
-                                <label>Product cost</label><br>
-                                <input type="number" id="productCost" class="form-control" name="email" placeholder="Product cost">
-                            </div>
-                            <div class="form-group">
-                                <label>Price *</label><br>
+                            <div class="content-sales">
+                                <h6 class="txt-separators">Additional</h6>
                                 <div class="form-control">
-                                    <label>Utility<i class="fi-label fi-rs-percentage"></i></label><br>
-                                    <input type="number" id="utilityPrice" class="form-control" name="unity_price" placeholder="Utility">
-                                    <label>Final price<i class="fi-label fi-rs-dollar"></i></label><br>
-                                    <input type="number" id="finalPrice" class="form-control" name="email" placeholder="Final price">
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox"  class="form-check-input check-box-app" value="" id="check1">
+                                        <label class="form-check-label" for="check1">Control inventory of this product</label>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-control">
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox"  class="form-check-input check-box-app" value="" id="check2">
+                                        <label class="form-check-label" for="check2">This product is sold in bulk</label>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <br>
-                            <hr>
-                            <h6 class="txt-separators">Additional</h6>
-                            <div class="form-control">
-                                <div class="form-check form-switch">
-                                    <input type="checkbox"  class="form-check-input check-box-app" value="" id="check1">
-                                    <label class="form-check-label" for="check1">Control inventory of this product</label>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-control">
-                                <div class="form-check form-switch">
-                                    <input type="checkbox"  class="form-check-input check-box-app" value="" id="check2">
-                                    <label class="form-check-label" for="check2">This product is sold in bulk</label>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
-                            </div>
+                        <br>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -133,5 +164,25 @@
     <!---location.reload()-->
     <script src="/js/manager/addEmployee.js"></script>
     <script src="/js/store/other.js"></script>
+    <script>
+        const tabs = document.querySelectorAll('.tab_btn');
+        const all_content = document.querySelectorAll('.content-sales');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', (e) => {
+                tabs.forEach(tab => { tab.classList.remove('active') });
+                tab.classList.add('active');
+
+                var line = document.querySelector('.line');
+                line.style.width = e.target.offsetWidth + "px";
+                line.style.left = e.target.offsetLeft + "px";
+
+                all_content.forEach(content => {
+                    content.classList.remove('active');
+                })
+                all_content[index].classList.add('active');
+            })
+        })
+    </script>
 </body>
 </html>
