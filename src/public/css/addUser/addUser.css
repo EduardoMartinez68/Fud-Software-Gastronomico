@@ -27,3 +27,40 @@
 .sub-title{
     color: rgba(0,0,0,.7);
 }
+
+
+@media screen and (max-width: 1300px){
+    .logoCompany{
+        min-width: 20rem;
+        min-height: 10rem;
+        max-width: 20rem;
+        max-height: 10rem;
+        border-radius: 0.6rem;
+    }
+    
+    .userImg{
+        min-width: 7rem;
+        min-height: 7rem;
+        max-width: 7rem;
+        max-height: 7rem;
+        border-radius: 0.2rem;
+    }
+}
+
+@media screen and (max-width: 550px){
+    .logoCompany{
+        min-width: 10rem;
+        min-height: 5rem;
+        max-width: 10rem;
+        max-height: 5rem;
+        border-radius: 0.3rem;
+    }
+    
+    .userImg{
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        max-width: 2.5rem;
+        max-height: 2.5rem;
+        border-radius: 0.1rem;
+    }
+}

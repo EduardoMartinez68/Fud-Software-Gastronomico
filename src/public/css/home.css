@@ -45,3 +45,33 @@
     font-size: 2rem;
     color: white;
 }
+
+
+@media screen and (max-width: 1300px){
+    .card{
+        background-color: rgba(255, 255, 255,0);
+        border-radius: 25px;
+        max-width: 500px;
+        max-height: 170px;
+    }
+    
+    .card img{
+        width: 100%;
+        height: 100%;
+        max-width: 500px;
+        max-height: 140px;
+
+        min-height: 140px;
+
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+    }    
+}
+
+@media screen and (max-width: 550px){
+    .titleDesciption{
+        padding-left: 30%;
+        padding-right: 0.85rem;
+    }
+}

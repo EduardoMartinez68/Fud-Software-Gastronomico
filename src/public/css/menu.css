@@ -193,3 +193,18 @@ body{
 .ul-menu-bar{
     padding-right: 0px;
 }
+
+
+@media screen and (max-width: 1300px){
+    .titleDesciption{
+        padding-left: 50%;
+        padding-right: 0.85rem;
+    }
+}
+
+@media screen and (max-width: 550px){
+    .titleDesciption{
+        padding-left: 30%;
+        padding-right: 0.85rem;
+    }
+}

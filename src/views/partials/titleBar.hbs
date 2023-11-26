@@ -1,9 +1,38 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+
+<!--this is the navbar-->
 <section class="descriptionWindow">
     <head class="headDescription">
         <div class="navbar">
             <ul class="ul-menu-bar">
-                <button class="btn-menu-bar"><i class="fi-des fi-br-menu-burger"></i></button>
+                <!--<button class="btn-menu-bar"><i class="fi-des fi-br-menu-burger"></i></button>-->
+                    <input type="checkbox" id="check">
+                    <label for="check" class="btn-menu-bar">
+                        <i class="fi-des fi-br-menu-burger" id="btn-navbar-open"></i>
+                        <i class="fi-des fi-br-cross" id="btn-navbar-cancel"></i>
+                    </label>
+                    <div class="sidebar">
+                        {{#if company}}
+                            {{#each company}}
+                                <header>{{name}}</header>
+                            {{/each}}
+                        {{else}}
+                            <header>Füd</header>
+                        {{/if}}
+                        <ul>
+                            {{#each company}}
+                                <li><a href=""><i class="fi-icon fi-sr-apps"> Dashboard</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-sr-store-alt"> Branch</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-ss-label"> Sales</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-sr-user"> Customers</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-sr-restaurant"> Dishes</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-sr-hat-chef"> Employees</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>
+                                <li><a href=""><i class="fi-icon fi-sr-settings"> Options</i></a></li>
+                            {{/each}}
+                            <li><a href="/fud/logout"><i class="fi-icon fi-sr-settings"> Logout</i></a></li>
+                        </ul>
+                    </div>
             </ul>
             <ul class="titleDesciption">
                 <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
