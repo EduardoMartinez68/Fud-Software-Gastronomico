@@ -321,15 +321,15 @@ router.get('/recipes',isLoggedIn,(req,res)=>{
 
 
 ///links of the manager
-router.get('/add-employee',isLoggedIn,(req,res)=>{
+router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{
     res.render(companyName+'/manager/employee/addEmployee');
 })
 
-router.get('/add-schedules',isLoggedIn,(req,res)=>{
+router.get('/:id_company/:id/add-schedules',isLoggedIn,(req,res)=>{
     res.render(companyName+'/manager/employee/addSchedules');
 })
 
-router.get('/employee-schedules',isLoggedIn,(req,res)=>{
+router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
     res.render('links/manager/employee/employeeSchedules');
 })
 
@@ -398,6 +398,44 @@ async function search_the_company_of_the_user(req){
     
     return result;
 }
+
+router.get('/:id/branches',isLoggedIn,async(req,res)=>{
+    const country=await get_country();
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/branches/branches',{company,country});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+router.get('/:id/add-branches',isLoggedIn,async (req,res)=>{
+    const country=await get_country();
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/branches/addBranches',{company,country});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/:id/Dashboard',isLoggedIn,async(req,res)=>{
     const {id}=req.params;

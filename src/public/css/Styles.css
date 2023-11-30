@@ -246,6 +246,7 @@ body {
     height: 100%;
     background: #131313;
     transition: all .5s ease;
+    z-index: 100000;
 }
 
 .sidebar ul{
@@ -304,7 +305,7 @@ label #btn-navbar-open{
 }
 
 label #btn-navbar-cancel{
-    z-index: 1111;
+    z-index: 100001;
     left: -195px;
     top:61px;
     font-size: 18px;

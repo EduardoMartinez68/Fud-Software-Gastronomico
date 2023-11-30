@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="/css/cart/cart.css">
+<div class="container">
+    <div class="row mt-5">
+        <label>Filter for:</label>
+        <table>
+            <colgroup>
+                <col style="width: 15%;">
+                <col style="width: 30%;">
+                <col style="width: 15%;">
+                <col style="width: 30%;">
+                <col style="width: 5%;">
+                <col style="width: 10%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><center><label>Country</label></center></th>
+                    <th>
+                        <select id="country" class="form-control" name="country">
+                            {{#each country}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </th>
+                    <th><center><label>Manager</label></center></th>
+                    <th>
+                        <select id="country" class="form-control" name="country">
+                            {{#each country}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </th>
+                    <th>
+                        <button class="btn-search-browser"><i class="fi-browser fi-rr-search" onclick="searchBarCode()"></i></button>
+                    </th>
+                    <th>
+                        {{#each company}}
+                            <button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-branches')">+</button>
+                        {{/each}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>
+                </td>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md">
+            <table class="table table-hover"> <!--table-bordered-->
+                <colgroup>
+                    <col style="width: 10%;">
+                    <col style="width: 25%;">
+                    <col style="width: 10%;">
+                    <col style="width: 40%;">
+                    <col style="width: 10%;">
+                    <col style="width: 5%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th><label>Name</label></th>
+                        <th><label>Manager</label></th>
+                        <th><label>Country</label></th>
+                        <th><label>Direction</label></th>
+                        <th><label>Cell phone</label></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td><label>Mcdonal Posgreso</label></td>
+                    <td><label>Miguel Angel Rivera Martinez</label></td>
+                    <td><label>Mexico</label></td>
+                    <td><label>San Luis Potosi, San Luis Potosi, Gertrudis uribe y martinez, reyitos 255</label></td>
+                    <td><label>001100101</label></td>
+                    <td>
+                        <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                    </td>
+                    <!--this is the for of the departments-->
+                    {{#each departments}}
+                        <tr>
+                            <td><label>{{name}}</label></td>
+                            <td><label>{{description}}</label></td>
+                            <td>
+                                <button class="btn btn-danger" id="{{id}}" onclick="delate_department(this.id,{{id_company}})"><i class="fi-department fi-sr-trash"></i></button>
+                                <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
