@@ -102,6 +102,22 @@ async function add_product_category(department){
     }
 };
 
+async function add_branch(branch){
+    return false;
+    /*
+    var queryText = 'INSERT INTO branches (id_company, name, description)'
+        +'VALUES ($1, $2, $3)';
+
+    var values = [branch.id_company,branch.name,branch.description] 
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }*/
+};
+
 
 
 
@@ -136,5 +152,6 @@ router.get('/',async (req,res)=>{
 module.exports={
     add_company,
     add_product_department,
-    add_product_category
+    add_product_category,
+    add_branch
 };

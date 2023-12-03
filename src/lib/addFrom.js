@@ -180,3 +180,51 @@ async function this_category_exists(req,name){
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
 }
+
+
+//add branch
+passport.use('local.add_branch', new LocalStrategy({
+    usernameField: 'name',
+    passwordField: 'name',
+    passReqToCallback: true
+}, async (req ,name, password, done) => {
+
+    if(!await this_branch_exists(req,name)){
+        const newBranch=get_new_branch(req);
+        if(await addDatabase.add_branch(newBranch)){
+            done(null,false,req.flash('success','the department was add with success'));
+        }
+        else{
+            done(null,false,req.flash('message','Could not add to database'));
+        }
+    }
+    else{
+        done(null,false,req.flash('message','This department already exists'));
+    }
+}));
+
+function get_new_branch(req){
+    //get the data of the new branch
+    const {name,description} = req.body;
+    const {id}=req.params;
+
+    //add the branch
+    const branch={
+        id_company:id,
+        name:name,
+        description:description
+    }  
+
+    return branch;
+}
+
+async function this_branch_exists(req,name){
+    //get the id of the company
+    const {id}=req.params;
+    
+    //we going to search this department in the list of the database
+    var queryText = 'SELECT * FROM branches Where id_company = $1 and name_branch= $2';
+    var values = [id,name];
+    var companies=await database.query(queryText, values);
+    return companies.rows.length>0;
+}
