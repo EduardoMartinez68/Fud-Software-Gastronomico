@@ -339,7 +339,8 @@ router.get('/home',isLoggedIn,async(req,res)=>{
     var values = [parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const companies=result.rows;
-    res.render('links/manager/home',{companies});
+    //res.render('links/manager/home',{companies});
+    res.redirect('/fud/store-home')
 });
 
 router.get('/add-company',isLoggedIn,async(req,res)=>{
@@ -420,6 +421,13 @@ router.get('/:id/add-branches',isLoggedIn,async (req,res)=>{
         res.redirect('/fud/home');
     }
 })
+
+
+router.get('/store-home',isLoggedIn,async (req,res)=>{
+    res.render('links/store/home/home');
+})
+
+
 
 
 
