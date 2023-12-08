@@ -183,3 +183,10 @@
         border-radius: 10%;
     }    
 }*/
+
+/*** other css*/
+.card-explore-our-combo{
+    width:20rem; 
+    background: none; 
+    border:none;
+}
