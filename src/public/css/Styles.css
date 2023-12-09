@@ -291,8 +291,9 @@ body {
     display: none;
 }
 label #btn-navbar-open, label #btn-navbar-cancel{
-    position: absolute;
+    /*position: absolute;*/
     cursor: pointer;
+    position: fixed;
 }
 
 label #btn-navbar-open{

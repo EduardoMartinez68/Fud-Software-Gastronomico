@@ -2,11 +2,15 @@
     width: 100%;
     height: 70px;
     background-color: white;
-    position: relative;
+    /*position: relative;*/
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    z-index: 10;
+
+    position: fixed;
+    bottom: 0;
 }
 
 .navigation ul{
@@ -122,4 +126,30 @@
 
 .navigation ul li:nth-child(4).active ~ .indicator{
     transform: translateX(calc(70px*3));
+}
+
+@media screen and (max-width: 1000px){
+    .indicator::before{
+        content:'';
+        position: absolute;
+        top:50%;
+        left: -22.5px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-top-right-radius: 20px;
+        box-shadow: 1px -10px 0 0 var(--color-body); ;
+    }
+    
+    .indicator::after{
+        content:'';
+        position: absolute;
+        top:50%;
+        right: -22.5px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-top-left-radius: 20px;
+        box-shadow: -1px -10px 0 0 var(--color-body); ;
+    }
 }

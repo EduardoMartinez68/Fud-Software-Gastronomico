@@ -88,11 +88,11 @@
     background-color: white;
 }
 
-
 .card{
     background-color: white;
     border-radius: 2rem;
     margin-bottom: 10px; 
+    cursor: pointer;
 }
 
 .card-image{
