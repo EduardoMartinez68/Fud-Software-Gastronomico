@@ -3,50 +3,35 @@
     </link><!--Card Slider-->
     <link rel="stylesheet" href="/css/store/homeStore.css">
     </link>
-    <link rel="stylesheet" href="/css/store/navigationHome.css"></link>
+    <link rel="stylesheet" href="/css/store/navigationHome.css">
+    </link>
 </head>
 {{>store/home/carouselAd}}
 {{>store/home/carouselMostSale}}
-{{>store/home/exploreOurCombos}}
+<div class="container-car-home">
+    <table border="1" class="table-container-car">
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Cant.</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>Chicken</td>
+            <td>100</td>
+            <td>1</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>Soda</td>
+            <td>25</td>
+            <td>2</td>
+            <td>50</td>
+        </tr>
+    </table>
 
-
-<div class="navigation">
-    <ul>
-        <li class="list active">
-            <a>
-                <span class="icon-menu-home"><i class="fi-icon fi-sr-home"></i></span>
-                <span class="text-menu-home">Home</span>
-            </a>
-        </li>
-        <li class="list">
-            <a>
-                <span class="icon-menu-home"><i class="fi-icon fi-sr-restaurant"></i></span>
-                <span class="text-menu-home">The new</span>
-            </a>
-        </li>
-        <li class="list">
-            <a>
-                <span class="icon-menu-home"><i class="fi-icon fi-ss-book-alt"></i></span>
-                <span class="text-menu-home">Menu</span>
-            </a>
-        </li>
-        <li class="list">
-            <a>
-                <span class="icon-menu-home"><i class="fi-icon fi-sr-shopping-cart"></i></span>
-                <span class="text-menu-home">Car</span>
-            </a>
-        </li>
-        <div class="indicator"></div>
-    </ul>
+    <br>
+    <button class="btn-container-cart">Buy $150<i class="fi-icon fi-sr-shopping-cart"></i></button>
 </div>
-
-<script>
-    const list=document.querySelectorAll('.list');
-    function activeLink(){
-        list.forEach((item)=>
-            item.classList.remove('active'));
-            this.classList.add('active');
-    }
-    list.forEach((item)=>
-    item.addEventListener('click',activeLink))
-</script>
+{{>store/home/exploreOurCombos}}
+{{>store/navigationStore}}

@@ -1,0 +1,40 @@
+<div class="navigation">
+    <ul>
+        <li class="list active">
+            <a>
+                <span class="icon-menu-home"><i class="fi-icon fi-sr-home"></i></span>
+                <span class="text-menu-home">Home</span>
+            </a>
+        </li>
+        <li class="list">
+            <a>
+                <span class="icon-menu-home"><i class="fi-icon fi-sr-restaurant"></i></span>
+                <span class="text-menu-home">The new</span>
+            </a>
+        </li>
+        <li class="list">
+            <a>
+                <span class="icon-menu-home"><i class="fi-icon fi-ss-book-alt"></i></span>
+                <span class="text-menu-home">Menu</span>
+            </a>
+        </li>
+        <li class="list">
+            <a>
+                <span class="icon-menu-home"><i class="fi-icon fi-sr-shopping-cart"></i></span>
+                <span class="text-menu-home">Car</span>
+            </a>
+        </li>
+        <div class="indicator"></div>
+    </ul>
+</div>
+
+<script>
+    const list=document.querySelectorAll('.list');
+    function activeLink(){
+        list.forEach((item)=>
+            item.classList.remove('active'));
+            this.classList.add('active');
+    }
+    list.forEach((item)=>
+    item.addEventListener('click',activeLink))
+</script>

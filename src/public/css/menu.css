@@ -163,6 +163,30 @@ body{
     display: none;
 }
 
+.wallpaper-navbar{
+    display: none;
+    background-color: rgba(0,0,0,0);
+    position: fixed;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.wallpaper-navbar.active{
+    display: block;
+    background-color: rgba(0,0,0,.3);
+    position: fixed;
+    z-index: 29;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+
+
 .fid{
     color: white;
     font-size: 25px;

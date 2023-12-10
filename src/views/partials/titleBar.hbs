@@ -6,7 +6,7 @@
         <div class="navbar">
             <ul class="ul-menu-bar">
                 {{#if user}}
-                    <input type="checkbox" id="check">
+                    <input type="checkbox" id="check" onchange="wallpaper_active()">
                     <label for="check" class="btn-menu-bar">
                         <i class="fi-des fi-br-menu-burger" id="btn-navbar-open"></i>
                         <i class="fi-des fi-br-cross" id="btn-navbar-cancel"></i>
@@ -42,7 +42,10 @@
         </div>
     </head>
 </section>
+<!--this is the wallpaper black that we create when the user activate the navbar-->
+<div class="wallpaper-navbar" id="wallpaper-navbar">
 
+</div>
 
 <!--this script will be that the description of the web choose depending in where is the user-->
 <script>
@@ -58,4 +61,23 @@
         }
         return textConvert;
     }
+</script>
+
+<!--this script is for the wallpaper black-->
+<script>
+// Function to toggle the 'active' class based on checkbox state
+function wallpaper_active() {
+    // Get the checkbox element by its ID
+    var checkbox = document.getElementById("check");
+    
+    // Get the div element by its ID
+    var wallpaperNavbar = document.getElementById("wallpaper-navbar");
+
+    // Toggle the 'active' class based on checkbox state
+    if (checkbox.checked) {
+        wallpaperNavbar.classList.add("active");
+    } else {
+        wallpaperNavbar.classList.remove("active");
+    }
+}
 </script>
