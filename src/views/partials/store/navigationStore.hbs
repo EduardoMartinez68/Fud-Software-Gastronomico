@@ -27,7 +27,7 @@
         <div class="indicator"></div>
     </ul>
 </div>
-
+<!--
 <script>
     const list=document.querySelectorAll('.list');
     function activeLink(){
@@ -37,4 +37,26 @@
     }
     list.forEach((item)=>
     item.addEventListener('click',activeLink))
+</script>
+-->
+
+<script>
+    const list = document.querySelectorAll('.list');
+    const menuNavBar = document.querySelectorAll('.navbar-menu');
+
+    function activeLink() {
+        list.forEach((item, index) => {
+            item.classList.remove('active');
+            menuNavBar[index].classList.remove('active'); // Remueve 'active' de menuNavBar también
+            if (item === this) {
+                item.classList.add('active');
+                menuNavBar[index].classList.add('active'); // Agrega 'active' a menuNavBar también
+                console.log(`Se activó el ítem número ${index + 1}`);
+            }
+        });
+    }
+
+    list.forEach((item) => {
+        item.addEventListener('click', activeLink);
+    });
 </script>

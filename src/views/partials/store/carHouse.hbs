@@ -1,0 +1,134 @@
+<div class="container-car-home">
+    <table id="table-car-home" border="1" class="table-container-car">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Cant.</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Chicken</td>
+                <td>100</td>
+                <td>1</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>Soda</td>
+                <td>25</td>
+                <td>2</td>
+                <td>50</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <button class="btn-container-cart" id="btn-total-home">Buy $150<i class="fi-icon fi-sr-shopping-cart"></i></button>
+</div>
+
+<!--this script is for add a fish to the car-->
+<script>
+    function addFish(product,price){
+        //get the table for his id
+        var tabla = document.getElementById("table-car-home");
+
+        // get the body of the table
+        var bodyTable = tabla.getElementsByTagName("tbody")[0];
+        if(!this_product_exists_in_the_cart(bodyTable,product)){
+            add_new_product_to_the_car(bodyTable,product,price);
+        }
+        notificationMessage(product+' add','The product was add with success');
+        update_total(bodyTable);
+    }
+
+    function add_new_product_to_the_car(bodyTable,product,price){
+        // create the new row
+        var newRow = bodyTable.insertRow();
+
+        // create the new data of the row
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+
+        // add data to the new row
+        cell1.innerHTML = product;
+        cell2.innerHTML = price;
+        cell3.innerHTML = 1;
+        cell4.innerHTML = price;
+    }
+
+    function this_product_exists_in_the_cart(bodyTable,newProduct){
+        // get all the row of body of the tabla
+        var rows = bodyTable.getElementsByTagName("tr");
+
+        // read all the row
+        for (var i = 0; i < rows.length; i++) {
+            // get the cell 0, 2 y 3 of the row
+            var dataRow=get_data_row(rows[i]);
+            var productCell = dataRow[0];
+            var priceCell = dataRow[1];
+            var cantCell = dataRow[2];
+            var totalCell = dataRow[3];
+
+            // get the text of the cell
+            var productText = productCell.textContent.trim(); // delate space on white
+            var priceText = priceCell.textContent.trim();
+            var cantText = cantCell.textContent.trim();
+            var totalText = totalCell.textContent.trim();
+
+            if(newProduct==productText){
+                update_data_in_car(priceText,cantText,cantCell,totalCell);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function get_data_row(row){
+        var productCell = row.getElementsByTagName("td")[0];
+        var priceCell = row.getElementsByTagName("td")[1];
+        var cantCell = row.getElementsByTagName("td")[2];
+        var totalCell = row.getElementsByTagName("td")[3];
+
+        return [productCell,priceCell,cantCell,totalCell];
+    }
+
+    function update_data_in_car(priceText,cantText,cantCell,totalCell) {
+        var price=parseFloat(priceText, 10);
+        var cant = parseFloat(cantText, 10) + 1;
+        var total = cant * price;
+
+        // update the data of the car
+        cantCell.textContent = cant;
+        totalCell.textContent = total;      
+    }
+
+    function update_total(bodyTable){
+        // get all the row of body of the tabla
+        var rows = bodyTable.getElementsByTagName("tr");
+        var btn = document.getElementById("btn-total-home");
+
+        var total=0;
+        // read all the row
+        for (var i = 0; i < rows.length; i++) {
+            // get the cell 0, 2 y 3 of the row
+            var dataRow=get_data_row(rows[i]);
+            var productCell = dataRow[0];
+            var priceCell = dataRow[1];
+            var cantCell = dataRow[2];
+            var totalCell = dataRow[3];
+
+            // get the text of the cell
+            var productText = productCell.textContent.trim(); // delate space on white
+            var priceText = priceCell.textContent.trim();
+            var cantText = cantCell.textContent.trim();
+            var totalText = totalCell.textContent.trim();
+            total+=parseFloat(totalText, 10);
+        }
+        btn.textContent ="Buy $"+total;
+    }
+</script>

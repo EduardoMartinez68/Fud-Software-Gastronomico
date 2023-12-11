@@ -183,6 +183,20 @@
         border-radius: 10%;
     }    
 }*/
+/***MENU STORE***/
+.card-img-top{
+    width: 100%;
+    border-radius: .4rem;
+}
+
+/*** NAVBAR MENU  ***/
+.navbar-menu.active{
+    display: block;
+}
+
+.navbar-menu{
+    display: none;
+}
 
 /*** other css*/
 .card-explore-our-combo{
