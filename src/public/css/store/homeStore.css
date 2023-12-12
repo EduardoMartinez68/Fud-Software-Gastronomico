@@ -189,6 +189,29 @@
     border-radius: .4rem;
 }
 
+.container-menu {
+    max-height: 655px; /* Puedes ajustar la altura máxima según tus necesidades */
+    overflow-y: auto;
+}
+
+.container-menu-store{
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.container-browser{
+    background-color: white;
+    border-radius: .5rem;
+}
+
+.barcode-menu{
+    background-color: transparent;
+    width: 82%;
+}
+
+
+
 /*** NAVBAR MENU  ***/
 .navbar-menu.active{
     display: block;
