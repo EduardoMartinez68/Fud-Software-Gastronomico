@@ -6,20 +6,23 @@
                 <th>Price</th>
                 <th>Cant.</th>
                 <th>Total</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Chicken</td>
-                <td>100</td>
-                <td>1</td>
-                <td>100</td>
+                <td class="dish">Chicken</td>
+                <td class="price">100</td>
+                <td><button class="btn-car" onclick="edit_car(this)">1</button></td>
+                <td class="total">100</td>
+                <th><button class="btn-car" onclick="delate_fish_car(this)"><i class="fi-icon-delate fi-sr-trash"></i></button></th>
             </tr>
             <tr>
-                <td>Soda</td>
-                <td>25</td>
-                <td>2</td>
-                <td>50</td>
+                <td class="dish">Soda</td>
+                <td class="price">25</td>
+                <td><button class="btn-car" onclick="edit_car(this)">1</button></td>
+                <td class="total">50</td>
+                <th><button class="btn-car" onclick="delate_fish_car(this)"><i class="fi-icon-delate fi-sr-trash"></i></button></th>
             </tr>
         </tbody>
     </table>
@@ -30,17 +33,18 @@
 
 <!--this script is for add a fish to the car-->
 <script>
+    //get the table for his id
+    const tabla = document.getElementById("table-car-home");
     function addFish(product,price){
-        //get the table for his id
-        var tabla = document.getElementById("table-car-home");
-
         // get the body of the table
         var bodyTable = tabla.getElementsByTagName("tbody")[0];
         if(!this_product_exists_in_the_cart(bodyTable,product)){
             add_new_product_to_the_car(bodyTable,product,price);
         }
+
+        //show a message of that we add the product to the car
         notificationMessage(product+' add','The product was add with success');
-        update_total(bodyTable);
+        update_total();
     }
 
     function add_new_product_to_the_car(bodyTable,product,price){
@@ -52,12 +56,20 @@
         var cell2 = newRow.insertCell(1);
         var cell3 = newRow.insertCell(2);
         var cell4 = newRow.insertCell(3);
+        var cell5=newRow.insertCell(4);
 
         // add data to the new row
-        cell1.innerHTML = product;
-        cell2.innerHTML = price;
-        cell3.innerHTML = 1;
-        cell4.innerHTML = price;
+        cell1.innerHTML = `<td class="dish">${product}</td>`;
+
+        cell2.innerHTML = `<td class="price">${price}</td>`;
+        cell2.className = 'price';
+
+        cell3.innerHTML = `<button class="btn-car" onclick="edit_car(this)">1</button>`;
+
+        cell4.innerHTML = `<td class="total">${price}</td>`;
+        cell4.className = 'total';
+
+        cell5.innerHTML = `<button class="btn-car" onclick="delate_fish_car(this)"><i class="fi-icon-delate fi-sr-trash"></i></button>`;
     }
 
     function this_product_exists_in_the_cart(bodyTable,newProduct){
@@ -102,12 +114,14 @@
         var cant = parseFloat(cantText, 10) + 1;
         var total = cant * price;
 
-        // update the data of the car
-        cantCell.textContent = cant;
-        totalCell.textContent = total;      
+        // update the data of the car  
+        cantCell.innerHTML = `<button class="btn-car" onclick="edit_car(this)">${cant}</button>`;
+        totalCell.innerHTML = `<td class="total">${total}</td>`;    
     }
 
-    function update_total(bodyTable){
+    function update_total(){
+        var bodyTable = tabla.getElementsByTagName("tbody")[0];
+
         // get all the row of body of the tabla
         var rows = bodyTable.getElementsByTagName("tr");
         var btn = document.getElementById("btn-total-home");
@@ -130,5 +144,55 @@
             total+=parseFloat(totalText, 10);
         }
         btn.textContent ="Buy $"+total;
+    }
+</script>
+
+<!--this script is for edit or delate the car-->
+<script>
+    function upload_cant_total(button){
+        // Obtener la fila (tr) padre del botón
+        var row = button.parentNode.parentNode;
+        console.log(row)
+        // Obtener el elemento con clase "text-price" dentro de la fila
+        var textPriceElement = row.querySelector('.price');
+        
+        // Obtener el elemento con clase "text-total" dentro de la fila
+        var textTotalElement = row.querySelector('.total');
+        
+        // Obtener y mostrar el valor actual
+        var currentCantValue = button.innerText;
+        var currentPriceValue = textPriceElement.innerText;
+        
+        // Actualizar el valor en la página si el usuario ingresó un nuevo valor
+        textTotalElement.innerText = parseFloat(currentCantValue) * parseFloat(currentPriceValue);
+        update_total();
+    }
+
+    async function delate_fish_car(button){
+        if(await questionMessage('Delate fish','Are you sure you want to remove this dish from the cart?')){
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            update_total();
+            notificationMessage('Delate Fish','The fish was delate')
+        }
+    }
+
+    async function edit_car(button){
+        //get old value
+        var oldValue = button.innerText;
+
+        //get the new value that the user need 
+        var newValue=parseFloat(await edit_cant_car('Edit Cant.',oldValue))
+        if (removal_amount(newValue)){
+            button.innerText = newValue; //upload the cant
+            upload_cant_total(button)
+        }
+        else{
+            delate_fish_car(button)
+        }
+    }
+
+    function removal_amount(newValue){
+        return (newValue  !='') && (newValue>0)
     }
 </script>

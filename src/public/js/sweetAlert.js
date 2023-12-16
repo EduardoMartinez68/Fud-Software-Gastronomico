@@ -127,9 +127,21 @@ function notificationMessage(title,text){
         timerProgressBar: true,
         icon:'success'
     });
-
-
 }
+
+function notificationMessageError(title,text){
+    Swal.fire({
+        title:title,
+        text: text,
+        position: 'top-end',
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        timerProgressBar: true,
+        icon:'error'
+    });
+}
+
 function discount_message(title,text){
     Swal.fire({
         title:title,
@@ -140,6 +152,27 @@ function discount_message(title,text){
         inputValue:'',
         confirmButtonColor: 'rgb(204,3,40)',
     })
+}
+
+async function edit_cant_car(title,cant) {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Cant." value="' + cant + '">',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const cant = Swal.getPopup().querySelector('#swal-input1').value;
+                const data = [cant];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
 }
 
 /* mensaje pedir informacion
