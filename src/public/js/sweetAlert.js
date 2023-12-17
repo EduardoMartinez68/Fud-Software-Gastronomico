@@ -154,6 +154,8 @@ function discount_message(title,text){
     })
 }
 
+/////////////////////////////////cart//////////////////////////////////////////////
+
 async function edit_cant_car(title,cant) {
     return new Promise((resolve, reject) => {
         Swal.fire({
@@ -174,6 +176,122 @@ async function edit_cant_car(title,cant) {
         });
     });
 }
+
+async function show_message_buy_car(title,customer,total,typeOfCurrency) {
+    var containerHtml=`
+        <style>
+            table {
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            th, td {
+            padding: 8px;
+            text-align: left;
+            }
+
+            tr {
+            margin-bottom: 1rem; /* Agrega espacio entre las filas */
+            }
+        </style>
+        
+        <br>
+        <label><i class="fi fi-sr-user"></i>${customer}</label><br>
+        <h5 class="title-company">${title}</h5>
+        <h1>$${total}<h1>
+        <hr>
+        <table border="1">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+                <label>💵 Cash</label><br>
+                <div class="input-group mb-3">
+                    <input id="money" type="text" class="form-control" placeholder="$0.00">
+
+                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
+                        <option value="MXN">$MXN 🇲🇽</option>
+                        <option value="USA">$USD 🇺🇸</option>
+                    </select>
+                </div>
+            </td>
+            <td>
+                <label>💳 Debit Card</label><br>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
+
+                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
+                        <option value="MXN">$MXN 🇲🇽</option>
+                        <option value="USA">$USD 🇺🇸</option>
+                    </select>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <label>💳 Credit Card</label><br>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
+
+                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
+                        <option value="MXN">$MXN 🇲🇽</option>
+                        <option value="USA">$USD 🇺🇸</option>
+                    </select>
+                </div>
+            </td>
+            <td>
+                <label>📑 Cheque</label><br>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
+
+                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
+                        <option value="MXN">$MXN 🇲🇽</option>
+                        <option value="USA">$USD 🇺🇸</option>
+                    </select>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <label>🏷️ Points</label><br>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Comment</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea placeholder="Comment">
+        </div>
+    `
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: '',
+            html:containerHtml,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Buy',
+            cancelButtonText: 'Exit',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const cant = Swal.getPopup().querySelector('#money').value;
+                const data = [cant];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
 
 /* mensaje pedir informacion
 Swal.fire({

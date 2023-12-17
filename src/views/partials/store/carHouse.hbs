@@ -10,25 +10,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="dish">Chicken</td>
-                <td class="price">100</td>
-                <td><button class="btn-car" onclick="edit_car(this)">1</button></td>
-                <td class="total">100</td>
-                <th><button class="btn-car" onclick="delate_fish_car(this)"><i class="fi-icon-delate fi-sr-trash"></i></button></th>
-            </tr>
-            <tr>
-                <td class="dish">Soda</td>
-                <td class="price">25</td>
-                <td><button class="btn-car" onclick="edit_car(this)">1</button></td>
-                <td class="total">50</td>
-                <th><button class="btn-car" onclick="delate_fish_car(this)"><i class="fi-icon-delate fi-sr-trash"></i></button></th>
-            </tr>
         </tbody>
     </table>
-
     <br>
-    <button class="btn-container-cart" id="btn-total-home">Buy $150<i class="fi-icon fi-sr-shopping-cart"></i></button>
+    <button class="btn-container-cart" id="btn-total-home" onclick="buy_my_car(this)">Buy $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
 </div>
 
 <!--this script is for add a fish to the car-->
@@ -194,5 +179,84 @@
 
     function removal_amount(newValue){
         return (newValue  !='') && (newValue>0)
+    }
+</script>
+
+<script>
+    function delate_all_car(){
+        delate_all_fish()
+    }
+
+    function delate_all_fish(){
+        var bodyTable = tabla.getElementsByTagName("tbody")[0];
+
+        // get all the row of body of the tabla
+        var rows = bodyTable.getElementsByTagName("tr");
+        var btn = document.getElementById("btn-total-home");
+
+        
+        // read all the row
+        for (var i = 0; i < rows.length; i++) {
+            // get the cell 0, 2 y 3 of the row
+            var dataRow=get_data_row(rows[i]);
+            var btnCell = dataRow[4];
+            delate_fish_car(btnCell);
+        }
+
+        var total=0;
+        btn.textContent ="Buy $"+total;
+    }
+
+    //const myCountry=getLocation()
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // You can use geolocation services, such as Google Maps API,
+                // to get detailed information about the location.
+
+                // In this example, only latitude and longitude are printed.
+                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+                // You can use geocoding services to get detailed information about the country.
+                // In this simple example, it is assumed that if the latitude is greater than 23.6345
+                // (approximately the latitude of Mexico), then the user is in Mexico; otherwise, they are in the USA.
+                return determineLocation(latitude, longitude);
+            }, function(error) {
+                console.error('Error getting location:', error.message);
+            });
+        } else {
+            console.error('Geolocation is not supported in this browser.');
+        }
+
+        return 'MXN'
+    }
+
+    function determineLocation(latitude, longitude) {
+        // You can use geocoding services here to get detailed information.
+        // In this simple example, it is assumed that if the latitude is greater than 23.6345
+        // (approximately the latitude of Mexico), then the user is in Mexico; otherwise, they are in the USA.
+        if (latitude > 23.6345) {
+            return 'MXN'
+        } else {
+            return 'USA'
+        }
+    }
+
+    async function buy_my_car(button){
+        var buttonText = button.textContent || button.innerText;
+        var numericValue = buttonText.match(/\d+/);
+        if (numericValue) {
+            var value = parseInt(numericValue[0], 10);
+            var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
+            if(dataBuy){
+                delate_all_car()
+                confirmationMessage('Thanks for his buy 👍','This is the change')
+            }
+        } else {
+
+        }
     }
 </script>
