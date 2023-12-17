@@ -55,6 +55,25 @@
     border-radius: 1rem;
 }
 
+.btn-button{
+    border: none;
+    font-size: 16px;
+    color: white;
+    padding: 8px 16px;
+    background-color: var(--color-company);
+    border-radius: 1.4rem;
+    margin: 14px;
+    cursor: pointer;
+    transition: .3s ease;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+}
+
+.btn-button:hover{
+    background-color: var(--color-hover);
+}
+
 
 /*global styles*/
 .btn-success {

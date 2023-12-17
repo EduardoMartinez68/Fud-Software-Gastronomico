@@ -1,0 +1,21 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-body">
+                    {{#if user.image}}
+                        <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-profile">
+                    {{else}}
+                        <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-profile">
+                    {{/if}}
+
+                    <h3>Welcome {{user.user_name}}</h3>
+                    <h4>{{user.name}}</h4>
+                    <label>{{user.email}}</label>
+                    <br>
+                    <button class="btn-button">Edit user</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -284,3 +284,10 @@
     background: var(--color-confirmation-hover);
     color: white;
 }
+
+
+/**profile**/
+.img-profile{
+    width: 50%;
+    border-radius: 2rem;
+}
