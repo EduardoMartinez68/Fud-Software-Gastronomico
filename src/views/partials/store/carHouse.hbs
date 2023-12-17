@@ -185,6 +185,7 @@
 <script>
     function delate_all_car(){
         delate_all_fish()
+        confirmationMessage('Thanks for his buy 👍','This is the change')
     }
 
     function delate_all_fish(){
@@ -197,12 +198,16 @@
         
         // read all the row
         for (var i = 0; i < rows.length; i++) {
-            // get the cell 0, 2 y 3 of the row
+            // get the cell 3 of the row
             var dataRow=get_data_row(rows[i]);
-            var btnCell = dataRow[4];
-            delate_fish_car(btnCell);
-        }
+            var btnCell = dataRow[3];
 
+            //get the row
+            var row = btnCell.parentNode.parentNode;
+            row.parentNode.removeChild(row); //delate row 
+        }
+        
+        //update the total
         var total=0;
         btn.textContent ="Buy $"+total;
     }
@@ -253,7 +258,6 @@
             var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
             if(dataBuy){
                 delate_all_car()
-                confirmationMessage('Thanks for his buy 👍','This is the change')
             }
         } else {
 
