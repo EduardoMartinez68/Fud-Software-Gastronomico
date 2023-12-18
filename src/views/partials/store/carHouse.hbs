@@ -206,7 +206,7 @@
             var row = btnCell.parentNode.parentNode;
             row.parentNode.removeChild(row); //delate row 
         }
-        
+
         //update the total
         var total=0;
         btn.textContent ="Buy $"+total;
@@ -251,16 +251,23 @@
     }
 
     async function buy_my_car(button){
-        var buttonText = button.textContent || button.innerText;
-        var numericValue = buttonText.match(/\d+/);
-        if (numericValue) {
-            var value = parseInt(numericValue[0], 10);
+        var value = get_value_car(button)
+        if(value>0){
             var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
             if(dataBuy){
                 delate_all_car()
             }
-        } else {
-
         }
+    }
+
+    function get_value_car(button){
+        var buttonText = button.textContent || button.innerText;
+        var numericValue = buttonText.match(/\d+/);
+        if (numericValue) {
+            var value = parseInt(numericValue[0], 10);
+            return value;
+        } else {
+            return 0;
+        } 
     }
 </script>

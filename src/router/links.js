@@ -339,15 +339,15 @@ router.get('/home',isLoggedIn,async(req,res)=>{
     var values = [parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const companies=result.rows;
-    //res.render('links/manager/home',{companies});
-    res.redirect('/fud/store-home')
+    res.render('links/manager/home',{companies});
+    //res.redirect('/fud/store-home')
 });
 
+//-------------------------------------------------------------------company
 router.get('/add-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     res.render('links/manager/company/addCompanys',{country});
 });
-
 
 router.get('/:id/edit-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
@@ -400,6 +400,7 @@ async function search_the_company_of_the_user(req){
     return result;
 }
 
+//----------------------------------------------------------------branches
 router.get('/:id/branches',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     const company=await check_company(req);

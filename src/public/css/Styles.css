@@ -36,6 +36,10 @@
 
 
 /*styles messages*/
+.container-message{
+    z-index: 100000000000000000;
+}
+
 .btn-confirm-message {
     background: var(--color-confirmation);
     color: white;

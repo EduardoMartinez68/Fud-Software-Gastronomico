@@ -103,19 +103,18 @@ async function add_product_category(department){
 };
 
 async function add_branch(branch){
-    return false;
-    /*
-    var queryText = 'INSERT INTO branches (id_company, name, description)'
-        +'VALUES ($1, $2, $3)';
+    var queryText = 'INSERT INTO branches (id_company, name_branch, alias, id_manager,cell_phone,email,id_country,street,num_ext,num_int,postal_code,cologne,city,state,municipality)'
+        +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
 
     var values = [branch.id_company,branch.name,branch.description] 
+    console.log(branch)
     try{
-        await database.query(queryText, values);
+        await database.query(queryText, branch);
         return true;
     } catch (error) {
         console.error('Error al insertar en la base de datos:', error);
         return false;
-    }*/
+    }
 };
 
 
