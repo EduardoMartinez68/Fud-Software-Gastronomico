@@ -25,7 +25,7 @@ async function delate_image(id){
 }
 
 async function get_image(id){
-    var queryText = 'SELECT * FROM companies Where  id= $1';
+    var queryText = 'SELECT * FROM "User".companies Where  id= $1';
     var values = [id];
     const result = await database.query(queryText, values);
     return result.rows[0].path_logo;
@@ -41,9 +41,14 @@ async function get_data(req){
     return result.rows[0];
 }
 
+async function get_country(){
+    const resultCountry = await database.query('SELECT * FROM "Fud".country');
+    return resultCountry.rows;
+}
+
 async function check_company(req){
     const {id}=req.params;
-    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
     var values = [id,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const company=result.rows;
@@ -52,7 +57,7 @@ async function check_company(req){
 
 async function check_company_other(req){
     const {id_company}=req.params;
-    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_user= $2';
     var values = [id_company,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const company=result.rows;
@@ -333,9 +338,9 @@ router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
     res.render('links/manager/employee/employeeSchedules');
 })
 
-
+//-------------------------------------------------------------------company
 router.get('/home',isLoggedIn,async(req,res)=>{
-    var queryText = 'SELECT * FROM companies Where id_user= $1';
+    var queryText = 'SELECT * FROM "User".companies Where id_users= $1';
     var values = [parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const companies=result.rows;
@@ -343,7 +348,6 @@ router.get('/home',isLoggedIn,async(req,res)=>{
     //res.redirect('/fud/store-home')
 });
 
-//-------------------------------------------------------------------company
 router.get('/add-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     res.render('links/manager/company/addCompanys',{country});
@@ -363,16 +367,11 @@ router.get('/:id/edit-company',isLoggedIn,async(req,res)=>{
 router.get('/:id/delate-company',isLoggedIn,async(req,res)=>{
     const {id}=req.params;
     await delate_image(id);
-    var queryText = 'DELETE FROM companies WHERE id= $1 and id_user= $2';
+    var queryText = 'DELETE FROM "User".companies WHERE id= $1 and id_users= $2';
     var values = [id,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     res.redirect('/fud/home');
 })
-
-async function get_country(){
-    const resultCountry = await database.query('SELECT * FROM country');
-    return resultCountry.rows;
-}
 
 router.get('/:id/company-home',isLoggedIn,async(req,res)=>{
     req.company=await search_the_company_of_the_user(req);
@@ -393,7 +392,7 @@ function the_user_have_this_company(company){
 async function search_the_company_of_the_user(req){
     //we will search the company of the user 
     const {id}=req.params;
-    var queryText = 'SELECT * FROM companies WHERE id= $1 and id_user= $2';
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
     var values = [id,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     

@@ -52,7 +52,7 @@ function compare_password(P1,P2){
 }
 
 async function add_user(user){
-    var queryText = 'INSERT INTO users (user_name, name, email,password,birthday) VALUES ($1, $2, $3,$4,$5)';
+    var queryText = 'INSERT INTO Fud.users (user_name, name, email,password,birthday) VALUES ($1, $2, $3,$4,$5)';
     var values = [user.user_name,user.name,user.email,user.password,user.birthday] 
     await database.query(queryText,values);
 }

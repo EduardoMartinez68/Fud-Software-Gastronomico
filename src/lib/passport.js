@@ -25,7 +25,7 @@ passport.use('local.login', new LocalStrategy({
 }));
 
 async function search_user(email){
-    var queryText = 'SELECT * FROM users WHERE email = $1';
+    var queryText = 'SELECT * FROM "Fud".users WHERE email = $1';
     var values = [email] 
     return await database.query(queryText, values);
 }
@@ -81,11 +81,13 @@ passport.use('local.signup', new LocalStrategy({
 
 
 async function create_a_new_user(req,userName,password){
-    const {Name,email,birthday} = req.body; //get the value of the from
+    const {first_name,second_name,last_name,email,birthday} = req.body; //get the value of the from
     //create a new user 
     const newUser={
         user_name:userName,
-        name: Name,
+        first_name: first_name,
+        second_name: second_name,
+        last_name: last_name,
         email:email,
         password:password,
         birthday:birthday
@@ -102,14 +104,14 @@ async function create_a_new_user(req,userName,password){
 }
 
 async function this_user_exists(user_name){
-    var queryText = 'SELECT * FROM users Where user_name = $1';
+    var queryText = 'SELECT * FROM "Fud".users Where user_name = $1';
     var values = [user_name];
     var user=await database.query(queryText, values);
     return user.rows.length>0
 }
 
 async function this_email_exists(email){
-    var queryText = 'SELECT * FROM users Where email = $1';
+    var queryText = 'SELECT * FROM "Fud".users Where email = $1';
     var values = [email];
     var user=await database.query(queryText, values);
     return user.rows.length>0
@@ -131,15 +133,15 @@ function compare_password(P1,P2){
 }
 
 async function search_id(email){
-    var queryText = 'SELECT id FROM users WHERE email = $1';
+    var queryText = 'SELECT id FROM "Fud".users WHERE email = $1';
     var values = [email];
     const result = await database.query(queryText, values);
     return result.rows[0].id;
 }
 
 async function add_user(user){
-    var queryText = 'INSERT INTO users (user_name, name, email,password,birthday) VALUES ($1, $2, $3,$4,$5)';
-    var values = [user.user_name,user.name,user.email,user.password,user.birthday] 
+    var queryText = 'INSERT INTO "Fud".users (user_name, first_name,second_name,last_name, email, password, rol_user, id_packs_fud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+    var values = [user.user_name,user.first_name,user.second_name,user.last_name,user.email,user.password,0,0] 
     return await database.query(queryText, values);
 }
 
@@ -154,7 +156,7 @@ passport.serializeUser((user,done)=>{
 });
 
 passport.deserializeUser(async (id,done)=>{
-    var queryText = 'SELECT * FROM users Where id = $1';
+    var queryText = 'SELECT * FROM "Fud".users Where id = $1';
     var values = [id];
     const obj = await database.query(queryText, values);
 
