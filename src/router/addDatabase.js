@@ -58,8 +58,8 @@ async function add_user(user){
 }
 
 async function add_company(company){
-    var queryText = 'INSERT INTO companies (id_user, path_logo, name,alias,description,representative,ceo,id_country,'
-        +'phone,cell_phone,email,street,num_ext,num_int,postal_code,cologne,city,states,municipality)'
+    var queryText = 'INSERT INTO "User".companies (id_users, path_logo, name,alias,description,representative,ceo,id_country,'
+        +'phone,cell_phone,email,address,num_ext,num_int,postal_code,cologne,city,states,municipality)'
         +'VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)';
 
     var values = [company.id_user,company.path_logo,company.name,company.alias,company.description,company.representative,company.ceo,
@@ -75,7 +75,7 @@ async function add_company(company){
 }
 
 async function add_product_department(department){
-    var queryText = 'INSERT INTO product_department (id_company, name, description)'
+    var queryText = 'INSERT INTO "Kitchen".product_department (id_companies, name, description)'
         +'VALUES ($1, $2, $3)';
 
     var values = [department.id_company,department.name,department.description] 
@@ -89,7 +89,7 @@ async function add_product_department(department){
 };
 
 async function add_product_category(department){
-    var queryText = 'INSERT INTO product_category (id_company, name, description)'
+    var queryText = 'INSERT INTO "Kitchen".product_category (id_companies, name, description)'
         +'VALUES ($1, $2, $3)';
 
     var values = [department.id_company,department.name,department.description] 
@@ -103,7 +103,7 @@ async function add_product_category(department){
 };
 
 async function add_branch(branch){
-    var queryText = 'INSERT INTO branches (id_company, name_branch, alias, id_manager,cell_phone,email,id_country,street,num_ext,num_int,postal_code,cologne,city,state,municipality)'
+    var queryText = 'INSERT INTO "Company".branches (id_companies, name_branch, alias, id_manager,cell_phone,email,id_country,street,num_ext,num_int,postal_code,cologne,city,state,municipality)'
         +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
 
     var values = [branch.id_company,branch.name,branch.description] 
@@ -126,7 +126,7 @@ async function add_branch(branch){
 
 
 async function add_department(name,description){
-    var queryText = 'INSERT INTO product_department (id_company, name, description)'
+    var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
         +'VALUES ($1, $2, $3)';
 
     var values = [name,description] 

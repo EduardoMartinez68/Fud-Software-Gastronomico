@@ -28,7 +28,7 @@ countries = [
 
 # Configuración de la conexión a PostgreSQL
 host = 'localhost'
-database = 'empresa'
+database = 'Fud'
 user = 'postgres'
 password = 'bobesponja48'
 
@@ -42,7 +42,7 @@ def insert_country(country):
         cursor = connection.cursor()
 
         # Consulta SQL para insertar el país en la tabla "contry"
-        sql_query = "INSERT INTO contry (name) VALUES (%s);"
+        sql_query = 'INSERT INTO "Fud".country (name) VALUES (%s);'
 
         # Ejecutar la consulta con el país actual
         cursor.execute(sql_query, (country,))
@@ -62,5 +62,4 @@ def insert_country(country):
         
 # Recorrer la lista de países y guardarlos en la base de datos
 for country in countries:
-    pass 
-    #insert_country(country)
+    insert_country(country)

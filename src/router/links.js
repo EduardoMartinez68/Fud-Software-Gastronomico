@@ -35,7 +35,7 @@ async function get_data(req){
     const {id}=req.params;
     var id_user=parseInt(req.user.id);
 
-    var queryText = 'SELECT * FROM products_dish_supplies Where id_company=$1';
+    var queryText = 'SELECT * FROM products_dish_supplies Where id_companies=$1';
     var values = [id];
     const result = await database.query(queryText, values);
     return result.rows[0];
@@ -57,7 +57,7 @@ async function check_company(req){
 
 async function check_company_other(req){
     const {id_company}=req.params;
-    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_user= $2';
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
     var values = [id_company,parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const company=result.rows;
@@ -66,7 +66,7 @@ async function check_company_other(req){
 
 async function get_data_company(req,nameTable){
     const {id}=req.params;
-    var queryText = 'SELECT * FROM '+nameTable+' WHERE id_company= $1';
+    var queryText = 'SELECT * FROM "Company".'+nameTable+' WHERE id_companies= $1';
     var values = [id];
     const result = await database.query(queryText, values);
     const data=result.rows;
@@ -102,7 +102,7 @@ router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
 //----------------------------------------------------------------category
 async function get_category(req){
     const {id}=req.params;
-    var queryText = 'SELECT * FROM product_category WHERE id_company= $1';
+    var queryText = 'SELECT * FROM "Kitchen".product_category WHERE id_companies= $1';
     var values = [id];
     const result = await database.query(queryText, values);
     const data=result.rows;
@@ -110,7 +110,7 @@ async function get_category(req){
 }
 
 async function delate_product_category(id){
-    var queryText = 'DELETE FROM product_category WHERE id = $1';
+    var queryText = 'DELETE FROM "Kitchen".product_category WHERE id = $1';
     var values = [id];
 
     try {
@@ -195,7 +195,7 @@ router.get('/:id_company/:id/:name/:description/edit-food-category',isLoggedIn,a
 
 async function update_product_category(id, name, description) {
     var values = [name, description, id];
-    var queryText = 'UPDATE product_category SET name = $1, description = $2 WHERE id = $3';
+    var queryText = 'UPDATE "Kitchen".product_category SET name = $1, description = $2 WHERE id = $3';
 
     try {
         await database.query(queryText, values);
@@ -209,7 +209,7 @@ async function update_product_category(id, name, description) {
 //----------------------------------------------------------------department
 async function get_department(req){
     const {id}=req.params;
-    var queryText = 'SELECT * FROM product_department WHERE id_company= $1';
+    var queryText = 'SELECT * FROM "Kitchen".product_department WHERE id_companies= $1';
     var values = [id];
     const result = await database.query(queryText, values);
     const data=result.rows;
@@ -217,7 +217,7 @@ async function get_department(req){
 }
 
 async function delate_product_department(id){
-    var queryText = 'DELETE FROM product_department WHERE id = $1';
+    var queryText = 'DELETE FROM "Kitchen".product_department WHERE id = $1';
     var values = [id];
 
     try {
@@ -283,7 +283,7 @@ router.get('/:id_company/:id/:name/:description/edit-food-department',isLoggedIn
 
 async function update_product_department(id, name, description) {
     var values = [name, description, id];
-    var queryText = 'UPDATE product_department SET name = $1, description = $2 WHERE id = $3';
+    var queryText = 'UPDATE "Kitchen".product_department SET name = $1, description = $2 WHERE id = $3';
 
     try {
         await database.query(queryText, values);

@@ -41,7 +41,7 @@ function mandatory_company_data(req){
 }
 
 async function compare_company_with_name(req,name){
-    var queryText = 'SELECT * FROM companies Where name = $1 and id_user= $2';
+    var queryText = 'SELECT * FROM "User".companies Where name = $1 and id_users= $2';
     var values = [name,parseInt(req.user.id)];
     var user=await database.query(queryText, values);
     return user.rows.length>0
@@ -127,7 +127,7 @@ async function this_department_exists(req,name){
     const {id}=req.params;
     
     //we going to search this department in the list of the database
-    var queryText = 'SELECT * FROM product_department Where id_company = $1 and name= $2';
+    var queryText = 'SELECT * FROM "Kitchen".product_department Where id_companies = $1 and name= $2';
     var values = [id,name];
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
@@ -175,7 +175,7 @@ async function this_category_exists(req,name){
     const {id}=req.params;
     
     //we going to search this department in the list of the database
-    var queryText = 'SELECT * FROM product_department Where id_company = $1 and name= $2';
+    var queryText = 'SELECT * FROM "Kitchen".product_department Where id_companies = $1 and name= $2';
     var values = [id,name];
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
@@ -223,7 +223,7 @@ async function this_branch_exists(req,name){
     const {id}=req.params;
     
     //we going to search this department in the list of the database
-    var queryText = 'SELECT * FROM branches Where id_company = $1 and name_branch= $2';
+    var queryText = 'SELECT * FROM "Company".branches Where id_companies = $1 and name_branch= $2';
     var values = [id,name];
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
