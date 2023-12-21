@@ -1,0 +1,48 @@
+
+<table class="table table-hover"> <!--table-bordered-->
+    <colgroup>
+        <col style="width: 5%;">
+        <col style="width: 12%;">
+        <col style="width: 12%;">
+        <col style="width: 30%;">
+        <col style="width: 2%;">
+        <col style="width: 22%;">
+    </colgroup>
+    <thead>
+    <tr>
+        <th></th>
+        <th>Barcode</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th><i class="fi-icon fi-ss-inventory-alt"></i></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><img src="https://www.gob.mx/cms/uploads/article/main_image/87125/tomate.jpg" class="img-s-p"></td>
+        <td>01020102</td>
+        <td>Jito</td>
+        <td>Jito</td>
+        <td><i class="fi-icon fi-ss-check-circle"></i></td>
+        <td>
+            <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
+            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies({{id}},{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+        </td>
+    </tr>
+
+    {{#each supplies}}
+        <tr>
+        <td><img src="https://www.gob.mx/cms/uploads/article/main_image/87125/tomate.jpg" class="img-s-p"></td>
+        <td>{{barcode}}</td>
+        <td>{{name}}</td>
+        <td>{{description}}</td>
+        <td><i class="fi-icon fi-ss-check-circle"></i></td>
+        <td>
+            <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
+            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies({{id}},{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+        </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

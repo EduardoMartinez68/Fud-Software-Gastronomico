@@ -1,0 +1,16 @@
+.img-s-p{
+    width: 100px; 
+    height: 100px; 
+    object-fit: cover; 
+}
+th, td {
+    padding: 8px;
+    text-align: center; /* Centra el contenido */
+  }
+
+
+.img-from-supplies_products{
+    max-width: 200px;
+    height: 200px; 
+    object-fit: cover; 
+}

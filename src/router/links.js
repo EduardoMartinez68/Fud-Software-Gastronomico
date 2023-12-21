@@ -340,13 +340,35 @@ router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
 
 //-------------------------------------------------------------------company
 router.get('/home',isLoggedIn,async(req,res)=>{
+    await home_render(req,res)
+});
+
+
+async function home_render(req,res){
+    //CEO
+    if(req.user.rol_user==0){
+        await home_company(req,res)
+    }
+    else if(req.user.rol_user==1){ //Manager
+        await home_company(req,res)
+    }
+    else{
+        await home_employees(req,res)
+    }
+}
+
+async function home_employees(req,res){
+    res.redirect('/fud/store-home')
+}
+
+async function home_company(req,res){
     var queryText = 'SELECT * FROM "User".companies Where id_users= $1';
     var values = [parseInt(req.user.id)];
     const result = await database.query(queryText, values);
     const companies=result.rows;
     res.render('links/manager/home',{companies});
-    //res.redirect('/fud/store-home')
-});
+}
+
 
 router.get('/add-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
@@ -394,6 +416,29 @@ async function search_the_company_of_the_user(req){
     const {id}=req.params;
     var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
     var values = [id,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    
+    return result;
+}
+
+//----------------------------------------------------------------supplies and products 
+router.get('/:id/company-supplies',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    const supplies=search_company_supplies_or_products(req,true);
+
+    if(company.length>0){
+        res.render('links/manager/supplies_and_products/supplies',{supplies,company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+});
+
+async function search_company_supplies_or_products(req,supplies){
+    //we will search the company of the user 
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and supplies= $2';
+    var values = [id,supplies];
     const result = await database.query(queryText, values);
     
     return result;

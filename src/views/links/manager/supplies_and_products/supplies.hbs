@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/manager/supplies_products.css">
+<br>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-7">
+            {{>CEO/supplies/browser}}
+            {{>CEO/supplies/table}}
+        </div>
+        
+      <div class="col-md-5">
+          <div class="card">
+              <div class="card-body">
+                {{>CEO/supplies/from}}
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    async function delate_supplies(id,id_company){
+        if(await questionMessage('Delate Supplies','Do you want to delete this supplies?')){
+            window.location.href = "/fud/"+id_company+"/"+id+"/delate-company-supplies_product";
+        }
+    }
+
+    function edit_supplies(id,id_company,description){
+      await new_company_supplies('Add a new supplies')
+      //window.location.href = "/fud/"+id_company+"/"+id+"/edit-company-supplies_product";
+    }
+
+    function add_supplies(id_company){
+      console.log(id_company)
+      //await new_company_supplies('Add a new supplies')
+    }
+</script>

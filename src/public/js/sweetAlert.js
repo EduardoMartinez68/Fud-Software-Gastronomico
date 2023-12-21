@@ -8,8 +8,6 @@ function regularMessage(title,text){
             cancelButton:"btn-cancel-message"
         }
     });
-
-
 }
 
 function confirmationMessage(title,text){
@@ -98,8 +96,6 @@ async function edit_data_departments(title,name,description) {
     });
 }
 
-
-
 function warningMessage(title,text){
     Swal.fire({
         title:title,
@@ -152,6 +148,62 @@ function discount_message(title,text){
         inputValue:'',
         confirmButtonColor: 'rgb(204,3,40)',
     })
+}
+/////////////////////////////////supplies or products//////////////////////////////////////////////
+async function new_company_supplies(title) {
+    var containerHtml=`
+        <input id="barcode" class="swal2-input" placeholder="Barcode"><br>
+        <input id="name" class="swal2-input" placeholder="Name"><br>
+        <input id="description" class="swal2-input" placeholder="Description">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+            <label class="form-check-label" for="invalidCheck2">
+            Use inventory
+            </label>
+      </div>
+    `
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:containerHtml,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#swal-input1').value;
+                const description = Swal.getPopup().querySelector('#swal-input2').value;
+                const data = [name, description];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
+
+async function edit_company_supplies(title,name,description) {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Name" value="' + name + '">' +
+                '<br> <input id="swal-input2" class="swal2-input" placeholder="Description" value="' + description + '">',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#swal-input1').value;
+                const description = Swal.getPopup().querySelector('#swal-input2').value;
+                const data = [name, description];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
 }
 
 /////////////////////////////////cart//////////////////////////////////////////////
@@ -291,14 +343,3 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
         });
     });
 }
-
-
-/* mensaje pedir informacion
-Swal.fire({
-    title:"Welcome!",
-    text: "I would like that you be a kawaii girl",
-
-    input:'text',
-    inputPlaceholder:'Product Name',
-    inputValue:''
-})*/

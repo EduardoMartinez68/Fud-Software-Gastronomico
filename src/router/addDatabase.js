@@ -139,15 +139,6 @@ async function add_department(name,description){
     }
 }
 
-//add company
-/*
-router.get('/',async (req,res)=>{
-    const users=await database.query('SELECT * FROM users');
-    console.log(users);
-    res.send('list');
-});*/
-
-
 module.exports={
     add_company,
     add_product_department,
