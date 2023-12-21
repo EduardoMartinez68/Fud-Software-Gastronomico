@@ -6,6 +6,11 @@ const helpers=require('../lib/helpers.js');
 const addDatabase=require('../router/addDatabase');
 const update=require('../router/updateDatabase');
 
+
+const express=require('express');
+const router=express.Router();
+const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
+
 //add company
 passport.use('local.add_company', new LocalStrategy({
     usernameField: 'name',
@@ -181,6 +186,17 @@ async function this_category_exists(req,name){
     return companies.rows.length>0;
 }
 
+//add supplies 
+passport.use('local.add_supplies', new LocalStrategy({
+    usernameField: 'name',
+    passwordField: 'name',
+    passReqToCallback: true
+}, async (req ,name, password, done) => {
+    var path_image=create_a_new_image(req);
+    console.log(req.body);
+    done(null,false,req.flash('success','the department was add with success'));
+}));
+
 
 //add branch
 passport.use('local.add_branch', new LocalStrategy({
@@ -228,3 +244,40 @@ async function this_branch_exists(req,name){
     var companies=await database.query(queryText, values);
     return companies.rows.length>0;
 }
+
+
+
+//add supplies
+router.post('/fud/:id/add-company-supplies',async (req,res)=>{
+    const {id}=req.params;
+    const newSupplies=get_supplies_company(req);
+    if(await addDatabase.add_supplies_company(newSupplies)){
+        req.flash('success','the supplies was add with success')
+    }
+    else{
+        req.flash('message','the supplies not was add with success')
+    }
+    
+    res.redirect('/fud/'+id+'/company-supplies');
+});
+
+function get_supplies_company(req){
+    const {id}=req.params;
+    const use_inventory= (req.body.inventory == 'on')
+    const {barcode,name,description}=req.body
+    const img=create_a_new_image(req)
+
+    const supplies={
+        id_company:id,
+        img,
+        barcode,
+        name,
+        description,
+        use_inventory,
+        supplies:true
+    }
+
+    return supplies;
+}
+
+module.exports=router;

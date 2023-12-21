@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const passport=require('passport');
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
-
+//---------------------------------------------------------------------web
 router.get('/fud/signup',isNotLoggedIn,(req,res)=>{
     res.render('links/web/singup');
 });
@@ -33,7 +33,7 @@ router.post('/fud/login',passport.authenticate('local.login',{
     failureFlash:true
 }));
 
-//from
+//---------------------------------------------------------------------CEO
 router.post('/fud/addCompany',passport.authenticate('local.add_company',{
     successRedirect: '/fud/add-company',
     failureRedirect: '/fud/add-company',
@@ -63,10 +63,6 @@ router.post('/fud/:id/add-branch',passport.authenticate('local.add_branch',{
     failureRedirect: '/fud/home',
     failureFlash:true
 }));
-
-//fud/13/food-department
-
-
 
 
 module.exports=router;

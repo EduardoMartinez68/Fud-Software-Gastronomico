@@ -118,8 +118,45 @@ async function add_branch(branch){
 };
 
 
+//////////////////////////////supplies 
+async function add_supplies_company(supplies){
+    if(await this_supplies_exists(supplies.id_company,supplies.barcode)){
+        return false;
+    }
+    else{
+        return await save_supplies_company(supplies)
+    }
+}
 
+async function save_supplies_company(supplies){
+    var queryText = 'INSERT INTO "Kitchen".products_and_supplies (id_companies, img, barcode, name, description, supplies, use_inventory)'
+        +'VALUES ($1, $2, $3, $4, $5, $6, $7)';
 
+    var values = [supplies.id_company,supplies.img,supplies.barcode,supplies.name,supplies.description,true,supplies.use_inventory] 
+
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+}
+
+async function search_supplies_company(id_company,barcode){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and barcode= $2';
+    var values = [id_company,barcode];
+    const result = await database.query(queryText, values);
+    
+    return result;
+}
+
+async function this_supplies_exists(id_company,barcode){
+    //we will search the company of the user 
+    const supplies=search_supplies_company(id_company,barcode);
+    return supplies>0;
+}
 
 //////////////////////---
 
@@ -143,5 +180,6 @@ module.exports={
     add_company,
     add_product_department,
     add_product_category,
-    add_branch
+    add_branch,
+    add_supplies_company
 };

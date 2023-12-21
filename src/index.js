@@ -13,7 +13,7 @@ const path=require('path');
 //initializations 
 const app=express();
 require('./lib/passport');
-require('./lib/addFrom');
+//require('./lib/addFrom');
 require('./lib/editFrom');
 
 //settings
@@ -54,7 +54,7 @@ app.use(session({
 
 
 
-
+//activate the our library 
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
@@ -85,7 +85,7 @@ const companyName='/fud' //Füd
 app.use(require('./router'))
 app.use(require('./router/authentication'))
 app.use(companyName,require('./router/links'))
-
+app.use(require('./lib/addFrom'));
 
 //add database
 //app.use(companyName,require('./router/addDatabase'))

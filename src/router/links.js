@@ -424,8 +424,8 @@ async function search_the_company_of_the_user(req){
 //----------------------------------------------------------------supplies and products 
 router.get('/:id/company-supplies',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
-    const supplies=search_company_supplies_or_products(req,true);
-
+    const supplies=await search_company_supplies_or_products(req,true);
+    console.log(supplies)
     if(company.length>0){
         res.render('links/manager/supplies_and_products/supplies',{supplies,company});
     }
@@ -441,7 +441,7 @@ async function search_company_supplies_or_products(req,supplies){
     var values = [id,supplies];
     const result = await database.query(queryText, values);
     
-    return result;
+    return result.rows;
 }
 
 //----------------------------------------------------------------branches

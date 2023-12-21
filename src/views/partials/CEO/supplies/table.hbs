@@ -19,29 +19,25 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><img src="https://www.gob.mx/cms/uploads/article/main_image/87125/tomate.jpg" class="img-s-p"></td>
-        <td>01020102</td>
-        <td>Jito</td>
-        <td>Jito</td>
-        <td><i class="fi-icon fi-ss-check-circle"></i></td>
-        <td>
-            <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies({{id}},{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
-        </td>
-    </tr>
-
     {{#each supplies}}
         <tr>
-        <td><img src="https://www.gob.mx/cms/uploads/article/main_image/87125/tomate.jpg" class="img-s-p"></td>
-        <td>{{barcode}}</td>
-        <td>{{name}}</td>
-        <td>{{description}}</td>
-        <td><i class="fi-icon fi-ss-check-circle"></i></td>
-        <td>
-            <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies({{id}},{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
-        </td>
+            {{#if img}}
+                <td><img src="/img/uploads/{{img}}" class="img-s-p"></td>
+            {{else}}
+                <td><img src="https://cdn-icons-png.flaticon.com/512/415/415682.png" class="img-s-p"></td>
+            {{/if}}
+            <td>{{barcode}}</td>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            {{#if use_inventory}}
+                <td><i class="fi-icon fi-ss-check-circle"></i></td>
+            {{else}}
+                <td></td>
+            {{/if}}
+            <td>
+                <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
+                <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies({{id}},{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+            </td>
         </tr>
     {{/each}}
     </tbody>
