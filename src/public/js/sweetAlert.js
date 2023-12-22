@@ -162,11 +162,11 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
         </div>        
 
-        <input id="swal-input1" class="swal2-input" placeholder="Barcode" value="${barcode}"><br>
-        <input id="swal-input2" class="swal2-input" placeholder="Name" value="${name}"><br>
-        <input id="swal-input3" class="swal2-input" placeholder="Description" value="${description}"><br>
+        <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}"><br>
+        <input id="name" class="swal2-input" placeholder="Name" value="${name}"><br>
+        <input id="description" class="swal2-input" placeholder="Description" value="${description}"><br>
 
-        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory ? 'checked' : ''}>
+        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
         <label class="form-check-label" for="invalidCheck2">
             Use inventory
         </label>
@@ -183,9 +183,12 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
-                const name = Swal.getPopup().querySelector('#swal-input1').value;
-                const description = Swal.getPopup().querySelector('#swal-input2').value;
-                const data = [name, description];
+                const image = Swal.getPopup().querySelector('#inputImg').value;
+                const barcode = Swal.getPopup().querySelector('#barcode').value;
+                const name = Swal.getPopup().querySelector('#name').value;
+                const description = Swal.getPopup().querySelector('#description').value;
+                const use_inventory = Swal.getPopup().querySelector('#invalidCheck2').checked;
+                const data = [image,barcode,name, description,use_inventory];
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()

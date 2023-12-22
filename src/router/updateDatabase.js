@@ -18,7 +18,7 @@ async function update_company(company){
 
 function get_query_edit_company(company){
     if (company.path_logo==""){
-        var queryText=`UPDATE companies SET name='${company.name}', alias='${company.alias}', description='${company.description}', 
+        var queryText=`UPDATE "User".companies SET name='${company.name}', alias='${company.alias}', description='${company.description}', 
         representative='${company.representative}', ceo='${company.ceo}', id_country='${company.id_country}', phone='${company.phone}', 
         cell_phone='${company.cell_phone}', email='${company.email}', street='${company.street}', num_ext='${company.num_o}', 
         num_int='${company.num_i}', postal_code='${company.postal_code}', cologne='${company.cologne}', city='${company.city}', 
@@ -27,7 +27,7 @@ function get_query_edit_company(company){
         return queryText;
     }
     else{
-        var queryText = `UPDATE companies SET path_logo= '${company.path_logo}', name='${company.name}', alias='${company.alias}', description='${company.description}', 
+        var queryText = `UPDATE "User".companies SET path_logo= '${company.path_logo}', name='${company.name}', alias='${company.alias}', description='${company.description}', 
         representative='${company.representative}', ceo='${company.ceo}', id_country='${company.id_country}', phone='${company.phone}', 
         cell_phone='${company.cell_phone}', email='${company.email}', street='${company.street}', num_ext='${company.num_o}', 
         num_int='${company.num_i}', postal_code='${company.postal_code}', cologne='${company.cologne}', city='${company.city}', 
@@ -38,6 +38,15 @@ function get_query_edit_company(company){
 
 }
 
+function get_query_edit_supplies_company(supplies){
+    //this code is for load a new image 
+    var queryText = `UPDATE "Kitchen".products_and_supplies SET barcode= '${supplies.barcode}', name='${supplies.name}', description='${supplies.description}', 
+    use_inventory='${supplies.use_inventory}'`;
+    
+    return queryText;
+}
+
 module.exports={
-    update_company
+    update_company,
+    get_query_edit_supplies_company
 };

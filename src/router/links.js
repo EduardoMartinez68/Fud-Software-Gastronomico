@@ -494,6 +494,45 @@ async function delate_supplies_company(id,pathOmg){
     }
 }
 
+router.get('/:id_company/:id/:barcode/:name/:description/:useInventory/company-supplies',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const newSupplies=get_new_data_supplies_company(req)
+    console.log(req.params)
+    if(await update_supplies_company(newSupplies)){
+        req.flash('success','the supplies was upload with success')
+    }
+    else{
+        req.flash('message','the supplies not was upload with success')
+    }
+    res.redirect('/fud/'+id_company+'/company-supplies');
+});
+
+function get_new_data_supplies_company(req){
+    const {id,id_company,barcode,name,description,useInventory}=req.params;
+    const newSupplies={
+        id,
+        id_company,
+        barcode,
+        name,
+        description,
+        use_inventory: (useInventory=='true')
+    }
+    return newSupplies;
+}
+
+async function update_supplies_company(newSupplies){
+    try{
+        var queryText = `UPDATE "Kitchen".products_and_supplies SET barcode = $1, name = $2, description = $3, 
+        use_inventory = $4 WHERE id = $5`;
+        var values = [newSupplies.barcode, newSupplies.name, newSupplies.description, newSupplies.use_inventory, newSupplies.id];
+        await database.query(queryText, values); // update supplies
+        return true;
+    }catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
 //----------------------------------------------------------------branches
 router.get('/:id/branches',isLoggedIn,async(req,res)=>{
     const country=await get_country();
