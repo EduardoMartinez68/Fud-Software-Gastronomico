@@ -150,6 +150,48 @@ function discount_message(title,text){
     })
 }
 
+/////////////////////////////////supplies//////////////////////////////////////////////
+async function edit_supplies_company(title,img,barcode,name,description,use_inventory) {
+    var containerHtml = `
+        <div class="form-group">
+            <center>
+                <img src="/img/uploads/${img}" class="img-from-supplies_products" id="imgEmployee">
+            </center>
+        </div>
+        <div class="form-group">
+            <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+        </div>        
+
+        <input id="swal-input1" class="swal2-input" placeholder="Barcode" value="${barcode}"><br>
+        <input id="swal-input2" class="swal2-input" placeholder="Name" value="${name}"><br>
+        <input id="swal-input3" class="swal2-input" placeholder="Description" value="${description}"><br>
+
+        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory ? 'checked' : ''}>
+        <label class="form-check-label" for="invalidCheck2">
+            Use inventory
+        </label>
+    `;
+
+
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html: containerHtml,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#swal-input1').value;
+                const description = Swal.getPopup().querySelector('#swal-input2').value;
+                const data = [name, description];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
 
 /////////////////////////////////cart//////////////////////////////////////////////
 

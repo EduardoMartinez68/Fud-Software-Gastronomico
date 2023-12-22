@@ -120,6 +120,7 @@ async function add_branch(branch){
 
 //////////////////////////////supplies 
 async function add_supplies_company(supplies){
+    console.log(await this_supplies_exists(supplies.id_company,supplies.barcode))
     if(await this_supplies_exists(supplies.id_company,supplies.barcode)){
         return false;
     }
@@ -148,14 +149,13 @@ async function search_supplies_company(id_company,barcode){
     var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and barcode= $2';
     var values = [id_company,barcode];
     const result = await database.query(queryText, values);
-    
-    return result;
+    return result.rows;
 }
 
 async function this_supplies_exists(id_company,barcode){
     //we will search the company of the user 
-    const supplies=search_supplies_company(id_company,barcode);
-    return supplies>0;
+    const supplies=await search_supplies_company(id_company,barcode);
+    return supplies.length>0;
 }
 
 //////////////////////---

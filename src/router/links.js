@@ -24,6 +24,33 @@ async function delate_image(id){
       });
 }
 
+//this is a function for get the path of the image of a table
+async function get_path_img(schema, table, id) {
+    var queryText = `SELECT * FROM "${schema}".${table} WHERE id=$1`;
+    var values = [id];
+    
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0].img;
+    } catch (error) {
+        console.error('Error to search the path img:', error.message);
+        throw error;
+    }
+}
+
+//this function is for delate the image of the tabla of the file img/uploads
+async function delate_image_upload(pathImg){
+    var pathImage=path.join(__dirname, '../public/img/uploads', pathImg);
+    console.log(pathImage);
+    fs.unlink(pathImage, (error) => {
+        if (error) {
+          console.error('Error to delate image:', error);
+        } else {
+          console.log('Image delate success');
+        }
+      });
+}
+
 async function get_image(id){
     var queryText = 'SELECT * FROM "User".companies Where  id= $1';
     var values = [id];
@@ -425,7 +452,6 @@ async function search_the_company_of_the_user(req){
 router.get('/:id/company-supplies',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     const supplies=await search_company_supplies_or_products(req,true);
-    console.log(supplies)
     if(company.length>0){
         res.render('links/manager/supplies_and_products/supplies',{supplies,company});
     }
@@ -442,6 +468,30 @@ async function search_company_supplies_or_products(req,supplies){
     const result = await database.query(queryText, values);
     
     return result.rows;
+}
+
+router.get('/:id_company/:id/delate-supplies-company',isLoggedIn,async(req,res)=>{
+    const {id,id_company}=req.params;
+    const pathOmg=await get_path_img('Kitchen','products_and_supplies',id)
+    if(await delate_supplies_company(id,pathOmg)){
+        req.flash('success','the supplies was delate with success')
+    }
+    else{
+        req.flash('message','the supplies not was delate')
+    }
+    res.redirect('/fud/'+id_company+'/company-supplies');
+})
+
+async function delate_supplies_company(id,pathOmg){
+    try{
+        var queryText = 'DELETE FROM "Kitchen".products_and_supplies WHERE id=$1';
+        var values = [id];
+        await database.query(queryText, values); //delate supplies
+        await delate_image_upload(pathOmg); //delate img
+        return true;
+    }catch (error) {
+        return false;
+    }
 }
 
 //----------------------------------------------------------------branches
