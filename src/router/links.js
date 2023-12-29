@@ -451,14 +451,26 @@ async function search_the_company_of_the_user(req){
 //----------------------------------------------------------------supplies and products 
 router.get('/:id/company-supplies',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
-    const supplies=await search_company_supplies_or_products(req,true);
+    const supplies_products=await search_company_supplies_or_products(req,true);
     if(company.length>0){
-        res.render('links/manager/supplies_and_products/supplies',{supplies,company});
+        res.render('links/manager/supplies_and_products/supplies',{supplies_products,company});
     }
     else{
         res.redirect('/fud/home');
     }
 });
+
+router.get('/:id/company-products',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    const supplies_products=await search_company_supplies_or_products(req,false);
+    if(company.length>0){
+        res.render('links/manager/supplies_and_products/products',{supplies_products,company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+});
+
 
 async function search_company_supplies_or_products(req,supplies){
     //we will search the company of the user 
@@ -470,16 +482,32 @@ async function search_company_supplies_or_products(req,supplies){
     return result.rows;
 }
 
+async function this_is_a_supplies_or_a_products(id){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id= $1';
+    const result = await database.query(queryText, [id]);
+    
+    return result.rows[0].supplies;
+}
+
 router.get('/:id_company/:id/delate-supplies-company',isLoggedIn,async(req,res)=>{
     const {id,id_company}=req.params;
     const pathOmg=await get_path_img('Kitchen','products_and_supplies',id)
+    const thisIsASupplies=await this_is_a_supplies_or_a_products(id)
+
     if(await delate_supplies_company(id,pathOmg)){
-        req.flash('success','the supplies was delate with success')
+        req.flash('success','the object was delate with success')
     }
     else{
-        req.flash('message','the supplies not was delate')
+        req.flash('message','the object not was delate')
     }
-    res.redirect('/fud/'+id_company+'/company-supplies');
+
+    if(thisIsASupplies){
+        res.redirect('/fud/'+id_company+'/company-supplies');
+    }
+    else{
+        res.redirect('/fud/'+id_company+'/company-products');
+    }
 })
 
 async function delate_supplies_company(id,pathOmg){
@@ -495,16 +523,23 @@ async function delate_supplies_company(id,pathOmg){
 }
 
 router.get('/:id_company/:id/:barcode/:name/:description/:useInventory/company-supplies',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
+    const {id_company,id}=req.params;
     const newSupplies=get_new_data_supplies_company(req)
-    console.log(req.params)
+    const thisIsASupplies=await this_is_a_supplies_or_a_products(id)
+
     if(await update_supplies_company(newSupplies)){
-        req.flash('success','the supplies was upload with success')
+        req.flash('success','the object was upload with success')
     }
     else{
-        req.flash('message','the supplies not was upload with success')
+        req.flash('message','the object not was upload with success')
     }
-    res.redirect('/fud/'+id_company+'/company-supplies');
+
+    if(thisIsASupplies){
+        res.redirect('/fud/'+id_company+'/company-supplies');
+    }
+    else{
+        res.redirect('/fud/'+id_company+'/company-products');
+    }
 });
 
 function get_new_data_supplies_company(req){
@@ -532,6 +567,17 @@ async function update_supplies_company(newSupplies){
         return false;
     }
 }
+
+//----------------------------------------------------------------combos
+router.get('/:id/combos',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/combo/combos',{company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
 
 //----------------------------------------------------------------branches
 router.get('/:id/branches',isLoggedIn,async(req,res)=>{

@@ -133,7 +133,7 @@ async function save_supplies_company(supplies){
     var queryText = 'INSERT INTO "Kitchen".products_and_supplies (id_companies, img, barcode, name, description, supplies, use_inventory)'
         +'VALUES ($1, $2, $3, $4, $5, $6, $7)';
 
-    var values = [supplies.id_company,supplies.img,supplies.barcode,supplies.name,supplies.description,true,supplies.use_inventory] 
+    var values = [supplies.id_company,supplies.img,supplies.barcode,supplies.name,supplies.description,supplies.this_is_a_supplies,supplies.use_inventory] 
 
     try{
         await database.query(queryText, values);

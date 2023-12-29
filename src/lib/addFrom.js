@@ -250,7 +250,7 @@ async function this_branch_exists(req,name){
 //add supplies
 router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     const {id}=req.params;
-    const newSupplies=get_supplies_company(req);
+    const newSupplies=get_supplies_or_product_company(req,true);
     if(await addDatabase.add_supplies_company(newSupplies)){
         req.flash('success','the supplies was add with success')
     }
@@ -261,7 +261,20 @@ router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     res.redirect('/fud/'+id+'/company-supplies');
 });
 
-function get_supplies_company(req){
+router.post('/fud/:id/add-company-products',async (req,res)=>{
+    const {id}=req.params;
+    const newSupplies=get_supplies_or_product_company(req,false);
+    if(await addDatabase.add_supplies_company(newSupplies)){
+        req.flash('success','the product was add with success')
+    }
+    else{
+        req.flash('message','the product not was add with success')
+    }
+    
+    res.redirect('/fud/'+id+'/company-products');
+});
+
+function get_supplies_or_product_company(req,this_is_a_supplies){
     const {id}=req.params;
     const use_inventory= (req.body.inventory == 'on')
     const {barcode,name,description}=req.body
@@ -274,7 +287,7 @@ function get_supplies_company(req){
         name,
         description,
         use_inventory,
-        supplies:true
+        this_is_a_supplies:this_is_a_supplies
     }
 
     return supplies;
