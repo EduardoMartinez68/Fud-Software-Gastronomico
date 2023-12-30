@@ -1,0 +1,62 @@
+<div class="form-group">
+    <h6>Supplies and products</h6><br>
+    {{>CEO/combo/browser}}
+    <table class="table table-hover"> <!--table-bordered-->
+        <colgroup>
+            <col style="width: 30%;">
+            <col style="width: 30%;">
+            <col style="width: 30%;">
+            <col style="width: 10%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th><label>Barcode</label></th>
+            <th><label>Name</label></th>
+            <th><label>Cant.</label></th>
+            <th><label></label></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tomato</td>
+                <td>Tomato</td>
+                <td><button class="btn" onclick="edit_cant(this)">1</button></td>
+                <td><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<script>
+    async function edit_cant(button) {
+        // get the row
+        var row = button.closest('tr');
+        
+        // get the value of the cant
+        var currentCant = row.cells[2].innerText;
+
+        //get the new cant
+        var newCant = await edit_cant_car('Edit quantity',currentCant);
+        newCant = parseFloat(newCant);
+
+        // Validate if the user entered a value and update the quantity if valid
+        if (!isNaN(newCant) && newCant > 0) {
+            row.cells[2].innerHTML = '<button class="btn" onclick="edit_cant(this)">' + newCant + '</button>';
+        }
+        else{
+            delate_row(button);
+        }
+    }
+
+    async function delate_row(button){
+        // get the row
+        var row = button.closest('tr');
+
+        if(await questionMessage('Delate object','Do you want to delete this object?')){
+            row.remove();
+        }
+    }
+</script>

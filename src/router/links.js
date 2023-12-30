@@ -579,6 +579,27 @@ router.get('/:id/combos',isLoggedIn,async(req,res)=>{
     }
 })
 
+router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/combo/addCombo',{company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+//----------------------------------------------------------------providers
+router.get('/:id/providers',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/providers/providers',{company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
 //----------------------------------------------------------------branches
 router.get('/:id/branches',isLoggedIn,async(req,res)=>{
     const country=await get_country();

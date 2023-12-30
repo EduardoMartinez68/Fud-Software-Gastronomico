@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/addUser/addUser.css">
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <center><h5>Add a new combo</h5></center>
+            <hr>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/fud/addCombo" method="POST" enctype="multipart/form-data" id="comboForm">
+                        {{>CEO/combo/from}}
+                        <hr>
+                        {{>CEO/combo/table}}
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block" id="btn-send">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //this script is for not send the from when the user do make on button
+    document.getElementById("comboForm").addEventListener("submit", function (event) {
+        if (event.submitter && event.submitter.id === "btn-send") {
+        } else {
+            event.preventDefault();
+        }
+    });
+</script>

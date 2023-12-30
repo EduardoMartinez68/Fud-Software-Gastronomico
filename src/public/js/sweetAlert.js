@@ -150,6 +150,29 @@ function discount_message(title,text){
     })
 }
 
+/////////////////////////////////combo//////////////////////////////////////////////
+
+async function edit_cant_combo(title,cant) {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Cant." value="' + cant + '">',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const cant = Swal.getPopup().querySelector('#swal-input1').value;
+                const data = [cant];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
 /////////////////////////////////supplies//////////////////////////////////////////////
 async function edit_supplies_company(title,img,barcode,name,description,use_inventory) {
     var containerHtml = `
