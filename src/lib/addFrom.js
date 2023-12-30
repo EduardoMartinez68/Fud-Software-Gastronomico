@@ -197,7 +197,6 @@ passport.use('local.add_supplies', new LocalStrategy({
     done(null,false,req.flash('success','the department was add with success'));
 }));
 
-
 //add branch
 passport.use('local.add_branch', new LocalStrategy({
     usernameField: 'name',
@@ -245,8 +244,6 @@ async function this_branch_exists(req,name){
     return companies.rows.length>0;
 }
 
-
-
 //add supplies
 router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     const {id}=req.params;
@@ -293,4 +290,10 @@ function get_supplies_or_product_company(req,this_is_a_supplies){
     return supplies;
 }
 
+//add combo
+router.post('/fud/:id/add-company-combo',async (req,res)=>{
+    const {id}=req.params;
+    res.send(req.body);
+    //res.redirect('/fud/'+id+'/combos');
+});
 module.exports=router;

@@ -7,7 +7,9 @@
             <hr>
             <div class="card">
                 <div class="card-body">
-                    <form action="/fud/addCombo" method="POST" enctype="multipart/form-data" id="comboForm">
+                    {{#each company}}
+                    <form action="/fud/{{id}}/add-company-combo" method="POST" enctype="multipart/form-data" id="comboForm">
+                    {{/each}}
                         {{>CEO/combo/from}}
                         <hr>
                         {{>CEO/combo/table}}
@@ -21,11 +23,12 @@
     </div>
 </div>
 
-
+<script src="/js/manager/combo/fromCombo.js"></script>
 <script>
     //this script is for not send the from when the user do make on button
     document.getElementById("comboForm").addEventListener("submit", function (event) {
         if (event.submitter && event.submitter.id === "btn-send") {
+            get_id_products_and_supplies();
         } else {
             event.preventDefault();
         }

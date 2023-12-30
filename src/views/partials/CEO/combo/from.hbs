@@ -22,7 +22,7 @@
 <div class="row">
     <div class="col">
         <label for="">Category</label>
-        <select class="form-control">
+        <select class="form-control" name="category">
             {{#each category}}
                 <option value="{{id}}">{{name}}</option>
             {{/each}}
@@ -30,7 +30,7 @@
     </div>
     <div class="col">
         <label for="">Department</label>
-        <select class="form-control">
+        <select class="form-control"  name="department">
             {{#each departments}}
                 <option value="{{id}}">{{name}}</option>
             {{/each}}
