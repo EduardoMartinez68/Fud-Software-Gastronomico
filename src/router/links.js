@@ -582,7 +582,11 @@ router.get('/:id/combos',isLoggedIn,async(req,res)=>{
 router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
-        res.render('links/manager/combo/addCombo',{company});
+        const departments=await get_department(req);
+        const category=await get_category(req);
+        const supplies=await search_company_supplies_or_products(req,true);
+        const products=await search_company_supplies_or_products(req,false);
+        res.render('links/manager/combo/addCombo',{company,departments,category,supplies,products});
     }
     else{
         res.redirect('/fud/home');

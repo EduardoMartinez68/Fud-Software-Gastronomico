@@ -1,7 +1,7 @@
 <div class="form-group">
     <h6>Supplies and products</h6><br>
     {{>CEO/combo/browser}}
-    <table class="table table-hover"> <!--table-bordered-->
+    <table class="table table-hover" id="table-supplies-products"> <!--table-bordered-->
         <colgroup>
             <col style="width: 30%;">
             <col style="width: 30%;">
@@ -17,12 +17,6 @@
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Tomato</td>
-                <td>Tomato</td>
-                <td><button class="btn" onclick="edit_cant(this)">1</button></td>
-                <td><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></td>
-            </tr>
         </tbody>
     </table>
 </div>
