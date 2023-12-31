@@ -10,7 +10,11 @@
                     {{#each company}}
                     <form action="/fud/{{id}}/add-company-combo" method="POST" enctype="multipart/form-data" id="comboForm">
                     {{/each}}
-                        {{>CEO/combo/from}}
+                        {{#if combo}}
+                            {{>CEO/combo/fromEdit}}
+                        {{else}}
+                            {{>CEO/combo/from}}
+                        {{/if}}
                         <hr>
                         {{>CEO/combo/table}}
                         <div class="form-group">

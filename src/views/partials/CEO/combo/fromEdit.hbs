@@ -1,0 +1,64 @@
+{{#each combo}}
+<div class="form-group">
+    <center>
+        {{#if img}}
+            <img src="/img/uploads/{{img}}"
+                class="logoCompany" id="imgEmployee">
+        {{else}}
+            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"
+                class="logoCompany" id="imgEmployee">
+        {{/if}}
+    </center>
+</div>
+<div class="form-group">
+    <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+</div>
+
+<div class="row">
+    <div class="col">
+        <label for="">Barcode</label>
+        <input type="text" class="form-control" placeholder="Barcode" name="barcode" required value="{{barcode}}">
+    </div>
+    <div class="col">
+        <label for="">Name</label>
+        <input type="text" class="form-control" placeholder="Name" name="name" required value="{{name}}">
+    </div>
+</div>
+{{/each}}
+<br>
+<div class="row">
+    <div class="col">
+        <label for="">Category</label>
+        <select class="form-control" name="category">
+            {{#each category}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="col">
+        <label for="">Department</label>
+        <select class="form-control"  name="department">
+            {{#each departments}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+</div>
+{{#each combo}}
+<div class="form-group">
+    <label>Description</label><br>
+    <textarea type="tex" class="form-control" name="description"  placeholder="Description">{{description}}</textarea>
+</div>
+{{/each}}
+
+
+
+<script src="/js/manager/addEmployee.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="js/chosen.jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".chosen-select").chosen({no_results_text:'No hay resultados para '});
+});
+</script>

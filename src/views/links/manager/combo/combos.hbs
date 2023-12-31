@@ -71,37 +71,7 @@
         }
     }
 
-    async function edit_supplies(id,id_company,img,barcode,nameDepartment,descriptionDepartment,use_inventory){
-        //we will to delate the space in 
-        if(descriptionDepartment=="-"){
-            descriptionDepartment=""
-        }
-
-        //we will to get the data of the new department
-        const data=await edit_supplies_company('Edit supplies',img,barcode,nameDepartment,descriptionDepartment,use_inventory);
-        if(data){
-            //get the data of the from 
-            var newImg = data[0];
-            var newBarcode = data[1];
-            var name = data[2];
-            var description = data[3];
-            var useInventory = data[4];
-
-            //we will to see if be a name
-            if(newBarcode!=""){
-                if(name!=""){
-                    if(description==""){
-                        description="-";
-                    }            
-                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${description}/${useInventory}/company-supplies`;
-                }
-                else{
-                    warningMessage('Error','You need add a name to your supplies');
-                }
-            }
-            else{
-                warningMessage('Error','You need add a barcode to your supplies');
-            }
-        }
+    function edit_supplies(id,id_company){
+        window.location.href = "/fud/"+id_company+"/"+id+"/edit-combo-company";
     }
 </script>

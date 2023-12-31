@@ -482,6 +482,15 @@ async function search_company_supplies_or_products(req,supplies){
     return result.rows;
 }
 
+async function search_company_supplies_or_products_with_company(id_company,supplies){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and supplies= $2';
+    var values = [id_company,supplies];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
 async function this_is_a_supplies_or_a_products(id){
     //we will search the company of the user 
     var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id= $1';
@@ -568,6 +577,15 @@ async function update_supplies_company(newSupplies){
     }
 }
 
+//----------------------------------------------------------------
+async function get_data_tabla_with_id_company(id_company,schema,table){
+    var queryText = `SELECT * FROM "${schema}".${table} WHERE id_companies= $1`;
+    var values = [id_company];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
 //----------------------------------------------------------------combos
 router.get('/:id/combos',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
@@ -597,12 +615,51 @@ router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
         const category=await get_category(req);
         const supplies=await search_company_supplies_or_products(req,true);
         const products=await search_company_supplies_or_products(req,false);
-        res.render('links/manager/combo/addCombo',{company,departments,category,supplies,products});
+        const suppliesCombo=[]
+        res.render('links/manager/combo/addCombo',{company,departments,category,supplies,products,suppliesCombo});
     }
     else{
         res.redirect('/fud/home');
     }
 })
+
+
+router.get('/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const company=[id_company]
+    const departments=await get_data_tabla_with_id_company(id_company,"Kitchen","product_department");
+    const category=await get_data_tabla_with_id_company(id_company,"Kitchen","product_category");
+
+    const supplies=await search_company_supplies_or_products_with_company(id_company,true);
+    const products=await search_company_supplies_or_products_with_company(id_company,false);
+    const suppliesCombo=await search_supplies_combo(req);
+    const combo=await search_combo(req)
+    res.render('links/manager/combo/addCombo',{company,departments,category,supplies,products,combo,suppliesCombo});
+})
+
+async function search_combo(req){
+    //we will search the company of the user 
+    const {id,id_company}=req.params;
+    var queryText = 'SELECT * FROM "Kitchen".dishes_and_combos WHERE id_companies= $1 and id=$2';
+    var values = [id_company,id];
+    const result = await database.query(queryText, values);
+    
+    return result.rows; 
+}
+
+async function search_supplies_combo(req){
+    const { id } = req.params;
+    var queryText = `
+        SELECT tsc.*, pas.name AS product_name, pas.barcode AS product_barcode
+        FROM "Kitchen".table_supplies_combo tsc
+        JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
+        WHERE tsc.id_dishes_and_combos = $1
+    `;
+    var values = [id];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
 
 router.get('/:id_company/:id/delate-combo-company',isLoggedIn,async(req,res)=>{
     const {id,id_company}=req.params;
