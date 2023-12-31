@@ -120,7 +120,6 @@ async function add_branch(branch){
 
 //////////////////////////////supplies 
 async function add_supplies_company(supplies){
-    console.log(await this_supplies_exists(supplies.id_company,supplies.barcode))
     if(await this_supplies_exists(supplies.id_company,supplies.barcode)){
         return false;
     }
@@ -158,7 +157,95 @@ async function this_supplies_exists(id_company,barcode){
     return supplies.length>0;
 }
 
-//////////////////////---
+//////////////////////combos
+async function add_combo_company(combo){
+    if(await this_combo_exists(combo.id_company,combo.barcode)){
+        return false;
+    }
+    else{
+        //we save the new combo
+        const idCombo=await save_combo_company(combo)
+        if(idCombo!=null){
+            //we going to save all the supplies and products of the combo
+            return await save_all_supplies_combo_company(idCombo,combo.supplies)
+        }
+
+        return false;
+    }
+}
+
+async function save_combo_company(combo) {
+    var queryText = 'INSERT INTO "Kitchen".dishes_and_combos (id_companies, img, barcode, name, description) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+
+    var values = [combo.id_company, combo.path_image, combo.barcode, combo.name, combo.description];
+
+    try {
+        const result = await database.query(queryText, values);
+
+        if (result.rowCount > 0) {
+            const insertedId = result.rows[0].id;
+            return insertedId;
+        } else {
+            console.error('No se insertaron filas en la base de datos.');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return null;
+    }
+}
+
+
+async function save_all_supplies_combo_company(id_combo,supplies){
+    try{
+        //create a loop for get all the supplies and products of the combo
+        for(var i=0;i<=supplies.length;i++){
+            //get the data of the supplies
+            var data=supplies[i]
+            await save_supplies_combo_company(id_combo,data); //save the data
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos combo:', error);
+        return false;
+    }
+}
+
+async function save_supplies_combo_company(id_dishes_and_combos,supplies){
+    var queryText = 'INSERT INTO "Kitchen".table_supplies_combo (id_dishes_and_combos, id_products_and_supplies, amount, unity)'
+        +'VALUES ($1, $2, $3, $4)';
+
+    var values = [id_dishes_and_combos,supplies.id_products_and_supplies,supplies.amount,supplies.unity] 
+
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+}
+
+async function search_component_company(id_company,barcode,schema,nameTable){
+    //we will search the company of the user 
+    var queryText = `SELECT * FROM "${schema}".${nameTable} WHERE id_companies = $1 AND barcode = $2`;
+    var values = [id_company,barcode];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
+async function this_combo_exists(id_company,barcode){
+    //we will search the company of the user 
+    const supplies=await search_component_company(id_company,barcode,'Kitchen','dishes_and_combos');
+    return calculate_components(supplies)
+}
+
+function calculate_components(data){
+    return data.length>0;
+}
+
+
 
 
 
@@ -181,5 +268,6 @@ module.exports={
     add_product_department,
     add_product_category,
     add_branch,
-    add_supplies_company
+    add_supplies_company,
+    add_combo_company
 };

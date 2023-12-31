@@ -293,7 +293,76 @@ function get_supplies_or_product_company(req,this_is_a_supplies){
 //add combo
 router.post('/fud/:id/add-company-combo',async (req,res)=>{
     const {id}=req.params;
-    res.send(req.body);
-    //res.redirect('/fud/'+id+'/combos');
+    const {barcodeProducts}=req.body;
+
+    //we will see if the user add a product or supplies 
+    if(barcodeProducts==''){
+        req.flash('message','the combo need have a product or some supplies')
+        res.redirect('/fud/'+id+'/add-combos');
+    }
+    else{
+        //get the new combo
+        const combo=create_a_new_combo(req)
+
+        //we will see if can add the combo to the database
+        if(await addDatabase.add_combo_company(combo)){
+            req.flash('success','the combo was add with success')
+        }
+        else{
+            req.flash('message','the combo not was add')
+        }
+
+        res.redirect('/fud/'+id+'/combos');
+    }
 });
+
+function create_a_new_combo(req){
+    const {barcode,name,description,barcodeProducts}=req.body;
+    const {id}=req.params;
+
+    const supplies=parse_barcode_products(barcodeProducts)
+    var path_image=create_a_new_image(req);
+    const combo={
+        id_company: id,
+        path_image,
+        barcode,
+        name,
+        description,
+        supplies
+    }
+
+    return combo;
+}
+
+
+function parse_barcode_products(barcodeProducts) {
+    // Remove leading and trailing brackets if present
+    barcodeProducts = barcodeProducts.trim().replace(/^\[|\]$/g, '');
+
+    // Split the string by '],[' to get each object
+    var objects = barcodeProducts.split('],[');
+
+    // Create an array to store the resulting objects
+    var result = [];
+
+    // Iterate over the objects and build an array for each one
+    for (var i = 0; i < objects.length; i++) {
+        // Remove leading and trailing brackets for each object
+        var objectData = objects[i].replace(/^\[|\]$/g, '');
+
+        // Split the values of the object by ',' and convert them as needed
+        var values = objectData.split(',');
+        var idProduct = parseInt(values[0]);
+        var amount = parseInt(values[1]);
+        var unity = values[2].trim();
+
+        // Check if the values are valid before adding them to the result
+        if (!isNaN(idProduct) && !isNaN(amount) && unity) {
+            result.push({ idProduct: idProduct, amount: amount, unity: unity });
+        }
+    }
+
+    return result;
+}
+
 module.exports=router;

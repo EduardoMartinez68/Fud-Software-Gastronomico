@@ -572,12 +572,23 @@ async function update_supplies_company(newSupplies){
 router.get('/:id/combos',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
-        res.render('links/manager/combo/combos',{company});
+        const combos=await get_all_combos(req)
+        res.render('links/manager/combo/combos',{company,combos});
     }
     else{
         res.redirect('/fud/home');
     }
 })
+
+async function get_all_combos(req){
+    //we will search the company of the user 
+    const {id}=req.params;
+    var queryText = 'SELECT * FROM "Kitchen".dishes_and_combos WHERE id_companies= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
 
 router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
