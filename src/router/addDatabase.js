@@ -199,7 +199,7 @@ async function save_combo_company(combo) {
 async function save_all_supplies_combo_company(id_combo,supplies){
     try{
         //create a loop for get all the supplies and products of the combo
-        for(var i=0;i<=supplies.length;i++){
+        for(var i=0;i<supplies.length;i++){
             //get the data of the supplies
             var data=supplies[i]
             await save_supplies_combo_company(id_combo,data); //save the data
@@ -216,7 +216,7 @@ async function save_supplies_combo_company(id_dishes_and_combos,supplies){
     var queryText = 'INSERT INTO "Kitchen".table_supplies_combo (id_dishes_and_combos, id_products_and_supplies, amount, unity)'
         +'VALUES ($1, $2, $3, $4)';
 
-    var values = [id_dishes_and_combos,supplies.id_products_and_supplies,supplies.amount,supplies.unity] 
+    var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,get_unity(supplies.unity)] 
 
     try{
         await database.query(queryText, values);
@@ -225,6 +225,26 @@ async function save_supplies_combo_company(id_dishes_and_combos,supplies){
         console.error('Error al insertar en la base de datos:', error);
         return false;
     }
+}
+
+function get_unity(unity){
+
+    if(unity=='pza' || unity=='pza]'){
+        return 0
+    }
+    if(unity=='kg' || unity=='kg]'){
+        return 1
+    }
+    if(unity=='g' || unity=='g]'){
+        return 2
+    }
+    if(unity=='l' || unity=='l]'){
+        return 1
+    }
+    if(unity=='ml' || unity=='ml]'){
+        return 2
+    }
+    return 3
 }
 
 async function search_component_company(id_company,barcode,schema,nameTable){

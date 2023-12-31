@@ -604,6 +604,44 @@ router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
     }
 })
 
+router.get('/:id_company/:id/delate-combo-company',isLoggedIn,async(req,res)=>{
+    const {id,id_company}=req.params;
+    const pathImg=await get_path_img('Kitchen','dishes_and_combos',id)
+    if(await delate_combo_company(id,pathImg)){
+        req.flash('success','the combo was delate with success')
+    }
+    else{
+        req.flash('message','the combo not was delate')
+    }
+
+    res.redirect('/fud/'+id_company+'/combos');
+})
+
+async function delate_combo_company(id,pathImg){
+    try{
+        var queryText = 'DELETE FROM "Kitchen".dishes_and_combos WHERE id=$1';
+        var values = [id];
+        await delete_all_supplies_combo(id);
+        await delate_image_upload(pathImg); //delate img
+        await database.query(queryText, values); //delate combo
+        return true;
+    }catch (error) {
+        return false;
+    }
+}
+
+async function delete_all_supplies_combo(id) {
+    try {
+        var queryText = 'DELETE FROM "Kitchen".table_supplies_combo WHERE id_dishes_and_combos = $1';
+        var values = [id];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
 //----------------------------------------------------------------providers
 router.get('/:id/providers',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
