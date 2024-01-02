@@ -328,12 +328,13 @@ function create_a_new_combo(req){
         barcode,
         name,
         description,
+        id_product_department:req.body.department,
+        id_product_category:req.body.category,
         supplies
     }
 
     return combo;
 }
-
 
 function parse_barcode_products(barcodeProducts) {
     // Remove leading and trailing brackets if present
@@ -364,5 +365,33 @@ function parse_barcode_products(barcodeProducts) {
 
     return result;
 }
+
+//edit combo fud/1/9/edit-combos
+router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
+    const {id_company,id}=req.params;
+    const {barcodeProducts}=req.body;
+
+    //we will see if the user add a product or supplies 
+    if(barcodeProducts==''){
+        req.flash('message','the combo need have a product or some supplies')
+        res.redirect('/fud/'+id_company+'/'+id+'/edit-combo-company');
+    }
+    else{
+        //get the new combo
+        const combo=create_a_new_combo(req)
+
+        //we will see if can add the combo to the database
+        if(await update.update_combo(combo)){
+            req.flash('success','the combo was add with success')
+        }
+        else{
+            req.flash('message','the combo not was add')
+        }
+    }
+
+    res.redirect('/fud/'+id_company+'/combos');
+})
+
+
 
 module.exports=router;

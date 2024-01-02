@@ -8,9 +8,9 @@
             <div class="card">
                 <div class="card-body">
                     {{#each company}}
-                    <form action="/fud/{{id}}/add-company-combo" method="POST" enctype="multipart/form-data" id="comboForm">
+                    <form action="/fud/{{id}}/{{id_combo}}/edit-combo-company" method="POST" enctype="multipart/form-data" id="comboForm">
                     {{/each}}
-                        {{>CEO/combo/from}}
+                        {{>CEO/combo/fromEdit}}
                         <hr>
                         {{>CEO/combo/table}}
                         <div class="form-group">

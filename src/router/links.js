@@ -625,16 +625,20 @@ router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
 
 
 router.get('/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
-    const company=[id_company]
+    const {id,id_company}=req.params;
+    const company=[{
+            id:id_company,
+            id_combo: id
+        }]
     const departments=await get_data_tabla_with_id_company(id_company,"Kitchen","product_department");
+    console.log(departments)
     const category=await get_data_tabla_with_id_company(id_company,"Kitchen","product_category");
 
     const supplies=await search_company_supplies_or_products_with_company(id_company,true);
     const products=await search_company_supplies_or_products_with_company(id_company,false);
     const suppliesCombo=await search_supplies_combo(req);
     const combo=await search_combo(req)
-    res.render('links/manager/combo/addCombo',{company,departments,category,supplies,products,combo,suppliesCombo});
+    res.render('links/manager/combo/editCombo',{company,departments,category,supplies,products,combo,suppliesCombo});
 })
 
 async function search_combo(req){

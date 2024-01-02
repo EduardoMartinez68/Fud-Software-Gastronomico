@@ -20,11 +20,13 @@
         </thead>
         <tbody>
             {{#each suppliesCombo}}
-                <th><label>{{product_barcode}}</label></th>
-                <th><label>{{product_name}}</label></th>
-                <th><button class="btn" onclick="edit_cant(this)">{{amount}}</button></th>
-                <th><select class="form-control"><option value="pza">Pza</option><option value="kg">kg</option><option value="g">g</option><option value="l">L</option><option value="ml">ml</option></select></th>
-                <th><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></th>
+                <tr id="{{id_products_and_supplies}}">
+                    <td><label>{{product_barcode}}</label></td>
+                    <td><label>{{product_name}}</label></td>
+                    <td><button class="btn" onclick="edit_cant(this)">{{amount}}</button></td>
+                    <td><select class="form-control"><option value="pza">Pza</option><option value="kg">kg</option><option value="g">g</option><option value="l">L</option><option value="ml">ml</option></select></td>
+                    <td><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></td>
+                </tr>
             {{/each}}
         </tbody>
     </table>

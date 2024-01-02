@@ -12,7 +12,7 @@ passport.use('local.edit_company', new LocalStrategy({
     passReqToCallback: true
 }, async (req ,name, password, done) => {
     if(mandatory_company_data(req)){
-        if(true){//!await compare_company_with_name_edit(req,name)){
+        if(!await compare_company_with_name_edit(req,name)){
             const newCompany=get_new_company(req);
             console.log(newCompany);
             if (await update.update_company(newCompany)){
