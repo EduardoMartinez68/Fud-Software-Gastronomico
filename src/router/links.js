@@ -704,9 +704,19 @@ async function delete_all_supplies_combo(id) {
 }
 
 //----------------------------------------------------------------providers
+async function search_providers_company(){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Branch".providers WHERE id_branch= $1';
+    var values = [id_company,supplies];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
 router.get('/:id/providers',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
+        const providers=await search_providers();
         res.render('links/manager/providers/providers',{company});
     }
     else{
@@ -714,12 +724,43 @@ router.get('/:id/providers',isLoggedIn,async(req,res)=>{
     }
 })
 
+router.get('/:id/add-providers',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/providers/addProviders',{company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+router.get('/:id/edit-providers',isLoggedIn,(req,res)=>{
+    res.render("links/manager/providers/editProviders");
+})
+
+
+
 //----------------------------------------------------------------branches
+async function search_all_branch(id_company){
+    var queryText = `
+        SELECT branches.*, country.name AS country_name
+        FROM "Company".branches
+        INNER JOIN "Fud".country ON branches.id_country = country.id
+        WHERE branches.id_companies = $1`;
+    
+    var values = [id_company];
+    const result = await database.query(queryText, values);
+
+    return result.rows; 
+}
+
 router.get('/:id/branches',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     const company=await check_company(req);
     if(company.length>0){
-        res.render('links/manager/branches/branches',{company,country});
+        const {id}=req.params;
+        const branches=await search_all_branch(id);
+        res.render('links/manager/branches/branches',{company,country,branches});
     }
     else{
         res.redirect('/fud/home');
@@ -774,18 +815,6 @@ router.get('/report',isLoggedIn,(req,res)=>{
 
 router.get('/schedule',isLoggedIn,(req,res)=>{
     res.render("links/manager/employee/schedule");
-})
-
-router.get('/add-providers',isLoggedIn,(req,res)=>{
-    res.render("links/manager/providers/addProviders");
-})
-
-router.get('/edit-providers',isLoggedIn,(req,res)=>{
-    res.render("links/manager/providers/editProviders");
-})
-
-router.get('/providers',(req,res)=>{
-    res.render("links/manager/providers/providers");
 })
 
 /*reports*/

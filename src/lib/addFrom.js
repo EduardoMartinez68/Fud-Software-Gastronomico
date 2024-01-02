@@ -197,53 +197,6 @@ passport.use('local.add_supplies', new LocalStrategy({
     done(null,false,req.flash('success','the department was add with success'));
 }));
 
-//add branch
-passport.use('local.add_branch', new LocalStrategy({
-    usernameField: 'name',
-    passwordField: 'name',
-    passReqToCallback: true
-}, async (req ,name, password, done) => {
-
-    if(!await this_branch_exists(req,name)){
-        const newBranch=get_new_branch(req);
-        if(await addDatabase.add_branch(newBranch)){
-            done(null,false,req.flash('success','the department was add with success'));
-        }
-        else{
-            done(null,false,req.flash('message','Could not add to database'));
-        }
-    }
-    else{
-        done(null,false,req.flash('message','This department already exists'));
-    }
-}));
-
-function get_new_branch(req){
-    //get the data of the new branch
-    const {name,description} = req.body;
-    const {id}=req.params;
-
-    //add the branch
-    const branch={
-        id_company:id,
-        name:name,
-        description:description
-    }  
-
-    return branch;
-}
-
-async function this_branch_exists(req,name){
-    //get the id of the company
-    const {id}=req.params;
-    
-    //we going to search this department in the list of the database
-    var queryText = 'SELECT * FROM "Company".branches Where id_companies = $1 and name_branch= $2';
-    var values = [id,name];
-    var companies=await database.query(queryText, values);
-    return companies.rows.length>0;
-}
-
 //add supplies
 router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     const {id}=req.params;
@@ -407,7 +360,44 @@ async function delete_all_supplies_combo(id) {
     }
 }
 
+//add providers
 
+//add branches
+router.post('/fud/:id/add-new-branch',isLoggedIn,async(req,res)=>{
+    const {id}=req.params;
+    const newBranch=create_new_branch(req);
+    if(await addDatabase.add_branch(newBranch)){
+        req.flash('success','the branch was add with supplies')
+    }
+    else{
+        req.flash('message','the branch not was add')
+    }
+    res.redirect('/fud/'+id+'/branches');
+})
+
+function create_new_branch(req){
+    const {id}=req.params;
+    const {name,alias,representative,phone,cell_phone,email,municipality,city,cologne,street,num_o,num_i,postal_code}=req.body;
+    const newBranch={
+        id_company:id,
+        name,
+        alias,
+        representative,
+        phone,
+        cell_phone,
+        email,
+        country:req.body.country,
+        municipality,
+        city,
+        cologne,
+        street,
+        num_o,
+        num_i,
+        postal_code
+    }
+
+    return newBranch;
+}
 
 
 module.exports=router;

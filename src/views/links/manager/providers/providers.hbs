@@ -21,12 +21,14 @@
                     <hr>
                 </center>
                 <table>
-                    <tr><td><label>Search a providers</label></td></tr>
-                    <tr>
-                        <td><input type="tex" class="form-control" placeholder="Search..." autofocus></td>
-                        <td width="10%"><button class="btn"><i class="fi fi-br-search"></i></button></td>
-                        <td width="10%"><a href="add-providers"><button class="btn btn-add"><i class="fi fi-sr-user-add"></i> Add</button></a></td>
-                    </tr>
+                    {{#each company}}
+                        <tr><td><label>Search a providers</label></td></tr>
+                        <tr>
+                            <td><input type="tex" class="form-control" placeholder="Search..." autofocus></td>
+                            <td width="10%"><button class="btn"><i class="fi fi-br-search"></i></button></td>
+                            <td width="10%"><a href="/fud/{{id}}/add-providers"><button class="btn btn-add"><i class="fi fi-sr-user-add"></i> Add</button></a></td>
+                        </tr>
+                    {{/each}}
                 </table>
                 <div class="card">
                     <div class="card-body">

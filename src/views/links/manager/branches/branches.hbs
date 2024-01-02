@@ -16,6 +16,7 @@
                     <th><center><label>Country</label></center></th>
                     <th>
                         <select id="country" class="form-control" name="country">
+                            <option value="all">All</option>
                             {{#each country}}
                                 <option value="{{id}}">{{name}}</option>
                             {{/each}}
@@ -24,8 +25,8 @@
                     <th><center><label>Manager</label></center></th>
                     <th>
                         <select id="country" class="form-control" name="country">
-                            {{#each country}}
-                                <option value="{{id}}">{{name}}</option>
+                            {{#each branches}}
+                                <option value="{{id}}">{{representative}}</option>
                             {{/each}}
                         </select>
                     </th>
@@ -72,24 +73,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <td><label>Mcdonal Posgreso</label></td>
-                    <td><label>Miguel Angel Rivera Martinez</label></td>
-                    <td><label>Mexico</label></td>
-                    <td><label>San Luis Potosi, San Luis Potosi, Gertrudis uribe y martinez, reyitos 255</label></td>
-                    <td><label>001100101</label></td>
-                    <td>
-                        <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
-                    </td>
-                    <!--this is the for of the departments-->
-                    {{#each departments}}
-                        <tr>
-                            <td><label>{{name}}</label></td>
-                            <td><label>{{description}}</label></td>
-                            <td>
-                                <button class="btn btn-danger" id="{{id}}" onclick="delate_department(this.id,{{id_company}})"><i class="fi-department fi-sr-trash"></i></button>
-                                <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
-                            </td>
-                        </tr>
+                    {{#each branches}}
+                        <td><label>{{name_branch}}</label></td>
+                        <td><label>{{representative}}</label></td>
+                        <td><label>{{country_name}}</label></td>
+                        <td><label>{{municipality}}, {{city}}, {{cologne}}, {{address}}, {{num_int}}, {{num_ext}}</label></td>
+                        <td><label>{{cell_phone}}</label></td>
+                        <td>
+                            <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                        </td>
                     {{/each}}
                 </tbody>
             </table>

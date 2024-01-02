@@ -10,42 +10,42 @@
                 <div class="card">
                     <div class="card-body">
                         {{#each company}} 
-                        <form action="/fud/{{id}}/add-branch" method="POST" enctype="multipart/form-data">      
+                        <form action="/fud/{{id}}/add-new-branch" method="POST" enctype="multipart/form-data">      
                                 <br>
                                 <center><label><i class="fi-icon fi-sr-store-alt"></i>Add a new branch for {{name}}</label></center>      
                                 <hr>      
                         {{/each}} 
                             <div class="form-group">
                                 <label>Name Branch *</label><br>
-                                <input type="tex" class="form-control" name="name" placeholder="Name Branch"  maxlength="50" pattern="^\S{0,50}$" autofocus required>
+                                <input type="tex" class="form-control" name="name" placeholder="Name Branch"  maxlength="60" autofocus required>
                             </div>
                             <div class="form-group">
                                 <label>Alias *</label><br>
-                                <input type="tex" class="form-control" name="alias" placeholder="Alias"  maxlength="10" pattern="^\S{0,10}$" required>
+                                <input type="tex" class="form-control" name="alias" placeholder="Alias"  maxlength="50"  required>
                             </div>
                             <div class="form-group">
                                 <label>Representative *</label><br>
-                                <input type="tex" class="form-control" name="representative" placeholder="Representative"  maxlength="50" pattern="^\S{0,50}$" required>
+                                <input type="tex" class="form-control" name="representative" placeholder="Representative"  maxlength="100" required>
                             </div>
                             <table>
                                 <th>
                                     <td>
                                         <div class="form-group">
                                             <label>Phone</label><br>
-                                            <input type="tex" class="form-control" name="phone" placeholder="Phone"  maxlength="16" pattern="^\S{0,16}$">
+                                            <input type="tex" class="form-control" name="phone" placeholder="Phone"  maxlength="16">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <label>Cell Phone</label><br>
-                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone"  maxlength="16" pattern="^\S{0,16}$">
+                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone"  maxlength="16">
                                         </div>
                                     </td>
                                 </th>
                             </table>
                             <div class="form-group">
                                 <label>E-mail *</label><br>
-                                <input type="email" class="form-control" name="email" placeholder="E-mail"  maxlength="100" pattern="^\S{0,100}$" required>
+                                <input type="email" class="form-control" name="email" placeholder="E-mail"  maxlength="100" required>
                             </div>
                             
                             <div class="form-group">
@@ -70,16 +70,16 @@
                                 <input type="tex" class="form-control" name="cologne" placeholder="Cologne" required>
                             </div>
                             <div class="form-group">
-                                <label>Street *</label><br>
-                                <input type="tex" class="form-control" name="street" placeholder="Street"  maxlength="20" pattern="^\S{0,20}$" required>
+                                <label>Address *</label><br>
+                                <input type="tex" class="form-control" name="street" placeholder="Address"  maxlength="30" required>
                             </div>
                             <div class="form-group">
                                 <label>Outer Numbers</label><br>
-                                <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5" pattern="^\S{0,5}$">
+                                <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5">
                             </div>
                             <div class="form-group">
                                 <label>Interior Number</label><br>
-                                <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5" pattern="^\S{0,5}$">
+                                <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5">
                             </div>
                             <div class="form-group">
                                 <label>Postal Code *</label><br>

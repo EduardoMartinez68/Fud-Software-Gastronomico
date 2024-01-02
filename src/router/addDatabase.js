@@ -102,22 +102,6 @@ async function add_product_category(department){
     }
 };
 
-async function add_branch(branch){
-    var queryText = 'INSERT INTO "Company".branches (id_companies, name_branch, alias, id_manager,cell_phone,email,id_country,street,num_ext,num_int,postal_code,cologne,city,state,municipality)'
-        +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
-
-    var values = [branch.id_company,branch.name,branch.description] 
-    console.log(branch)
-    try{
-        await database.query(queryText, branch);
-        return true;
-    } catch (error) {
-        console.error('Error al insertar en la base de datos:', error);
-        return false;
-    }
-};
-
-
 //////////////////////////////supplies 
 async function add_supplies_company(supplies){
     if(await this_supplies_exists(supplies.id_company,supplies.barcode)){
@@ -266,9 +250,41 @@ function calculate_components(data){
 }
 
 
+//////////////////////branch
+async function add_branch(branch){
+    if(await this_branch_exists(branch.id_company,branch.name)){
+        return false;
+    }
+    else{
+        return await save_branch(branch)
+    }
+}
+
+async function save_branch(branch){
+    var queryText = 'INSERT INTO "Company".branches (id_companies,name_branch,alias,representative,phone,cell_phone,email,id_country,municipality,city,cologne,address,num_ext,num_int,postal_code)'
+        +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
+    var values = Object.values(branch);
+    console.log(values)
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+}
 
 
+async function this_branch_exists(id_company,name){
+    //we will search the company of the user 
+    var queryText = `SELECT * FROM "Company".branches WHERE id_companies = $1 AND name_branch = $2`;
+    var values = [id_company,name];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
 
+
+//////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
         +'VALUES ($1, $2, $3)';
