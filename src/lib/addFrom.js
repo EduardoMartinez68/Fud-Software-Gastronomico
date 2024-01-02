@@ -366,7 +366,7 @@ function parse_barcode_products(barcodeProducts) {
     return result;
 }
 
-//edit combo fud/1/9/edit-combos
+//edit combo 
 router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
     const {id_company,id}=req.params;
     const {barcodeProducts}=req.body;
@@ -382,6 +382,9 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
 
         //we will see if can add the combo to the database
         if(await update.update_combo(combo)){
+            //we will delate all the supplies of the combo for to save it later
+            await delete_all_supplies_combo(id)
+            await addDatabase.save_all_supplies_combo_company(id,combo.supplies) //We will save all the supplies again
             req.flash('success','the combo was add with success')
         }
         else{
@@ -391,6 +394,19 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
 
     res.redirect('/fud/'+id_company+'/combos');
 })
+
+async function delete_all_supplies_combo(id) {
+    try {
+        var queryText = 'DELETE FROM "Kitchen".table_supplies_combo WHERE id_dishes_and_combos = $1';
+        var values = [id];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
 
 
 

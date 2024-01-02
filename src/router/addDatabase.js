@@ -289,5 +289,6 @@ module.exports={
     add_product_category,
     add_branch,
     add_supplies_company,
-    add_combo_company
+    add_combo_company,
+    save_all_supplies_combo_company
 };
