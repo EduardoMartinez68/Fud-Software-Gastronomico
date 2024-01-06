@@ -73,8 +73,60 @@ function get_query_edit_combo(combo){
     }
 }
 
+async function update_branch(id_branch,branch){
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            name_branch=$1,
+            alias=$2,
+            representative=$3,
+            id_country=$4,
+            municipality=$5,
+            city=$6,
+            cologne=$7,
+            address=$8,
+            num_ext=$9,
+            num_int=$10,
+            postal_code=$11,
+            email=$12,
+            cell_phone=$13,
+            phone=$14
+        WHERE 
+            id=$15
+    `;
+
+    const values = [
+        branch.name,
+        branch.alias,
+        branch.representative,
+        branch.country,
+        branch.municipality,
+        branch.city,
+        branch.cologne,
+        branch.street,
+        branch.num_o,
+        branch.num_i,
+        branch.postal_code,
+        branch.email,
+        branch.cell_phone,
+        branch.phone,
+        id_branch
+    ];
+
+    console.log(queryText); // Solo para depuración, muestra la consulta SQL en la consola
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+
 module.exports={
     update_company,
     get_query_edit_supplies_company,
-    update_combo
+    update_combo,
+    update_branch
 };

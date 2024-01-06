@@ -375,11 +375,23 @@ router.post('/fud/:id/add-new-branch',isLoggedIn,async(req,res)=>{
     res.redirect('/fud/'+id+'/branches');
 })
 
+router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const newBranch=create_new_branch(req);
+    if(await update.update_branch(id_branch,newBranch)){
+        req.flash('success','the branch was upload with supplies')
+    }
+    else{
+        req.flash('message','the branch not was upload')
+    }
+    res.redirect('/fud/'+id_company+'/branches');
+})
+
 function create_new_branch(req){
-    const {id}=req.params;
+    const {id_company}=req.params;
     const {name,alias,representative,phone,cell_phone,email,municipality,city,cologne,street,num_o,num_i,postal_code}=req.body;
     const newBranch={
-        id_company:id,
+        id_company:id_company,
         name,
         alias,
         representative,

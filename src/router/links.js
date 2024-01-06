@@ -778,6 +778,23 @@ router.get('/:id/add-branches',isLoggedIn,async (req,res)=>{
     }
 })
 
+router.get('/:idBranch/:idCompany/edit-branch',isLoggedIn,async(req,res)=>{
+    const country=await get_country();
+    const branch=await get_branch(req);
+    res.render("links/manager/branches/editBranches",{branch,country});
+})
+
+async function get_branch(req){
+    const {idBranch}=req.params;
+    var queryText = 'SELECT * FROM "Company".branches WHERE id= $1';
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+
+
 
 router.get('/store-home',isLoggedIn,async (req,res)=>{
     res.render('links/store/home/home');

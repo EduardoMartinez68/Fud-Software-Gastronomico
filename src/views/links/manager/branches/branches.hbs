@@ -80,7 +80,7 @@
                         <td><label>{{municipality}}, {{city}}, {{cologne}}, {{address}}, {{num_int}}, {{num_ext}}</label></td>
                         <td><label>{{cell_phone}}</label></td>
                         <td>
-                            <button class="btn btn-danger" id="{{id}}" onclick="edit_department({{id}},{{id_company}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                            <button class="btn btn-danger" id="{{id}}" onclick="edit_branch({{id}},{{id_companies}})"><i class="fi-department fi-sr-pencil"></i></button>
                         </td>
                     {{/each}}
                 </tbody>
@@ -88,3 +88,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    function edit_branch(idBranch,idCompany){
+        window.location.href = `/fud/${idBranch}/${idCompany}/edit-branch`;
+    }
+</script>
