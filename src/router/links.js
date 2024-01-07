@@ -704,20 +704,39 @@ async function delete_all_supplies_combo(id) {
 }
 
 //----------------------------------------------------------------providers
-async function search_providers_company(){
+async function search_all_branch_company(idCompany){
     //we will search the company of the user 
-    var queryText = 'SELECT * FROM "Branch".providers WHERE id_branch= $1';
-    var values = [id_company,supplies];
+    var queryText = 'SELECT * FROM "Company".branches WHERE id_companies= $1';
+    var values = [idCompany];
     const result = await database.query(queryText, values);
     
     return result.rows;
 }
 
+async function search_providers(idBranch){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Branch".providers WHERE id_branches= $1';
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+async function search_all_providers(req){
+    const {id}=req.params;
+    const allBranch=await search_all_branch_company(id);
+    for(var i=0;i<allBranch.length;i++){
+        const branchId=allBranch[i].id //get his id 
+        await search_providers(branchId) //search all providers in his branch
+    }
+}
+
 router.get('/:id/providers',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
-        const providers=await search_providers();
-        res.render('links/manager/providers/providers',{company});
+        const {id}=req.params;
+        const branches=await search_all_branch_company(id);
+        res.render('links/manager/providers/providers',{company,branches});
     }
     else{
         res.redirect('/fud/home');
@@ -793,6 +812,13 @@ async function get_branch(req){
     return data;
 }
 
+
+//-----------------------------------------------------------visit branch
+router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
+    const branch=await get_branch(req)
+    console.log(branch)
+    res.render('links/branch/home',{branch});
+})
 
 
 

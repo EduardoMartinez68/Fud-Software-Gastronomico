@@ -58,9 +58,9 @@
                     <col style="width: 10%;">
                     <col style="width: 25%;">
                     <col style="width: 10%;">
-                    <col style="width: 40%;">
+                    <col style="width: 35%;">
                     <col style="width: 10%;">
-                    <col style="width: 5%;">
+                    <col style="width: 10%;">
                 </colgroup>
                 <thead>
                     <tr>
@@ -81,6 +81,7 @@
                         <td><label>{{cell_phone}}</label></td>
                         <td>
                             <button class="btn btn-danger" id="{{id}}" onclick="edit_branch({{id}},{{id_companies}})"><i class="fi-department fi-sr-pencil"></i></button>
+                            <button class="btn btn-danger" id="{{id}}" onclick="visit_branch({{id}},{{id_companies}})"><i class="fi-department fi-ss-store-alt"></i></button>
                         </td>
                     {{/each}}
                 </tbody>
@@ -92,5 +93,9 @@
 <script>
     function edit_branch(idBranch,idCompany){
         window.location.href = `/fud/${idBranch}/${idCompany}/edit-branch`;
+    }
+
+    function visit_branch(idBranch,idCompany){
+        window.location.href = `/fud/${idCompany}/${idBranch}/visit-branch`;
     }
 </script>

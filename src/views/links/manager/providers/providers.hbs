@@ -20,13 +20,23 @@
                     <h5 class="form-group sub-title">Providers</h5>
                     <hr>
                 </center>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Branch: </label>
+                    <div class="col-sm-10">
+                        {{#each branches}}
+                            <select name="" id="" class="form-control">
+                                <option value="{{id}}">{{name_branch}}</option>
+                            </select>
+                        {{/each}}
+                    </div>
+                </div>
                 <table>
                     {{#each company}}
                         <tr><td><label>Search a providers</label></td></tr>
                         <tr>
                             <td><input type="tex" class="form-control" placeholder="Search..." autofocus></td>
                             <td width="10%"><button class="btn"><i class="fi fi-br-search"></i></button></td>
-                            <td width="10%"><a href="/fud/{{id}}/add-providers"><button class="btn btn-add"><i class="fi fi-sr-user-add"></i> Add</button></a></td>
+                            <td width="10%"><a href="/fud/{{id}}/add-providers"><button class="btn"><i class="fi fi-sr-user-add"></i> Add</button></a></td>
                         </tr>
                     {{/each}}
                 </table>
