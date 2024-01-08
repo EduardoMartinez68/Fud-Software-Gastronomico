@@ -20,16 +20,6 @@
                     <h5 class="form-group sub-title">Providers</h5>
                     <hr>
                 </center>
-                <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Branch: </label>
-                    <div class="col-sm-10">
-                        {{#each branches}}
-                            <select name="" id="" class="form-control">
-                                <option value="{{id}}">{{name_branch}}</option>
-                            </select>
-                        {{/each}}
-                    </div>
-                </div>
                 <table>
                     {{#each company}}
                         <tr><td><label>Search a providers</label></td></tr>
@@ -51,30 +41,16 @@
                                 <th></th>
                                 <th></th>
                             </tr>
-                            <tr>
-                                <td>0011001</td>
-                                <td>Eduardo</td>
-                                <td>Ed</td>
-                                <td>4444444</td>
-                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
-                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>0011001</td>
-                                <td>Eduardo</td>
-                                <td>Ed</td>
-                                <td>4444444</td>
-                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
-                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>0011001</td>
-                                <td>Eduardo</td>
-                                <td>Ed</td>
-                                <td>4444444</td>
-                                <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
-                                <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
-                            </tr>
+                            {{#each providers}}
+                                <tr>
+                                    <td><label>{{id}}</label></td>
+                                    <td><label>{{name}}/{{representative}}</label></td>
+                                    <td><label>{{alias}}</label></th>
+                                    <td><label>{{cell_phone}}/{{phone}}</label></td>
+                                    <td width="4%"><button class="btn" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
+                                    <td width="4%"><button class="btn" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
+                                </tr>
+                            {{/each}}
                         </table>
                     </div>
                 </div>

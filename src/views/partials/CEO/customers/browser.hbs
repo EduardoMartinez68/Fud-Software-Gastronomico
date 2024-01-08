@@ -1,0 +1,46 @@
+<center>
+  <table class="table">
+    <colgroup>
+        <col style="width: 30%;">
+        <col style="width: 25%;">
+        <col style="width: 25%;">
+        <col style="width: 5%;">
+        <col style="width: 8%;">
+        <col style="width: 10%;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>
+            <label for="">customer email</label>
+            <input type="text" class="form-control" placeholder="customer email" name="email">
+        </th>
+        <th>
+            <label for="">Name Branch</label>
+            <input type="text" class="form-control" placeholder="Name Branch" name="nameBranch">
+        </th>
+        <th>
+            <label for="">Country</label>
+            <select class="form-control">
+                {{#each country}}
+                    <option value="{{id}}" id="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </th> 
+        <th>
+            <br>
+            <button class="btn"><i class="fi-icon fi-rr-search"></i></button>
+        </th>
+        <th>
+            <br>
+            <button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-branches')">+</button>
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+      </tr>
+    </tbody>
+  </table>
+</center>

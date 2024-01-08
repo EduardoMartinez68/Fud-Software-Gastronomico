@@ -725,18 +725,20 @@ async function search_providers(idBranch){
 async function search_all_providers(req){
     const {id}=req.params;
     const allBranch=await search_all_branch_company(id);
+    const providers=[]
     for(var i=0;i<allBranch.length;i++){
         const branchId=allBranch[i].id //get his id 
-        await search_providers(branchId) //search all providers in his branch
+        providers.push(await search_providers(branchId)) //search all providers in his branch
     }
+    return providers
 }
 
 router.get('/:id/providers',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
         const {id}=req.params;
-        const branches=await search_all_branch_company(id);
-        res.render('links/manager/providers/providers',{company,branches});
+        const providers=await search_all_providers(req);
+        res.render('links/manager/providers/providers',{company,branches,providers});
     }
     else{
         res.redirect('/fud/home');
@@ -757,6 +759,23 @@ router.get('/:id/edit-providers',isLoggedIn,(req,res)=>{
     res.render("links/manager/providers/editProviders");
 })
 
+
+//----------------------------------------------------------------customers
+async function searc_all_customers(idCompany){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Company".customers WHERE id_companies= $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+router.get('/:id/customers-company',isLoggedIn,async(req,res)=>{
+    const {id}=req.params;
+    const customers=await searc_all_customers(id)
+    const country=await get_country()
+    res.render("links/manager/customers/customers",{customers,country});
+})
 
 
 //----------------------------------------------------------------branches

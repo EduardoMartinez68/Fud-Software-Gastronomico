@@ -1,0 +1,41 @@
+  <table class="table table-hover">
+    <colgroup>
+        <col style="width: 30%;">
+        <col style="width: 30%;">
+        <col style="width: 20%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Name <i class="fi-icon fi-sr-restaurant"></i></th>
+        <th>email <i class="fi-icon fi-sr-envelope"></i></th>
+        <th>cellphone/phone <i class="fi-icon fi-br-smartphone"></i></th>
+        <th>point<i class="fi-icon fi-sr-coins"></i></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {{#each customers}}
+      <tr>
+        <td>{{first_name}} {{second_name}} {{last_name}}</td>
+        <td>{{email}}</td>
+        <td>{{cell_phone}}/{{phone}}</td>
+        <td>{{points}}</td>
+        <td width="4%"><button class="btn btn-danger" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
+        <td width="4%"><button class="btn btn-danger" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
+      </tr>
+    {{/each}}
+      <tr>
+        <td>Marco Arelio Sebastian</td>
+        <td>customers@12Outloo.es</td>
+        <td>12314/444351234</td>
+        <td>50</i></td>
+        <td>
+            <button class="btn btn-danger" id="{{id}}" onclick="delate_combo(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
+            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+        </td>     
+      </tr>
+    </tbody>
+  </table>
