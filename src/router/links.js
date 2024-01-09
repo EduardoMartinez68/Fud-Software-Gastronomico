@@ -894,6 +894,7 @@ router.get('/:id/type-user',isLoggedIn,async(req,res)=>{
     }
 })
 
+//-------------------------------------------------------------department user 
 router.get('/:id/employee-department',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
@@ -977,6 +978,8 @@ async function update_department_employe(idDepartament,name,description){
         return false;
     }
 }
+
+
 //-----------------------------------------------------------visit branch
 router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
     const branch=await get_branch(req)
