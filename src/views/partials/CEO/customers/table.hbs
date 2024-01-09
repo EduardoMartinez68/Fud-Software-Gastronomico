@@ -23,19 +23,24 @@
         <td>{{email}}</td>
         <td>{{cell_phone}}/{{phone}}</td>
         <td>{{points}}</td>
-        <td width="4%"><button class="btn btn-danger" onclick="btn_edit()"><i class="fi fi-sr-pencil"></i></button></td>
-        <td width="4%"><button class="btn btn-danger" onclick="btn_delate()"><i class="fi fi-sr-trash"></i></button></td>
-      </tr>
-    {{/each}}
-      <tr>
-        <td>Marco Arelio Sebastian</td>
-        <td>customers@12Outloo.es</td>
-        <td>12314/444351234</td>
-        <td>50</i></td>
         <td>
-            <button class="btn btn-danger" id="{{id}}" onclick="delate_combo(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-            <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+            <button class="btn btn-danger" id="{{id}}" onclick="delete_customer(this.id,'{{id_companies}}','{{email}}')"><i class="fi-department fi-sr-trash"></i></button>
+            <button class="btn btn-danger" id="{{id}}" onclick="edit_customer(this.id)"><i class="fi-department fi-sr-pencil"></i></button>
         </td>     
       </tr>
+    {{/each}}
     </tbody>
   </table>
+
+
+<script>
+  async function delete_customer(idCustomer,idCompany,email){
+      if(await questionMessage(`Delete to ${email}`,'Do you want to delete to this customer?')){
+        window.location.href = "/fud/"+idCompany+"/"+idCustomer+"/delete-customer";
+      }
+  }
+
+  async function edit_customer(idCustomer){
+    window.location.href = "/fud/"+idCustomer+"/edit-customer";
+  }
+</script>

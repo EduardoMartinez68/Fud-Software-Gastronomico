@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel="stylesheet" href="/css/report/report.css">
+    </link>
+    <link rel="stylesheet" href="/css/report/sales.css">
+    </link>
+</head>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <label><i class="fi-icon fi-sr-user"></i> Edit customer</label>
+                    <hr>
+                    {{#each customer}}
+                    <form action="/fud/{{id_companies}}/{{id}}/editCustomer" method="POST" id="myForm">
+                        <div class="content_box">
+                            <div class="content-sales active">
+                                <div class="row">
+                                    <div class="col">
+                                        <label>First name *</label><br>
+                                        <input type="text" class="form-control" placeholder="First name" name="firstName" required value="{{first_name}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Second name</label><br>
+                                        <input type="text" class="form-control" placeholder="Second name" name="secondName" value="{{second_name}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Last name</label><br>
+                                        <input type="tex" class="form-control" name="lastName" placeholder="lastName" value="{{last_name}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Birthday</label><br>
+                                        <input type="date" id="birthday" name="birthday" value="{{birthday}}">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Cell Phone</label><br>
+                                        <input type="text" class="form-control" placeholder="Cell Phone" name="cellPhone" value="{{cell_phone}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Phone</label><br>
+                                        <input type="text" class="form-control" placeholder="Phone" name="phone" value="{{phone}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>E-mail *</label><br>
+                                        <input type="email" class="form-control" name="email" placeholder="E-mail" required value="{{email}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <select id="country" class="form-control" name="country" value="{{id_country}}">
+                                        {{/each}}
+                                            {{#each country}}
+                                            <option value={{id}}>{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+
+                                    {{#each customer}}
+                                    <div class="col">
+                                        <label>states *</label><br>
+                                        <input type="tex" class="form-control" name="states"  placeholder="states" required value="{{states}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>City *</label><br>
+                                        <input type="tex" class="form-control" name="city" placeholder="City"  required value="{{city}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Street *</label><br>
+                                        <input type="tex" class="form-control" name="street" placeholder="Street"  maxlength="20"  required value="{{street}}">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Outer Numbers</label><br>
+                                        <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5" value="{{num_ext}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Interior Number</label><br>
+                                        <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5" value="{{num_int}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Postal Code</label><br>
+                                        <input type="tex" class="form-control" name="postal_code" placeholder="Postal Code" value="{{postal_code}}">
+                                    </div>
+                                </div>
+                                {{/each}}
+
+                            </div>
+                            <br>
+                            
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{>updateCountry}}
+<script>
+    ///------------------this is for update the date for birthday
+    // Assuming birthday is the value you get from the database
+    const birthdayFromDB = new Date('Mon Jan 08 2024 00:00:00 GMT-0600 (Central Standard Time)');
+
+    // Format the date to the YYYY-MM-DD format
+    const year = birthdayFromDB.getFullYear();
+    const month = String(birthdayFromDB.getMonth() + 1).padStart(2, '0');
+    const day = String(birthdayFromDB.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    // Assign the formatted date to the input field
+    document.getElementById('birthday').value = formattedDate;
+</script>

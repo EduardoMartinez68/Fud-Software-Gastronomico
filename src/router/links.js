@@ -770,13 +770,66 @@ async function searc_all_customers(idCompany){
     return result.rows;
 }
 
+async function searc_customers(idCustomer){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Company".customers WHERE id= $1';
+    var values = [idCustomer];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+
 router.get('/:id/customers-company',isLoggedIn,async(req,res)=>{
     const {id}=req.params;
     const customers=await searc_all_customers(id)
     const country=await get_country()
-    res.render("links/manager/customers/customers",{customers,country});
+    const company=[{id}]
+    res.render("links/manager/customers/customers",{company,customers,country});
 })
 
+router.get('/:id/add-customer',isLoggedIn,async(req,res)=>{
+    const {id}=req.params;
+    const company=[{id}]
+    const country=await get_country()
+    res.render("links/manager/customers/addCustomer",{company,country});
+})
+
+router.get('/:id/:idCustomer/delete-customer',isLoggedIn,async(req,res)=>{
+    const {idCustomer,id}=req.params;
+    const company=await check_company(req);
+    if(company.length>0){
+        if(await delete_customer(idCustomer)){
+            req.flash('success','the customer was delate with success')
+        }else{
+            req.flash('message','the customer not was delate')
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+    res.redirect("/fud/"+id+'/customers-company');
+})
+
+async function delete_customer(idCustomer) {
+    try {
+        var queryText = 'DELETE FROM "Company".customers WHERE id = $1';
+        var values = [idCustomer];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+router.get('/:idCustomer/edit-customer',isLoggedIn,async(req,res)=>{
+    const {idCustomer}=req.params;
+    const country=await get_country()
+    const customer=await searc_customers(idCustomer)
+    res.render("links/manager/customers/editCustomer",{customer,country});
+})
 
 //----------------------------------------------------------------branches
 async function search_all_branch(id_company){

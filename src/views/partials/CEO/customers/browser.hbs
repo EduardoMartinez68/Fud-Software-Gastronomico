@@ -1,9 +1,8 @@
 <center>
   <table class="table">
     <colgroup>
-        <col style="width: 30%;">
-        <col style="width: 25%;">
-        <col style="width: 25%;">
+        <col style="width: 40%;">
+        <col style="width: 40%;">
         <col style="width: 5%;">
         <col style="width: 8%;">
         <col style="width: 10%;">
@@ -11,16 +10,13 @@
     <thead>
       <tr>
         <th>
-            <label for="">customer email</label>
+            <label for=""><i class="fi-icon fi-sr-envelope"></i> customer email</label>
             <input type="text" class="form-control" placeholder="customer email" name="email">
         </th>
         <th>
-            <label for="">Name Branch</label>
-            <input type="text" class="form-control" placeholder="Name Branch" name="nameBranch">
-        </th>
-        <th>
-            <label for="">Country</label>
+            <label for=""><i class="fi-icon fi-ss-flag"></i> Country</label>
             <select class="form-control">
+                <option value="-1" id="-1">All</option>
                 {{#each country}}
                     <option value="{{id}}" id="{{id}}">{{name}}</option>
                 {{/each}}
@@ -32,7 +28,9 @@
         </th>
         <th>
             <br>
-            <button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-branches')">+</button>
+            {{#each company}}
+              <button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-customer')">+</button>
+            {{/each}}
         </th>
         <th></th>
       </tr>

@@ -283,6 +283,37 @@ async function this_branch_exists(id_company,name){
     return result.rows.length>0;
 }
 
+//////////////////////customer
+async function this_customer_exists(id_company,email){
+    //we will search the company of the user 
+    var queryText = `SELECT * FROM "Company".customers WHERE id_companies = $1 AND email = $2`;
+    var values = [id_company,email];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
+
+async function save_customer(customer){
+    var queryText = 'INSERT INTO "Company".customers(id_companies, first_name, second_name, last_name, id_country, states, city, street, num_ext, num_int, postal_code, email, phone, cell_phone, points, birthday)'
+    +'VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)';
+    var values = Object.values(customer);
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos customer:', error);
+        return false;
+    }
+}
+
+
+async function add_customer(customer){
+    if(await this_customer_exists(customer.id_company,customer.email)){
+        return false;
+    }
+    else{
+        return await save_customer(customer)
+    }
+}
 
 //////////////////////////////////////////////////
 async function add_department(name,description){
@@ -306,5 +337,6 @@ module.exports={
     add_branch,
     add_supplies_company,
     add_combo_company,
-    save_all_supplies_combo_company
+    save_all_supplies_combo_company,
+    add_customer
 };

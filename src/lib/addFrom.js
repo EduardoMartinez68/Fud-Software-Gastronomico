@@ -410,6 +410,53 @@ function create_new_branch(req){
 
     return newBranch;
 }
+//customer
+router.post('/fud/:id_company/addCustomer',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const newCustomer=create_new_customer(req);
+    if(await addDatabase.add_customer(newCustomer)){
+        req.flash('success','the customer was add with supplies')
+    }
+    else{
+        req.flash('message','the customer not was add')
+    }
+    res.redirect('/fud/'+id_company+'/customers-company');
+})
 
+router.post('/fud/:id_company/:id_customer/editCustomer',isLoggedIn,async(req,res)=>{
+    const {id_company,id_customer}=req.params;
+    const newCustomer=create_new_customer(req);
+    if(await update.update_customer(id_customer,newCustomer)){
+        req.flash('success','the customer was upload with supplies')
+    }
+    else{
+        req.flash('message','the customer not was upload')
+    }
+    res.redirect('/fud/'+id_company+'/customers-company');
+})
+
+function create_new_customer(req){
+    const {id_company}=req.params;
+    const {firstName,secondName,lastName,cellPhone,phone,email,states,city,street,num_o,num_i,postal_code,birthday}=req.body
+    const newCustomer={
+        id_company,
+        firstName,
+        secondName,
+        lastName,
+        country:req.body.country,
+        states,
+        city,
+        street,
+        num_o,
+        num_i,
+        postal_code,
+        email,
+        phone,
+        cellPhone,
+        points:0,
+        birthday
+    }
+    return newCustomer
+}
 
 module.exports=router;

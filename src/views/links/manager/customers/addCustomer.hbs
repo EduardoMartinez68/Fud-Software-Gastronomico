@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+
+    <link rel="stylesheet" href="/css/addUser/addUser.css">
+    <link rel="stylesheet" href="/css/report/report.css">
+    </link>
+    <link rel="stylesheet" href="/css/report/sales.css">
+    </link>
+</head>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <label><i class="fi-icon fi-sr-user"></i> Add a new customer</label>
+                    <hr>
+                    {{#each company}}
+                    <form action="/fud/{{id}}/addCustomer" method="POST" id="myForm">
+                    {{/each}}
+                        <div class="content_box">
+                            <div class="content-sales active">
+                                <div class="row">
+                                    <div class="col">
+                                        <label>First name *</label><br>
+                                        <input type="text" class="form-control" placeholder="First name" name="firstName" required>
+                                    </div>
+                                    <div class="col">
+                                        <label>Second name</label><br>
+                                        <input type="text" class="form-control" placeholder="Second name" name="secondName">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Last name</label><br>
+                                        <input type="tex" class="form-control" name="lastName" placeholder="lastName">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Birthday *</label><br>
+                                        <input type="date" id="birthday" name="birthday">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Cell Phone</label><br>
+                                        <input type="text" class="form-control" placeholder="Cell Phone" name="cellPhone">
+                                    </div>
+                                    <div class="col">
+                                        <label>Phone</label><br>
+                                        <input type="text" class="form-control" placeholder="Phone" name="phone">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>E-mail *</label><br>
+                                        <input type="email" class="form-control" name="email" placeholder="E-mail" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <select class="form-control" name="country">
+                                            {{#each country}}
+                                                <option value={{id}}>{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>states *</label><br>
+                                        <input type="tex" class="form-control" name="states"  placeholder="states" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>City *</label><br>
+                                        <input type="tex" class="form-control" name="city" placeholder="City"  required>
+                                    </div>
+                                    <div class="col">
+                                        <label>Street *</label><br>
+                                        <input type="tex" class="form-control" name="street" placeholder="Street"  maxlength="20"  required>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Outer Numbers</label><br>
+                                        <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5">
+                                    </div>
+                                    <div class="col">
+                                        <label>Interior Number</label><br>
+                                        <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5">
+                                    </div>
+                                    <div class="col">
+                                        <label>Postal Code</label><br>
+                                        <input type="tex" class="form-control" name="postal_code" placeholder="Interior Number">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

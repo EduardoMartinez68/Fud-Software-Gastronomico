@@ -1,0 +1,14 @@
+  <script>
+    //this script upload select
+    var mySelect = document.getElementById("country");
+
+    // get the value that i need 
+    var valueNeed = mySelect.getAttribute("value");
+
+    for (var i = 0; i < mySelect.options.length; i++) {
+      if (mySelect.options[i].value == valueNeed) {
+        mySelect.options[i].selected = true;
+        break;  
+      }
+    }
+  </script>
