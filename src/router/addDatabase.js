@@ -314,7 +314,37 @@ async function add_customer(customer){
         return await save_customer(customer)
     }
 }
+//department employees
+async function this_department_employees_exists(department){
+    //we will search the department employees of the user 
+    var queryText = `SELECT * FROM "Employee".departments_employees WHERE id_companies = $1 AND name = $2`;
+    var values = [department.id_company,department.name];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
 
+async function save_department_employees(department){
+    var queryText = 'INSERT INTO "Employee".departments_employees(id_companies, name, description)'
+    +'VALUES ( $1, $2, $3)';
+    var values = Object.values(department);
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos customer:', error);
+        return false;
+    }
+}
+
+
+async function add_department_employees(department){
+    if(await this_department_employees_exists(department)){
+        return false;
+    }
+    else{
+        return await save_department_employees(department)
+    }
+}
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -338,5 +368,6 @@ module.exports={
     add_supplies_company,
     add_combo_company,
     save_all_supplies_combo_company,
-    add_customer
+    add_customer,
+    add_department_employees
 };

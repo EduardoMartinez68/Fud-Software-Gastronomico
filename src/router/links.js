@@ -664,7 +664,6 @@ async function search_supplies_combo(req){
     return result.rows;
 }
 
-
 router.get('/:id_company/:id/delate-combo-company',isLoggedIn,async(req,res)=>{
     const {id,id_company}=req.params;
     const pathImg=await get_path_img('Kitchen','dishes_and_combos',id)
@@ -884,7 +883,100 @@ async function get_branch(req){
     return data;
 }
 
+//-------------------------------------------------------------type user 
+router.get('/:id/type-user',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        res.render('links/manager/role_type_employees/typeEmployees',{company});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
 
+router.get('/:id/employee-department',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {id}=req.params;
+        const departments=await search_employee_departments(id);
+        res.render('links/manager/role_type_employees/typeEmployees',{company,departments});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+async function search_employee_departments(idCompany){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Employee".departments_employees WHERE id_companies= $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+router.get('/:id/:idDepartament/delete_departament',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    const {id,idDepartament}=req.params;
+
+    if(company.length>0){
+        if(await delete_departament_employee(idDepartament)){
+            req.flash('success','the department was delete with success')
+        }
+        else{
+            req.flash('message','the department not was delete')
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+    res.redirect('/fud/'+id+'/employee-department');
+})
+
+async function delete_departament_employee(idDepartament) {
+    try {
+        var queryText = 'DELETE FROM "Employee".departments_employees WHERE id = $1';
+        var values = [idDepartament];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+router.get('/:id/:idDepartament/:name/:description/edit-department-employee',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    const {id}=req.params;
+
+    if(company.length>0){
+        const {idDepartament,name,description}=req.params;
+        if(await update_department_employe(idDepartament,name,description)){
+            req.flash('success','the department was update with success')
+        }
+        else{
+            req.flash('message','the department not was update')
+        }
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+
+    res.redirect('/fud/'+id+'/employee-department');
+})
+
+async function update_department_employe(idDepartament,name,description){
+    try{
+        var queryText = `UPDATE "Employee".departments_employees SET name = $1, description = $2 WHERE id = $3`;
+        var values = [name, description,idDepartament];
+        await database.query(queryText, values); // update supplies
+        return true;
+    }catch (error) {
+        console.log(error)
+        return false;
+    }
+}
 //-----------------------------------------------------------visit branch
 router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
     const branch=await get_branch(req)

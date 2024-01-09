@@ -459,4 +459,29 @@ function create_new_customer(req){
     return newCustomer
 }
 
+//add role employee
+router.post('/fud/:id_company/add-department-employees',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const department=create_department_employee(req)
+    if(await addDatabase.add_department_employees(department)){
+        req.flash('success','the department was add with supplies')
+    }
+    else{
+        req.flash('message','the department not was add')
+    }
+    res.redirect('/fud/'+id_company+'/employee-department');
+})
+
+function create_department_employee(req){
+    const {id_company}=req.params;
+    const {name,description}=req.body
+    departament={
+        id_company,
+        name,
+        description
+    }
+    return departament
+}
+
+
 module.exports=router;
