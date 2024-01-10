@@ -1,6 +1,6 @@
 Füd - Point of Sale System for Franchises and Restaurants
 Welcome to Füd, your all-in-one solution for point of sale management in the restaurant industry! This SAAS software is specifically designed for franchises and restaurants seeking a robust and efficient platform to streamline their operations.
-![Füd Logo](FUD.png)
+![Füd Logo](./FUD.png)
 
 Key Features
 Multi-Restaurant Management: Füd allows you to manage multiple restaurants from a single platform, simplifying operations and centralizing information.
@@ -20,7 +20,7 @@ Node.js
 PostgreSQL
 Python (for data analysis)
 Installation
-Clone this repository: git clone https://github.com/yourusername/fud.git
+Clone this repository: git clone https://github.com/EduardoMartinez68/Fud?tab=readme-ov-file
 Navigate to the project directory: cd fud
 Install dependencies: npm install
 Configure the PostgreSQL database in the configuration file.

@@ -900,7 +900,7 @@ router.get('/:id/employee-department',isLoggedIn,async(req,res)=>{
     if(company.length>0){
         const {id}=req.params;
         const departments=await search_employee_departments(id);
-        res.render('links/manager/role_type_employees/typeEmployees',{company,departments});
+        res.render('links/manager/role_type_employees/departmentEmployees',{company,departments});
     }
     else{
         res.redirect('/fud/home');
