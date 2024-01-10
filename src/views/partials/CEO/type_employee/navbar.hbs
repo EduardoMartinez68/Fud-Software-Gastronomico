@@ -1,0 +1,62 @@
+
+
+<div class="container">
+  <center><h6>Add a new type employee</h6></center>
+  <hr>
+  <div class="row">
+    <div class="nav flex-column col nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="navbar-character-tab" data-toggle="pill" href="#navbar-character" role="tab"
+        aria-controls="navbar-character" aria-selected="true"><i class="fi-icon fi-ss-package"></i> Character</a>
+
+      <a class="nav-link" id="navbar-branch-tab" data-toggle="pill" href="#navbar-branch" role="tab"
+        aria-controls="navbar-branch" aria-selected="true"><i class="fi-icon fi-sr-store-alt"></i> Branch</a>
+
+      <a class="nav-link" id="navbar-customer-tab" data-toggle="pill" href="#navbar-customer" role="tab"
+        aria-controls="navbar-customer" aria-selected="false"><i class="fi-icon fi-sr-user"></i> Customer</a>
+
+      <a class="nav-link" id="navbar-employee-tab" data-toggle="pill" href="#navbar-employee" role="tab"
+        aria-controls="navbar-employee" aria-selected="false"><i class="fi-icon fi-sr-hat-chef"></i> Employee</a>
+
+
+      <a class="nav-link" id="navbar-history-tab" data-toggle="pill" href="#navbar-history" role="tab"
+        aria-controls="navbar-history" aria-selected="false"><i class="fi-icon fi-sr-clock-three"></i> History</a>
+    <!--
+      <a class="nav-link" id="navbar-email-tab" data-toggle="pill" href="#navbar-email" role="tab"
+        aria-controls="navbar-email" aria-selected="false"><i class="fi-icon fi-sr-envelope"></i> E-mail</a>
+
+      <a class="nav-link" id="navbar-reports-tab" data-toggle="pill" href="#navbar-reports" role="tab"
+        aria-controls="navbar-reports" aria-selected="false"><i class="fi-icon fi-ss-chart-pie-alt"></i> Reports</a>
+
+      <a class="nav-link" id="navbar-type-tab" data-toggle="pill" href="#navbar-type" role="tab"
+        aria-controls="navbar-type" aria-selected="false"><i class="fi-icon fi-sr-shield-check"></i> Type user</a>
+    -->
+      <a class="nav-link" id="navbar-sales-tab" data-toggle="pill" href="#navbar-sales" role="tab"
+        aria-controls="navbar-sales" aria-selected="false"><i class="fi-icon fi-ss-label"></i> Sales</a>
+
+      <a class="nav-link" id="navbar-setting-tab" data-toggle="pill" href="#navbar-setting" role="tab"
+        aria-controls="navbar-setting" aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Setting</a>
+
+    </div>
+    <div class="tab-content col" id="v-pills-tabContent">
+      {{>CEO/type_employee/from}}
+      {{>CEO/type_employee/branch}}
+      {{>CEO/type_employee/customer}}
+      {{>CEO/type_employee/employee}}
+      {{>CEO/type_employee/history}}
+      {{>CEO/type_employee/sales}}
+      {{>CEO/type_employee/setting}}
+      <!--
+      <div class="tab-pane fade" id="navbar-email" role="tabpanel" aria-labelledby="navbar-email-tab">
+        
+      </div>
+      <div class="tab-pane fade" id="navbar-type" role="tabpanel" aria-labelledby="navbar-type-tab">
+        this is type user
+      </div>
+      <div class="tab-pane fade" id="navbar-reports" role="tabpanel" aria-labelledby="navbar-reports-tab">
+      </div>
+      -->
+      <hr>
+      <button type="submit" class="btn btn-success btn-block" id="">Save</button>
+    </div>
+  </div>
+</div>

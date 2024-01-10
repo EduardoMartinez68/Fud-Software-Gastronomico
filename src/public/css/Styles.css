@@ -39,6 +39,20 @@
     border-color: white;
 }
 
+.nav-link{
+    color: var(--color-company);
+}
+
+.nav-link:hover{
+    color: var(--color-company);
+}
+
+.nav-link .active{
+    background-color: var(--color-company);
+    color: white;
+}
+
+
 
 .nav-pills .nav-link.active {
     color: white;

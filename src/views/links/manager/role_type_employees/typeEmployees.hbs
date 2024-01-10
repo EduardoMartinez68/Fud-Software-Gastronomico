@@ -1,86 +1,25 @@
 <link rel="stylesheet" href="/css/manager/supplies_products.css">
 <br>
 <div class="container">
-  <div class="row mt-5">
-    <div class="col-md-7">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Search type employee</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Create a type employee</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
       {{>CEO/type_and_rol_employees/tableTypeEmployee}}
     </div>
-
-
-
-    <div class="col-md-5">
-      <div class="card">
-        <div class="card-body">
-          {{>CEO/type_and_rol_employees/from}}
-        </div>
-      </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <br>
+      {{>CEO/type_employee/navbar}}
     </div>
   </div>
 </div>
-<br><br>
-<div class="container">
-  <center><h6>Add a new type employee</h6></center>
-  <hr>
-  <div class="row">
-    <div class="nav flex-column col nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <a class="nav-link active" id="navbar-character-tab" data-toggle="pill" href="#navbar-character" role="tab"
-        aria-controls="navbar-character" aria-selected="true"><i class="fi-icon fi-ss-package"></i> Character</a>
 
-      <a class="nav-link" id="navbar-branch-tab" data-toggle="pill" href="#navbar-branch" role="tab"
-        aria-controls="navbar-branch" aria-selected="true"><i class="fi-icon fi-sr-store-alt"></i> Branch</a>
-
-      <a class="nav-link" id="navbar-customer-tab" data-toggle="pill" href="#navbar-customer" role="tab"
-        aria-controls="navbar-customer" aria-selected="false"><i class="fi-icon fi-sr-user"></i> Customer</a>
-
-      <a class="nav-link" id="navbar-employee-tab" data-toggle="pill" href="#navbar-employee" role="tab"
-        aria-controls="navbar-employee" aria-selected="false"><i class="fi-icon fi-sr-hat-chef"></i> Employee</a>
-
-      <a class="nav-link" id="navbar-company-tab" data-toggle="pill" href="#navbar-company" role="tab"
-        aria-controls="navbar-company" aria-selected="false"><i class="fi-icon fi-ss-building"></i> Company</a>
-
-      <a class="nav-link" id="navbar-history-tab" data-toggle="pill" href="#navbar-history" role="tab"
-        aria-controls="navbar-history" aria-selected="false"><i class="fi-icon fi-sr-clock-three"></i> History</a>
-
-      <a class="nav-link" id="navbar-email-tab" data-toggle="pill" href="#navbar-email" role="tab"
-        aria-controls="navbar-email" aria-selected="false"><i class="fi-icon fi-sr-envelope"></i> E-mail</a>
-
-      <a class="nav-link" id="navbar-reports-tab" data-toggle="pill" href="#navbar-reports" role="tab"
-        aria-controls="navbar-reports" aria-selected="false"><i class="fi-icon fi-ss-chart-pie-alt"></i> Reports</a>
-
-      <a class="nav-link" id="navbar-sales-tab" data-toggle="pill" href="#navbar-sales" role="tab"
-        aria-controls="navbar-sales" aria-selected="false"><i class="fi-icon fi-ss-label"></i> Sales</a>
-
-      <a class="nav-link" id="navbar-setting-tab" data-toggle="pill" href="#navbar-setting" role="tab"
-        aria-controls="navbar-setting" aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Setting</a>
-
-    </div>
-    <div class="tab-content col" id="v-pills-tabContent">
-      <div class="tab-pane fade show active" id="navbar-character" role="tabpanel" aria-labelledby="navbar-character-tab">
-        this
-      </div>
-      {{>CEO/type_employee/branch}}
-      {{>CEO/type_employee/customer}}
-      <div class="tab-pane fade" id="navbar-company" role="tabpanel" aria-labelledby="navbar-company-tab">
-        <!-- Contenido de la pestaña Company -->
-      </div>
-      <div class="tab-pane fade" id="navbar-history" role="tabpanel" aria-labelledby="navbar-history-tab">
-        <!-- Contenido de la pestaña History -->
-      </div>
-      <div class="tab-pane fade" id="navbar-email" role="tabpanel" aria-labelledby="navbar-email-tab">
-        <!-- Contenido de la pestaña E-mail -->
-      </div>
-      <div class="tab-pane fade" id="navbar-reports" role="tabpanel" aria-labelledby="navbar-reports-tab">
-        <!-- Contenido de la pestaña Reports -->
-      </div>
-      <div class="tab-pane fade" id="navbar-sales" role="tabpanel" aria-labelledby="navbar-sales-tab">
-        this is sales
-      </div>
-      <div class="tab-pane fade" id="navbar-setting" role="tabpanel" aria-labelledby="navbar-setting-tab">
-        <!-- Contenido de la pestaña Setting -->
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
