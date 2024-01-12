@@ -111,6 +111,12 @@ router.get('/terms-and-conditions',(req,res)=>{
     res.render(companyName+'/web/terms_conditions');
 })
 
+router.get('/prices',(req,res)=>{
+    res.render(companyName+'/web/prices');
+})
+
+
+
 router.get('/:id/dish',isLoggedIn,async (req,res)=>{
     const company=await check_company(req); //req.company.rows; //
     const saucers=await get_data(req);
