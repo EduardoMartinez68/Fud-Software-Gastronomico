@@ -17,10 +17,12 @@
     </tr>
     </thead>
     <tbody>
-    {{#each departments}}
+    {{#each typeEmployees}}
         <tr>
             <td>{{name}}</td>
-            <td>{{description}}</td>
+            <td>{{salary}}$ {{currency}}/{{type_of_salary}}</td>
+            <td>{{commissions}}%</td>
+            <td>{{discount_for_product}}%</td>
             <td>
                 <button class="btn btn-danger" id="{{id}}" onclick="delete_departament(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
                 <button class="btn btn-danger" id="{{id}}" onclick="edit_departament(this.id,'{{id_companies}}','{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>            

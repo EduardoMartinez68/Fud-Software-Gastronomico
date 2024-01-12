@@ -14,12 +14,12 @@
       {{>CEO/type_and_rol_employees/tableTypeEmployee}}
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      {{#each company}}
         <br>
+        {{#each company}}
         <form action="/fud/{{id}}/add-type-employees" method="POST" enctype="multipart/form-data">
+        {{/each}}
           {{>CEO/type_employee/navbar}}
         </form>
-      {{/each}}
     </div>
   </div>
 </div>

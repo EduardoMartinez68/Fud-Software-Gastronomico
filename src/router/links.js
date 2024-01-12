@@ -887,12 +887,22 @@ async function get_branch(req){
 router.get('/:id/type-user',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
-        res.render('links/manager/role_type_employees/typeEmployees',{company});
+        const {id}=req.params;
+        const typeEmployees=await get_type_employees(id)
+        res.render('links/manager/role_type_employees/typeEmployees',{company,typeEmployees});
     }
     else{
         res.redirect('/fud/home');
     }
 })
+
+async function get_type_employees(idCompany){
+    var queryText = 'SELECT * FROM "Employee".roles_employees WHERE id_companies= $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
 
 //-------------------------------------------------------------department user 
 router.get('/:id/employee-department',isLoggedIn,async(req,res)=>{

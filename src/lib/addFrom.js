@@ -486,34 +486,51 @@ function create_department_employee(req){
 //add type user
 router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
-    const typeEmployees=create_type_employee(req)
-    const permissions=get_permissions(req)
+    const {name}=req.body
+    if(await this_type_employee_exist(id_company,name)){
+        req.flash('message','the type employee not was add because this name already exists')
+    }
+    else{
+        const typeEmployees=create_type_employee(id_company,req)
+        console.log(typeEmployees)
+        if(await addDatabase.add_type_employees(typeEmployees)){
+            req.flash('success','the type employee was add with supplies')
+        }
+        else{
+            req.flash('message','the type employee not was add')
+        }
+    }
     res.redirect('/fud/'+id_company+'/type-user');
 })
+async function this_type_employee_exist(idCompany,name){
+    //we will search the department employees of the user 
+    var queryText = `SELECT * FROM "Employee".roles_employees WHERE id_companies = $1 AND name = $2`;
+    var values = [idCompany,name];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
 
-function create_type_employee(req){
+
+function create_type_employee(id_company,req){
     const {name,salary,discount,comissions}=req.body
     const currency=req.body.currency
     const typeSalary=req.body.typeSalary
     newTypeEmployee=[
+        id_company,
         name,
-        salary,
-        discount,
-        comissions,
+        get_value_text(salary),
         currency,
-        typeSalary
-    ]
-    return newTypeEmployee
-}
+        typeSalary,
+        get_value_text(comissions),
+        get_value_text(discount),
 
-function get_permissions(req){
-    permissions=[
         watch_permission(req.body.addBox),
         watch_permission(req.body.editBox),
         watch_permission(req.body.deleteBox),
         watch_permission(req.body.createReservation),
         watch_permission(req.body.viewReservation),
         watch_permission(req.body.viewReports),
+
         watch_permission(req.body.addCustomer),
         watch_permission(req.body.editCustomer),
         watch_permission(req.body.deleteCustomer),
@@ -522,6 +539,7 @@ function get_permissions(req){
         watch_permission(req.body.getFertilizer),
         watch_permission(req.body.viewCustomerCredits),
         watch_permission(req.body.sendEmail),
+
         watch_permission(req.body.addEmployee),
         watch_permission(req.body.editEmployee),
         watch_permission(req.body.deleteEmployee),
@@ -534,6 +552,7 @@ function get_permissions(req){
         watch_permission(req.body.deleteSaleHistory),
         watch_permission(req.body.viewMovementHistory),
         watch_permission(req.body.deleteMovementHistory),
+
         watch_permission(req.body.viewSupplies),
         watch_permission(req.body.addSupplies),
         watch_permission(req.body.editSupplies),
@@ -558,6 +577,7 @@ function get_permissions(req){
         watch_permission(req.body.editProvider),
         watch_permission(req.body.deleteProvider),
         watch_permission(req.body.viewProvider),
+
         watch_permission(req.body.sell),
         watch_permission(req.body.applyDiscount),
         watch_permission(req.body.applyReturns),
@@ -565,14 +585,16 @@ function get_permissions(req){
         watch_permission(req.body.editOffers),
         watch_permission(req.body.delateOffers),
         watch_permission(req.body.changeCoins),
+
         watch_permission(req.body.modifyHardware),
         watch_permission(req.body.modifyHardwareKitchen),
         watch_permission(req.body.givePermissions)
     ]
-    return permissions;
-
+    return newTypeEmployee
 }
-
+function get_value_text(text){
+    return isNaN(parseFloat(text)) ? 0 : parseFloat(text);
+}
 function watch_permission(permission){
     return permission == 'on' || false
 }
