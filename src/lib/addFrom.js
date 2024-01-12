@@ -483,5 +483,98 @@ function create_department_employee(req){
     return departament
 }
 
+//add type user
+router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const typeEmployees=create_type_employee(req)
+    const permissions=get_permissions(req)
+    res.redirect('/fud/'+id_company+'/type-user');
+})
+
+function create_type_employee(req){
+    const {name,salary,discount,comissions}=req.body
+    const currency=req.body.currency
+    const typeSalary=req.body.typeSalary
+    newTypeEmployee=[
+        name,
+        salary,
+        discount,
+        comissions,
+        currency,
+        typeSalary
+    ]
+    return newTypeEmployee
+}
+
+function get_permissions(req){
+    permissions=[
+        watch_permission(req.body.addBox),
+        watch_permission(req.body.editBox),
+        watch_permission(req.body.deleteBox),
+        watch_permission(req.body.createReservation),
+        watch_permission(req.body.viewReservation),
+        watch_permission(req.body.viewReports),
+        watch_permission(req.body.addCustomer),
+        watch_permission(req.body.editCustomer),
+        watch_permission(req.body.deleteCustomer),
+        watch_permission(req.body.cancelDebt),
+        watch_permission(req.body.offerLoan),
+        watch_permission(req.body.getFertilizer),
+        watch_permission(req.body.viewCustomerCredits),
+        watch_permission(req.body.sendEmail),
+        watch_permission(req.body.addEmployee),
+        watch_permission(req.body.editEmployee),
+        watch_permission(req.body.deleteEmployee),
+        watch_permission(req.body.createSchedule),
+        watch_permission(req.body.assignSchedule),
+        watch_permission(req.body.viewSchedule),
+        watch_permission(req.body.createTypeUser),
+        watch_permission(req.body.createEmployeeDepartment),
+        watch_permission(req.body.viewSaleHistory),
+        watch_permission(req.body.deleteSaleHistory),
+        watch_permission(req.body.viewMovementHistory),
+        watch_permission(req.body.deleteMovementHistory),
+        watch_permission(req.body.viewSupplies),
+        watch_permission(req.body.addSupplies),
+        watch_permission(req.body.editSupplies),
+        watch_permission(req.body.deleteSupplies),
+        watch_permission(req.body.viewProducts),
+        watch_permission(req.body.editProducts),
+        watch_permission(req.body.deleteProducts),
+        watch_permission(req.body.viewCombo),
+        watch_permission(req.body.addCombo),
+        watch_permission(req.body.editCombo),
+        watch_permission(req.body.deleteCombo),
+        watch_permission(req.body.viewFoodDepartament),
+        watch_permission(req.body.addFoodDepartament),
+        watch_permission(req.body.editFoodDepartament),
+        watch_permission(req.body.deleteFoodDepartament),
+        watch_permission(req.body.viewFoodCategory),
+        watch_permission(req.body.addFoodCategory),
+        watch_permission(req.body.editFoodCategory),
+        watch_permission(req.body.deleteFoodCategory),
+        watch_permission(req.body.wasteReport),
+        watch_permission(req.body.addProvider),
+        watch_permission(req.body.editProvider),
+        watch_permission(req.body.deleteProvider),
+        watch_permission(req.body.viewProvider),
+        watch_permission(req.body.sell),
+        watch_permission(req.body.applyDiscount),
+        watch_permission(req.body.applyReturns),
+        watch_permission(req.body.addOffers),
+        watch_permission(req.body.editOffers),
+        watch_permission(req.body.delateOffers),
+        watch_permission(req.body.changeCoins),
+        watch_permission(req.body.modifyHardware),
+        watch_permission(req.body.modifyHardwareKitchen),
+        watch_permission(req.body.givePermissions)
+    ]
+    return permissions;
+
+}
+
+function watch_permission(permission){
+    return permission == 'on' || false
+}
 
 module.exports=router;

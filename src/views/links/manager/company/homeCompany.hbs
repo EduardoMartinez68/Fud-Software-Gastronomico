@@ -15,14 +15,14 @@
                     <div class="h4 font-weight-bold text-center py-3">Home Company {{name}}</div>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 my-lg-0 my-3">
-                            <div class="box bg-white" id="{{id}}" onclick="nextWeb(this.id+'/company-supplies')">
+                            <div class="box bg-white" id="{{id}}" onclick="nextWeb(this.id+'/company-supplies')" onmouseover="menu_hover_sound()">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="/img/icons/supplies.png"
                                             alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>supplies</b> <a href="{{id}}+'/company-supplies'">
+                                    <div class="d-flex flex-column"> <b>supplies</b> <a href="'{{id}}/company-supplies'">
                                             <p class="text-muted">Add, edit, search or delate</p>
                                         </a> </div>
                                 </div>
@@ -278,6 +278,12 @@
 
     </main>
     </div>
+    <script>
+        function menu_hover_sound(){
+            var audio = new Audio('/effect/pop.mp3');
+            audio.play();
+        }
+    </script>
     <script>
         function handleDivClick(id) {
             window.location.href = "/fud/"+id+"/company-home";

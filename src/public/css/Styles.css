@@ -33,7 +33,7 @@
     top: 10px;
     transform: translateX(+22.5%);
 }
-
+/*this is a style Boobstarp*/
 .form-check-input:checked{
     background-color: var(--color-company);
     border-color: white;
