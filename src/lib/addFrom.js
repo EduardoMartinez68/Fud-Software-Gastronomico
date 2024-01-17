@@ -492,6 +492,7 @@ router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
     }
     else{
         const typeEmployees=create_type_employee(id_company,req)
+        console.log(req.body.addBox.checked)
         console.log(typeEmployees)
         if(await addDatabase.add_type_employees(typeEmployees)){
             req.flash('success','the type employee was add with supplies')
@@ -596,7 +597,7 @@ function get_value_text(text){
     return isNaN(parseFloat(text)) ? 0 : parseFloat(text);
 }
 function watch_permission(permission){
-    return permission == 'on' || false
+    return permission == 'on' 
 }
 
 module.exports=router;

@@ -115,6 +115,10 @@ router.get('/prices',(req,res)=>{
     res.render(companyName+'/web/prices');
 })
 
+router.get('/prices-chraracter',(req,res)=>{
+    res.render(companyName+'/web/prices');
+})
+
 
 
 router.get('/:id/dish',isLoggedIn,async (req,res)=>{
@@ -910,6 +914,53 @@ async function get_type_employees(idCompany){
     return data;
 }
 
+router.get('/:id/:idTypeEmployee/delete-role-user',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {id,idTypeEmployee}=req.params;
+        if(await delete_type_employee(idTypeEmployee)){
+            req.flash('success','the role was delate with success')
+        }else{
+            req.flash('message','the role not was delate')
+        }
+        res.redirect('/fud/'+id+'/type-user');
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+async function delete_type_employee(idTypeEmployee) {
+    try {
+        var queryText = 'DELETE FROM "Employee".roles_employees WHERE id = $1';
+        var values = [idTypeEmployee];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+router.get('/:id/:idRoleEmployee/edit-role-user',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {idRoleEmployee}=req.params;
+        const roleEmployee=await get_data_tole_employees(idRoleEmployee)
+        res.render('links/manager/role_type_employees/editRoleEmployee',{roleEmployee});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+async function get_data_tole_employees(idRoleEmployee){
+    var queryText = 'SELECT * FROM "Employee".roles_employees WHERE id= $1';
+    var values = [idRoleEmployee];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
 //-------------------------------------------------------------department user 
 router.get('/:id/employee-department',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);

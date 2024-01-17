@@ -1,124 +1,34 @@
 <head>
     <link rel="stylesheet" href="/css/web/prices.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    
 </head>
 <br>
-<div class="wrapper">
-    <div class="table basic">
-        <div class="price-section">
-            <div class="price-area">
-                <div class="inner-area">
-                    <span class="text">$</span>
-                    <span class="price">0</span>
-                </div>
-            </div>
-        </div>
-        <div class="package-name"></div>
-        <ul class="features">
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-check-circle"></i>Three Month Free</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-check-circle"></i>Füd Online</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-check-circle"></i>Füd Desktop</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <hr>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-sr-user"></i>3 Employees</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-cash-register"></i>1 Cash Registers</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-database"></i>Free Database 250 MB</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <a href="">Read most</a>
-            </li>
-        </ul>
-        <div class="btn"><button>Purchase</button></div>
-    </div>
-    <div class="table premium">
-        <div class="ribbon"><span>Recommend</span></div>
-        <div class="price-section">
-            <div class="price-area">
-                <div class="inner-area">
-                    <span class="text">$</span>
-                    <span class="price">299</span>
-                </div>
-            </div>
-        </div>
-        <p class="text-prices-ofert"><s>Mex$ 349*</s></p>
-        <div class="package-name"></div>
-        <ul class="features">
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-star"></i>All the free pack, more</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-check-circle"></i>Füd Cloud</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <hr>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-sr-user"></i>15 Employees</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-cash-register"></i>3 Cash Registers</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-database"></i>Free Database 2 GB</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-        </ul>
-        <div class="btn"><button>Purchase</button></div>
-    </div>
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Restaurant</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                aria-selected="false">Franchise</a>
+        </li>
+    </ul>
 
-
-    <div class="table ultimate">
-        <div class="price-section">
-            <div class="price-area">
-                <div class="inner-area">
-                    <span class="text">$</span>
-                    <span class="price">499</span>
-                </div>
-            </div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {{>web/prices/restaurants}}
         </div>
-        <p class="text-prices-ofert"><s>Mex$ 565 *</s></p>
-        <div class="package-name"></div>
-        <ul class="features">
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-star"></i>All the premium pack, more</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><i class="fi-icon fi-sr-check-circle"></i>Füd Studio</span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <hr>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-sr-user"></i>45 Employees</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-cash-register"></i>15 Cash Registers</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-            <li>
-                <span class="list-name"><label><i class="fi-icon fi-ss-database"></i>Free Database 4 GB</label></span>
-                <span class="icon check"><i class="fas fa-check"></i></span>
-            </li>
-        </ul>
-        <div class="btn"><button>Purchase</button></div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {{>web/prices/franchise}}
+        </div>
     </div>
 </div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
