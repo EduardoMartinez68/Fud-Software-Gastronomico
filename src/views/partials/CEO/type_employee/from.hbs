@@ -16,14 +16,14 @@
                 </div>
                 <div class="col">
                     <label for="">Currency</label>
-                    <select  id="currency" class="form-control" name="currency">
+                    <select  id="currency" class="form-control" name="currency" value="{{currency}}">
                         <option value="mx">🇲🇽 MXN &#x20B1;</option>
                         <option value="us">🇺🇸 USD &#x0024;</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="">Type Salary</label>
-                    <select id="typeSalary" class="form-control" name="typeSalary">
+                    <select id="typeSalary" class="form-control" name="typeSalary" value="{{type_of_salary}}">
                         <option value="Minute">Minutes</option>
                         <option value="Hour">Hours</option>
                         <option value="Day">Days</option>
@@ -47,3 +47,19 @@
         </div>
     </div>
 </div>
+
+ <script>
+    var selectElements = document.getElementsByTagName("select");
+    var selectArray = Array.from(selectElements);
+    for (var i = 0; i < selectArray.length; i++) {
+        var mySelect = selectArray[i];
+        var valueNeed = mySelect.getAttribute("value");
+
+        for (var j = 0; j < mySelect.options.length; j++) {
+            if (mySelect.options[j].value == valueNeed) {
+                mySelect.options[j].selected = true;
+                break;  
+            }
+        }
+    }
+  </script>

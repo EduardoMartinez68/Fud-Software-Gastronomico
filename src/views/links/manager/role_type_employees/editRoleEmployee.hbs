@@ -14,7 +14,8 @@
         var checkboxes = document.querySelectorAll('.form-check-input');
 
         checkboxes.forEach(function (checkbox) {
-            if (checkbox.getAttribute('value') === 'false') {
+            var valueCheck = checkbox.getAttribute('valueCheck');
+            if (valueCheck === 'true') {
                 checkbox.checked = true;
             }
         });
