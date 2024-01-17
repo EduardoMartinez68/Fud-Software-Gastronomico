@@ -503,6 +503,7 @@ router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
     }
     res.redirect('/fud/'+id_company+'/type-user');
 })
+
 async function this_type_employee_exist(idCompany,name){
     //we will search the department employees of the user 
     var queryText = `SELECT * FROM "Employee".roles_employees WHERE id_companies = $1 AND name = $2`;
@@ -510,7 +511,6 @@ async function this_type_employee_exist(idCompany,name){
     const result = await database.query(queryText, values);
     return result.rows.length>0;
 }
-
 
 function create_type_employee(id_company,req){
     const {name,salary,discount,comissions}=req.body
@@ -593,11 +593,29 @@ function create_type_employee(id_company,req){
     ]
     return newTypeEmployee
 }
+
 function get_value_text(text){
     return isNaN(parseFloat(text)) ? 0 : parseFloat(text);
 }
 function watch_permission(permission){
     return permission == 'on' 
 }
+
+router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req,res)=>{
+    //get the data of the form for that we know if this name exist in the company
+    const {id_company,id_role}=req.params;
+    const {name}=req.body
+
+    //get the new data role of the employee and update the old role
+    const typeEmployees=create_type_employee(id_company,req)
+    if(await update.update_role_employee(id_role,typeEmployees)){
+        req.flash('success','the role employee was update with supplies')
+    }
+    else{
+        req.flash('message','the role employee not was update')
+    }
+    //refresh the web with the new role update
+    res.redirect('/fud/'+id_company+'/type-user');
+})
 
 module.exports=router;
