@@ -119,8 +119,32 @@ router.get('/prices-chraracter',(req,res)=>{
     res.render(companyName+'/web/prices');
 })
 
+///links of the store
+router.get('/store',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/store');
+})
 
+router.get('/cart',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/cart');
+})
 
+router.get('/sales-history',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/salesHistory');
+})
+
+router.get('/reservation',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/reservation');
+})
+
+router.get('/other',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/other');
+})
+
+router.get('/recipes',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/store/recipes');
+})
+
+//-----------------------------------------------------------------dish
 router.get('/:id/dish',isLoggedIn,async (req,res)=>{
     const company=await check_company(req); //req.company.rows; //
     const saucers=await get_data(req);
@@ -336,44 +360,6 @@ async function update_product_department(id, name, description) {
 async function this_department_be(){
     return true;
 }
-///links of the store
-router.get('/store',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/store');
-})
-
-router.get('/cart',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/cart');
-})
-
-router.get('/sales-history',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/salesHistory');
-})
-
-router.get('/reservation',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/reservation');
-})
-
-router.get('/other',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/other');
-})
-
-router.get('/recipes',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/store/recipes');
-})
-
-
-///links of the manager
-router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/employee/addEmployee');
-})
-
-router.get('/:id_company/:id/add-schedules',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/employee/addSchedules');
-})
-
-router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
-    res.render('links/manager/employee/employeeSchedules');
-})
 
 //-------------------------------------------------------------------company
 router.get('/home',isLoggedIn,async(req,res)=>{
@@ -1045,7 +1031,57 @@ async function update_department_employe(idDepartament,name,description){
         return false;
     }
 }
+//-------------------------------------------------------------employees 
+router.get('/:id/employees',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {id}=req.params;
+        const employees=await search_employees(id);
+        const user=[]
+        res.render('links/manager/employee/employee',{company,user});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
 
+async function search_employees(idCompany){
+    //we will search the employees of the company 
+    var queryText = 'SELECT * FROM "Company".employees WHERE id_companies= $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+
+router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {id}=req.params;
+        const departments=await search_employee_departments(id);
+        const country=await get_country()
+        const roles=await get_type_employees(id)
+        res.render('links/manager/employee/addEmployee',{company,roles,departments,country});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+
+///links of the manager
+router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/manager/employee/addEmployee');
+})
+
+router.get('/:id_company/:id/add-schedules',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/manager/employee/addSchedules');
+})
+
+router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
+    res.render('links/manager/employee/employeeSchedules');
+})
 
 //-----------------------------------------------------------visit branch
 router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{

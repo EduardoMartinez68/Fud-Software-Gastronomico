@@ -1,0 +1,15 @@
+{{#each company}}
+    <div class="card-header">
+        <!--this is the search-->
+        <table class="card-table">
+            <thead>
+                <tr>
+                    <th class="td1"><input type="text" placeholder="Search an employee..." class="form-control"
+                            name="usernameSearch" autofocus></th>
+                    <th class="td2"><button class="btn" onclick="search_official()">🔎</button></th>
+                    <th class="td2"><button class="btn-add" onclick="nextWeb('{{id}}/add-employee')">+</button></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+{{/each}}

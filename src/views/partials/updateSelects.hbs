@@ -1,0 +1,15 @@
+ <script>
+    var selectElements = document.getElementsByTagName("select");
+    var selectArray = Array.from(selectElements);
+    for (var i = 0; i < selectArray.length; i++) {
+        var mySelect = selectArray[i];
+        var valueNeed = mySelect.getAttribute("value");
+
+        for (var j = 0; j < mySelect.options.length; j++) {
+            if (mySelect.options[j].value == valueNeed) {
+                mySelect.options[j].selected = true;
+                break;  
+            }
+        }
+    }
+  </script>

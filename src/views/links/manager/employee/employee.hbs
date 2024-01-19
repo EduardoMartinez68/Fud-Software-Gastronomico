@@ -1,0 +1,36 @@
+<head>
+    <link rel="stylesheet" href="/css/manager/employee/employee.css">
+</head>
+<body>
+    <br>
+    <div class="container">
+        <div id="App" class="row pt-5">
+            {{>CEO/employee/table}}
+            {{>CEO/employee/description}}
+        </div>
+    </div>
+
+    <script>
+        async function delate_user(id){
+            if(await questionMessage('Eliminar usuario','Quieres eliminar este usuario?')){
+                window.location.href = "/Mexico/"+id+"/delate-user";
+            }
+        }
+
+        async function edit_department(id){
+            window.location.href = "/Mexico/"+id+"/edit-user";
+        }
+
+        function search_official(){
+            var inputUser = document.getElementsByName("usernameSearch")[0];
+            console.log(inputUser);
+            var username = inputUser.value;
+            if (username === "") {
+
+            }else{
+                window.location.href = "/Mexico/users/"+username;
+            }
+        }
+    </script>
+    <script src="/js/other.js"></script>
+</body>

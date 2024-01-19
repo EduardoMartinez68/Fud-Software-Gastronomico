@@ -1,0 +1,48 @@
+<div class="col-md-8">
+    <!--This is the card for see the description of the product-->
+    <div class="card text-center mb-4">
+        <div class="card-body">
+            {{#if user}}
+                {{#each user}}
+                    <label>{{username}}</label><br>
+                    <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/1022/1022331.png"><br>
+
+                    <strong>{{nombre}} {{second_name}} {{last_name_father}} {{last_name_mother}}</strong>
+                    <br><br>
+
+                    <button class="card-btn-description" id="{{ID_usuario}}" onclick="edit_department(this.id)"><i
+                            class="fi-item fi-rr-box-alt"></i>Edit</button>
+                    <button class="card-btn-description" id="{{ID_usuario}}" onclick="delate_user(this.id)"><i
+                            class="fi-item fi-rr-time-past"></i>Delate</button>
+                    <br><br><br>
+                    <div class="card mb-4">
+                        <div class="card-bod">
+                            <table class="my-table-price">
+                                <thead>
+                                    <tr>
+                                        <th><label>Email</label></th>
+                                        <th><label>Nivel</label></th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <h6>{{correo}}</h6>
+                                        </th>
+                                        <th>
+                                            <h6>{{ID_nivel}}</h6>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <label>user</label><br>
+                <br><br><br>
+                <center>
+                    <br><br><br><img class="img-description" src="https://cdn-icons-png.flaticon.com/512/838/838590.png"><br><br><br><br><br><br><br><br><br><br><br><br>
+                </center>
+            {{/if}}
+        </div>
+    </div>
+</div>

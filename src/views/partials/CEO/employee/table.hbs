@@ -1,0 +1,25 @@
+<div class="col-md-4">
+    <div class="card">
+        {{>CEO/employee/browser}}
+        <div class="card-body card-information">
+            <!--this add all the employees-->
+            {{#each employees}}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {{#if img}}
+                        <img class="img-info"
+                            src="https://media.gq.com.mx/photos/649391b89ec62ce6c5b091a5/4:3/w_2668,h_2001,c_limit/mejores-hamburguesas.jpg">
+                        {{else}}
+                        <img class="img-info" src="https://cdn-icons-png.flaticon.com/512/1022/1022331.png">
+                        {{/if}}
+                        <strong>{{nombre}} {{second_name}} {{last_name_father}} {{last_name_mother}}</strong>
+                        <button id="{{ID_usuario}}" onclick="edit_department(this.id)"><i
+                                class="fi-department fi-sr-pencil"></i></button>
+                        <button id="{{ID_usuario}}" onclick="delate_user(this.id)"><i
+                                class="fi-department fi-sr-trash"></i></button>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

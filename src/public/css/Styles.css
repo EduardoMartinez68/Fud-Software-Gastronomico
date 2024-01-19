@@ -155,6 +155,45 @@ body {
     font-size: 1.4rem;
 }
 
+/*footer*/
+.logo-footer{
+    max-width: 6%;
+    height: auto;
+    margin-top: auto;
+}
+
+.container-footer{
+    background-color: #131313;
+    color: white;
+}
+
+.ul-footer{
+    list-style-type: none;
+}
+.ul-footer li {
+    content: "";
+}
+.link-footer{
+    text-decoration: none;
+    color: rgba(255,255,255,0.5); 
+}
+
+.link-footer:hover{
+    color: rgba(255,255,255,1); 
+}
+
+.container-copyright{
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 70px;
+}
+
+.text-footer{
+    color: rgba(255,255,255,0.5); 
+}
+
 /*checkbox*/
 .container-checkbox {
     background: var(--color-body);
