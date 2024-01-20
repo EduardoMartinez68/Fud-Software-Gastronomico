@@ -1,58 +1,62 @@
-<footer class="container-footer">
-    <br>
-    <center><img src="/img/logo2.png" alt="" class="logo-footer"></center>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                <ul class="ul-footer">
-                    <li><h5>Community</h5></li>
-                    <li><a href="" class="link-footer">Tutorials</a></li>
-                    <li><a href="" class="link-footer">Documentation</a></li>
-                    <li><a href="" class="link-footer">Frequent questions</a></li>
-                    <li><a href="" class="link-footer">Download</a></li>
-                </ul>
-            </div>
-            <div class="col-2">
-                <ul class="ul-footer">
-                    <li><h5>Services</h5></li>
-                    <li><a href="" class="link-footer">Füd Studio</a></li>
-                    <li><a href="" class="link-footer">Füd Cloud</a></li>
-                    <li><a href="" class="link-footer">Füd Desktop</a></li>
-                    <li><a href="" class="link-footer">Prices</a></li>
-                    <li><a href="" class="link-footer">Contact us</a></li>
-                    <li></li><br>
-                    <li><a href="" class="link-footer">Find a Partner</a></li>
-                    <li><a href="" class="link-footer">Become a Partner</a></li>
-                </ul>
-            </div>
-            <div class="col-2">
-                <ul class="ul-footer">
-                    <li><h5>Our company</h5></li>
-                    <li><a href="" class="link-footer">Our company</a></li>
-                    <li><a href="" class="link-footer">Jobs</a></li>
-                    <li><a href="" class="link-footer">Contact us</a></li>
-                    <li></li><br>
-                    <li><a href="" class="link-footer">Legal • Privacy</a></li>
-                    <li><a href="" class="link-footer">Security</a></li>
-                    <br>
-                    <li><h5>Contacto</h5></li>
-                    <li><a href="" class="link-footer">(+52) 155 3248 7864</a></li>
-                    <li><a href="" class="link-footer">fud123@Outlook.es</a></li>
-                </ul>
-            </div>
-            <div class="col-6">
-                <h6>Füd is the best management software for restaurant franchises</h6>
-                <p class="text-footer">
-                    Füd is the app that cover all your company needs: CRM, eCommerce, accounting, inventory, point of sale, project management, etc.
-                    <br><br>
-                    We believe that code is art and we are motivated to create the easiest, friendliest and most beautiful software on the market.
-                </p>
+
+{{#if user}}
+{{else}}
+    <footer class="container-footer">
+        <br>
+        <center><img src="/img/logo2.png" alt="" class="logo-footer"></center>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <ul class="ul-footer">
+                        <li><h5 class="title-footer">Community</h5></li>
+                        <li><a href="" class="link-footer">Tutorials</a></li>
+                        <li><a href="" class="link-footer">Documentation</a></li>
+                        <li><a href="" class="link-footer">Frequent questions</a></li>
+                        <li><a href="" class="link-footer">Download</a></li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <ul class="ul-footer">
+                        <li><h5 class="title-footer">Services</h5></li>
+                        <li><a href="" class="link-footer">Füd Studio</a></li>
+                        <li><a href="" class="link-footer">Füd Cloud</a></li>
+                        <li><a href="" class="link-footer">Füd Desktop</a></li>
+                        <li><a href="" class="link-footer">Prices</a></li>
+                        <li><a href="" class="link-footer">Contact us</a></li>
+                        <li></li><br>
+                        <li><a href="" class="link-footer">Find a Partner</a></li>
+                        <li><a href="" class="link-footer">Become a Partner</a></li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <ul class="ul-footer">
+                        <li><h5 class="title-footer">Our company</h5></li>
+                        <li><a href="" class="link-footer">Our company</a></li>
+                        <li><a href="" class="link-footer">Jobs</a></li>
+                        <li><a href="" class="link-footer">Contact us</a></li>
+                        <li></li><br>
+                        <li><a href="" class="link-footer">Legal • Privacy</a></li>
+                        <li><a href="" class="link-footer">Security</a></li>
+                        <br>
+                        <li><h5 class="title-footer">Contacto</h5></li>
+                        <li><a href="" class="link-footer">(+52) 155 3248 7864</a></li>
+                        <li><a href="" class="link-footer">fud123@Outlook.es</a></li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <h6 class="title-footer-2">Füd is the best management software for restaurant franchises</h6>
+                    <p class="text-footer">
+                        Füd is the app that cover all your company needs: CRM, eCommerce, accounting, inventory, point of sale, project management, etc.
+                        <br><br>
+                        We believe that code is art and we are motivated to create the easiest, friendliest and most beautiful software on the market.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <div class="container-copyright">
-        <center><p>© 2024 Füd. All rights reserved.</p></center>
-    </div>
-</footer>
+        <br>
+        <div class="container-copyright">
+            <center><p>© 2024 Füd. All rights reserved.</p></center>
+        </div>
+    </footer>
+{{/if}}

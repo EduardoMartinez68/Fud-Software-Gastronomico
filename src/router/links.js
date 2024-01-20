@@ -119,6 +119,10 @@ router.get('/prices-chraracter',(req,res)=>{
     res.render(companyName+'/web/prices');
 })
 
+router.get('/main',isNotLoggedIn,(req,res)=>{
+    res.render(companyName+'/web/main'); //this web is for return your user
+})
+
 ///links of the store
 router.get('/store',isLoggedIn,(req,res)=>{
     res.render(companyName+'/store/store');

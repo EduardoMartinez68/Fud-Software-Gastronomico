@@ -1,6 +1,7 @@
 /**/
 :root {
     --color-company: rgb(255, 255, 255);
+    --color-footer:  #131313;
     /*rgb(57,78,194);*/
     --color-hover: rgb(131, 2, 26);
     /*rgb(46, 62, 151);*/
@@ -15,6 +16,7 @@
     --color-confirmation-hover: rgb(19, 104, 64);
     --color-cancel: rgb(220, 53, 69);
     --color-cancel-hover: rgb(187, 44, 58);
+
 }
 
 .title-company{
@@ -163,8 +165,13 @@ body {
 }
 
 .container-footer{
-    background-color: #131313;
+    background-color: var(--color-footer);
     color: white;
+
+    /*position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-top: 20px;*/
 }
 
 .ul-footer{
@@ -173,9 +180,22 @@ body {
 .ul-footer li {
     content: "";
 }
+
 .link-footer{
     text-decoration: none;
     color: rgba(255,255,255,0.5); 
+    font-family: 'Open Sans', sans-serif;
+    font-size: .825rem;
+}
+
+.title-footer{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+}
+
+.title-footer-2{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
 }
 
 .link-footer:hover{
@@ -188,10 +208,14 @@ body {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.3);
     height: 70px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: .8rem;
 }
 
 .text-footer{
     color: rgba(255,255,255,0.5); 
+    font-family: 'Open Sans', sans-serif;
+    font-size: .825rem;
 }
 
 /*checkbox*/

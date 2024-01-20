@@ -33,11 +33,19 @@
                             <li><a href="/fud/logout"><i class="fi-icon fi-sr-settings"> Logout</i></a></li>
                         </ul>
                     </div>
+                {{else}}
+                    <ul>Hi Hi2</ul>
                 {{/if}}
+
             </ul>
             <ul class="titleDesciption">
-                <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
-                <i class="fi-des fi-sr-hat-chef"></i>
+                {{#if user}}
+                    <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
+                    <i class="fi-des fi-sr-hat-chef"></i>
+                {{else}}
+                    <span><button class="btn-navbar-login">Log in</button></span>
+                    <span><button class="btn-navbar-singup">Try is free</button></span>
+                {{/if}}
             </ul>
         </div>
     </head>

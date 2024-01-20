@@ -221,6 +221,29 @@ body{
     padding-right: 0px;
 }
 
+.btn-navbar-login{
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: .5rem;
+    width: 100px;
+    height: 35px;
+}
+
+.btn-navbar-login{
+    color: var(--color-company);
+    background-color: white;
+    border-radius: .5rem;
+    width: 100px;
+    height: 35px;
+}
+
+.btn-navbar-singup{
+    color: white;
+    background-color: var(--color-company);
+    border-radius: .5rem;
+    width: 100px;
+    height: 35px;
+}
 
 @media screen and (max-width: 1300px){
     .titleDesciption{
