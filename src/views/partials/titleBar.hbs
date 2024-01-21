@@ -34,7 +34,8 @@
                         </ul>
                     </div>
                 {{else}}
-                    <ul>Hi Hi2</ul>
+                    <ul class="ul-bar"><img src="/img/logo2.png" alt="" class="icon-bar" onclick="nextWeb('main')"></ul>
+                    <ul class="ul-bar-2"><a href="main" class="bar-link">Home</a> <a href="prices" class="bar-link">Pricing</a> <a href="" class="bar-link"> About us</a></ul>
                 {{/if}}
 
             </ul>
@@ -43,8 +44,8 @@
                     <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
                     <i class="fi-des fi-sr-hat-chef"></i>
                 {{else}}
-                    <span><button class="btn-navbar-login">Log in</button></span>
-                    <span><button class="btn-navbar-singup">Try is free</button></span>
+                    <span><button class="btn-navbar-login" onclick="nextWeb('/home')">Log in</button></span>
+                    <span><button class="btn-navbar-singup" onclick="nextWeb('signup')">Try is free</button></span>
                 {{/if}}
             </ul>
         </div>

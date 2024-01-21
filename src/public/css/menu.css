@@ -230,8 +230,8 @@ body{
 }
 
 .btn-navbar-login{
-    color: var(--color-company);
-    background-color: white;
+    color: white;
+    background-color: transparent;
     border-radius: .5rem;
     width: 100px;
     height: 35px;
@@ -239,10 +239,35 @@ body{
 
 .btn-navbar-singup{
     color: white;
-    background-color: var(--color-company);
+    background-color: var(--color-confirmation);
     border-radius: .5rem;
     width: 100px;
     height: 35px;
+}
+
+.ul-bar{
+    position: absolute;
+    margin-top: -10px;
+}
+
+.ul-bar-2{
+    position: absolute;
+    margin-top: -10px;
+    left: 170px;
+}
+
+.bar-link{
+    color: white;
+    text-decoration: none;
+    padding-right: 4rem;
+}
+
+.icon-bar{
+    height: 50px;
+    width: auto;
+    padding-right: 6rem;
+    position: absolute;
+    margin-top: -25px;
 }
 
 @media screen and (max-width: 1300px){
