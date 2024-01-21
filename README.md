@@ -28,6 +28,21 @@ Welcome to Füd, your all-in-one solution for point of sale management in the re
     Run the application: npm start
     Additional Documentation
     For more details on how to configure and use Füd, please refer to our comprehensive documentation.
+## WEB 
+![login](/img_web/login.png)
+The website can register new clients and log in with their accounts.
+
+![companies](/img_web/companies.png)
+All the companies that the user has are shown and they can create more if they need them.
+
+![dashboard](/img_web/dashboard.png)
+![dashboard2](/img_web/dashboard2.png)
+The dashboard includes the creation of supplies, products, employees, clients, combos, offers, discounts, sales, history, branches, etc.
+
+![supplies](/img_web/supplies.png)
+![typeUser](/img_web/typeUser.png)
+
+
 
 ## Contributions
 Contributions are welcome! If you encounter any issues or have ideas to enhance Füd, please create an issue or submit a pull request.
