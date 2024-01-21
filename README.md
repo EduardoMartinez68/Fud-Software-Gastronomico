@@ -14,6 +14,7 @@ Welcome to Füd, your all-in-one solution for point of sale management in the re
 -**Handlebars for Customized:**  Labels: With Handlebars, easily customize your labels and receipts, ensuring a unique experience for your customers.
 
 -**JavaScript and Node.js for Backend:**  JavaScript and Node.js on the backend ensure fast and efficient performance, delivering a seamless user experience.
+![functions](/functions.jpeg)
 
 ## System Requirements
     Node.js
