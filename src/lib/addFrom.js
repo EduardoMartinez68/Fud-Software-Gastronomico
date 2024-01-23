@@ -595,6 +595,7 @@ function create_type_employee(id_company,req){
 function get_value_text(text){
     return isNaN(parseFloat(text)) ? 0 : parseFloat(text);
 }
+
 function watch_permission(permission){
     return permission == 'on' 
 }
@@ -615,5 +616,37 @@ router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req
     //refresh the web with the new role update
     res.redirect('/fud/'+id_company+'/type-user');
 })
+
+//add employees
+router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const {email}=req.body
+    if(await this_email_exists(email)){
+        req.flash('message','the type employee not was add because this email already exists')
+    }
+    else{
+        const typeEmployees=create_new_employee(id_company,req)
+        if(await addDatabase.add_type_employees(typeEmployees)){
+            req.flash('success','the type employee was add with supplies')
+        }
+        else{
+            req.flash('message','the type employee not was add')
+        }
+    }
+    res.redirect('/fud/'+id_company+'/type-user');
+})
+
+
+async function this_email_exists(email){
+    //we going to search this email in the list of the database
+    var queryText = 'SELECT * FROM "Fud".users Where email = $1';
+    var values = [email];
+    var companies=await database.query(queryText, values);
+    return companies.rows.length>0;
+}
+
+function create_new_employee(req){
+    const {email}=req.body;
+}
 
 module.exports=router;

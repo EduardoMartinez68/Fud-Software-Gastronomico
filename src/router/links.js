@@ -1059,6 +1059,7 @@ async function search_employees(idCompany){
 }
 
 
+
 router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
@@ -1066,7 +1067,9 @@ router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
         const departments=await search_employee_departments(id);
         const country=await get_country()
         const roles=await get_type_employees(id)
-        res.render('links/manager/employee/addEmployee',{company,roles,departments,country});
+        const branches=await search_all_branch(id)
+        console.log(branches)
+        res.render('links/manager/employee/addEmployee',{company,roles,departments,country,branches});
     }
     else{
         res.redirect('/fud/home');
@@ -1090,7 +1093,6 @@ router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
 //-----------------------------------------------------------visit branch
 router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
     const branch=await get_branch(req)
-    console.log(branch)
     res.render('links/branch/home',{branch});
 })
 
