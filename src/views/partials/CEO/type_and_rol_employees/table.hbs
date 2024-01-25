@@ -15,11 +15,11 @@
     <tbody>
     {{#each departments}}
         <tr>
-            <td>{{name}}</td>
+            <td>{{name_departaments}}</td>
             <td>{{description}}</td>
             <td>
                 <button class="btn btn-danger" id="{{id}}" onclick="delete_departament(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-                <button class="btn btn-danger" id="{{id}}" onclick="edit_departament(this.id,'{{id_companies}}','{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>            </td>
+                <button class="btn btn-danger" id="{{id}}" onclick="edit_departament(this.id,'{{id_companies}}','{{name_departaments}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>            </td>
         </tr>
     {{/each}}
     </tbody>

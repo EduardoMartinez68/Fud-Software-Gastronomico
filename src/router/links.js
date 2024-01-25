@@ -1026,7 +1026,7 @@ router.get('/:id/:idDepartament/:name/:description/edit-department-employee',isL
 
 async function update_department_employe(idDepartament,name,description){
     try{
-        var queryText = `UPDATE "Employee".departments_employees SET name = $1, description = $2 WHERE id = $3`;
+        var queryText = `UPDATE "Employee".departments_employees SET name_departaments = $1, description = $2 WHERE id = $3`;
         var values = [name, description,idDepartament];
         await database.query(queryText, values); // update supplies
         return true;
@@ -1042,8 +1042,7 @@ router.get('/:id/employees',isLoggedIn,async(req,res)=>{
         const {id}=req.params;
         const employees=await search_employees(id);
         console.log(employees)
-        const user=[]
-        res.render('links/manager/employee/employee',{company,employees,user});
+        res.render('links/manager/employee/employee',{company,employees});
     }
     else{
         res.redirect('/fud/home');
@@ -1051,11 +1050,42 @@ router.get('/:id/employees',isLoggedIn,async(req,res)=>{
 })
 
 async function search_employees(idCompany){
-    //we will search the employees of the company 
-    var queryText = 'SELECT * FROM "Company".employees WHERE id_companies= $1';
+        // Buscamos los empleados de la empresa con información adicional de otras tablas
+        const queryText = `
+            SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+                   u.*, r.*, d.*, b.*, c.*
+            FROM "Company".employees e
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+            LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+            LEFT JOIN "Company".branches b ON e.id_branches = b.id
+            LEFT JOIN "Fud".country c ON e.id_country = c.id
+            WHERE e.id_companies = $1
+        `;
+
+        var values = [idCompany];
+        const result = await database.query(queryText, values);
+
+        return result.rows;
+}
+
+async function search_employees_id(idEmployee){
+    // Buscamos los empleados de la empresa con información adicional de otras tablas
+    const queryText = `
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*, r.*, d.*, b.*, c.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+        LEFT JOIN "Company".branches b ON e.id_branches = b.id
+        LEFT JOIN "Fud".country c ON e.id_country = c.id
+        WHERE e.id_companies = $1
+    `;
+
     var values = [idCompany];
     const result = await database.query(queryText, values);
-    
+
     return result.rows;
 }
 

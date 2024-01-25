@@ -6,17 +6,23 @@
             {{#each employees}}
                 <div class="card mb-4">
                     <div class="card-body">
-                        {{#if img}}
-                        <img class="img-info"
-                            src="https://media.gq.com.mx/photos/649391b89ec62ce6c5b091a5/4:3/w_2668,h_2001,c_limit/mejores-hamburguesas.jpg">
+                        {{#if photo}}
+                            <img class="img-info" src="/img/uploads/{{photo}}">
                         {{else}}
-                        <img class="img-info" src="https://cdn-icons-png.flaticon.com/512/1022/1022331.png">
+                            <img class="img-info" src="https://cdn.icon-icons.com/icons2/1572/PNG/512/3592855-business-man-employee-general-human-member-office-tie_107745.png">
                         {{/if}}
-                        <strong>{{nombre}} {{second_name}} {{last_name_father}} {{last_name_mother}}</strong>
-                        <button id="{{ID_usuario}}" onclick="edit_department(this.id)"><i
-                                class="fi-department fi-sr-pencil"></i></button>
-                        <button id="{{ID_usuario}}" onclick="delate_user(this.id)"><i
-                                class="fi-department fi-sr-trash"></i></button>
+                        
+                        <strong>{{first_name}} {{second_name}} {{last_name}}</strong>
+                        <br>
+                        <label>{{email}}</label>
+                        <br>
+                        <label>{{name_branch}}</label>
+                        <label>{{name_role}}</label>
+                        <label>{{name_departaments}}</label>
+                        <br>
+                        <label>{{name}}</label>
+                        <button id="{{ID_usuario}}" onclick="edit_department(this.id)" class="btn"><i class="fi-department fi-sr-pencil"></i></button>
+                        <button id="{{ID_usuario}}" onclick="delate_user(this.id)" class="btn"><i class="fi-department fi-sr-trash"></i></button>
                     </div>
                 </div>
             {{/each}}

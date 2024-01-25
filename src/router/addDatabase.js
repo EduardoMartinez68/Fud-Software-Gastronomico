@@ -54,7 +54,7 @@ function compare_password(P1,P2){
 async function add_user(user,role) {
     //script for add the new user to the database
     var queryText = 'INSERT INTO "Fud"."users" (photo, user_name, first_name, second_name, last_name, email, password, rol_user,id_packs_fud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
-    var values = [user[0],user[1], user[2], user[3],user[4], user[5], user[6], role,0];
+    var values = [user.image,user.user_name, user.first_name, user.second_name,user.last_name, user.email, user.password, role,0];
     try{
         //add the new user to the database
         const result = await database.query(queryText, values);
@@ -67,18 +67,17 @@ async function add_user(user,role) {
         console.log("add user: "+error)
         return null
     }
-
 }
 
 async function add_new_employees(employee){
     try{
-        //script for add the new employee to the database
-        var queryText = 'INSERT INTO Company."employees" (id_companies, id_roles_employees, id_departments_employees, id_branches, id_country, city, street, num_int, num_ext) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+        //script for add the new employee to the databas
+        var queryText = 'INSERT INTO "Company"."employees" (id_companies, id_users, id_roles_employees, id_departments_employees, id_branches, id_country, city, street, num_int, num_ext,phone,cell_phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
         var values = Object.values(employee);
         const result = await database.query(queryText, values);
         return true;
     }catch(error){
-        console.log("add user: "+error)
+        console.log("add employee: "+error)
         return false;
     }
 }
@@ -343,14 +342,14 @@ async function add_customer(customer){
 //department employees
 async function this_department_employees_exists(department){
     //we will search the department employees of the user 
-    var queryText = `SELECT * FROM "Employee".departments_employees WHERE id_companies = $1 AND name = $2`;
+    var queryText = `SELECT * FROM "Employee".departments_employees WHERE id_companies = $1 AND name_departaments = $2`;
     var values = [department.id_company,department.name];
     const result = await database.query(queryText, values);
     return result.rows.length>0;
 }
 
 async function save_department_employees(department){
-    var queryText = 'INSERT INTO "Employee".departments_employees(id_companies, name, description)'
+    var queryText = 'INSERT INTO "Employee".departments_employees(id_companies, name_departaments, description)'
     +'VALUES ( $1, $2, $3)';
     var values = Object.values(department);
     try{
@@ -373,7 +372,7 @@ async function add_department_employees(department){
 }
 
 async function add_type_employees(typeEmployee){
-    var queryText = 'INSERT INTO "Employee".roles_employees(id_companies, name, salary , currency, type_of_salary, commissions, discount_for_product, add_box, edit_box, delete_box, create_reservation, view_reservation, view_reports, add_customer, edit_customer, delete_customer, cancel_debt, offer_loan, get_fertilizer, view_customer_credits, send_email, add_employee, edit_employee, delete_employee, create_schedule, assign_schedule, view_schedule, create_type_user, create_employee_department, view_sale_history, delete_sale_history, view_movement_history, delete_movement_history, view_supplies, add_supplies, edit_supplies, delete_supplies, view_products, edit_products, delete_products, view_combo, add_combo, edit_combo, delete_combo, view_food_departament, add_food_departament, edit_food_departament, delete_food_departament, view_food_category, add_food_category, edit_food_category, delete_food_category, waste_report, add_provider, edit_provider, delete_provider, view_provider, sell, apply_discount, apply_returns, add_offers, edit_offers, delete_offers, change_coins, modify_hardware, modify_hardware_kitchen, give_permissions)'
+    var queryText = 'INSERT INTO "Employee".roles_employees(id_companies, name_role, salary , currency, type_of_salary, commissions, discount_for_product, add_box, edit_box, delete_box, create_reservation, view_reservation, view_reports, add_customer, edit_customer, delete_customer, cancel_debt, offer_loan, get_fertilizer, view_customer_credits, send_email, add_employee, edit_employee, delete_employee, create_schedule, assign_schedule, view_schedule, create_type_user, create_employee_department, view_sale_history, delete_sale_history, view_movement_history, delete_movement_history, view_supplies, add_supplies, edit_supplies, delete_supplies, view_products, edit_products, delete_products, view_combo, add_combo, edit_combo, delete_combo, view_food_departament, add_food_departament, edit_food_departament, delete_food_departament, view_food_category, add_food_category, edit_food_category, delete_food_category, waste_report, add_provider, edit_provider, delete_provider, view_provider, sell, apply_discount, apply_returns, add_offers, edit_offers, delete_offers, change_coins, modify_hardware, modify_hardware_kitchen, give_permissions)'
     + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, $62, $63, $64, $65, $66, $67)';
 
     var values = Object.values(typeEmployee);

@@ -179,7 +179,7 @@ async function update_role_employee(idRoleEmployee, newRole){
     UPDATE "Employee".roles_employees
     SET 
         id_companies=$1,
-        name=$2,
+        name_role=$2,
         salary=$3,
         currency=$4,
         type_of_salary=$5,

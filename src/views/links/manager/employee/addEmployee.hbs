@@ -12,8 +12,17 @@
                 <div class="card">
                     <div class="card-body">
                         {{#each company}}
-                        <form action="/fud/{{id}}/add-employees" method="POST">
+                        <form action="/fud/{{id}}/add-employees" method="POST" enctype="multipart/form-data">
                         {{/each}}
+                            <div class="form-group" >
+                                <center>
+                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="imgEmployee" class="userImg">
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+                            </div>  
+                            <!--
                             <div class="form-group" >
                                 <center>
                                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
@@ -22,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
-                            </div>       
+                            </div>  --->     
 
 
                             <div class="form-group">
@@ -54,7 +63,7 @@
                                         <label>Role Employee</label><br>
                                         <select class="form-select" aria-label="Default select example" name="role_employee">
                                             {{#each roles}}
-                                                <option value="{{id}}">{{name}}</option>
+                                                <option value="{{id}}">{{name_role}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
@@ -62,7 +71,7 @@
                                         <label>Departaments Employee</label><br>
                                         <select class="form-select" aria-label="Default select example" name="departament_employee">
                                             {{#each departments}}
-                                                <option value="{{id}}">{{name}}</option>
+                                                <option value="{{id}}">{{name_departaments}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
@@ -169,3 +178,4 @@
     <script src="/js/manager/addEmployee.js"></script>
 </body>
 </html>
+

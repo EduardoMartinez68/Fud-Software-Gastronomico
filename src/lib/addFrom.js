@@ -504,7 +504,7 @@ router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
 
 async function this_type_employee_exist(idCompany,name){
     //we will search the department employees of the user 
-    var queryText = `SELECT * FROM "Employee".roles_employees WHERE id_companies = $1 AND name = $2`;
+    var queryText = `SELECT * FROM "Employee".roles_employees WHERE id_companies = $1 AND name_role = $2`;
     var values = [idCompany,name];
     const result = await database.query(queryText, values);
     return result.rows.length>0;
@@ -635,7 +635,6 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
             if(compare_password(password1,password2)){
                 //we will to create a new user for next save in the database
                 const user=await create_new_user(req)
-                console.log(user.user_name)
                 const idUser=await addDatabase.add_user(user,1) //add the new user and get the id of the employee
                 
                 //we will see if the user was add with success
@@ -650,6 +649,7 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
                         if the data of the employee not was add but the new user yes was create, we going to make the message of warning
                         for that the manager can edit the employee data in the screen of employees
                         */
+                        await delete_user(idUser)
                         req.flash('message','the employee data not was add. Please you can edit the data and update the data')
                     }
                 }
@@ -663,6 +663,20 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
     }
     res.redirect('/fud/'+id_company+'/employees');
 })
+
+async function delete_user(id){
+    try {
+        // Script para eliminar el usuario de la base de datos
+        var queryText = 'DELETE FROM "Fud".users WHERE id=$1';
+        var values = [id];
+        const result = await database.query(queryText, values);
+        return true;
+    } catch(error) {
+        console.log("delete user: " + error);
+        return false;
+    }
+}
+
 
 function compare_password(P1,P2){
     if (P1==''){
@@ -691,16 +705,16 @@ async function this_username_exists(username){
 async function create_new_user(req){
     const {user_name,email,first_name,second_name,last_name,password1}=req.body;
     const image=create_a_new_image(req)
-    const new_user=[
+    const new_user={
         image,
         user_name,
         first_name,
         second_name,
         last_name,
         email,
-        password1
-    ]
-    new_user[6]=await helpers.encryptPassword(password1); //create a password encrypt
+        password:password1
+    }
+    new_user.password=await helpers.encryptPassword(password1); //create a password encrypt
     return new_user;
 }
 
@@ -711,20 +725,20 @@ function create_new_employee(id_user,id_company,req){
     const id_branch=req.body.branch;
     const id_country=req.body.country;
 
-    const new_employee=[
+    const new_employee={
         id_company,
         id_user,
         id_role_employee,
         id_departament_employee,
         id_branch,
-        phone,
-        cell_phone,
         id_country,
         city,
         street,
         num_int,
-        num_ext
-    ]
+        num_ext,
+        phone,
+        cell_phone
+    }
 
     return new_employee;
 }
