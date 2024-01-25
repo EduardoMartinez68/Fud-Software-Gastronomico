@@ -1041,8 +1041,9 @@ router.get('/:id/employees',isLoggedIn,async(req,res)=>{
     if(company.length>0){
         const {id}=req.params;
         const employees=await search_employees(id);
+        console.log(employees)
         const user=[]
-        res.render('links/manager/employee/employee',{company,user});
+        res.render('links/manager/employee/employee',{company,employees,user});
     }
     else{
         res.redirect('/fud/home');
@@ -1068,7 +1069,7 @@ router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
         const country=await get_country()
         const roles=await get_type_employees(id)
         const branches=await search_all_branch(id)
-        console.log(branches)
+
         res.render('links/manager/employee/addEmployee',{company,roles,departments,country,branches});
     }
     else{

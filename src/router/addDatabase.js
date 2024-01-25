@@ -51,10 +51,36 @@ function compare_password(P1,P2){
     return P1==P2;
 }
 
-async function add_user(user){
-    var queryText = 'INSERT INTO Fud.users (user_name, name, email,password,birthday) VALUES ($1, $2, $3,$4,$5)';
-    var values = [user.user_name,user.name,user.email,user.password,user.birthday] 
-    await database.query(queryText,values);
+async function add_user(user,role) {
+    //script for add the new user to the database
+    var queryText = 'INSERT INTO "Fud"."users" (photo, user_name, first_name, second_name, last_name, email, password, rol_user,id_packs_fud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
+    var values = [user[0],user[1], user[2], user[3],user[4], user[5], user[6], role,0];
+    try{
+        //add the new user to the database
+        const result = await database.query(queryText, values);
+
+        //get the id of the result 
+        const insertedUserId = result.rows[0].id;
+
+        return insertedUserId;
+    }catch(error){
+        console.log("add user: "+error)
+        return null
+    }
+
+}
+
+async function add_new_employees(employee){
+    try{
+        //script for add the new employee to the database
+        var queryText = 'INSERT INTO Company."employees" (id_companies, id_roles_employees, id_departments_employees, id_branches, id_country, city, street, num_int, num_ext) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+        var values = Object.values(employee);
+        const result = await database.query(queryText, values);
+        return true;
+    }catch(error){
+        console.log("add user: "+error)
+        return false;
+    }
 }
 
 async function add_company(company){
@@ -375,6 +401,7 @@ async function add_department(name,description){
     }
 }
 
+
 module.exports={
     add_company,
     add_product_department,
@@ -385,5 +412,7 @@ module.exports={
     save_all_supplies_combo_company,
     add_customer,
     add_department_employees,
-    add_type_employees
+    add_type_employees,
+    add_user,
+    add_new_employees
 };

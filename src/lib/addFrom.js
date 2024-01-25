@@ -620,22 +620,57 @@ router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req
 //add employees
 router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
-    const {email}=req.body
+    const {email,username,password1,password2}=req.body
+    //we will see if the email that the user would like to add exist 
     if(await this_email_exists(email)){
-        req.flash('message','the type employee not was add because this email already exists')
+        req.flash('message','the employee not was add because this username already exists')
     }
     else{
-        const typeEmployees=create_new_employee(id_company,req)
-        if(await addDatabase.add_type_employees(typeEmployees)){
-            req.flash('success','the type employee was add with supplies')
+        //we will see if the username that the user would like to add exist 
+        if(await this_username_exists(username)){
+            req.flash('message','the employee not was add because this username already exists')
         }
         else{
-            req.flash('message','the type employee not was add')
+            //we will watching if the password is correct 
+            if(compare_password(password1,password2)){
+                //we will to create a new user for next save in the database
+                const user=await create_new_user(req)
+                console.log(user.user_name)
+                const idUser=await addDatabase.add_user(user,1) //add the new user and get the id of the employee
+                
+                //we will see if the user was add with success
+                if(idUser!=null){
+                    //we will to create the new employee and add to the database
+                    const employee=create_new_employee(idUser,id_company,req)
+                    if(await addDatabase.add_new_employees(employee)){
+                        req.flash('success','the employee was add with supplies')
+                    }
+                    else{
+                        /*
+                        if the data of the employee not was add but the new user yes was create, we going to make the message of warning
+                        for that the manager can edit the employee data in the screen of employees
+                        */
+                        req.flash('message','the employee data not was add. Please you can edit the data and update the data')
+                    }
+                }
+                else{
+                    req.flash('message','the employee not was add')
+                }
+            }else{
+                req.flash('message','the password was incorrect')
+            }
         }
     }
-    res.redirect('/fud/'+id_company+'/type-user');
+    res.redirect('/fud/'+id_company+'/employees');
 })
 
+function compare_password(P1,P2){
+    if (P1==''){
+        return false;
+    }
+
+    return P1==P2;
+}
 
 async function this_email_exists(email){
     //we going to search this email in the list of the database
@@ -645,8 +680,53 @@ async function this_email_exists(email){
     return companies.rows.length>0;
 }
 
-function create_new_employee(req){
-    const {email}=req.body;
+async function this_username_exists(username){
+    //we going to search this email in the list of the database
+    var queryText = 'SELECT * FROM "Fud".users Where user_name = $1';
+    var values = [username];
+    var companies=await database.query(queryText, values);
+    return companies.rows.length>0;
+}
+
+async function create_new_user(req){
+    const {user_name,email,first_name,second_name,last_name,password1}=req.body;
+    const image=create_a_new_image(req)
+    const new_user=[
+        image,
+        user_name,
+        first_name,
+        second_name,
+        last_name,
+        email,
+        password1
+    ]
+    new_user[6]=await helpers.encryptPassword(password1); //create a password encrypt
+    return new_user;
+}
+
+function create_new_employee(id_user,id_company,req){
+    const {phone,cell_phone,city,street,num_ext,num_int}=req.body;
+    const id_role_employee=req.body.role_employee;
+    const id_departament_employee=req.body.departament_employee;
+    const id_branch=req.body.branch;
+    const id_country=req.body.country;
+
+    const new_employee=[
+        id_company,
+        id_user,
+        id_role_employee,
+        id_departament_employee,
+        id_branch,
+        phone,
+        cell_phone,
+        id_country,
+        city,
+        street,
+        num_int,
+        num_ext
+    ]
+
+    return new_employee;
 }
 
 module.exports=router;

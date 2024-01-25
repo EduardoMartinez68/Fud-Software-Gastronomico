@@ -12,21 +12,22 @@
                 <div class="card">
                     <div class="card-body">
                         {{#each company}}
-                        <form action="/links/{{id}}/addEmployee" method="POST">
+                        <form action="/fud/{{id}}/add-employees" method="POST">
                         {{/each}}
                             <div class="form-group" >
                                 <center>
-                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="imgEmployee" class="userImg">
+                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                                    id="imgEmployee" class="userImg">
                                 </center>
                             </div>
                             <div class="form-group">
-                                <input type="file" name="imagen" accept="image/*" class="form-control" id="inputImg">
+                                <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
                             </div>       
 
-                            
+
                             <div class="form-group">
                                 <label>User Name *</label><br>
-                                <input type="tex" class="form-control" name="user" placeholder="User Name">
+                                <input type="tex" class="form-control" name="user_name" placeholder="User Name" required>
                             </div>
                             <div class="form-group">
                                 <label>E-mail *</label><br>
@@ -36,8 +37,22 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
+                                        <label>Password *</label><br>
+                                        <input type="password" class="form-control" name="password1" placeholder="Password" required>
+                                    </div>
+                                    <div class="col">
+                                        <label>Confirm Password *</label><br>
+                                        <input type="password" class="form-control" name="password2" placeholder="Password" required>
+                                    </div>
+                                </div>        
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
                                         <label>Role Employee</label><br>
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" aria-label="Default select example" name="role_employee">
                                             {{#each roles}}
                                                 <option value="{{id}}">{{name}}</option>
                                             {{/each}}
@@ -45,7 +60,7 @@
                                     </div>
                                     <div class="col">
                                         <label>Departaments Employee</label><br>
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" aria-label="Default select example" name="departament_employee">
                                             {{#each departments}}
                                                 <option value="{{id}}">{{name}}</option>
                                             {{/each}}
@@ -58,7 +73,7 @@
                                 <div class="row">
                                     <div class="col-10">
                                         <label>Branche *</label><br>
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" aria-label="Default select example" name="branch">
                                             {{#each branches}}
                                                 <option value="{{id}}">{{name_branch}}</option>
                                             {{/each}}
@@ -68,7 +83,7 @@
                                         <div class="row">
                                             <label>.</label>
                                             {{#each company}}
-                                            <button class="btn-add" onclick="nextWeb('{{id}}/add-branches')"><i class="fi-icon fi-sr-store-alt"></i> +</button>
+                                                <button class="btn-add" onclick="nextWeb('{{id}}/add-branches')"><i class="fi-icon fi-sr-store-alt"></i> +</button>
                                             {{/each}}
                                         </div>
                                     </div>
@@ -107,15 +122,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>
-                                    <i class="fi-session fi-rr-user">Birday *</i>
-                                    <input type="date" id="birday" name="birday" class="form-control">
-                                </label>
-                            </div> 
-
-                            <div class="form-group">
                                 <label>Country *</label><br>
-                                <select class="form-select" aria-label="Default select example">
+                                <select class="form-select" aria-label="Default select example" name="country">
                                     {{#each country}}
                                         <option value="{{id}}">{{name}}</option>
                                     {{/each}}
