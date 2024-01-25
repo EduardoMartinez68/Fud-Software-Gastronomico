@@ -4,9 +4,9 @@
         <col style="width: 5%;">
         <col style="width: 12%;">
         <col style="width: 12%;">
-        <col style="width: 30%;">
+        <col style="width: 20%;"> <!--20-->
         <col style="width: 2%;">
-        <col style="width: 22%;">
+        <col style="width: 32%;">
     </colgroup>
     <thead>
     <tr>
@@ -32,7 +32,7 @@
             {{#if use_inventory}}
                 <td><i class="fi-icon fi-ss-check-circle"></i></td>
             {{else}}
-                <td></td>
+                <td><i class="fi-icon fi-sr-circle-xmark"></i></td>
             {{/if}}
             <td>
                 <button class="btn btn-danger" id="{{id}}" onclick="delate_supplies(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>

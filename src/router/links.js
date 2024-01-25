@@ -1041,7 +1041,6 @@ router.get('/:id/employees',isLoggedIn,async(req,res)=>{
     if(company.length>0){
         const {id}=req.params;
         const employees=await search_employees(id);
-        console.log(employees)
         res.render('links/manager/employee/employee',{company,employees});
     }
     else{

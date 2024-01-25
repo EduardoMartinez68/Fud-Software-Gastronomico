@@ -17,12 +17,12 @@
                         <label>{{email}}</label>
                         <br>
                         <label>{{name_branch}}</label>
-                        <label>{{name_role}}</label>
-                        <label>{{name_departaments}}</label>
+                        <label class="text-info-employee">{{name_role}}</label>
+                        <label class="text-info-employee">{{name_departaments}}</label>
                         <br>
                         <label>{{name}}</label>
-                        <button id="{{ID_usuario}}" onclick="edit_department(this.id)" class="btn"><i class="fi-department fi-sr-pencil"></i></button>
-                        <button id="{{ID_usuario}}" onclick="delate_user(this.id)" class="btn"><i class="fi-department fi-sr-trash"></i></button>
+                        <button id="{{ID_usuario}}" onclick="edit_department(this.id)" class="btn-table-employee-edit"><i class="fi-department fi-sr-pencil"></i></button>
+                        <button id="{{ID_usuario}}" onclick="delate_user(this.id)" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>
                     </div>
                 </div>
             {{/each}}
