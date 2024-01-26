@@ -289,5 +289,6 @@
 /**profile**/
 .img-profile{
     width: 50%;
+    height: auto;
     border-radius: 2rem;
 }

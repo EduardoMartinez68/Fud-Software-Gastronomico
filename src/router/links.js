@@ -366,37 +366,6 @@ async function this_department_be(){
 }
 
 //-------------------------------------------------------------------company
-router.get('/home',isLoggedIn,async(req,res)=>{
-    await home_render(req,res)
-});
-
-
-async function home_render(req,res){
-    //CEO
-    if(req.user.rol_user==0){
-        await home_company(req,res)
-    }
-    else if(req.user.rol_user==1){ //Manager
-        await home_company(req,res)
-    }
-    else{
-        await home_employees(req,res)
-    }
-}
-
-async function home_employees(req,res){
-    res.redirect('/fud/store-home')
-}
-
-async function home_company(req,res){
-    var queryText = 'SELECT * FROM "User".companies Where id_users= $1';
-    var values = [parseInt(req.user.id)];
-    const result = await database.query(queryText, values);
-    const companies=result.rows;
-    res.render('links/manager/home',{companies});
-}
-
-
 router.get('/add-company',isLoggedIn,async(req,res)=>{
     const country=await get_country();
     res.render('links/manager/company/addCompanys',{country});
@@ -1121,11 +1090,97 @@ router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
 })
 
 //-----------------------------------------------------------visit branch
+router.get('/home',isLoggedIn,async(req,res)=>{
+    await home_render(req,res)
+});
+
+async function home_render(req,res){
+    //CEO
+    if(req.user.rol_user==0){
+        await home_company(req,res)
+    }
+    else if(req.user.rol_user==1){ //Manager
+        await home_employees(req,res)
+    }
+    else{
+        await home_employees(req,res)
+    }
+}
+
+async function home_employees(req,res){
+    //we will search the company and branch where the user works
+    const employee=await get_data_employee(req);
+    const data=employee[0]
+    const id_user=data.id_users
+    const id_company=data.id_companies
+    const id_branch=data.id_branches
+    const id_employee=data.id
+    const id_role=data.id_roles_employees
+    
+    const url = `/fud/${id_user}/${id_company}/${id_branch}/${id_employee}/${id_role}/store-home`;
+    res.redirect(url)
+}
+
+async function get_data_employee(req){
+    const id_user=req.user.id;
+    var queryText = 'SELECT * FROM "Company"."employees" WHERE id_users= $1';
+    var values = [id_user];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+async function home_company(req,res){
+    var queryText = 'SELECT * FROM "User".companies Where id_users= $1';
+    var values = [parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const companies=result.rows;
+    res.render('links/manager/home',{companies});
+}
+
 router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
     const branch=await get_branch(req)
     res.render('links/branch/home',{branch});
 })
 
+
+
+
+router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
+    if(await this_employee_works_here(req,res)){
+        res.render('links/store/home/home');
+    }
+});
+
+
+
+async function this_employee_works_here(req,res){
+    const {id_user}=req.params;
+
+    //first we will watching if the id of the user is equal to the id of the account.
+    if (id_user==req.user.id){
+        //we will watching if the employee data is of the user and work in this company 
+        if(await this_data_employee_is_user(req)){
+            return true;
+        }
+    }
+    req.flash('message','⚠️ You are trying to access an account that does not belong to you! ⚠️')
+    res.redirect('/fud/home');
+}
+
+async function this_data_employee_is_user(req){
+    const employee=await get_data_employee(req);
+    const data=employee[0]
+    const id_user_employee=data.id_users
+    const id_company_employee=data.id_companies
+    const id_branch_employee=data.id_branches
+    const id_employee_employee=data.id
+    const id_role_employee=data.id_roles_employees
+
+    const {id_company,id_branch,id_employee,id_role}=req.params;
+
+    return (id_user_employee==req.user.id) && (id_company_employee==id_company) && (id_branch_employee==id_branch) && (id_employee_employee==id_employee) && (id_role_employee==id_role)
+}
 
 
 router.get('/store-home',isLoggedIn,async (req,res)=>{
