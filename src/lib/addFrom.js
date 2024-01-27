@@ -757,16 +757,16 @@ function create_new_employee(id_user,id_company,req){
     return new_employee;
 }
 
-router.post('/fud/:id_user/:id_company/:id_employee/:path_photo/edit-employees',isLoggedIn,async(req,res)=>{
-    const {id_company,id_employee,id_user,path_photo}=req.params;
+router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
+    const {id_company,id_employee,id_user}=req.params;
     const {email,username}=req.body
-
     const newDataUser=new_data_user(req)
     const newDataEmployee=new_data_employee(req)
 
     //we will see if exist a new perfil photo 
     if(newDataUser.image!=""){
         //get the old direction of the imagen 
+        const path_photo=get_profile_picture(id_user)
         delete_image_upload(path_photo)
     }
 
@@ -784,6 +784,19 @@ router.post('/fud/:id_user/:id_company/:id_employee/:path_photo/edit-employees',
 
     res.redirect('/fud/'+id_company+'/employees');
 })
+
+async function get_profile_picture(idUser){
+    //we will search the user that the manager would like delete
+    var queryText = 'SELECT photo FROM "Fud".users WHERE id= $1';
+    var values = [idUser];
+    const result = await database.query(queryText, values);
+    if (result.rows.length > 0 && 'photo' in result.rows[0]) {
+        return result.rows[0].photo;
+    } else {
+        return null;
+    }
+}
+
 
 function new_data_user(req){
     const {user_name,email,first_name,second_name,last_name}=req.body;
