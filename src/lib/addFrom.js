@@ -743,4 +743,64 @@ function create_new_employee(id_user,id_company,req){
     return new_employee;
 }
 
+router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
+    const {id_company,id_employee,id_user}=req.params;
+    const {email,username}=req.body
+
+    const newDataUser=new_data_user(req)
+    const newDataEmployee=new_data_employee(req)
+
+    if(await update.update_user(id_user,newDataUser)){
+        if(await update.update_employee(id_user,newDataEmployee)){
+            req.flash('success','the employee  was update')
+        }
+        else{
+            req.flash('message','the employee data not was update')
+        }
+    }
+    else{
+        req.flash('message','the user data not was update')
+    }
+
+    res.redirect('/fud/'+id_company+'/employees');
+})
+
+function new_data_user(req){
+    const {user_name,email,first_name,second_name,last_name}=req.body;
+    const image=create_a_new_image(req)
+    const new_user={
+        image,
+        user_name,
+        email,
+        first_name,
+        second_name,
+        last_name,
+        rol_user:1
+    }
+
+    return new_user;
+}
+
+function new_data_employee(req){
+    const {phone,cell_phone,city,street,num_ext,num_int}=req.body;
+    const id_role_employee=req.body.role_employee;
+    const id_departament_employee=req.body.departament_employee;
+    const id_branch=req.body.branch;
+    const id_country=req.body.country;
+
+    const new_employee={
+        id_role_employee,
+        id_departament_employee,
+        id_branch,
+        id_country,
+        city,
+        street,
+        num_int,
+        num_ext,
+        phone,
+        cell_phone
+    }
+
+    return new_employee;
+}
 module.exports=router;

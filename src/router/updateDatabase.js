@@ -261,11 +261,106 @@ async function update_role_employee(idRoleEmployee, newRole){
     }
 }
 
+
+
+function get_query_edit_combo(dataUser){
+    var queryText = `
+    UPDATE "Fud".users
+    SET 
+        photo=$1,
+        user_name=$2,
+        email=$3,
+        first_name=$4,
+        second_name=$5,
+        last_name=$6,
+        rol_user=$7
+    WHERE 
+        id=$8
+    `;
+
+    if(dataUser.image==""){
+        queryText = `
+        UPDATE "Fud".users
+        SET 
+            user_name=$1,
+            email=$2,
+            first_name=$3,
+            second_name=$4,
+            last_name=$5,
+            rol_user=$6
+        WHERE 
+            id=$7
+    `;
+    }
+
+    return queryText;
+}
+
+
+async function update_user(idUser,dataUser){
+    var queryText = get_query_edit_combo(dataUser)
+    
+    //create the array
+    var values = Object.values(dataUser);
+
+    //we will see if exist a new image for the perfil photo
+    if(dataUser.image==""){
+        //we will delete the data of the image 
+        values.splice(0, 1);
+    }
+
+    //we will add the id of the user for update the data
+    values.push(idUser)
+
+    //update the user data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return false;
+    }
+}
+
+async function update_employee(idEmployee,dataEmployee){
+    queryText = `
+    UPDATE "Company".employees
+    SET 
+        id_roles_employees=$1,
+        id_departments_employees=$2,
+        id_branches=$3,
+        id_country=$4,
+        city=$5,
+        street=$6,
+        num_int=$7,
+        num_ext=$8,
+        phone=$9,
+        cell_phone=$10
+    WHERE 
+        id_users=$11
+`;
+
+    //create the array and save the id of the employee that we will editing
+    var values = Object.values(dataEmployee);
+    values.push(idEmployee)
+    
+    //update the employee data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating employee:', error);
+        return false;
+    }
+}
+
 module.exports = {
     update_company,
     get_query_edit_supplies_company,
     update_combo,
     update_branch,
     update_customer,
-    update_role_employee
+    update_role_employee,
+    update_user,
+    update_employee
 };

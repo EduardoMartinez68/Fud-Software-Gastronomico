@@ -1057,8 +1057,6 @@ async function search_employees_id(idEmployee){
     return result.rows;
 }
 
-
-
 router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
@@ -1075,6 +1073,51 @@ router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     }
 })
 
+//edit employee
+router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
+    const company=await check_company(req);
+    if(company.length>0){
+        const {idEmployee,id}=req.params;
+        const employee=await search_employee(idEmployee);
+        const departments=await search_employee_departments(id);
+        const country=await get_country()
+        const roles=await get_type_employees(id)
+        const branches=await search_all_branch(id)
+        console.log(employee)
+        res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches});
+    }
+    else{
+        res.redirect('/fud/home');
+    }
+})
+
+async function search_employee(idEmployee){
+    // search the employee of the company with information about other table
+    /*
+    const queryText = `
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*, r.*, d.*, b.*, c.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+        LEFT JOIN "Company".branches b ON e.id_branches = b.id
+        LEFT JOIN "Fud".country c ON e.id_country = c.id
+        WHERE e.id_users = $1
+    `;
+    */
+    const queryText = `
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches,e.id_country, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        WHERE e.id_users = $1
+    `;
+    var values = [idEmployee];
+    const result = await database.query(queryText, values);
+
+    return result.rows;
+}
 
 ///links of the manager
 router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{
@@ -1143,16 +1186,11 @@ router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
     res.render('links/branch/home',{branch});
 })
 
-
-
-
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     if(await this_employee_works_here(req,res)){
         res.render('links/store/home/home');
     }
 });
-
-
 
 async function this_employee_works_here(req,res){
     const {id_user}=req.params;
@@ -1181,7 +1219,6 @@ async function this_data_employee_is_user(req){
 
     return (id_user_employee==req.user.id) && (id_company_employee==id_company) && (id_branch_employee==id_branch) && (id_employee_employee==id_employee) && (id_role_employee==id_role)
 }
-
 
 router.get('/store-home',isLoggedIn,async (req,res)=>{
     res.render('links/store/home/home');
