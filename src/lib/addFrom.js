@@ -11,6 +11,20 @@ const express=require('express');
 const router=express.Router();
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 
+
+const fs = require('fs');
+const path = require('path');
+async function delete_image_upload(pathImg){
+    var pathImage=path.join(__dirname, '../public/img/uploads', pathImg);
+    fs.unlink(pathImage, (error) => {
+        if (error) {
+          console.error('Error to delate image:', error);
+        } else {
+          console.log('Image delate success');
+        }
+      });
+}
+
 //add company
 passport.use('local.add_company', new LocalStrategy({
     usernameField: 'name',
@@ -743,12 +757,18 @@ function create_new_employee(id_user,id_company,req){
     return new_employee;
 }
 
-router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
-    const {id_company,id_employee,id_user}=req.params;
+router.post('/fud/:id_user/:id_company/:id_employee/:path_photo/edit-employees',isLoggedIn,async(req,res)=>{
+    const {id_company,id_employee,id_user,path_photo}=req.params;
     const {email,username}=req.body
 
     const newDataUser=new_data_user(req)
     const newDataEmployee=new_data_employee(req)
+
+    //we will see if exist a new perfil photo 
+    if(newDataUser.image!=""){
+        //get the old direction of the imagen 
+        delete_image_upload(path_photo)
+    }
 
     if(await update.update_user(id_user,newDataUser)){
         if(await update.update_employee(id_user,newDataEmployee)){

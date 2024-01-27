@@ -41,7 +41,6 @@ async function get_path_img(schema, table, id) {
 //this function is for delate the image of the tabla of the file img/uploads
 async function delate_image_upload(pathImg){
     var pathImage=path.join(__dirname, '../public/img/uploads', pathImg);
-    console.log(pathImage);
     fs.unlink(pathImage, (error) => {
         if (error) {
           console.error('Error to delate image:', error);
@@ -1093,19 +1092,6 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
 
 async function search_employee(idEmployee){
     // search the employee of the company with information about other table
-    /*
-    const queryText = `
-        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
-               u.*, r.*, d.*, b.*, c.*
-        FROM "Company".employees e
-        LEFT JOIN "Fud".users u ON e.id_users = u.id
-        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
-        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
-        LEFT JOIN "Company".branches b ON e.id_branches = b.id
-        LEFT JOIN "Fud".country c ON e.id_country = c.id
-        WHERE e.id_users = $1
-    `;
-    */
     const queryText = `
         SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches,e.id_country, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
                u.*
