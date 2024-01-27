@@ -1082,7 +1082,6 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
         const country=await get_country()
         const roles=await get_type_employees(id)
         const branches=await search_all_branch(id)
-        console.log(employee)
         res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches});
     }
     else{
@@ -1104,6 +1103,97 @@ async function search_employee(idEmployee){
 
     return result.rows;
 }
+//delete employees
+async function this_company_is_of_this_user(req,res){
+    //get the id of the company
+    const {id_company}=req.params;
+    const company=await check_company_user(id_company,req); //search all the company of the user 
+
+    //we will see if exist this company in the list of the user
+    if(company.length>0){
+        return true;
+    }else{
+        //if not exist we will to show a invasion message 
+        req.flash('message','⚠️This company not is your⚠️');
+        res.redirect('/fud/home');
+    }
+}
+
+async function check_company_user(id_company,req){
+    //we going to search all the company of the user with this id 
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
+    var values = [id_company,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const company=result.rows;
+    return company;
+}
+
+router.get('/:id_company/:idUser/delete-employee',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    if (await this_company_is_of_this_user(req,res)){
+        const {idUser}=req.params;
+        //first delete the image for not save trash in the our server
+        await delete_profile_picture(idUser);
+
+        //we going to delete the employee 
+        if(await delete_employee(idUser)){
+            //if the user is not deleted it doesn't really matter
+            await delete_user(idUser);
+            req.flash('success','the employee was delete');
+        }
+        else{
+            req.flash('message','the employee not was delete');
+        }
+
+        res.redirect('/fud/'+id_company+'/employees');
+    }
+})
+
+async function delete_profile_picture(idUser){
+    //we will see if the user have a profile picture
+    const pathImg=await get_profile_picture(idUser);
+    //if esxit a image, we going to delete 
+    if(pathImg!=null){
+        delate_image_upload(pathImg)
+    }
+}
+
+async function get_profile_picture(idUser){
+    //we will search the user that the manager would like delete
+    var queryText = 'SELECT photo FROM "Fud".users WHERE id= $1';
+    var values = [idUser];
+    const result = await database.query(queryText, values);
+    if (result.rows.length > 0 && 'photo' in result.rows[0]) {
+        return result.rows[0].photo;
+    } else {
+        return null;
+    }
+}
+
+async function delete_employee(idUser){
+    try {
+        var queryText = 'DELETE FROM "Company".Employees WHERE id_users = $1';
+        var values = [idUser];
+        await database.query(queryText, values); // Delete employee
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+async function delete_user(idUser){
+    try {
+        var queryText = 'DELETE FROM "Fud".users WHERE id = $1';
+        var values = [idUser];
+        await database.query(queryText, values); // Delete employee
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
 
 ///links of the manager
 router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{

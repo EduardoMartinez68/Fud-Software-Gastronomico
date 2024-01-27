@@ -11,14 +11,10 @@
     </div>
 
     <script>
-        async function delate_user(id){
-            if(await questionMessage('Eliminar usuario','Quieres eliminar este usuario?')){
-                window.location.href = "/Mexico/"+id+"/delate-user";
+        async function delete_employee(idCompany,idUser){
+            if(await questionMessage('Delete employee','Do you delete this employee?')){
+                window.location.href = "/fud/"+idCompany+'/'+idUser+"/delete-employee";
             }
-        }
-
-        async function edit_department(id){
-            window.location.href = "/Mexico/"+id+"/edit-user";
         }
 
         function search_official(){
