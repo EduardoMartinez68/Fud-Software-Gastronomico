@@ -1091,11 +1091,22 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
 
 async function search_employee(idEmployee){
     // search the employee of the company with information about other table
+    /*
     const queryText = `
         SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches,e.id_country, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
                u.*
         FROM "Company".employees e
         LEFT JOIN "Fud".users u ON e.id_users = u.id
+        WHERE e.id_users = $1
+    `;*/
+    const queryText = `
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*, r.*, d.*, c.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+        LEFT JOIN "Fud".country c ON e.id_country = c.id
         WHERE e.id_users = $1
     `;
     var values = [idEmployee];
@@ -1103,6 +1114,7 @@ async function search_employee(idEmployee){
 
     return result.rows;
 }
+
 //delete employees
 async function this_company_is_of_this_user(req,res){
     //get the id of the company
@@ -1111,7 +1123,7 @@ async function this_company_is_of_this_user(req,res){
 
     //we will see if exist this company in the list of the user
     if(company.length>0){
-        return true;
+        return company;
     }else{
         //if not exist we will to show a invasion message 
         req.flash('message','⚠️This company not is your⚠️');
@@ -1129,8 +1141,8 @@ async function check_company_user(id_company,req){
 }
 
 router.get('/:id_company/:idUser/delete-employee',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
     if (await this_company_is_of_this_user(req,res)){
+        const {id_company}=req.params;
         const {idUser}=req.params;
         //first delete the image for not save trash in the our server
         await delete_profile_picture(idUser);
@@ -1193,6 +1205,18 @@ async function delete_user(idUser){
         return false;
     }
 }
+
+//search employee
+router.get('/:id_company/:id_user/employees',isLoggedIn,async(req,res)=>{
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+        const {id_company,id_user}=req.params;
+        const employees=await search_employees(id_company);
+        const employee_user=await search_employee(id_user);
+        console.log(company)
+        res.render('links/manager/employee/employee',{company,employees,employee_user});
+    }
+})
 
 
 ///links of the manager

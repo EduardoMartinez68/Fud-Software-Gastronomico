@@ -766,8 +766,8 @@ router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,a
     //we will see if exist a new perfil photo 
     if(newDataUser.image!=""){
         //get the old direction of the imagen 
-        const path_photo=get_profile_picture(id_user)
-        delete_image_upload(path_photo)
+        const path_photo=await get_profile_picture(id_user)
+        await delete_image_upload(path_photo)
     }
 
     if(await update.update_user(id_user,newDataUser)){

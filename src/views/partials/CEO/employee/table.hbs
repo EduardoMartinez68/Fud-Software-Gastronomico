@@ -4,7 +4,7 @@
         <div class="card-body card-information">
             <!--this add all the employees-->
             {{#each employees}}
-                <div class="card mb-4">
+                <div class="card mb-4" onclick="select_employee('{{id_companies}}','{{id_users}}')">
                     <div class="card-body">
                         {{#if photo}}
                             <img class="img-info" src="/img/uploads/{{photo}}">
@@ -29,3 +29,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    function select_employee(idCompany,idUser){
+        window.location.href = "/fud/"+idCompany+"/"+idUser+"/employees";
+    }
+</script>

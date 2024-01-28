@@ -4,37 +4,65 @@
         <div class="card-body">
             {{#if employee_user}}
                 {{#each employee_user}}
-                    <label>{{username}}</label><br>
-                    <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/1022/1022331.png"><br>
-
-                    <strong>{{nombre}} {{second_name}} {{last_name_father}} {{last_name_mother}}</strong>
-                    <br><br>
-
-                    <button class="card-btn-description" id="{{ID_usuario}}" onclick="edit_department(this.id)"><i
-                            class="fi-item fi-rr-box-alt"></i>Edit</button>
-                    <button class="card-btn-description" id="{{ID_usuario}}" onclick="delate_user(this.id)"><i
-                            class="fi-item fi-rr-time-past"></i>Delate</button>
-                    <br><br><br>
+                    <center><strong>{{first_name}} {{second_name}} {{last_name}}</strong><br></center>
+                    {{#if photo}}
+                        <img class="img-description" src="/img/uploads/{{photo}}"><br>
+                    {{else}}
+                        <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/1022/1022331.png"><br>
+                    {{/if}}
+                    <center>
+                        <label>{{user_name}}</label>
+                        <h6>{{email}}</h6>
+                        <button id="{{ID_usuario}}" onclick="nextWeb('{{id_companies}}/{{id_users}}/edit-employees')" class="btn-table-employee-edit" style="width: 50px;height:50px;"><i class="fi-department fi-sr-pencil"></i></button>
+                        <button id="{{id_user}}" onclick="delete_employee('{{id_companies}}','{{id_users}}')" class="btn-table-employee-delete" style="width: 50px;height:50px;"><i class="fi-department fi-sr-trash"></i></button>
+                    </center>
+                    <br>
                     <div class="card mb-4">
                         <div class="card-bod">
                             <table class="my-table-price">
                                 <thead>
                                     <tr>
-                                        <th><label>Email</label></th>
-                                        <th><label>Nivel</label></th>
+                                        <th><label>Departament</label></th>
+                                        <th><label>Role</label></th>
                                     </tr>
                                     <tr>
                                         <th>
-                                            <h6>{{correo}}</h6>
+                                            <h6>{{name_departaments}}</h6>
                                         </th>
                                         <th>
-                                            <h6>{{ID_nivel}}</h6>
+                                            <h6>{{name_role}}</h6>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Phone</label></th>
+                                        <th><label>Cellphone</label></th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <h6>{{phone}}</h6>
+                                        </th>
+                                        <th>
+                                            <h6>{{cell_phone}}</h6>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Comissions</label></th>
+                                        <th><label>Salary</label></th>                                   
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <h6>{{commissions}}</h6>
+                                        </th>
+                                        <th>
+                                            <h6>{{salary}} {{currency}}/{{type_of_salary}}</h6>
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
                         </div>
                     </div>
+                    <label>Adress:</label>
+                    <label>{{name}} {{city}} {{street}} {{num_ext}} {{num_int}}</label>
                 {{/each}}
             {{else}}
                 <label>user</label><br>

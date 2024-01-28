@@ -83,7 +83,7 @@ async function add_new_employees(employee){
 }
 
 async function add_company(company){
-    var queryText = 'INSERT INTO "User".companies (id_users, path_logo, name,alias,description,representative,ceo,id_country,'
+    var queryText = 'INSERT INTO "User".companies (id_users, path_logo, name, alias,description,representative,ceo,id_country,'
         +'phone,cell_phone,email_company,address,num_ext,num_int,postal_code,cologne,city,states,municipality)'
         +'VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)';
 
