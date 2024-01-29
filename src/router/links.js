@@ -100,6 +100,32 @@ async function get_data_company(req,nameTable){
 }
 
 const companyName='links'
+//
+async function this_company_is_of_this_user(req,res){
+    //get the id of the company
+    const {id_company}=req.params;
+    const company=await check_company_user(id_company,req); //search all the company of the user 
+
+    //we will see if exist this company in the list of the user
+    if(company.length>0){
+        return company;
+    }else{
+        //if not exist we will to show a invasion message 
+        req.flash('message','⚠️This company not is your⚠️');
+        res.redirect('/fud/home');
+    }
+}
+
+async function check_company_user(id_company,req){
+    //we going to search all the company of the user with this id 
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
+    var values = [id_company,parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const company=result.rows;
+    return company;
+}
+
+
 
 ///links of the web
 router.get('/identify',isNotLoggedIn,(req,res)=>{
@@ -697,15 +723,16 @@ async function search_all_providers(req){
         const branchId=allBranch[i].id //get his id 
         providers.push(await search_providers(branchId)) //search all providers in his branch
     }
-    return providers
+    return providers;
 }
 
-router.get('/:id/providers',isLoggedIn,async(req,res)=>{
+router.get('/:id_company/providers',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
         const {id}=req.params;
         const providers=await search_all_providers(req);
-        res.render('links/manager/providers/providers',{company,branches,providers});
+        console.log(providers)
+        res.render('links/manager/providers/providers');
     }
     else{
         res.redirect('/fud/home');
@@ -842,6 +869,7 @@ router.get('/:idBranch/:idCompany/edit-branch',isLoggedIn,async(req,res)=>{
     res.render("links/manager/branches/editBranches",{branch,country});
 })
 
+
 async function get_branch(req){
     const {idBranch}=req.params;
     var queryText = 'SELECT * FROM "Company".branches WHERE id= $1';
@@ -849,6 +877,34 @@ async function get_branch(req){
     const result = await database.query(queryText, values);
     const data=result.rows;
     return data;
+}
+
+router.get('/:idBranch/:idCompany/delete-branch',isLoggedIn,async(req,res)=>{
+    //we will see if this company is of the user 
+    if(this_company_is_of_this_user(req,res)!=null){
+        //get the data that the link have 
+        const {idBranch,idCompany}=req.params;
+        if(delete_branch_company(idBranch)){
+            req.flash('success','the branch was delate with success');
+        }
+        else{
+            req.flash('message','the branch not was delate');
+        }
+
+        res.redirect('/fud/'+idCompany+'/branches');
+    }
+})
+
+async function delete_branch_company(idBranch) {
+    try {
+        var queryText = 'DELETE FROM "Company".branches WHERE id = $1';
+        var values = [idBranch];
+        await database.query(queryText, values); // Delete branch
+        return true;
+    } catch (error) {
+        console.error('Error to delete branch:', error);
+        return false;
+    }
 }
 
 //-------------------------------------------------------------type user 
@@ -1091,14 +1147,6 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
 
 async function search_employee(idEmployee){
     // search the employee of the company with information about other table
-    /*
-    const queryText = `
-        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches,e.id_country, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
-               u.*
-        FROM "Company".employees e
-        LEFT JOIN "Fud".users u ON e.id_users = u.id
-        WHERE e.id_users = $1
-    `;*/
     const queryText = `
         SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
                u.*, r.*, d.*, c.*
@@ -1116,30 +1164,6 @@ async function search_employee(idEmployee){
 }
 
 //delete employees
-async function this_company_is_of_this_user(req,res){
-    //get the id of the company
-    const {id_company}=req.params;
-    const company=await check_company_user(id_company,req); //search all the company of the user 
-
-    //we will see if exist this company in the list of the user
-    if(company.length>0){
-        return company;
-    }else{
-        //if not exist we will to show a invasion message 
-        req.flash('message','⚠️This company not is your⚠️');
-        res.redirect('/fud/home');
-    }
-}
-
-async function check_company_user(id_company,req){
-    //we going to search all the company of the user with this id 
-    var queryText = 'SELECT * FROM "User".companies WHERE id= $1 and id_users= $2';
-    var values = [id_company,parseInt(req.user.id)];
-    const result = await database.query(queryText, values);
-    const company=result.rows;
-    return company;
-}
-
 router.get('/:id_company/:idUser/delete-employee',isLoggedIn,async(req,res)=>{
     if (await this_company_is_of_this_user(req,res)){
         const {id_company}=req.params;
@@ -1218,6 +1242,7 @@ router.get('/:id_company/:id_user/employees',isLoggedIn,async(req,res)=>{
     }
 })
 
+//-----------------------------------------------------------visit branch
 
 ///links of the manager
 router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{

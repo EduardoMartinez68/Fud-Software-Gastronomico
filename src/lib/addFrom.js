@@ -377,8 +377,8 @@ async function delete_all_supplies_combo(id) {
 //add providers
 
 //add branches
-router.post('/fud/:id/add-new-branch',isLoggedIn,async(req,res)=>{
-    const {id}=req.params;
+router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
     const newBranch=create_new_branch(req);
     if(await addDatabase.add_branch(newBranch)){
         req.flash('success','the branch was add with supplies')
@@ -386,7 +386,7 @@ router.post('/fud/:id/add-new-branch',isLoggedIn,async(req,res)=>{
     else{
         req.flash('message','the branch not was add')
     }
-    res.redirect('/fud/'+id+'/branches');
+    res.redirect('/fud/'+id_company+'/branches');
 })
 
 router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=>{

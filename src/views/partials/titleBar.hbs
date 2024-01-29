@@ -41,8 +41,15 @@
             </ul>
             <ul class="titleDesciption">
                 {{#if user}}
-                    <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
-                    <i class="fi-des fi-sr-hat-chef"></i>
+                    {{#if company}}
+                        {{#each company}}
+                            <span><a href="/fud/{{id}}/company-home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
+                            <i class="fi-des fi-sr-hat-chef"></i>
+                        {{/each}}
+                    {{else}}
+                        <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
+                        <i class="fi-des fi-sr-hat-chef"></i>
+                    {{/if}}
                 {{else}}
                     <span><button class="btn-navbar-login" onclick="nextWeb('/home')">Log in</button></span>
                     <span><button class="btn-navbar-singup" onclick="nextWeb('signup')">Try is free</button></span>
