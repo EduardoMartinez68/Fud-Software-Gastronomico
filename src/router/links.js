@@ -715,27 +715,39 @@ async function search_providers(idBranch){
     return result.rows;
 }
 
-async function search_all_providers(req){
-    const {id}=req.params;
-    const allBranch=await search_all_branch_company(id);
+async function search_all_providers(id_company){
+    const allBranch=await search_all_branch_company(id_company);
     const providers=[]
+
+    //we will to read all the branch of the company for get his providers 
     for(var i=0;i<allBranch.length;i++){
-        const branchId=allBranch[i].id //get his id 
-        providers.push(await search_providers(branchId)) //search all providers in his branch
+        const branchId=allBranch[i].id //get the id of the branch that we are reading 
+        const providersBranch=await search_providers(branchId) //search all providers in this branch
+
+        //we will see if this branch have providers, if the branch have provider we will saving his providers in the array <providers>
+        if(providersBranch.length>0){
+            providers.push(providersBranch) //add all the providers of the branch
+        }
     }
+
     return providers;
 }
 
 router.get('/:id_company/providers',isLoggedIn,async(req,res)=>{
-    const company=await check_company(req);
-    if(company.length>0){
-        const {id}=req.params;
-        const providers=await search_all_providers(req);
-        console.log(providers)
-        res.render('links/manager/providers/providers');
-    }
-    else{
-        res.redirect('/fud/home');
+    //we will see if the company is of the user 
+    const company=await this_company_is_of_this_user(req,res)
+    if(company!=null){
+        //if this company is of the user, we will to search all the providers of tha company
+        const {id_company}=req.params;
+        const providers=await search_all_providers(id_company);
+        
+        //if the company not have providers render other view
+        if(providers.length==0){
+            res.render('links/manager/providers/providers',{company});
+        }
+        else{
+            res.render('links/manager/providers/providers',{company,providers});
+        }
     }
 })
 
@@ -1092,25 +1104,6 @@ async function search_employees(idCompany){
         return result.rows;
 }
 
-async function search_employees_id(idEmployee){
-    // Buscamos los empleados de la empresa con información adicional de otras tablas
-    const queryText = `
-        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
-               u.*, r.*, d.*, b.*, c.*
-        FROM "Company".employees e
-        LEFT JOIN "Fud".users u ON e.id_users = u.id
-        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
-        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
-        LEFT JOIN "Company".branches b ON e.id_branches = b.id
-        LEFT JOIN "Fud".country c ON e.id_country = c.id
-        WHERE e.id_companies = $1
-    `;
-
-    var values = [idCompany];
-    const result = await database.query(queryText, values);
-
-    return result.rows;
-}
 
 router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
@@ -1138,6 +1131,7 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
         const country=await get_country()
         const roles=await get_type_employees(id)
         const branches=await search_all_branch(id)
+        console.log(employee)
         res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches});
     }
     else{
@@ -1148,7 +1142,7 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
 async function search_employee(idEmployee){
     // search the employee of the company with information about other table
     const queryText = `
-        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.id_country,e.city, e.street, e.phone, e.cell_phone,
                u.*, r.*, d.*, c.*
         FROM "Company".employees e
         LEFT JOIN "Fud".users u ON e.id_users = u.id

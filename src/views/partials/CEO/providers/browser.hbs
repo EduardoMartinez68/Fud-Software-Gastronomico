@@ -1,0 +1,18 @@
+<div class="container">
+    {{#each company}}
+        <label>Search a providers</label>
+        <div class="row">
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Search for number of suppliers...">
+            </div>
+            <div class="col-sm-1">
+                <button class="btn"><i class="fi-icon fi-rs-search"></i></button>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn-table-employee-edit" onclick="nextWeb('/{{id}}/add-providers')">+</button>
+            </div>
+        </div>
+    {{/each}}
+</div>
+<br>
+
