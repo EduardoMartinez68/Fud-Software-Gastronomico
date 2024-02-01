@@ -375,6 +375,26 @@ async function delete_all_supplies_combo(id) {
 }
 
 //add providers
+router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const newBranch=create_new_provider(req);
+    /*
+    if(await addDatabase.add_provider_company(newBranch)){
+        req.flash('success','the provider was add with supplies')
+    }
+    else{
+        req.flash('message','the provider not was add')
+    }*/
+    res.redirect('/fud/'+id_company+'/providers');
+})
+
+function create_new_business_provider(req){
+    const {businessName}=req.body;
+}
+
+function create_new_provider(req){
+    const {branch,nameRepresentative,representative,alias,rfc,curp,phone,cell_phone,email,creditLimit,dayCredit}=req.body;
+}
 
 //add branches
 router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{

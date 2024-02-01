@@ -751,13 +751,12 @@ router.get('/:id_company/providers',isLoggedIn,async(req,res)=>{
     }
 })
 
-router.get('/:id/add-providers',isLoggedIn,async(req,res)=>{
-    const company=await check_company(req);
-    if(company.length>0){
-        res.render('links/manager/providers/addProviders',{company});
-    }
-    else{
-        res.redirect('/fud/home');
+router.get('/:id_company/add-providers',isLoggedIn,async(req,res)=>{
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+        const {id_company}=req.params;
+        const branches=await search_all_branch(id_company)
+        res.render('links/manager/providers/addProviders',{company,branches});
     }
 })
 
