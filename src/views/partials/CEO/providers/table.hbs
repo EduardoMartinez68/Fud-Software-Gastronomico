@@ -10,11 +10,10 @@
     <div class="card-body">
         <table width="100%" border="1" class="table-information">
             <tr>
-                <th><label>No. Provider</label></th>
                 <th><label>Name/representative</label></th>
-                <th><label>Alias</label></th>
+                <th><label>E-mail</label></th>
                 <th><label>Cellphone/Phone</label></th>
-                <th></th>
+                <th><label>Address</label></th>
                 <th></th>
             </tr>
             {{#each providers}}
@@ -30,10 +29,10 @@
                 </tr>
             {{/each}}
             <tr>
-                <td><label>100</label></td>
-                <td><label>Eduardo/Antonio</label></td>
-                <td><label>Alitas de pollo</label></th>
-                <td><label>444 357 9030/444 357 9030<br></label></td>
+                <td><label><strong>Carniceria/Eduardo Antonio</strong></label></td>
+                <td><label>Eduardoa4848@Outlook.es</label></td>
+                <td><label>444 357 9030/444 357 9030</label></th>
+                <td><label>Gertrudis Uribe 225 Col. Reyitos<br></label></td>
                 <td>
                     <button id="{{ID_usuario}}" onclick="nextWeb('{{id_companies}}/{{id_users}}/edit-employees')" class="btn-table-employee-edit"><i class="fi-department fi-sr-pencil"></i></button>
                     <button id="{{id_user}}" onclick="delete_employee('{{id_companies}}','{{id_users}}')" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>

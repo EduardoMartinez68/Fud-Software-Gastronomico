@@ -377,7 +377,8 @@ async function delete_all_supplies_combo(id) {
 //add providers
 router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
-    const newBranch=create_new_provider(req);
+    const provider=create_new_provider(req);
+    console.log(req.body)
     /*
     if(await addDatabase.add_provider_company(newBranch)){
         req.flash('success','the provider was add with supplies')
@@ -388,12 +389,29 @@ router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     res.redirect('/fud/'+id_company+'/providers');
 })
 
-function create_new_business_provider(req){
-    const {businessName}=req.body;
-}
-
 function create_new_provider(req){
-    const {branch,nameRepresentative,representative,alias,rfc,curp,phone,cell_phone,email,creditLimit,dayCredit}=req.body;
+    const {branch,name,representative,rfc,curp,phone,cell_phone,email,creditLimit,dayCredit,comment,businessName,businessRfc,businessCurp,businessPhone,businessCell_phone,postalCode,address}=req.body;
+    const provider={
+        branch,
+        name,
+        representative,
+        cell_phone,
+        rfc,
+        curp,
+        phone,
+        email,
+        creditLimit,
+        dayCredit,
+        comment,
+        businessName,
+        businessCurp,
+        businessRfc,
+        businessPhone,
+        businessCell_phone,
+        address,
+        postalCode,
+    }
+    return provider
 }
 
 //add branches
