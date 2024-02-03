@@ -431,6 +431,7 @@ function create_new_provider(req){
     }
     return provider
 }
+
 function convertDayCredit(valorString) {
     // Intentar convertir la cadena a un número de punto flotante
     var numeroFloat = parseInt(valorString);
@@ -456,6 +457,20 @@ function convertCreditLimit(valorString) {
     // Retornar el número de punto flotante convertido
     return numeroFloat;
   }
+
+router.post('/fud//:id_company/:id_branch/:id_provider/edit-providers',isLoggedIn,async(req,res)=>{
+    const {id_provider,id_branch}=req.params;
+    const provider=create_new_provider(req);
+    //we will changing the id branch for knkow
+    provider.branch=id_branch;
+    if(await this_provider_exists(id_provider)){
+        req.flash('message','This provider already exists in this branch')
+    }else{
+        await add_provider_to_database(provider,req);
+    }
+
+    res.redirect('/fud/'+id_company+'/providers');
+})
 //add branches
 router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;

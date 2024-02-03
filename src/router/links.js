@@ -708,7 +708,13 @@ async function search_all_branch_company(idCompany){
 
 async function search_providers(idBranch){
     //we will search the company of the user 
-    var queryText = 'SELECT * FROM "Branch".providers WHERE id_branches= $1';
+    //var queryText = 'SELECT * FROM "Branch".providers WHERE id_branches= $1';
+    const queryText = `
+    SELECT p.*, b.id_companies
+    FROM "Branch".providers p
+    JOIN "Company".branches b ON b.id = p.id_branches
+    WHERE p.id_branches = $1;
+  `;
     var values = [idBranch];
     const result = await database.query(queryText, values);
     
@@ -760,27 +766,37 @@ router.get('/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     }
 })
 
-router.get('/:id/edit-providers',isLoggedIn,(req,res)=>{
-    res.render("links/manager/providers/editProviders");
+router.get('/:id_provider/edit-providers',isLoggedIn,async(req,res)=>{
+    //if this company is of the user, we will to search the provider of tha company
+    const {id_provider}=req.params;
+    const provider=await search_provider(id_provider);
+    console.log(provider)
+    res.render('links/manager/providers/editProviders',{provider});
 })
 
 router.get('/:id_company/:id_provider/edit-provider',isLoggedIn,async(req,res)=>{
     //we will see if the company is of the user 
     const company=await this_company_is_of_this_user(req,res)
     if(company!=null){
-        //if this company is of the user, we will to search all the providers of tha company
-        const {id_company}=req.params;
-        const providers=await search_all_providers(id_company);
-        
-        //if the company not have providers render other view
-        if(providers.length==0){
-            res.render('links/manager/providers/providers',{company});
-        }
-        else{
-            res.render('links/manager/providers/providers',{company,providers});
-        }
+        //if this company is of the user, we will to search the provider of tha company
+        const {id_provider}=req.params;
+        const provider=await search_provider(id_provider);
+        res.render('links/manager/providers/editProviders',{provider,company});
     }
 })
+
+async function search_provider(idProvider){
+    const queryText = `
+    SELECT p.*, b.id_companies
+    FROM "Branch".providers p
+    JOIN "Company".branches b ON b.id = p.id_branches
+    WHERE p.id = $1;
+  `;
+    var values = [idProvider];
+    const result = await database.query(queryText, values);
+
+    return result.rows;
+}
 
 router.get('/:id_provider/delete-provider',isLoggedIn,async(req,res)=>{
     res.redirect('')
