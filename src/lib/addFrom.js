@@ -375,37 +375,55 @@ async function delete_all_supplies_combo(id) {
 }
 
 //add providers
-router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
-    const provider=create_new_provider(req);
-    console.log(req.body)
-    /*
-    if(await addDatabase.add_provider_company(newBranch)){
+async function this_provider_exists(provider){
+    //we will search the department employees of the user 
+    var queryText = `SELECT * FROM "Branch".providers WHERE id_branches = $1 AND name = $2`;
+    var values = [provider.id_branches,provider.name];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
+
+async function add_provider_to_database(provider,req){
+    if(await addDatabase.add_provider_company(provider)){
         req.flash('success','the provider was add with supplies')
     }
     else{
         req.flash('message','the provider not was add')
-    }*/
+    }
+}
+
+router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const provider=create_new_provider(req);
+    if(await this_provider_exists(provider)){
+        req.flash('message','This provider already exists in this branch')
+    }else{
+        await add_provider_to_database(provider,req);
+    }
     res.redirect('/fud/'+id_company+'/providers');
 })
 
 function create_new_provider(req){
-    const {branch,name,representative,rfc,curp,phone,cell_phone,email,creditLimit,dayCredit,comment,businessName,businessRfc,businessCurp,businessPhone,businessCell_phone,postalCode,address}=req.body;
+    const {branch,name,representative,rfc,curp,phone,cell_phone,email,website,creditLimit,dayCredit,comment,category,type,businessName,businessRfc,businessCurp,businessRepresentative,businessPhone,businessCell_phone,postalCode,address}=req.body;
     const provider={
-        branch,
+        branch:parseInt(branch),
         name,
         representative,
-        cell_phone,
+        email,
+        website,
         rfc,
         curp,
         phone,
-        email,
-        creditLimit,
-        dayCredit,
+        cell_phone,
+        creditLimit:convertCreditLimit(creditLimit),
+        dayCredit:convertDayCredit(dayCredit),
+        category,
         comment,
+        type,
         businessName,
-        businessCurp,
+        businessRepresentative,
         businessRfc,
+        businessCurp,
         businessPhone,
         businessCell_phone,
         address,
@@ -413,7 +431,31 @@ function create_new_provider(req){
     }
     return provider
 }
+function convertDayCredit(valorString) {
+    // Intentar convertir la cadena a un número de punto flotante
+    var numeroFloat = parseInt(valorString);
+  
+    // Verificar si el resultado es NaN y devolver 0 en ese caso
+    if (isNaN(numeroFloat)) {
+      return 0;
+    }
+  
+    // Retornar el número de punto flotante convertido
+    return numeroFloat;
+  }
 
+function convertCreditLimit(valorString) {
+    // Intentar convertir la cadena a un número de punto flotante
+    var numeroFloat = parseFloat(valorString);
+  
+    // Verificar si el resultado es NaN y devolver 0 en ese caso
+    if (isNaN(numeroFloat)) {
+      return 0;
+    }
+  
+    // Retornar el número de punto flotante convertido
+    return numeroFloat;
+  }
 //add branches
 router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;

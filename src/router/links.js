@@ -764,7 +764,27 @@ router.get('/:id/edit-providers',isLoggedIn,(req,res)=>{
     res.render("links/manager/providers/editProviders");
 })
 
+router.get('/:id_company/:id_provider/edit-provider',isLoggedIn,async(req,res)=>{
+    //we will see if the company is of the user 
+    const company=await this_company_is_of_this_user(req,res)
+    if(company!=null){
+        //if this company is of the user, we will to search all the providers of tha company
+        const {id_company}=req.params;
+        const providers=await search_all_providers(id_company);
+        
+        //if the company not have providers render other view
+        if(providers.length==0){
+            res.render('links/manager/providers/providers',{company});
+        }
+        else{
+            res.render('links/manager/providers/providers',{company,providers});
+        }
+    }
+})
 
+router.get('/:id_provider/delete-provider',isLoggedIn,async(req,res)=>{
+    res.redirect('')
+})
 //----------------------------------------------------------------customers
 async function searc_all_customers(idCompany){
     //we will search the company of the user 

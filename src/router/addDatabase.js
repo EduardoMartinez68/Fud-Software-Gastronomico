@@ -385,6 +385,24 @@ async function add_type_employees(typeEmployee){
     }
 }
 
+
+//add_provider_company
+async function add_provider_company(provider){
+    var queryText = 'INSERT INTO "Branch".providers(id_branches, name, representative , email, website, rfc, curp, phone, cell_phone, credit_limit, credit_days, category, comment, type, business_name, business_representative, business_curp, business_rfc, business_phone, business_cell_phone, business_address, business_postal_code)'
+    + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)';
+
+    var values = Object.values(provider);
+    console.log(values)
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos provider:', error);
+        return false;
+    }
+}
+
+
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -413,5 +431,6 @@ module.exports={
     add_department_employees,
     add_type_employees,
     add_user,
-    add_new_employees
+    add_new_employees,
+    add_provider_company
 };
