@@ -354,6 +354,29 @@ async function update_employee(idEmployee,dataEmployee){
     }
 }
 
+async function update_provider_company(idProvider,dataProvider){
+    const queryText = `
+    UPDATE "Branch".providers
+    SET 
+        id_branches=$1, name=$2, representative=$3, email=$4, website=$5, rfc=$6, curp=$7, phone=$8, cell_phone=$9, credit_limit=$10, credit_days=$11, category=$12, comment=$13, type=$14, business_name=$15, business_representative=$16, business_curp=$17, business_rfc=$18, business_phone=$19, business_cell_phone=$20, business_address=$21, business_postal_code=$22
+    WHERE 
+        id=$23
+    `;
+
+    //create the array of the new data provider
+    var values = Object.values(dataProvider);
+    values.push(idProvider) //add the id provider
+
+    //update the provider data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
 module.exports = {
     update_company,
     get_query_edit_supplies_company,
@@ -362,5 +385,6 @@ module.exports = {
     update_customer,
     update_role_employee,
     update_user,
-    update_employee
+    update_employee,
+    update_provider_company
 };

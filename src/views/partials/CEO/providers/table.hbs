@@ -25,7 +25,7 @@
                         <td><label>{{business_address}}</label></td>
                         <td>
                             <button id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id}}/edit-provider')" class="btn-table-employee-edit"><i class="fi-department fi-sr-pencil"></i></button>
-                            <button id="{{id}}" onclick="delete_provider('{{id}}','{{name}}')" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>
+                            <button id="{{id}}" onclick="delete_provider('{{id_companies}}','{{id}}','{{name}}')" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>
                         </td>
                     </tr>
                 {{/each}}
@@ -35,9 +35,9 @@
 </div>
 
 <script>
-  async function delete_provider(idProvider,name){
+  async function delete_provider(idCompany,idProvider,name){
       if(await questionMessage(`Delete to ${name}`,'Do you want to delete to this customer?')){
-        window.location.href = "/fud/"+idProvider+"/delete-provider";
+        window.location.href = "/fud/"+idCompany+'/'+idProvider+"/delete-provider";
       }
   }
 </script>

@@ -770,7 +770,6 @@ router.get('/:id_provider/edit-providers',isLoggedIn,async(req,res)=>{
     //if this company is of the user, we will to search the provider of tha company
     const {id_provider}=req.params;
     const provider=await search_provider(id_provider);
-    console.log(provider)
     res.render('links/manager/providers/editProviders',{provider});
 })
 
@@ -798,9 +797,33 @@ async function search_provider(idProvider){
     return result.rows;
 }
 
-router.get('/:id_provider/delete-provider',isLoggedIn,async(req,res)=>{
-    res.redirect('')
+router.get('/:id_company/:id_provider/delete-provider',isLoggedIn,async(req,res)=>{
+    //we will see if the company is of the user 
+    const company=await this_company_is_of_this_user(req,res)
+    if(company!=null){
+        const {id_provider,id_company}=req.params;
+        if(await delete_provider(id_provider)){
+            req.flash('success','the combo was delate with success')
+        }
+        else{
+            req.flash('message','the provider not was delate')
+        }
+
+        res.redirect('/fud/'+id_company+'/providers');
+    }
 })
+
+async function delete_provider(idProvider){
+    try {
+        var queryText = 'DELETE FROM "Branch".providers WHERE id = $1';
+        var values = [idProvider];
+        await database.query(queryText, values); // Delete provider
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
 //----------------------------------------------------------------customers
 async function searc_all_customers(idCompany){
     //we will search the company of the user 
