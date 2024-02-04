@@ -757,6 +757,57 @@ router.get('/:id_company/providers',isLoggedIn,async(req,res)=>{
     }
 })
 
+router.get('/:id_company/:name_provider/search-provider',isLoggedIn,async(req,res)=>{
+    //we will see if the company is of the user 
+    const company=await this_company_is_of_this_user(req,res)
+    if(company!=null){
+        //if this company is of the user, we will to search all the providers of tha company
+        const {id_company,name_provider}=req.params;
+        const providers=await search_all_providers_for_name(id_company,name_provider);
+        //if the company not have providers render other view
+        if(providers.length==0){
+            res.render('links/manager/providers/providers',{company});
+        }
+        else{
+            res.render('links/manager/providers/providers',{company,providers});
+        }
+    }
+})
+
+async function search_providers_for_name(idBranch,name_provider){
+    //we will search the company of the user 
+    //var queryText = 'SELECT * FROM "Branch".providers WHERE id_branches= $1';
+    const queryText = `
+    SELECT p.*, b.id_companies
+    FROM "Branch".providers p
+    JOIN "Company".branches b ON b.id = p.id_branches
+    WHERE p.id_branches = $1 and p.name = $2;
+  `;
+    var values = [idBranch,name_provider];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+async function search_all_providers_for_name(id_company,name_provider){
+    const allBranch=await search_all_branch_company(id_company);
+    const providers=[]
+
+    //we will to read all the branch of the company for get his providers 
+    for(var i=0;i<allBranch.length;i++){
+        const branchId=allBranch[i].id //get the id of the branch that we are reading 
+        const providersBranch=await search_providers_for_name(branchId,name_provider) //search all providers in this branch
+
+        //we will see if this branch have providers, if the branch have provider we will saving his providers in the array <providers>
+        if(providersBranch.length>0){
+            providers.push(providersBranch) //add all the providers of the branch
+        }
+    }
+
+    return providers;
+}
+
+
 router.get('/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     const company=await this_company_is_of_this_user(req,res);
     if (company!=null){
