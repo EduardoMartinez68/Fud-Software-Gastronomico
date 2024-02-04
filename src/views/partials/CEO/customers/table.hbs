@@ -1,4 +1,4 @@
-  <table class="table table-hover">
+  <table class="table table-hover" id="table-container">
     <colgroup>
         <col style="width: 30%;">
         <col style="width: 30%;">
@@ -18,7 +18,7 @@
 
     <tbody>
     {{#each customers}}
-      <tr>
+      <tr id="{{email}}">
         <td>{{first_name}} {{second_name}} {{last_name}}</td>
         <td>{{email}}</td>
         <td>{{cell_phone}}/{{phone}}</td>

@@ -1,3 +1,4 @@
+<!--
 <center>
   <table class="table">
     <colgroup>
@@ -11,11 +12,11 @@
       <tr>
         <th>
             <label for=""><i class="fi-icon fi-sr-envelope"></i> customer email</label>
-            <input type="text" class="form-control" placeholder="customer email" name="email">
+            <input type="text" class="form-control" placeholder="customer email" name="email" id="search">
         </th>
         <th>
             <label for=""><i class="fi-icon fi-ss-flag"></i> Country</label>
-            <select class="form-control">
+            <select class="form-control" id="select-country">
                 <option value="-1" id="-1">All</option>
                 {{#each country}}
                     <option value="{{id}}" id="{{id}}">{{name}}</option>
@@ -24,7 +25,44 @@
         </th> 
         <th>
             <br>
-            <button class="btn"><i class="fi-icon fi-rr-search"></i></button>
+            <button class="btn" onclick="search_combo()"><i class="fi-icon fi-rr-search"></i></button>
+        </th>
+        <th>
+            <br>
+            {{#each company}}
+              <button class="btn-add" id="{{id}}" onclick="nextWeb(this.id+'/add-customer')">+</button>
+            {{/each}}
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+      </tr>
+    </tbody>
+  </table>
+</center>
+-->
+
+
+
+<center>
+  <table class="table">
+    <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 5%;">
+        <col style="width: 8%;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>
+            <label for=""><i class="fi-icon fi-sr-envelope"></i> customer email</label>
+            <input type="text" class="form-control" placeholder="customer email" name="email" id="search">
+        </th>
+        <th>
+            <br>
+            <button class="btn" onclick="search_browser()"><i class="fi-icon fi-rr-search"></i></button>
         </th>
         <th>
             <br>
