@@ -1360,7 +1360,30 @@ router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
     res.render('links/manager/employee/employeeSchedules');
 })
 
-//-----------------------------------------------------------visit branch
+//-----------------------------------------------------------manager (visit branch)
+async function get_data_branch(req){
+    const {id_branch}=req.params;
+    var queryText = 'SELECT * FROM "Company".branches WHERE id= $1';
+    var values = [id_branch];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+router.get('/:id_company/:id_branch/visit-branch',isLoggedIn,async(req,res)=>{
+    const branch=await get_data_branch(req)
+    res.render('links/branch/home',{branch});
+})
+
+
+router.get('/:id_company/:id_branch/supplies',isLoggedIn,async(req,res)=>{
+    const branch=await get_data_branch(req)
+    res.render('links/branch/supplies/supplies',{branch});
+})
+
+
+
+//-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)
 });
@@ -1409,14 +1432,13 @@ async function home_company(req,res){
     res.render('links/manager/home',{companies});
 }
 
-router.get('/:idCompany/:idBranch/visit-branch',isLoggedIn,async(req,res)=>{
-    const branch=await get_branch(req)
-    res.render('links/branch/home',{branch});
-})
+
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     if(await this_employee_works_here(req,res)){
-        res.render('links/store/home/home');
+        const {id_company,id_branch}=req.params;
+        const dishAndCombo=await get_all_dish_and_combo(id_company,id_branch);
+        res.render('links/store/home/home',{dishAndCombo});
     }
 });
 
@@ -1447,6 +1469,28 @@ async function this_data_employee_is_user(req){
 
     return (id_user_employee==req.user.id) && (id_company_employee==id_company) && (id_branch_employee==id_branch) && (id_employee_employee==id_employee) && (id_role_employee==id_role)
 }
+
+async function get_all_dish_and_combo(idCompany,idBranch){
+    var queryText = `
+        SELECT 
+            i.*,
+            d.barcode,
+            d.name,
+            d.description,
+            d.img,
+            d.id_product_department,
+            d.id_product_category
+        FROM "Inventory".dish_and_combo_features i
+        INNER JOIN "Kitchen".dishes_and_combos d ON i.id_dishes_and_combos = d.id
+        WHERE i.id_companies = $1 AND i.id_branches = $2
+    `;
+    var values = [idCompany,idBranch];
+    const result = await database.query(queryText, values);
+    const companies=result.rows;
+}
+
+
+
 
 router.get('/store-home',isLoggedIn,async (req,res)=>{
     res.render('links/store/home/home');

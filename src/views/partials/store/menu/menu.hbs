@@ -17,96 +17,32 @@
             <div class="row container-menu" name="container-menu">
 
 
-
-
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
+                {{#if dishAndCombo}}
+                    {{#each dishAndCombo}}
+                        <div class="col-3">
+                            <div class="product">
+                                <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
+                                    class="product-img">
+                                <div class="product-character">
+                                    <h3 class="product-name">{{name}}</h3>
+                                    <p class="product-price">{{price_1}}$</p>
+                                    <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
+                    {{/each}}
+                {{else}}
+                    <div class="col-3">
+                        <div class="card" style="width: 18rem;" onclick="nextWeb('{{}}')">
+                            <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/3159/3159196.png" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">Oh, you don't have product inventory. Add a product to the menu.</p>
+                                <button class="btn-add">Add +</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
+                    </div>                 
+                {{/if}}
+                
 
 
 
