@@ -402,6 +402,20 @@ async function add_provider_company(provider){
     }
 }
 
+//add product_and_suppiles_features
+async function add_product_and_suppiles_features(id_branch,id_supplies){
+    var queryText = 'INSERT INTO "Inventory".product_and_suppiles_features(id_branches, id_products_and_supplies)'
+    + ' VALUES ($1, $2)';
+
+    var values = [id_branch,id_supplies]
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos product_and_suppiles_features:', error);
+        return false;
+    }
+}
 
 //////////////////////////////////////////////////
 async function add_department(name,description){
@@ -432,5 +446,6 @@ module.exports={
     add_type_employees,
     add_user,
     add_new_employees,
-    add_provider_company
+    add_provider_company,
+    add_product_and_suppiles_features
 };

@@ -3,8 +3,9 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-7">
-            <h6>this is the table with all the supplies of this branch</h6>
-            <h6>Load all the supllies of the company</h6><button class="btn btn-danger"><i class="fi-icon fi-br-refresh"></i></button>
+          {{#each branch}}
+            <button class="btn btn-danger" onclick=recharge_supplies('{{id_companies}}','{{id}}')><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
+          {{/each}}
             <br><br>
             {{>CEO/supplies_products/browser}}
             {{>CEO/supplies_products/table}}
@@ -26,7 +27,11 @@
 
 
 
-
+<script>
+  function recharge_supplies(id_company,id_branch){
+    window.location.href = "/fud/"+id_company+"/"+id_branch+"/recharge";
+  }
+</script>
 
 
 

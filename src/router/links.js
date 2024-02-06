@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 
 const database=require('../database');
+const addDatabase=require('../router/addDatabase');
 const databaseM=require('../mongodb');
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 
@@ -471,6 +472,15 @@ async function search_company_supplies_or_products(req,supplies){
     const {id}=req.params;
     var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and supplies= $2';
     var values = [id,supplies];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+async function search_company_supplies_or_products_with_id_company(id_company,supplies){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id_companies= $1 and supplies= $2';
+    var values = [id_company,supplies];
     const result = await database.query(queryText, values);
     
     return result.rows;
@@ -1377,11 +1387,64 @@ router.get('/:id_company/:id_branch/visit-branch',isLoggedIn,async(req,res)=>{
 
 
 router.get('/:id_company/:id_branch/supplies',isLoggedIn,async(req,res)=>{
-    const branch=await get_data_branch(req)
-    res.render('links/branch/supplies/supplies',{branch});
+    const {id_branch}=req.params;
+    const branch=await get_data_branch(req);
+    const supplies_products=await get_supplies_features(id_branch)
+    res.render('links/branch/supplies/supplies',{branch,supplies_products});
 })
 
+async function get_supplies_features(id_branch){
+    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_branches = $1';
+    var values = [id_branch];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
 
+router.get('/:id_company/:id_branch/recharge',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const company=await check_company_other(req);
+    
+    if(company.length>0){
+        await update_supplies_branch(req,res)
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/supplies');
+})
+
+async function update_supplies_branch(req,res){
+    const {id_company,id_branch}=req.params;
+    const suppliesNotSaved=''
+    
+    //we will geting all the supplies of the company 
+    const supplies=await search_company_supplies_or_products_with_id_company(id_company,false);
+
+    //we will to read all the supplies and we going to watch if the supplies is in the branch
+    for(var i=0;i<supplies.length;i++){
+        const idSupplies=supplies[i].id; //get id of the array 
+        if(!await this_supplies_exist(idSupplies)){
+            //if the supplies not exist in this branch, we going to add the database
+            //we will watching if the product was add with success, if not was add, save in the note
+            if(!await addDatabase.add_product_and_suppiles_features(id_branch,idSupplies)){
+                suppliesNotSaved+=supplies[i].name+'\n';
+            }
+        }
+    }
+
+    //we will seeing if all the products was add 
+    if(suppliesNotSaved==''){
+        req.flash('success','All the supplies was update with success! 😄')
+    }else{
+        req.flash('message','⚠️ These products have not been updated! ⚠️\n'+suppliesNotSaved)
+    }
+}
+
+async function this_supplies_exist(idSupplies){
+    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_products_and_supplies = $1';
+    var values = [idSupplies];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data.length>0;
+}
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
