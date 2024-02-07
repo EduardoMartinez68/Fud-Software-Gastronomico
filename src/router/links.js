@@ -1389,12 +1389,24 @@ router.get('/:id_company/:id_branch/visit-branch',isLoggedIn,async(req,res)=>{
 router.get('/:id_company/:id_branch/supplies',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const branch=await get_data_branch(req);
-    const supplies_products=await get_supplies_features(id_branch)
-    res.render('links/branch/supplies/supplies',{branch,supplies_products});
+    const supplies=await get_supplies_or_features(id_branch,false)
+    console.log(supplies)
+    res.render('links/branch/supplies/supplies',{branch,supplies});
 })
 
-async function get_supplies_features(id_branch){
-    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_branches = $1';
+async function get_supplies_or_features(id_branch,type){
+    var queryText = `
+        SELECT 
+            f.*,
+            p.img,
+            p.barcode,
+            p.name,
+            p.description,
+            p.use_inventory
+        FROM "Inventory".product_and_suppiles_features f
+        INNER JOIN "Kitchen".products_and_supplies p ON f.id_products_and_supplies = p.id
+        WHERE f.id_branches = $1
+    `;
     var values = [id_branch];
     const result = await database.query(queryText, values);
     const data=result.rows;

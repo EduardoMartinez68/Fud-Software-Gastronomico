@@ -1,27 +1,16 @@
 <link rel="stylesheet" href="/css/manager/supplies_products.css">
 <br>
 <div class="container">
+  <label><i class="fi-icon fi-sr-apple-whole"></i> Supplies</label>
+    <hr>
     <div class="row mt-5">
-        <div class="col-md-7">
+        <div class="col-md-12">
           {{#each branch}}
             <button class="btn btn-danger" onclick=recharge_supplies('{{id_companies}}','{{id}}')><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
           {{/each}}
             <br><br>
-            {{>CEO/supplies_products/browser}}
-            {{>CEO/supplies_products/table}}
+            {{>manager/supplies/table}}
         </div>
-
-      <div class="col-md-5">
-          <div class="card">
-              <div class="card-body">
-                {{>CEO/supplies_products/supplies/from}}
-              </div>
-          </div>
-      </div>
-
-      
-
-
     </div>
 </div>
 

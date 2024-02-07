@@ -219,6 +219,85 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
     });
 }
 
+async function edit_supplies_branch(title,img,barcode,name,description,use_inventory) {
+    var containerHtml = `
+        <div class="form-group">
+            <center>
+                <img src="/img/uploads/${img}" class="img-from-supplies_products" id="imgEmployee"><br>
+                <label>${barcode}</label><br>
+            </center>
+        </div>  
+        <label>Purchasing Features</label>
+        <br><br>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Purchase Price">
+            </div>
+            <div class="col">
+                <select id="unidad_medida" name="unidad_medida" class="form-select">
+                    <option value="g">Gramos (g)</option>
+                    <option value="kg">Kilogramos (kg)</option>
+                    <option value="l">Litros (l)</option>
+                    <option value="ml">Mililitros (ml)</option>
+                    <option value="u">Unidades (u)</option>
+                </select>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Sale Unity">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Sale Price">
+            </div>
+        </div>
+
+        <br><br>
+        <hr>
+        <div class="row">
+            <label>Existence</label>
+            <br><br>
+            <div class="col">
+                <input id="barcode" class="form-control" placeholder="Existence" value="${description}">
+            </div>
+            <div class="col">
+                <select id="unidad_medida" name="unidad_medida" class="form-select">
+                    <option value="g">Gramos (g)</option>
+                    <option value="kg">Kilogramos (kg)</option>
+                    <option value="l">Litros (l)</option>
+                    <option value="ml">Mililitros (ml)</option>
+                    <option value="u">Unidades (u)</option>
+                </select>
+            </div>
+        </div>
+        <br><br>
+    `;
+
+
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html: containerHtml,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const image = Swal.getPopup().querySelector('#inputImg').value;
+                const barcode = Swal.getPopup().querySelector('#barcode').value;
+                const name = Swal.getPopup().querySelector('#name').value;
+                const description = Swal.getPopup().querySelector('#description').value;
+                const use_inventory = Swal.getPopup().querySelector('#invalidCheck2').checked;
+                const data = [image,barcode,name, description,use_inventory];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
 /////////////////////////////////cart//////////////////////////////////////////////
 
 async function edit_cant_car(title,cant) {

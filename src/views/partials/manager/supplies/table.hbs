@@ -1,0 +1,87 @@
+
+<table class="table table-hover"> <!--table-bordered-->
+    <colgroup>
+        <col style="width: 5%;">
+        <col style="width: 12%;">
+        <col style="width: 12%;">
+        <col style="width: 20%;"> <!--20-->
+        <col style="width: 2%;">
+        <col style="width: 32%;">
+    </colgroup>
+    <thead>
+    <tr>
+        <th></th>
+        <th>Barcode</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Existence</th>
+        <th>Price</th>
+        <th><i class="fi-icon fi-ss-inventory-alt"></i></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each supplies}}
+        <tr>
+            {{#if img}}
+                <td><img src="/img/uploads/{{img}}" class="img-s-p"></td>
+            {{else}}
+                <td><img src="https://cdn-icons-png.flaticon.com/512/415/415682.png" class="img-s-p"></td>
+            {{/if}}
+            <td>{{barcode}}</td>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td>{{existence}}</td>
+            <td>{{sale_price}}{{sale_unity}}</td>
+            {{#if use_inventory}}
+                <td><i class="fi-icon fi-ss-check-circle"></i></td>
+            {{else}}
+                <td><i class="fi-icon fi-sr-circle-xmark"></i></td>
+            {{/if}}
+            <td>
+                <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,'{{id_branches}}','{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+
+
+
+
+
+<script>
+    async function edit_supplies(id,id_company,img,barcode,nameDepartment,descriptionDepartment,use_inventory){
+        //we will to delate the space in 
+        if(descriptionDepartment=="-"){
+            descriptionDepartment=""
+        }
+
+        //we will to get the data of the new department
+        const data=await edit_supplies_branch('Edit '+nameDepartment,img,barcode,nameDepartment,descriptionDepartment,use_inventory);
+        if(data){
+            //get the data of the from 
+            var newImg = data[0];
+            var newBarcode = data[1];
+            var name = data[2];
+            var description = data[3];
+            var useInventory = data[4];
+
+            //we will to see if be a name
+            if(newBarcode!=""){
+                if(name!=""){
+                    if(description==""){
+                        description="-";
+                    }            
+                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${description}/${useInventory}/company-supplies`;
+                }
+                else{
+                    warningMessage('Error','You need add a name to your supplies');
+                }
+            }
+            else{
+                warningMessage('Error','You need add a barcode to your supplies');
+            }
+        }
+    }
+</script>
