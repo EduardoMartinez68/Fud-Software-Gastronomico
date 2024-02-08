@@ -34,8 +34,8 @@
             <td>{{existence}}</td>
             <td>{{sale_price}}{{sale_unity}}</td>
             <td>
-                <button class="btn btn-danger" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{purchase_amount}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
-                <button class="btn btn-danger"><i class="fi-department fi-sr-pencil"></i></button>
+                <button class="btn btn-danger" onclick="edit_inventory('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{purchase_amount}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
+                <button class="btn btn-danger" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-department fi-sr-pencil"></i></button>
             </td>
         </tr>
     {{/each}}
@@ -47,13 +47,18 @@
 
 
 <script>
-    async function edit_supplies(id_company,id_branch,id_supplies,img,barcode,nameDepartment,existence,purchaseAmount){
+    async function edit_supplies(id_company,id_branch,id_supplies){
+        //we will see if this products have a purchase amount, if not have a purchase amount we will to send to the user to that add this data
+        window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/edit-supplies-branch`;
+    }
+
+    async function edit_inventory(id_company,id_branch,id_supplies,img,barcode,nameDepartment,existence,purchaseAmount){
         //we will see if this products have a purchase amount, if not have a purchase amount we will to send to the user to that add this data
         if(purchaseAmount!=''){
-            show_message_edit(id,id_branch,img,barcode,nameDepartment,existence,purchaseAmount);
+            show_message_edit(id_supplies,id_branch,img,barcode,nameDepartment,existence,purchaseAmount);
         }else{
             window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/edit-supplies-branch`;
-        }
+        }     
     }
 
     async function show_message_edit(id,id_company,img,barcode,nameDepartment,existence,purchaseAmount){
@@ -74,7 +79,7 @@
                     if(description==""){
                         description="-";
                     }            
-                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${existence}/${purchaseAmount}/company-supplies`;
+                    window.location.href = `/fud/${id_company}/${id}/${barcode}/${nameDepartment}/${existence}/${purchaseAmount}/company-supplies`;
                 }
                 else{
                     warningMessage('Error','You need add a name to your supplies');

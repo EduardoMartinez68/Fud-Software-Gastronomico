@@ -377,6 +377,41 @@ async function update_provider_company(idProvider,dataProvider){
     }
 }
 
+async function update_supplies_branch(supplies){
+    const queryText = `
+    UPDATE "Inventory".product_and_suppiles_features
+    SET 
+        purchase_amount=$1,
+        purchase_unity=$2,
+        purchase_price=$3,
+        currency_purchase=$4,
+        sale_amount=$5,
+        sale_unity=$6,
+        sale_price=$7,
+        currency_sale=$8,
+        max_inventary=$9,
+        minimum_inventory=$10,
+        unit_inventory=$11,
+        existence=$12
+    WHERE 
+        id=$13
+    `;
+    
+    console.log(supplies)
+    //create the array of the new data supplies
+    var values = Object.values(supplies);
+
+    //update the provider data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
+
 module.exports = {
     update_company,
     get_query_edit_supplies_company,
@@ -386,5 +421,6 @@ module.exports = {
     update_role_employee,
     update_user,
     update_employee,
-    update_provider_company
+    update_provider_company,
+    update_supplies_branch
 };

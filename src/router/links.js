@@ -1389,7 +1389,6 @@ router.get('/:id_company/:id_branch/supplies',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const branch=await get_data_branch(req);
     const supplies=await get_supplies_or_features(id_branch,false)
-    console.log(supplies)
     res.render('links/branch/supplies/supplies',{branch,supplies});
 })
 
@@ -1438,6 +1437,13 @@ router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch',isLoggedI
     const supplies=await get_supplies_with_id(id_supplies);
     res.render('links/branch/supplies/editSupplies',{supplies});
 })
+
+
+
+
+
+
+
 
 
 

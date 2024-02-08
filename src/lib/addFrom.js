@@ -903,7 +903,6 @@ async function get_profile_picture(idUser){
     }
 }
 
-
 function new_data_user(req){
     const {user_name,email,first_name,second_name,last_name}=req.body;
     const image=create_a_new_image(req)
@@ -942,4 +941,49 @@ function new_data_employee(req){
 
     return new_employee;
 }
+
+//fud/1/5/1/update-supplies-branch
+router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies}=req.params;
+
+    //we will creating the new supplies and we will saving the id of the supplies
+    const supplies=create_supplies_branch(req,id_supplies);
+
+    //we will watching if the supplies can update 
+    if(await update.update_supplies_branch(supplies)){
+        req.flash('success','the supplies was update with success 👍');
+    }
+    else{
+        req.flash('message','the supplies not was update 👉👈');
+    }
+
+    res.redirect(`/fud/${id_company}/${id_branch}/supplies`);
+})
+
+function create_supplies_branch(req,id_supplies){
+    const {purchase_amount, purchase_unity, purchase_price, sale_amount, sale_unity, sale_price, max_inventory, minimum_inventory, unit_inventory, existence}=req.body;
+    const supplies = {
+        purchase_amount:string_to_float(purchase_amount),
+        purchase_unity: string_to_float(purchase_unity),
+        purchase_price: string_to_float(purchase_price),
+        currency_purchase:req.body.currency_purchase,
+        sale_amount: string_to_float(sale_amount),
+        sale_unity: string_to_float(sale_unity),
+        sale_price: string_to_float(sale_price),
+        currency_sale:req.body.currency_sale,
+        max_inventory: string_to_float(max_inventory),
+        minimum_inventory: string_to_float(minimum_inventory),
+        unit_inventory: req.body.unit_inventory,
+        existence: string_to_float(existence),
+        id_supplies:id_supplies,
+    };
+
+    return supplies;
+}
+
+function string_to_float(str) {
+    let floatValue = parseFloat(str);
+    return isNaN(floatValue) ? 0 : floatValue;
+}
+
 module.exports=router;
