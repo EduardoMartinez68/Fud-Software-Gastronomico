@@ -1,12 +1,13 @@
 
 <table class="table table-hover"> <!--table-bordered-->
     <colgroup>
-        <col style="width: 5%;">
-        <col style="width: 12%;">
-        <col style="width: 12%;">
-        <col style="width: 20%;"> <!--20-->
-        <col style="width: 2%;">
-        <col style="width: 32%;">
+        <col style="width: 5%;"> <!--image-->
+        <col style="width: 25%;"> <!--barcode-->
+        <col style="width: 25%;"> <!--name-->
+        <col style="width: 20%;"> <!--description-->
+        <col style="width: 4%;"> <!--existence-->
+        <col style="width: 6%;"> <!--price-->
+        <col style="width: 15%;"> <!--button-->
     </colgroup>
     <thead>
     <tr>
@@ -16,7 +17,6 @@
         <th>Description</th>
         <th>Existence</th>
         <th>Price</th>
-        <th><i class="fi-icon fi-ss-inventory-alt"></i></th>
         <th></th>
     </tr>
     </thead>
@@ -33,13 +33,9 @@
             <td>{{description}}</td>
             <td>{{existence}}</td>
             <td>{{sale_price}}{{sale_unity}}</td>
-            {{#if use_inventory}}
-                <td><i class="fi-icon fi-ss-check-circle"></i></td>
-            {{else}}
-                <td><i class="fi-icon fi-sr-circle-xmark"></i></td>
-            {{/if}}
             <td>
-                <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,'{{id_branches}}','{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                <button class="btn btn-danger" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{purchase_amount}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
+                <button class="btn btn-danger"><i class="fi-department fi-sr-pencil"></i></button>
             </td>
         </tr>
     {{/each}}
@@ -51,21 +47,26 @@
 
 
 <script>
-    async function edit_supplies(id,id_company,img,barcode,nameDepartment,descriptionDepartment,use_inventory){
-        //we will to delate the space in 
-        if(descriptionDepartment=="-"){
-            descriptionDepartment=""
+    async function edit_supplies(id_company,id_branch,id_supplies,img,barcode,nameDepartment,existence,purchaseAmount){
+        //we will see if this products have a purchase amount, if not have a purchase amount we will to send to the user to that add this data
+        if(purchaseAmount!=''){
+            show_message_edit(id,id_branch,img,barcode,nameDepartment,existence,purchaseAmount);
+        }else{
+            window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/edit-supplies-branch`;
         }
+    }
 
+    async function show_message_edit(id,id_company,img,barcode,nameDepartment,existence,purchaseAmount){
         //we will to get the data of the new department
-        const data=await edit_supplies_branch('Edit '+nameDepartment,img,barcode,nameDepartment,descriptionDepartment,use_inventory);
+        const data=await edit_supplies_branch('Edit '+nameDepartment,img,barcode,nameDepartment,existence,purchaseAmount);
         if(data){
             //get the data of the from 
             var newImg = data[0];
             var newBarcode = data[1];
             var name = data[2];
-            var description = data[3];
-            var useInventory = data[4];
+            var existence = data[3];
+            var purchaseAmount = data[4];
+
 
             //we will to see if be a name
             if(newBarcode!=""){
@@ -73,7 +74,7 @@
                     if(description==""){
                         description="-";
                     }            
-                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${description}/${useInventory}/company-supplies`;
+                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${existence}/${purchaseAmount}/company-supplies`;
                 }
                 else{
                     warningMessage('Error','You need add a name to your supplies');

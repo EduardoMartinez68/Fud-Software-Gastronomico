@@ -218,8 +218,16 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
         });
     });
 }
-
-async function edit_supplies_branch(title,img,barcode,name,description,use_inventory) {
+/*
+                <select id="unidad_medida" name="unidad_medida" class="form-select">
+                    <option value="g">Gramos (g)</option>
+                    <option value="kg">Kilogramos (kg)</option>
+                    <option value="l">Litros (l)</option>
+                    <option value="ml">Mililitros (ml)</option>
+                    <option value="u">Unidades (u)</option>
+                </select>
+ */
+async function edit_supplies_branch(title,img,barcode,name,existence,purchase_amount) {
     var containerHtml = `
         <div class="form-group">
             <center>
@@ -227,48 +235,17 @@ async function edit_supplies_branch(title,img,barcode,name,description,use_inven
                 <label>${barcode}</label><br>
             </center>
         </div>  
-        <label>Purchasing Features</label>
         <br><br>
-        <div class="row">
-            <div class="col">
-                <input type="text" class="form-control" placeholder="Purchase Price">
-            </div>
-            <div class="col">
-                <select id="unidad_medida" name="unidad_medida" class="form-select">
-                    <option value="g">Gramos (g)</option>
-                    <option value="kg">Kilogramos (kg)</option>
-                    <option value="l">Litros (l)</option>
-                    <option value="ml">Mililitros (ml)</option>
-                    <option value="u">Unidades (u)</option>
-                </select>
-            </div>
-        </div>
-        <br><br>
-        <div class="row">
-            <div class="col">
-                <input type="text" class="form-control" placeholder="Sale Unity">
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" placeholder="Sale Price">
-            </div>
-        </div>
-
-        <br><br>
+        <label>Current existence: ${existence} ${purchase_amount}</label>
         <hr>
         <div class="row">
             <label>Existence</label>
             <br><br>
             <div class="col">
-                <input id="barcode" class="form-control" placeholder="Existence" value="${description}">
+                <input id="barcode" class="form-control" placeholder="Existence" value="${existence}">
             </div>
             <div class="col">
-                <select id="unidad_medida" name="unidad_medida" class="form-select">
-                    <option value="g">Gramos (g)</option>
-                    <option value="kg">Kilogramos (kg)</option>
-                    <option value="l">Litros (l)</option>
-                    <option value="ml">Mililitros (ml)</option>
-                    <option value="u">Unidades (u)</option>
-                </select>
+                <input id="type" class="form-control" placeholder="Existence" value="g" readonly>
             </div>
         </div>
         <br><br>

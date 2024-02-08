@@ -5,7 +5,6 @@ const database=require('../database');
 const addDatabase=require('../router/addDatabase');
 const databaseM=require('../mongodb');
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
-
 //const delateDatabase=require('delateDatabase');
 
 //delate image
@@ -1398,6 +1397,7 @@ async function get_supplies_or_features(id_branch,type){
     var queryText = `
         SELECT 
             f.*,
+            p.id_companies,
             p.img,
             p.barcode,
             p.name,
@@ -1412,6 +1412,34 @@ async function get_supplies_or_features(id_branch,type){
     const data=result.rows;
     return data;
 }
+
+async function get_supplies_with_id(id_supplies){
+    var queryText = `
+        SELECT 
+            f.*,
+            p.id_companies,
+            p.img,
+            p.barcode,
+            p.name,
+            p.description,
+            p.use_inventory
+        FROM "Inventory".product_and_suppiles_features f
+        INNER JOIN "Kitchen".products_and_supplies p ON f.id_products_and_supplies = p.id
+        WHERE f.id = $1
+    `;
+    var values = [id_supplies];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies}=req.params;
+    const supplies=await get_supplies_with_id(id_supplies);
+    res.render('links/branch/supplies/editSupplies',{supplies});
+})
+
+
 
 router.get('/:id_company/:id_branch/recharge',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
