@@ -1451,7 +1451,7 @@ router.get('/:id_company/:id_branch/recharge-supplies',isLoggedIn,async(req,res)
 
 async function update_supplies_branch(req,res,type){
     const {id_company,id_branch}=req.params;
-    const suppliesNotSaved=''
+    var suppliesNotSaved=''
     
     //we will geting all the supplies of the company 
     const supplies=await search_company_supplies_or_products_with_id_company(id_company,type);
@@ -1537,8 +1537,79 @@ async function get_combo_features(idBranche){
     return data;
 }
 
+router.get('/:id_company/:id_branch/combo-refresh',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    await update_combo_branch(req,res);
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
+})
 
+async function update_combo_branch(req,res){
+    const {id_company,id_branch}=req.params;
+    var comboNotSaved=''
 
+    //we will geting all the supplies of the company 
+    const combos=await get_all_combos_company(id_company);
+
+    //we will reading all the combo of the company for after add to the branch
+    await Promise.all(combos.map(async combo => {
+        //get the data combo
+        const comboData = create_combo_data_branch(combo, id_branch);
+        // save the combo in the branch
+        if (!await add_combo_branch(comboData)) {
+            // if the combo not was add with succes, we save the name of the combo
+            comboNotSaved += combo.name + '\n';
+        }
+    }));
+  
+    //we will seeing if all the products was add 
+    if(comboNotSaved==''){
+        req.flash('success',`All the combos was update with success! 😄`)
+    }else{
+        req.flash('message',`⚠️ These combos have not been updated! ⚠️\n`+comboNotSaved)
+    }
+}
+
+function create_combo_data_branch(combo,id_branch){
+    const comboData = {
+        idCompany: combo.id_companies,
+        idBranch: id_branch,
+        idDishesAndCombos: combo.id,
+        price_1:0,
+        amount:0,
+        product_cost:0,
+        revenue_1:0,
+        purchase_unit:'Pza'
+    };
+    return comboData;
+}
+
+async function add_combo_branch(comboData){
+    //we will watching if this combo exist in this branch 
+    if(!await this_combo_exist_branch(comboData.idDishesAndCombos)){
+        //if the combo not exist in the branch so we will add this new combo to the database 
+        return await addDatabase.add_combo_branch(comboData);
+    }
+
+    return true;
+}
+
+async function get_all_combos_company(idCompany){
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".dishes_and_combos WHERE id_companies= $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    
+    return result.rows;
+}
+
+async function this_combo_exist_branch(idCombo){
+    //we will search the combo in this branch 
+    var queryText = 'SELECT * FROM "Inventory".dish_and_combo_features WHERE id_dishes_and_combos= $1';
+    var values = [idCombo];
+    const result = await database.query(queryText, values);
+    
+    return result.rows.length>0;
+}
 
 
 //-------------------------------------------------------------home

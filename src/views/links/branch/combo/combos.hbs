@@ -7,7 +7,7 @@
     <div class="row mt-5">
         <div class="col-md-12">
           {{#each branch}}
-            <button class="btn btn-danger" onclick=recharge_supplies('{{id_companies}}','{{id}}')><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
+            <button class="btn btn-danger" onclick="nextWeb('/{{id_companies}}/{{id}}/combo-refresh')"><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
           {{/each}}
         </div>
     </div>

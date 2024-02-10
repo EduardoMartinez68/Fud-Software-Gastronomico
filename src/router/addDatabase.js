@@ -417,6 +417,22 @@ async function add_product_and_suppiles_features(id_branch,id_supplies){
     }
 }
 
+//add combo branch 
+async function add_combo_branch(combo){
+
+    var queryText = 'INSERT INTO "Inventory".dish_and_combo_features(id_companies, id_branches, id_dishes_and_combos, price_1,amount,product_cost,revenue_1,purchase_unit)'
+    + ' VALUES ($1, $2, $3, $4,$5,$6,$7,$8)';
+
+    var values = Object.values(combo);
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos dish_and_combo_features:', error);
+        return false;
+    }
+}
+
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -447,5 +463,6 @@ module.exports={
     add_user,
     add_new_employees,
     add_provider_company,
-    add_product_and_suppiles_features
+    add_product_and_suppiles_features,
+    add_combo_branch
 };
