@@ -19,7 +19,11 @@
                         <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-supplies-branch" method="POST" id="myForm">
                             <div class="form-group" >
                                 <center>
-                                    <img src="/img/uploads/{{img}}" id="imgEmployee" class="userImg">
+                                    {{#if img}}
+                                        <img src="/img/uploads/{{img}}" id="imgEmployee" class="userImg">
+                                    {{else}}
+                                        <img src="https://static.vecteezy.com/system/resources/previews/000/441/941/non_2x/vector-apple-icon.jpg" id="imgEmployee" class="userImg">
+                                    {{/if}}
                                     <h6>{{name}}</h6>
                                     <label>{{barcode}}</label>
                                 </center>
@@ -38,21 +42,21 @@
                                 <div class="row">
                                    <div class="col">
                                         <label>Purchase Amount *</label><br>
-                                        <input type="tex" class="form-control" name="purchase_amount" placeholder="Purchase Amount" autofocus required>
+                                        <input type="tex" class="form-control" name="purchase_amount" placeholder="Purchase Amount" autofocus required value="{{purchase_amount}}">
                                     </div>
                                     <div class="col">
                                     <label>Purchase Unity</label>
-                                        <select id="unidad_medida" name="purchase_unity" class="form-select">
+                                        <select value="{{purchase_unity}}" name="purchase_unity" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label>Purchase Price *</label><br>
-                                        <input type="tex" class="form-control" name="purchase_price" placeholder="Purchase Price" required>
+                                        <input type="tex" class="form-control" name="purchase_price" placeholder="Purchase Price" required value="{{purchase_price}}">
                                     </div>
                                     <div class="col">
                                     <label>Currency</label>
-                                        <select id="unidad_medida" name="currency_purchase" class="form-select">
+                                        <select value="{{currency_purchase}}" name="currency_purchase" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
                                     </div>
@@ -61,21 +65,21 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>Sale Amount *</label><br>
-                                        <input type="tex" class="form-control" name="sale_amount" placeholder="Sale Amount" required>
+                                        <input type="tex" class="form-control" name="sale_amount" placeholder="Sale Amount" required value="{{purchase_price}}">
                                     </div>
                                     <div class="col">
                                         <label>Sale Unity</label>
-                                        <select id="unidad_medida" name="sale_unity" class="form-select">
+                                        <select value="{{sale_unity}}" name="sale_unity" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label>Sale Price *</label><br>
-                                        <input type="tex" class="form-control" name="sale_price" placeholder="Price" required>
+                                        <input type="tex" class="form-control" name="sale_price" placeholder="Price" required value="{{sale_price}}">
                                     </div>
                                     <div class="col">
                                     <label>Currency</label>
-                                        <select id="unidad_medida" name="currency_sale" class="form-select">
+                                        <select value="{{currency_sale}}" name="currency_sale" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
                                     </div>
@@ -84,15 +88,15 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>Max Inventary</label><br>
-                                        <input type="tex" class="form-control" name="max_inventory" placeholder="Max Inventary">
+                                        <input type="tex" class="form-control" name="max_inventory" placeholder="Max Inventary" value="{{max_inventary}}">
                                     </div>
                                     <div class="col">
                                         <label>Minimum Inventory</label><br>
-                                        <input type="tex" class="form-control" name="minimum_inventory" placeholder="Minimum Inventory">
+                                        <input type="tex" class="form-control" name="minimum_inventory" placeholder="Minimum Inventory" value="{{minimum_inventory}}">
                                     </div>
                                     <div class="col">
                                         <label>Unit of Measurement *</label><br>
-                                        <select id="unidad_medida" name="unit_inventory" class="form-select">
+                                        <select value="{{unit_inventory}}" name="unit_inventory" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
                                     </div>
@@ -100,7 +104,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>Existence</label><br>
-                                        <input type="tex" class="form-control" name="existence" placeholder="Existence" required>
+                                        <input type="tex" class="form-control" name="existence" placeholder="Existence" required value="{{existence}}">
                                     </div>
                                 </div>
                             </div>
@@ -147,3 +151,5 @@
             })
         })
     </script>
+
+{{>updateSelects}}

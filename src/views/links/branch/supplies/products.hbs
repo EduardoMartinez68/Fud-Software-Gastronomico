@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="/css/manager/supplies_products.css">
 <br>
 <div class="container">
-  <label><i class="fi-icon fi-sr-apple-whole"></i> Supplies</label>
+  <label><i class="fi-icon fi-sr-box-open"></i> Products</label>
     <hr>
     <div class="row mt-5">
         <div class="col-md-12">
           {{#each branch}}
-            <button class="btn btn-danger" onclick=recharge_supplies('{{id_companies}}','{{id}}')><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
+            <button class="btn btn-danger" onclick=recharge_supplies('{{id_companies}}','{{id}}')><i class="fi-department fi-br-refresh"></i></button>  Recharge all the products of the company
           {{/each}}
             <br><br>
             {{>manager/supplies/table}}
@@ -18,7 +18,7 @@
 
 <script>
   function recharge_supplies(id_company,id_branch){
-    window.location.href = "/fud/"+id_company+"/"+id_branch+"/recharge-supplies";
+    window.location.href = "/fud/"+id_company+"/"+id_branch+"/recharge-products";
   }
 </script>
 

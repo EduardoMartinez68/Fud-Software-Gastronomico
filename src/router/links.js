@@ -1388,7 +1388,7 @@ router.get('/:id_company/:id_branch/visit-branch',isLoggedIn,async(req,res)=>{
 router.get('/:id_company/:id_branch/supplies',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const branch=await get_data_branch(req);
-    const supplies=await get_supplies_or_features(id_branch,false)
+    const supplies=await get_supplies_or_features(id_branch,true)
     res.render('links/branch/supplies/supplies',{branch,supplies});
 })
 
@@ -1404,9 +1404,9 @@ async function get_supplies_or_features(id_branch,type){
             p.use_inventory
         FROM "Inventory".product_and_suppiles_features f
         INNER JOIN "Kitchen".products_and_supplies p ON f.id_products_and_supplies = p.id
-        WHERE f.id_branches = $1
+        WHERE f.id_branches = $1 and p.supplies =$2
     `;
-    var values = [id_branch];
+    var values = [id_branch,type];
     const result = await database.query(queryText, values);
     const data=result.rows;
     return data;
@@ -1432,37 +1432,29 @@ async function get_supplies_with_id(id_supplies){
     return data;
 }
 
+
 router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
-    const supplies=await get_supplies_with_id(id_supplies);
+    const supplies=await get_supplies_with_id(id_supplies,true);
     res.render('links/branch/supplies/editSupplies',{supplies});
 })
 
-
-
-
-
-
-
-
-
-
-router.get('/:id_company/:id_branch/recharge',isLoggedIn,async(req,res)=>{
+router.get('/:id_company/:id_branch/recharge-supplies',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     const company=await check_company_other(req);
     
     if(company.length>0){
-        await update_supplies_branch(req,res)
+        await update_supplies_branch(req,res,true)
     }
     res.redirect('/fud/'+id_company+'/'+id_branch+'/supplies');
 })
 
-async function update_supplies_branch(req,res){
+async function update_supplies_branch(req,res,type){
     const {id_company,id_branch}=req.params;
     const suppliesNotSaved=''
     
     //we will geting all the supplies of the company 
-    const supplies=await search_company_supplies_or_products_with_id_company(id_company,false);
+    const supplies=await search_company_supplies_or_products_with_id_company(id_company,type);
 
     //we will to read all the supplies and we going to watch if the supplies is in the branch
     for(var i=0;i<supplies.length;i++){
@@ -1477,10 +1469,11 @@ async function update_supplies_branch(req,res){
     }
 
     //we will seeing if all the products was add 
+    const text = type ? 'supplies' : 'products';
     if(suppliesNotSaved==''){
-        req.flash('success','All the supplies was update with success! 😄')
+        req.flash('success',`All the ${text} was update with success! 😄`)
     }else{
-        req.flash('message','⚠️ These products have not been updated! ⚠️\n'+suppliesNotSaved)
+        req.flash('message',`⚠️ These ${text} have not been updated! ⚠️\n`+suppliesNotSaved)
     }
 }
 
@@ -1491,6 +1484,62 @@ async function this_supplies_exist(idSupplies){
     const data=result.rows;
     return data.length>0;
 }
+
+//products 
+router.get('/:id_company/:id_branch/products',isLoggedIn,async(req,res)=>{
+    const {id_branch}=req.params;
+    const branch=await get_data_branch(req);
+    const supplies=await get_supplies_or_features(id_branch,false)
+    res.render('links/branch/supplies/products',{branch,supplies});
+})
+
+router.get('/:id_company/:id_branch/recharge-products',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const company=await check_company_other(req);
+    
+    if(company.length>0){
+        await update_supplies_branch(req,res,false)
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/products');
+})
+
+router.get('/:id_company/:id_branch/:id_supplies/edit-products-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies}=req.params;
+    const supplies=await get_supplies_with_id(id_supplies,false);
+    res.render('links/branch/supplies/editSupplies',{supplies});
+})
+
+//combos
+router.get('/:id_company/:id_branch/combos',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const branch=await get_data_branch(req);
+    const combos=await get_combo_features(id_branch);
+    res.render('links/branch/combo/combos',{branch,combos});
+})
+
+async function get_combo_features(idBranche){
+    var queryText = `
+    SELECT 
+    f.*,
+    d.img,
+    d.barcode,
+    d.name,
+    d.description
+    FROM 
+        "Inventory".dish_and_combo_features f
+    INNER JOIN 
+        "Kitchen".dishes_and_combos d ON f.id_dishes_and_combos = d.id
+        WHERE f.id_branches = $1
+    `;
+    var values = [idBranche];
+    const result = await database.query(queryText, values);
+    const data=result.rows;
+    return data;
+}
+
+
+
+
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
@@ -1597,7 +1646,6 @@ async function get_all_dish_and_combo(idCompany,idBranch){
     const result = await database.query(queryText, values);
     const companies=result.rows;
 }
-
 
 
 

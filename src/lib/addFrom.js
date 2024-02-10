@@ -36,18 +36,18 @@ passport.use('local.add_company', new LocalStrategy({
         if(!await compare_company_with_name(req,name)){
             const newCompany=get_new_company(req);
             if (await addDatabase.add_company(newCompany)){
-                done(null,false,req.flash('success','the company was add with success'));
+                done(null,false,req.flash('success','the company was add with success ❤️'));
             }
             else{
-                done(null,false,req.flash('message','Could not add to database'));
+                done(null,false,req.flash('message','Could not add to database 😰'));
             }
         }
         else{
-            done(null,false,req.flash('message','This name already exists'));
+            done(null,false,req.flash('message','This name already exists 😅'));
         }
     }
     else{
-        done(null,false,req.flash('message','You must fill in all the required information'));
+        done(null,false,req.flash('message','You must fill in all the required information 👉👈'));
     }
 }));
 
@@ -114,14 +114,14 @@ passport.use('local.add_department', new LocalStrategy({
     if(!await this_department_exists(req,name)){
         const newDepartment=get_new_department(req);
         if(await addDatabase.add_product_department(newDepartment)){
-            done(null,false,req.flash('success','the department was add with success'));
+            done(null,false,req.flash('success','the department was add with success! 😊'));
         }
         else{
-            done(null,false,req.flash('message','Could not add to database'));
+            done(null,false,req.flash('message','Could not add to database 😰'));
         }
     }
     else{
-        done(null,false,req.flash('message','This department already exists'));
+        done(null,false,req.flash('message','This department already exists 😅'));
     }
 }));
 
@@ -162,14 +162,14 @@ passport.use('local.add_category', new LocalStrategy({
     if(!await this_category_exists(req,name)){
         const newDepartment=get_new_category(req);
         if(await addDatabase.add_product_category(newDepartment)){
-            done(null,false,req.flash('success','the department was add with success'));
+            done(null,false,req.flash('success','the department was add with success! 😄'));
         }
         else{
-            done(null,false,req.flash('message','Could not add to database'));
+            done(null,false,req.flash('message','Could not add to database 😰'));
         }
     }
     else{
-        done(null,false,req.flash('message','This department already exists'));
+        done(null,false,req.flash('message','This department already exists 👉👈'));
     }
 }));
 
@@ -208,7 +208,7 @@ passport.use('local.add_supplies', new LocalStrategy({
 }, async (req ,name, password, done) => {
     var path_image=create_a_new_image(req);
     console.log(req.body);
-    done(null,false,req.flash('success','the department was add with success'));
+    done(null,false,req.flash('success','the department was add with success! 😄'));
 }));
 
 //add supplies
@@ -216,10 +216,10 @@ router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     const {id}=req.params;
     const newSupplies=get_supplies_or_product_company(req,true);
     if(await addDatabase.add_supplies_company(newSupplies)){
-        req.flash('success','the supplies was add with success')
+        req.flash('success','the supplies was add with success! 👍')
     }
     else{
-        req.flash('message','the supplies not was add with success')
+        req.flash('message','the supplies not was add with success 👉👈')
     }
     
     res.redirect('/fud/'+id+'/company-supplies');
@@ -229,10 +229,10 @@ router.post('/fud/:id/add-company-products',async (req,res)=>{
     const {id}=req.params;
     const newSupplies=get_supplies_or_product_company(req,false);
     if(await addDatabase.add_supplies_company(newSupplies)){
-        req.flash('success','the product was add with success')
+        req.flash('success','the product was add with success 👍')
     }
     else{
-        req.flash('message','the product not was add with success')
+        req.flash('message','the product not was add with success 😅')
     }
     
     res.redirect('/fud/'+id+'/company-products');
@@ -264,7 +264,7 @@ router.post('/fud/:id/add-company-combo',async (req,res)=>{
 
     //we will see if the user add a product or supplies 
     if(barcodeProducts==''){
-        req.flash('message','the combo need have a product or some supplies')
+        req.flash('message','the combo need have a product or some supplies 😅')
         res.redirect('/fud/'+id+'/add-combos');
     }
     else{
@@ -273,10 +273,10 @@ router.post('/fud/:id/add-company-combo',async (req,res)=>{
 
         //we will see if can add the combo to the database
         if(await addDatabase.add_combo_company(combo)){
-            req.flash('success','the combo was add with success')
+            req.flash('success','the combo was add with success ❤️')
         }
         else{
-            req.flash('message','the combo not was add')
+            req.flash('message','the combo not was add 😳')
         }
 
         res.redirect('/fud/'+id+'/combos');
@@ -340,7 +340,7 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
 
     //we will see if the user add a product or supplies 
     if(barcodeProducts==''){
-        req.flash('message','the combo need have a product or some supplies')
+        req.flash('message','the combo need have a product or some supplies 😅')
         res.redirect('/fud/'+id_company+'/'+id+'/edit-combo-company');
     }
     else{
@@ -352,10 +352,10 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
             //we will delate all the supplies of the combo for to save it later
             await delete_all_supplies_combo(id)
             await addDatabase.save_all_supplies_combo_company(id,combo.supplies) //We will save all the supplies again
-            req.flash('success','the combo was add with success')
+            req.flash('success','the combo was add with success ❤️')
         }
         else{
-            req.flash('message','the combo not was add')
+            req.flash('message','the combo not was add 😳')
         }
     }
 
@@ -396,7 +396,7 @@ router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const provider=create_new_provider(req);
     if(await this_provider_exists(provider)){
-        req.flash('message','This provider already exists in this branch')
+        req.flash('message','This provider already exists in this branch 😅')
     }else{
         await add_provider_to_database(provider,req);
     }
@@ -464,7 +464,7 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers',isLoggedIn
     //we will changing the id branch for knkow
     provider.branch=id_branch;
     if(await this_provider_exists(id_provider)){
-        req.flash('message','This provider already exists in this branch')
+        req.flash('message','This provider already exists in this branch 😅')
     }else{
         await update_provider_to_database(id_provider,provider,req);
     }
@@ -474,10 +474,10 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers',isLoggedIn
 
 async function update_provider_to_database(id_provider,provider,req){
     if(await update.update_provider_company(id_provider,provider)){
-        req.flash('success','the provider was update with supplies')
+        req.flash('success','the provider was update with supplies 😁')
     }
     else{
-        req.flash('message','the provider not was update')
+        req.flash('message','the provider not was update 👉👈')
     }
 }
 
@@ -487,10 +487,10 @@ router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const newBranch=create_new_branch(req);
     if(await addDatabase.add_branch(newBranch)){
-        req.flash('success','the branch was add with supplies')
+        req.flash('success','the branch was add with supplies ❤️')
     }
     else{
-        req.flash('message','the branch not was add')
+        req.flash('message','the branch not was add 👉👈')
     }
     res.redirect('/fud/'+id_company+'/branches');
 })
@@ -499,10 +499,10 @@ router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=
     const {id_company,id_branch}=req.params;
     const newBranch=create_new_branch(req);
     if(await update.update_branch(id_branch,newBranch)){
-        req.flash('success','the branch was upload with supplies')
+        req.flash('success','the branch was upload with supplies 😊')
     }
     else{
-        req.flash('message','the branch not was upload')
+        req.flash('message','the branch not was upload 😰')
     }
     res.redirect('/fud/'+id_company+'/branches');
 })
@@ -547,10 +547,10 @@ router.post('/fud/:id_company/:id_customer/editCustomer',isLoggedIn,async(req,re
     const {id_company,id_customer}=req.params;
     const newCustomer=create_new_customer(req);
     if(await update.update_customer(id_customer,newCustomer)){
-        req.flash('success','the customer was upload with supplies')
+        req.flash('success','the customer was upload with supplies ❤️')
     }
     else{
-        req.flash('message','the customer not was upload')
+        req.flash('message','the customer not was upload 😰')
     }
     res.redirect('/fud/'+id_company+'/customers-company');
 })
@@ -584,10 +584,10 @@ router.post('/fud/:id_company/add-department-employees',isLoggedIn,async(req,res
     const {id_company}=req.params;
     const department=create_department_employee(req)
     if(await addDatabase.add_department_employees(department)){
-        req.flash('success','the department was add with supplies')
+        req.flash('success','the department was add with supplies 👍')
     }
     else{
-        req.flash('message','the department not was add')
+        req.flash('message','the department not was add 😰')
     }
     res.redirect('/fud/'+id_company+'/employee-department');
 })
@@ -608,15 +608,15 @@ router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const {name}=req.body
     if(await this_type_employee_exist(id_company,name)){
-        req.flash('message','the type employee not was add because this name already exists')
+        req.flash('message','the type employee not was add because this name already exists 😅')
     }
     else{
         const typeEmployees=create_type_employee(id_company,req)
         if(await addDatabase.add_type_employees(typeEmployees)){
-            req.flash('success','the type employee was add with supplies')
+            req.flash('success','the type employee was add with supplies 😄')
         }
         else{
-            req.flash('message','the type employee not was add')
+            req.flash('message','the type employee not was add 😰')
         }
     }
     res.redirect('/fud/'+id_company+'/type-user');
@@ -728,10 +728,10 @@ router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req
     //get the new data role of the employee and update the old role
     const typeEmployees=create_type_employee(id_company,req)
     if(await update.update_role_employee(id_role,typeEmployees)){
-        req.flash('success','the role employee was update with supplies')
+        req.flash('success','the role employee was update with supplies 😄')
     }
     else{
-        req.flash('message','the role employee not was update')
+        req.flash('message','the role employee not was update 😅')
     }
     //refresh the web with the new role update
     res.redirect('/fud/'+id_company+'/type-user');
@@ -748,7 +748,7 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
     else{
         //we will see if the username that the user would like to add exist 
         if(await this_username_exists(username)){
-            req.flash('message','the employee not was add because this username already exists')
+            req.flash('message','the employee not was add because this username already exists 😅')
         }
         else{
             //we will watching if the password is correct 
@@ -762,7 +762,7 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
                     //we will to create the new employee and add to the database
                     const employee=create_new_employee(idUser,id_company,req)
                     if(await addDatabase.add_new_employees(employee)){
-                        req.flash('success','the employee was add with supplies')
+                        req.flash('success','the employee was add with supplies 🥳')
                     }
                     else{
                         /*
@@ -770,14 +770,14 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
                         for that the manager can edit the employee data in the screen of employees
                         */
                         await delete_user(idUser)
-                        req.flash('message','the employee data not was add. Please you can edit the data and update the data')
+                        req.flash('message','the employee data not was add. Please you can edit the data and update the data 😅')
                     }
                 }
                 else{
-                    req.flash('message','the employee not was add')
+                    req.flash('message','the employee not was add 😳')
                 }
             }else{
-                req.flash('message','the password was incorrect')
+                req.flash('message','the password was incorrect 😳')
             }
         }
     }
@@ -878,14 +878,14 @@ router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,a
 
     if(await update.update_user(id_user,newDataUser)){
         if(await update.update_employee(id_user,newDataEmployee)){
-            req.flash('success','the employee  was update')
+            req.flash('success','the employee was update 🥳')
         }
         else{
-            req.flash('message','the employee data not was update')
+            req.flash('message','the employee data not was update 😅')
         }
     }
     else{
-        req.flash('message','the user data not was update')
+        req.flash('message','the user data not was update 😅')
     }
 
     res.redirect('/fud/'+id_company+'/employees');
@@ -941,8 +941,8 @@ function new_data_employee(req){
 
     return new_employee;
 }
-
-//fud/1/5/1/update-supplies-branch
+//---------------------------------------------------------------------------------------------------------BRANCHES---------------------------------------------------------------
+//edit supplies branch 
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
 
@@ -961,14 +961,14 @@ router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',is
 })
 
 function create_supplies_branch(req,id_supplies){
-    const {purchase_amount, purchase_unity, purchase_price, sale_amount, sale_unity, sale_price, max_inventory, minimum_inventory, unit_inventory, existence}=req.body;
+    const {purchase_amount, purchase_price, sale_amount, sale_price, max_inventory, minimum_inventory, existence}=req.body;
     const supplies = {
         purchase_amount:string_to_float(purchase_amount),
-        purchase_unity: string_to_float(purchase_unity),
+        purchase_unity: req.body.purchase_unity,
         purchase_price: string_to_float(purchase_price),
-        currency_purchase:req.body.currency_purchase,
+        currency_purchase:req.body.currency_purchase, 
         sale_amount: string_to_float(sale_amount),
-        sale_unity: string_to_float(sale_unity),
+        sale_unity: req.body.sale_unity,
         sale_price: string_to_float(sale_price),
         currency_sale:req.body.currency_sale,
         max_inventory: string_to_float(max_inventory),
@@ -985,5 +985,23 @@ function string_to_float(str) {
     let floatValue = parseFloat(str);
     return isNaN(floatValue) ? 0 : floatValue;
 }
+
+//edit products branch 
+router.post('/fud/:id_company/:id_branch/:id_supplies/update-products-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies}=req.params;
+
+    //we will creating the new product and we will saving the id of the supplies
+    const product=create_supplies_branch(req,id_supplies);
+
+    //we will watching if the product can update 
+    if(await update.update_supplies_branch(product)){
+        req.flash('success','the product was update with success 👍');
+    }
+    else{
+        req.flash('message','the product not was update 👉👈');
+    }
+
+    res.redirect(`/fud/${id_company}/${id_branch}/product`);
+})
 
 module.exports=router;

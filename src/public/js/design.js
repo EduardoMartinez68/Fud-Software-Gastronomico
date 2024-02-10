@@ -1,4 +1,4 @@
-const color_company='rgb(204,3,40)';
+const color_company='rgb(255,0,42)'//'rgb(204,3,40)';
 const color_hover='rgb(170, 1, 32);'
 const color_session1='rgb(204,3,40)';
 const color_session2='rgb(170, 1, 32)';
