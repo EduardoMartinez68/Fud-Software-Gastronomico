@@ -1611,6 +1611,52 @@ async function this_combo_exist_branch(idCombo){
     return result.rows.length>0;
 }
 
+router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch',isLoggedIn,async(req,res)=>{
+    const {id_combo_features}=req.params;
+    const comboFeactures=await get_data_combo_factures(id_combo_features)
+    console.log(comboFeactures)
+    res.render('links/branch/combo/editCombo',{comboFeactures});
+})
+
+async function get_data_combo_factures(idComboFacture){
+    const queryText = `
+        SELECT 
+            f.id,
+            f.id_companies,
+            f.id_branches,
+            f.id_dishes_and_combos,
+            f.price_1,
+            f.revenue_1,
+            f.price_2,
+            f.revenue_2,
+            f.price_3,
+            f.revenue_3,
+            f.favorites,
+            f.sat_key,
+            f.purchase_unit,
+            f.existence,
+            f.amount,
+            f.product_cost,
+            f.id_providers,
+            d.name AS dish_name,
+            d.description AS dish_description,
+            d.img AS dish_img,
+            d.barcode AS dish_barcode,
+            d.id_product_department AS dish_product_department,
+            d.id_product_category AS dish_product_category
+        FROM 
+            "Inventory".dish_and_combo_features f
+        INNER JOIN 
+            "Kitchen".dishes_and_combos d ON f.id_dishes_and_combos = d.id
+        WHERE 
+            f.id = $1
+    `;
+
+    const result = await database.query(queryText, [idComboFacture]);
+    return result.rows;
+}
+
+
 router.get('/:id_company/:id_branch/providers',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     const providers=await search_providers(id_branch);

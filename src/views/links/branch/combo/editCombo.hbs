@@ -1,0 +1,104 @@
+<style>
+  .star-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 45px; /* Tamaño de la estrella */
+    height: 45px; /* Tamaño de la estrella */
+  }
+
+  .star-checkbox input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .star-checkbox label::before {
+    content: '\2605'; /* Código Unicode para una estrella rellena */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 45px; /* Tamaño de la estrella */
+    color: transparent;
+    -webkit-text-stroke: 1px gold; /* Contorno dorado */
+  }
+
+  .star-checkbox input[type="checkbox"]:checked + label::before {
+    color: gold; /* Cambia el color de la estrella al estar seleccionado */
+  }
+
+  #particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .container-start {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                {{#each comboFeactures}}
+                    <form action="">
+                        <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
+                        <hr>
+                        <center>
+                            <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
+                            <h5>{{dish_name}}</h5>
+                            <h6>{{dish_barcode}}</h6>
+                            <label for="">{{dish_description}}</label>
+                        </center>
+                        <div class="container-start">
+                            <div class="star-checkbox">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                <label for="invalidCheck"></label>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="validationCustom01">Price</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="" required>
+                            </div>
+                            <div class="col">
+                                <label for="validationCustom01">Revenue</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="validationCustom01">Price 2</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="">
+                            </div>
+                            <div class="col">
+                                <label for="validationCustom01">Revenue 2</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="validationCustom01">Price 3</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="">
+                            </div>
+                            <div class="col">
+                                <label for="validationCustom01">Revenue 3</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="">
+                            </div>
+                        </div>
+                    </form>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

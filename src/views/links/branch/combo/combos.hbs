@@ -47,8 +47,8 @@
             <th>Barcode</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Department</th>
-            <th>Category</th>
+            <th>Department/Category</th>
+            <th>Price</th>
             <th></th>
         </tr>
         </thead>
@@ -67,7 +67,7 @@
                 <td>Department/Category</td>
                 <td>Price</td>
                 <td>
-                    <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                    <button class="btn btn-danger" id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id}}/edit-combo-branch')"><i class="fi-department fi-sr-pencil"></i></button>
                 </td>           
             </tr>
         {{/each}}
