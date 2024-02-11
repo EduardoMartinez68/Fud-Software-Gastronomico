@@ -1611,7 +1611,25 @@ async function this_combo_exist_branch(idCombo){
     return result.rows.length>0;
 }
 
+router.get('/:id_company/:id_branch/providers',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const providers=await search_providers(id_branch);
+    const branch=await get_data_branch(req);
+    res.render('links/branch/providers/providers',{providers,branch});
+})
 
+router.get('/:id_company/:id_branch/add-providers',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const branch=await get_data_branch(req)
+    res.render('links/branch/providers/addProviders',{branch});
+})
+
+router.get('/:id_company/:id_branch/:id_provider/edit-provider',isLoggedIn,async(req,res)=>{
+    const {id_provider}=req.params;
+    const provider=await search_provider(id_provider);
+    const branch=await get_data_branch(req);
+    res.render('links/manager/providers/editProviders',{provider,branch});
+})
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

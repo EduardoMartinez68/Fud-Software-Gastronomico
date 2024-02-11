@@ -392,7 +392,6 @@ async function add_provider_company(provider){
     + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)';
 
     var values = Object.values(provider);
-    console.log(values)
     try{
         await database.query(queryText, values);
         return true;
@@ -432,6 +431,7 @@ async function add_combo_branch(combo){
         return false;
     }
 }
+
 
 //////////////////////////////////////////////////
 async function add_department(name,description){

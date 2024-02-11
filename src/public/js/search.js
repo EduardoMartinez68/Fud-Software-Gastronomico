@@ -65,7 +65,6 @@ function search_for_id(row,value){
 function search_browser_div(){
     //get the value of the input
     const valueSearch = document.getElementById('search').value;
-    console.log(valueSearch)
     // search the value in the table
     search_div(valueSearch);
 }

@@ -1,32 +1,23 @@
 <div class="container">
-    {{#each company}}
-        <label>Search a providers</label>
-        <div class="row">
-            <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Search for name of provider..." id="nameProvider">
-            </div>
-            <div class="col-sm-1">
-                <button class="btn" onclick="search_provider('{{id}}')"><i class="fi-icon fi-rs-search"></i></button>
-            </div>
+    <label>Search a providers</label>
+    <div class="row">
+        <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="Search for name of provider..." id="search">
+        </div>
+        <div class="col-sm-1">
+            <button class="btn" onclick="search_browser()"><i class="fi-icon fi-rs-search"></i></button>
+        </div>
+        {{#each company}}
             <div class="col-sm-1">
                 <button class="btn-table-employee-edit" onclick="nextWeb('/{{id}}/add-providers')">+</button>
             </div>
-        </div>
-    {{/each}}
+        {{/each}}
+        {{#each branch}}
+            <div class="col-sm-1">
+                <button class="btn-table-employee-edit" onclick="nextWeb('/{{id_companies}}/{{id}}/add-providers')">+</button>
+            </div>
+        {{/each}}
+    </div>
 </div>
 <br>
-
-<script>
-    function search_provider(idCompany) {
-        // get the value of the input of search
-        const nameProvider = document.getElementById('nameProvider');
-        const name = nameProvider.value;
-        
-        // we going to see that the value of the provider no is Nan
-        if (name!== '') {
-            window.location.href = "/fud/" + idCompany + '/' + name + "/search-provider";
-        } else {
-            console.log('The value is NaN.');
-        }
-    }
-</script>
+<script src="/js/search.js"></script>

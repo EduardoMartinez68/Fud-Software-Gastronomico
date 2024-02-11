@@ -20,18 +20,16 @@
             </thead>
             <tbody>
                 {{#each providers}}
-                    {{#each this}}
-                        <tr id="{{name}}">
-                            <td><label><strong>{{name}}/{{representative}}</strong></label></td>
-                            <td><label>{{email}}</label></th>
-                            <td><label>{{cell_phone}}/{{phone}}</label></td>
-                            <td><label>{{business_address}}</label></td>
-                            <td>
-                                <button id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id}}/edit-provider')" class="btn-table-employee-edit"><i class="fi-department fi-sr-pencil"></i></button>
-                                <button id="{{id}}" onclick="delete_provider('{{id_companies}}','{{id}}','{{name}}')" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>
-                            </td>
-                        </tr>
-                    {{/each}}
+                    <tr id="{{name}}">
+                        <td><label><strong>{{name}}/{{representative}}</strong></label></td>
+                        <td><label>{{email}}</label></th>
+                        <td><label>{{cell_phone}}/{{phone}}</label></td>
+                        <td><label>{{business_address}}</label></td>
+                        <td>
+                            <button id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id}}/edit-provider')" class="btn-table-employee-edit"><i class="fi-department fi-sr-pencil"></i></button>
+                            <button id="{{id}}" onclick="delete_provider('{{id_companies}}','{{id}}','{{name}}')" class="btn-table-employee-delete"><i class="fi-department fi-sr-trash"></i></button>
+                        </td>
+                    </tr>
                 {{/each}}
             </tbody>
         </table>

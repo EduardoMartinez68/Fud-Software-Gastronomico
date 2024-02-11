@@ -378,17 +378,17 @@ async function delete_all_supplies_combo(id) {
 async function this_provider_exists(provider){
     //we will search the department employees of the user 
     var queryText = `SELECT * FROM "Branch".providers WHERE id_branches = $1 AND name = $2`;
-    var values = [provider.id_branches,provider.name];
+    var values = [provider.branch,provider.name];
     const result = await database.query(queryText, values);
-    return result.rows.length>0;
+    return result.rows.length>1;
 }
 
 async function add_provider_to_database(provider,req){
     if(await addDatabase.add_provider_company(provider)){
-        req.flash('success','the provider was add with supplies')
+        req.flash('success','the provider was add with supplies 😄')
     }
     else{
-        req.flash('message','the provider not was add')
+        req.flash('message','the provider not was add 😰')
     }
 }
 
@@ -986,6 +986,17 @@ function string_to_float(str) {
     return isNaN(floatValue) ? 0 : floatValue;
 }
 
+//add provider 
+router.post('/fud/:id_company/:id_branch/add-providers',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const provider=create_new_provider(req);
+    if(await this_provider_exists(provider)){
+        req.flash('message','This provider already exists in this branch 😅')
+    }else{
+        await add_provider_to_database(provider,req);
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/providers');
+})
 //edit products branch 
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-products-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
@@ -1004,4 +1015,18 @@ router.post('/fud/:id_company/:id_branch/:id_supplies/update-products-branch',is
     res.redirect(`/fud/${id_company}/${id_branch}/product`);
 })
 
+
+router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_provider,id_branch}=req.params;
+    const provider=create_new_provider(req);
+    //we will changing the id branch for knkow
+    provider.branch=id_branch;
+    if(await this_provider_exists(provider)){
+        req.flash('message','This provider already exists in this branch 😅')
+    }else{
+        await update_provider_to_database(id_provider,provider,req);
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/providers');
+})
 module.exports=router;
