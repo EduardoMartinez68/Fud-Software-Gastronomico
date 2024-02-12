@@ -47,8 +47,9 @@ function get_query_edit_supplies_company(supplies) {
 
 
 async function update_combo(combo) {
-    var queryText = get_query_edit_combo(combo);
-
+    console.log(combo)
+    var queryText = get_query_edit_combo_company(combo);
+    console.log(queryText)
     try {
         await database.query(queryText);
         return true;
@@ -58,7 +59,7 @@ async function update_combo(combo) {
     }
 }
 
-function get_query_edit_combo(combo) {
+function get_query_edit_combo_company(combo) {
     if (combo.path_image == "") {
         var queryText = `UPDATE "Kitchen".dishes_and_combos SET name='${combo.name}', barcode='${combo.barcode}', description='${combo.description}', 
         id_product_department='${combo.id_product_department}', id_product_category='${combo.id_product_category}'`;

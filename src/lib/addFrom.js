@@ -352,7 +352,7 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
             //we will delate all the supplies of the combo for to save it later
             await delete_all_supplies_combo(id)
             await addDatabase.save_all_supplies_combo_company(id,combo.supplies) //We will save all the supplies again
-            req.flash('success','the combo was add with success ❤️')
+            req.flash('success','the combo was update with success ❤️')
         }
         else{
             req.flash('message','the combo not was add 😳')
