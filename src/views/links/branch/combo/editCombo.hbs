@@ -1,46 +1,52 @@
 <style>
-  .star-checkbox {
-    position: relative;
-    display: inline-block;
-    width: 45px; /* Tamaño de la estrella */
-    height: 45px; /* Tamaño de la estrella */
-  }
+    .star-checkbox {
+        position: relative;
+        display: inline-block;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+    }
 
-  .star-checkbox input[type="checkbox"] {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+    .star-checkbox:hover {
+        cursor: pointer;
+    }
 
-  .star-checkbox label::before {
-    content: '\2605'; /* Código Unicode para una estrella rellena */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 45px; /* Tamaño de la estrella */
-    color: transparent;
-    -webkit-text-stroke: 1px gold; /* Contorno dorado */
-  }
+    .star-checkbox input[type="checkbox"] {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-  .star-checkbox input[type="checkbox"]:checked + label::before {
-    color: gold; /* Cambia el color de la estrella al estar seleccionado */
-  }
+    .star-checkbox label::before {
+        content: '\2605';
+        /* Código Unicode para una estrella rellena */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 45px;
 
-  #particles-js {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
+        /* Tamaño de la estrella */
+        color: transparent;
+        -webkit-text-stroke: 1px gold;
+        /* Contorno dorado */
+    }
 
-  .container-start {
-    display: flex;
-    justify-content: flex-end;
-  }
+    .star-checkbox input[type="checkbox"]:checked+label::before {
+        color: gold;
+        -webkit-text-stroke: 1px gold;
+        
+    }
+
+    .container-start {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .hidden {
+        display: none;
+    }
 </style>
 
 <br>
@@ -49,56 +55,116 @@
         <div class="card">
             <div class="card-body">
                 {{#each comboFeactures}}
-                    <form action="">
-                        <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
-                        <hr>
-                        <center>
-                            <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
-                            <h5>{{dish_name}}</h5>
-                            <h6>{{dish_barcode}}</h6>
-                            <label for="">{{dish_description}}</label>
-                        </center>
-                        <div class="container-start">
-                            <div class="star-checkbox">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                <label for="invalidCheck"></label>
-                            </div>
+                <form action="">
+                    <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
+                    <hr>
+                    <center>
+                        <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
+                        <h5>{{dish_name}}</h5>
+                        <h6>{{dish_barcode}}</h6>
+                        <label for="">{{dish_description}}</label>
+                    </center>
+                    <div class="container-start">
+                        <div class="star-checkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required
+                                onclick="read_check_box()">
+                            <label for="invalidCheck"></label>
                         </div>
-                        <hr>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <label for="validationCustom01">Price</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="" required>
-                            </div>
-                            <div class="col">
-                                <label for="validationCustom01">Revenue</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="" required>
-                            </div>
+                    </div>
+                    <hr>
+                    <label><i class="fi-icon fi-sr-usd-circle"></i> Sale prices</label>
+                    <div class="row">
+                        <div class="col">
+                            <label for="validationCustom01">Price *</label>
+                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price" required>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="validationCustom01">Price 2</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="">
-                            </div>
-                            <div class="col">
-                                <label for="validationCustom01">Revenue 2</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="">
-                            </div>
+                        <div class="col">
+                            <label for="validationCustom01">% Revenue *</label>
+                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue" required>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="validationCustom01">Price 3</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Price" value="">
-                            </div>
-                            <div class="col">
-                                <label for="validationCustom01">Revenue 3</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Revenue" value="">
-                            </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-2">
+                            <button onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-rr-angle-down"></i></button>
                         </div>
-                    </form>
+                    </div>
+                    <div class="row">
+                        <div id="div1" class="hidden">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="validationCustom01">Price 2</label>
+                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price 2">
+                                </div>
+                                <div class="col">
+                                    <label for="validationCustom01">% Revenue 2</label>
+                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue 2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="validationCustom01">Price 3</label>
+                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price 3">
+                                </div>
+                                <div class="col">
+                                    <label for="validationCustom01">% Revenue 3</label>
+                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue 3">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <label for="validationCustom01">SAT KEY</label>
+                            <input type="text" class="form-control" id="validationCustom01" placeholder="Sat Key"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="validationCustom01">Product Cost</label>
+                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price">
+                        </div>
+                        <div class="col">
+                            <label for="validationCustom01">Purchase Unit</label>
+                            <select name="" id="" class="form-select" aria-label="Default select example">
+                                {{>unity/unitOfMeasure}}
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-success ">Save</button>
+                </form>
                 {{/each}}
+                <br><br>
             </div>
         </div>
     </div>
 </div>
+<br><br><br>
+
+<script>
+    function read_check_box() {
+        const title = 'Favorites'
+        var checkBox = document.getElementById("invalidCheck");
+        var text = checkBox.checked ? 'This product was add to favorites ⭐' : 'This product was removed from favorites 👍';
+        notificationMessage(title, text)
+    }
+</script>
+
+<script>
+    function toggleDiv(divId) {
+        var div = document.getElementById('div' + divId);
+        var otherDiv = document.getElementById('div' + (3 - divId)); // Obtiene el otro div (el que no se ha seleccionado)
+
+        if (div.classList.contains('hidden')) {
+            div.classList.remove('hidden'); // Muestra el div seleccionado
+            otherDiv.classList.add('hidden'); // Oculta el otro div
+        } else {
+            div.classList.add('hidden'); // Oculta el div seleccionado si ya está visible
+        }
+    }
+</script>
