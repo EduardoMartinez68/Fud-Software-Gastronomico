@@ -1,0 +1,55 @@
+<hr>
+<div class="row">
+    <div class="col-6">
+        <label for="validationCustom01">Average Price *</label>
+        <input type="number" id="quantity" class="form-control"  name="price1" min="0" step="1" placeholder="Price" required>
+    </div>
+    <div class="col-2">
+        <label for="validationCustom01">Currency *</label>
+        <select name="selectCurrency" id="" class="form-select" aria-label="Default select example">
+            {{>unity/unitOfMoney}}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label for="validationCustom01">Sale price *</label>
+        <input type="number" id="quantity" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required>
+    </div>
+    <div class="col">
+        <label for="validationCustom01">% Revenue *</label>
+        <input type="number" id="quantity" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required>
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-2">
+        <button onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-sr-add"></i></button>
+    </div>
+</div>
+<div class="row">
+    <div id="div1" class="hidden">
+        <div class="row">
+            <div class="col">
+                <label for="validationCustom01">Sale price 2</label>
+                <input type="number" id="quantity" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2">
+            </div>
+            <div class="col">
+                <label for="validationCustom01">% Revenue 2</label>
+                <input type="number" id="quantity" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="validationCustom01">Sale price 3</label>
+                <input type="number" id="quantity" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3">
+            </div>
+            <div class="col">
+                <label for="validationCustom01">% Revenue 3</label>
+                <input type="number" id="quantity" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3">
+            </div>
+        </div>
+
+    </div>
+</div>

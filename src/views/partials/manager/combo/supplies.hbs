@@ -1,0 +1,20 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Barcode</th>
+      <th>Name</th>
+      <th>Cant.</th>
+      <th>$ Prices</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each suppliesCombo}}
+        <tr>
+            <td>{{product_barcode}}</td>
+            <td>{{product_name}}</td>
+            <td>{{amount}}/{{unity}}</td>
+            <td>15$</td>
+        </tr>
+    {{/each}}
+  </tbody>
+</table>

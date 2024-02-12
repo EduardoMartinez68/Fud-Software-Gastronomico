@@ -55,7 +55,7 @@
         <div class="card">
             <div class="card-body">
                 {{#each comboFeactures}}
-                <form action="">
+                <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-combo-branch" method="POST" id="myForm">
                     <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
                     <hr>
                     <center>
@@ -64,6 +64,8 @@
                         <h6>{{dish_barcode}}</h6>
                         <label for="">{{dish_description}}</label>
                     </center>
+
+                    <!---this is the start favorites--->
                     <div class="container-start">
                         <div class="star-checkbox">
                             <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required
@@ -71,68 +73,35 @@
                             <label for="invalidCheck"></label>
                         </div>
                     </div>
-                    <hr>
-                    <label><i class="fi-icon fi-sr-usd-circle"></i> Sale prices</label>
-                    <div class="row">
-                        <div class="col">
-                            <label for="validationCustom01">Price *</label>
-                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price" required>
-                        </div>
-                        <div class="col">
-                            <label for="validationCustom01">% Revenue *</label>
-                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue" required>
-                        </div>
-                    </div>
 
-                    <br>
-                    <div class="row">
-                        <div class="col-2">
-                            <button onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-rr-angle-down"></i></button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div id="div1" class="hidden">
-                            <div class="row">
-                                <div class="col">
-                                    <label for="validationCustom01">Price 2</label>
-                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price 2">
-                                </div>
-                                <div class="col">
-                                    <label for="validationCustom01">% Revenue 2</label>
-                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue 2">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="validationCustom01">Price 3</label>
-                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price 3">
-                                </div>
-                                <div class="col">
-                                    <label for="validationCustom01">% Revenue 3</label>
-                                    <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Revenue 3">
-                                </div>
-                            </div>
+                    <!---navbar--->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                                aria-selected="true"><i class="fi-icon fi-sr-usd-circle"></i> Sale prices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                                aria-selected="false"><i class="fi-icon fi-ss-apple-whole"></i> Supplies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#other" role="tab" aria-controls="profile"
+                                aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Other</a>
+                        </li>
+                    </ul>
 
+                    <!---container navbar--->
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            {{>manager/combo/prices}}
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <label for="validationCustom01">SAT KEY</label>
-                            <input type="text" class="form-control" id="validationCustom01" placeholder="Sat Key"
-                                value="">
+                    {{/each}}
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            {{>manager/combo/supplies}}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="validationCustom01">Product Cost</label>
-                            <input type="number" id="quantity" class="form-control"  name="quantity" min="0" step="1" placeholder="Price">
-                        </div>
-                        <div class="col">
-                            <label for="validationCustom01">Purchase Unit</label>
-                            <select name="" id="" class="form-select" aria-label="Default select example">
-                                {{>unity/unitOfMeasure}}
-                            </select>
+                    {{#each comboFeactures}}
+                        <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="profile-tab">
+                            {{>manager/combo/other}}
                         </div>
                     </div>
                     <br>
@@ -145,6 +114,11 @@
     </div>
 </div>
 <br><br><br>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
     function read_check_box() {

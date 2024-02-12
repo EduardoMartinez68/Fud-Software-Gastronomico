@@ -627,42 +627,39 @@ router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
 })
 
 
-router.get('/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
-    const {id,id_company}=req.params;
+router.get('/:id_company/:id_dishes_and_combos/edit-combo-company',isLoggedIn,async(req,res)=>{
+    const {id_dishes_and_combos,id_company}=req.params;
     const company=[{
             id:id_company,
-            id_combo: id
+            id_combo: id_dishes_and_combos
         }]
     const departments=await get_data_tabla_with_id_company(id_company,"Kitchen","product_department");
-    console.log(departments)
     const category=await get_data_tabla_with_id_company(id_company,"Kitchen","product_category");
 
     const supplies=await search_company_supplies_or_products_with_company(id_company,true);
     const products=await search_company_supplies_or_products_with_company(id_company,false);
-    const suppliesCombo=await search_supplies_combo(req);
-    const combo=await search_combo(req)
+    const suppliesCombo=await search_supplies_combo(id_dishes_and_combos);
+    const combo=await search_combo(id_company,id_dishes_and_combos);
     res.render('links/manager/combo/editCombo',{company,departments,category,supplies,products,combo,suppliesCombo});
 })
 
-async function search_combo(req){
+async function search_combo(id_company,id_dishes_and_combos){
     //we will search the company of the user 
-    const {id,id_company}=req.params;
     var queryText = 'SELECT * FROM "Kitchen".dishes_and_combos WHERE id_companies= $1 and id=$2';
-    var values = [id_company,id];
+    var values = [id_company,id_dishes_and_combos];
     const result = await database.query(queryText, values);
     
     return result.rows; 
 }
 
-async function search_supplies_combo(req){
-    const { id } = req.params;
+async function search_supplies_combo(id_dishes_and_combos){
     var queryText = `
         SELECT tsc.*, pas.name AS product_name, pas.barcode AS product_barcode
         FROM "Kitchen".table_supplies_combo tsc
         JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
         WHERE tsc.id_dishes_and_combos = $1
     `;
-    var values = [id];
+    var values = [id_dishes_and_combos];
     const result = await database.query(queryText, values);
     return result.rows;
 }
@@ -1612,11 +1609,69 @@ async function this_combo_exist_branch(idCombo){
 }
 
 router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch',isLoggedIn,async(req,res)=>{
-    const {id_combo_features}=req.params;
+    const {id_combo_features,id_branch}=req.params;
     const comboFeactures=await get_data_combo_factures(id_combo_features)
-    console.log(comboFeactures)
-    res.render('links/branch/combo/editCombo',{comboFeactures});
+    const suppliesCombo=await search_supplies_combo(comboFeactures[0].id_dishes_and_combos);
+    const sl=await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos,id_branch)
+    console.log(sl)
+    res.render('links/branch/combo/editCombo',{comboFeactures,suppliesCombo});
 })
+
+async function get_all_price_supplies_branch(idCombo, idBranch) {
+    try {
+        // Consulta para obtener los suministros de un combo específico
+        const comboQuery = `
+            SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.sale_price
+            FROM "Kitchen".table_supplies_combo tsc
+            INNER JOIN "Inventory".product_and_suppiles_features psf
+            ON tsc.id_products_and_supplies = psf.id_products_and_supplies
+            WHERE tsc.id_dishes_and_combos = $1
+        `;
+        const comboValues = [idCombo];
+        const comboResult = await database.query(comboQuery, comboValues);
+
+        // Consulta para obtener el precio de los suministros en la sucursal específica
+        const priceQuery = `
+            SELECT psf.id_products_and_supplies, psf.sale_price
+            FROM "Inventory".product_and_suppiles_features psf
+            WHERE psf.id_branches = $1
+        `;
+        const priceValues = [idBranch];
+        const priceResult = await database.query(priceQuery, priceValues);
+
+        // Construir un objeto que contenga los suministros y sus precios en la sucursal específica
+        const suppliesWithPrice = {};
+        priceResult.rows.forEach(row => {
+            suppliesWithPrice[row.id_products_and_supplies] = row.sale_price;
+        });
+
+        // Agregar los suministros y sus cantidades del combo junto con sus precios
+        const suppliesInfo = [];
+        comboResult.rows.forEach(row => {
+            const supplyId = row.id_products_and_supplies;
+            const supplyPrice = suppliesWithPrice[supplyId] || 0; // Precio predeterminado si no se encuentra
+            suppliesInfo.push({
+                id_products_and_supplies: supplyId,
+                amount: row.amount,
+                unity: row.unity,
+                sale_price: supplyPrice
+            });
+        });
+        return suppliesInfo;
+    } catch (error) {
+        console.error("Error en la consulta:", error);
+        throw error;
+    }
+}
+
+async function get_price_supplies(idSupplies){
+    //we will search the price of the supplies in this branch 
+    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_products_and_supplies= $1';
+    var values = [idSupplies];
+    const result = await database.query(queryText, values);
+    
+    return result.rows.length>0;
+}
 
 async function get_data_combo_factures(idComboFacture){
     const queryText = `
@@ -1656,7 +1711,6 @@ async function get_data_combo_factures(idComboFacture){
     return result.rows;
 }
 
-
 router.get('/:id_company/:id_branch/providers',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     const providers=await search_providers(id_branch);
@@ -1676,6 +1730,7 @@ router.get('/:id_company/:id_branch/:id_provider/edit-provider',isLoggedIn,async
     const branch=await get_data_branch(req);
     res.render('links/manager/providers/editProviders',{provider,branch});
 })
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)
