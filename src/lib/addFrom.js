@@ -1033,15 +1033,7 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers-branch',isL
 router.post('/fud/:id_company/:id_branch/:id_combo/update-combo-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_combo,id_branch}=req.params;
     const provider=create_new_combo_branch(req);
-    //we will changing the id branch for knkow
-    provider.branch=id_branch;
-    if(await this_provider_exists(provider)){
-        req.flash('message','This provider already exists in this branch 😅')
-    }else{
-        await update_provider_to_database(id_provider,provider,req);
-    }
-
-    res.redirect('/fud/'+id_company+'/'+id_branch+'/providers');
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
 })
 
 function create_new_combo_branch(req){

@@ -1433,7 +1433,8 @@ async function get_supplies_with_id(id_supplies){
 router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
     const supplies=await get_supplies_with_id(id_supplies,true);
-    res.render('links/branch/supplies/editSupplies',{supplies});
+    const branch=await await get_data_branch(req);
+    res.render('links/branch/supplies/editSupplies',{supplies,branch});
 })
 
 router.get('/:id_company/:id_branch/recharge-supplies',isLoggedIn,async(req,res)=>{
@@ -1503,9 +1504,35 @@ router.get('/:id_company/:id_branch/recharge-products',isLoggedIn,async(req,res)
 router.get('/:id_company/:id_branch/:id_supplies/edit-products-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
     const supplies=await get_supplies_with_id(id_supplies,false);
-    res.render('links/branch/supplies/editSupplies',{supplies});
+    const branch=await await get_data_branch(req);
+    res.render('links/branch/supplies/editSupplies',{supplies,branch});
 })
 
+router.get('/:id_company/:id_branch/:id_supplies/:existence/update-products-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies,existence}=req.params;
+    if(await update_inventory_supplies_branch(id_supplies,existence)){
+        req.flash('success','The supplies was update with exist ⭐')
+    }else{
+        req.flash('message','This supplies not was 😅')
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/products');
+})
+
+async function update_inventory_supplies_branch(idSupplies,newExistence) {
+    var queryText = `
+        UPDATE "Inventory".product_and_suppiles_features 
+        SET existence = $1
+        WHERE id = $2;
+    `;
+    var values = [newExistence, idSupplies];
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error("Error al actualizar el inventario de suministros en la sucursal:", error);
+        return false;
+    }
+}
 //combos
 router.get('/:id_company/:id_branch/combos',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
@@ -1611,17 +1638,17 @@ async function this_combo_exist_branch(idCombo){
 router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch',isLoggedIn,async(req,res)=>{
     const {id_combo_features,id_branch}=req.params;
     const comboFeactures=await get_data_combo_factures(id_combo_features)
-    const suppliesCombo=await search_supplies_combo(comboFeactures[0].id_dishes_and_combos);
-    const sl=await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos,id_branch)
-    console.log(sl)
-    res.render('links/branch/combo/editCombo',{comboFeactures,suppliesCombo});
+    //const suppliesCombo=await search_supplies_combo(comboFeactures[0].id_dishes_and_combos);
+    const suppliesCombo=await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos,id_branch)
+    const branch= await get_data_branch(req);
+    res.render('links/branch/combo/editCombo',{comboFeactures,suppliesCombo,branch});
 })
 
 async function get_all_price_supplies_branch(idCombo, idBranch) {
     try {
         // Consulta para obtener los suministros de un combo específico
         const comboQuery = `
-            SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.sale_price
+            SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale
             FROM "Kitchen".table_supplies_combo tsc
             INNER JOIN "Inventory".product_and_suppiles_features psf
             ON tsc.id_products_and_supplies = psf.id_products_and_supplies
@@ -1632,7 +1659,7 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
 
         // Consulta para obtener el precio de los suministros en la sucursal específica
         const priceQuery = `
-            SELECT psf.id_products_and_supplies, psf.sale_price
+            SELECT psf.id_products_and_supplies, psf.sale_price, psf.sale_unity
             FROM "Inventory".product_and_suppiles_features psf
             WHERE psf.id_branches = $1
         `;
@@ -1651,26 +1678,31 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
             const supplyId = row.id_products_and_supplies;
             const supplyPrice = suppliesWithPrice[supplyId] || 0; // Precio predeterminado si no se encuentra
             suppliesInfo.push({
+                product_name:'',
+                product_barcode:'',
+                description:'',
                 id_products_and_supplies: supplyId,
                 amount: row.amount,
                 unity: row.unity,
-                sale_price: supplyPrice
+                sale_price: supplyPrice,
+                currency: row.currency_sale
             });
         });
+
+        //agregamos los datos del combo 
+        const suppliesCombo=await search_supplies_combo(idCombo);
+        for(var i=0;i<suppliesCombo.length;i++){
+            console.log(suppliesCombo[i].product_name)
+            suppliesInfo[i].product_name=suppliesCombo[i].product_name;
+            suppliesInfo[i].product_barcode=suppliesCombo[i].product_barcode;
+            suppliesInfo[i].description=suppliesCombo[i].description;
+        }
+
         return suppliesInfo;
     } catch (error) {
         console.error("Error en la consulta:", error);
         throw error;
     }
-}
-
-async function get_price_supplies(idSupplies){
-    //we will search the price of the supplies in this branch 
-    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_products_and_supplies= $1';
-    var values = [idSupplies];
-    const result = await database.query(queryText, values);
-    
-    return result.rows.length>0;
 }
 
 async function get_data_combo_factures(idComboFacture){

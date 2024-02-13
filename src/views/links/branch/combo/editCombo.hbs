@@ -59,7 +59,11 @@
                     <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
                     <hr>
                     <center>
-                        <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
+                        {{#if dish_img}}
+                            <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
+                        {{else}}
+                            <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="logo">
+                        {{/if}}
                         <h5>{{dish_name}}</h5>
                         <h6>{{dish_barcode}}</h6>
                         <label for="">{{dish_description}}</label>
@@ -105,7 +109,7 @@
                         </div>
                     </div>
                     <br>
-                    <button class="btn btn-success ">Save</button>
+                    <button class="btn btn-success" id="myForm">Save</button>
                 </form>
                 {{/each}}
                 <br><br>

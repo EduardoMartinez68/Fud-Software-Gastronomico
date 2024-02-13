@@ -242,10 +242,10 @@ async function edit_supplies_branch(title,img,barcode,name,existence,purchase_am
             <label>Existence</label>
             <br><br>
             <div class="col">
-                <input id="barcode" class="form-control" placeholder="Existence" value="${existence}">
+                <input id="existence" class="form-control" placeholder="Existence" value="${existence}">
             </div>
             <div class="col">
-                <input id="type" class="form-control" placeholder="Existence" value="g" readonly>
+                <input id="type" class="form-control" placeholder="Existence" value="${purchase_amount}" readonly>
             </div>
         </div>
         <br><br>
@@ -262,12 +262,8 @@ async function edit_supplies_branch(title,img,barcode,name,existence,purchase_am
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
-                const image = Swal.getPopup().querySelector('#inputImg').value;
-                const barcode = Swal.getPopup().querySelector('#barcode').value;
-                const name = Swal.getPopup().querySelector('#name').value;
-                const description = Swal.getPopup().querySelector('#description').value;
-                const use_inventory = Swal.getPopup().querySelector('#invalidCheck2').checked;
-                const data = [image,barcode,name, description,use_inventory];
+                const image = Swal.getPopup().querySelector('#existence').value;
+                const data = [image];
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()

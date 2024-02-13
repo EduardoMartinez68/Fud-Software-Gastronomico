@@ -31,10 +31,10 @@
             <td>{{barcode}}</td>
             <td>{{name}}</td>
             <td>{{description}}</td>
-            <td>{{existence}}</td>
-            <td>{{sale_price}}{{sale_unity}}</td>
+            <td>{{existence}}/{{sale_unity}}</td>
+            <td>{{sale_price}}/{{currency_sale}}</td>
             <td>
-                <button class="btn btn-danger" onclick="edit_inventory('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{purchase_amount}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
+                <button class="btn btn-danger" onclick="edit_inventory('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{sale_unity}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
                 <button class="btn btn-danger" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-department fi-sr-pencil"></i></button>
             </td>
         </tr>
@@ -55,38 +55,20 @@
     async function edit_inventory(id_company,id_branch,id_supplies,img,barcode,nameDepartment,existence,purchaseAmount){
         //we will see if this products have a purchase amount, if not have a purchase amount we will to send to the user to that add this data
         if(purchaseAmount!=''){
-            show_message_edit(id_supplies,id_branch,img,barcode,nameDepartment,existence,purchaseAmount);
+            show_message_edit(id_supplies,id_company,id_branch,img,barcode,nameDepartment,existence,purchaseAmount);
         }else{
             window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/edit-supplies-branch`;
         }     
     }
 
-    async function show_message_edit(id,id_company,img,barcode,nameDepartment,existence,purchaseAmount){
+    async function show_message_edit(id_supplies,id_company,id_branch,img,barcode,nameDepartment,existence,purchaseAmount){
         //we will to get the data of the new department
         const data=await edit_supplies_branch('Edit '+nameDepartment,img,barcode,nameDepartment,existence,purchaseAmount);
         if(data){
             //get the data of the from 
-            var newImg = data[0];
-            var newBarcode = data[1];
-            var name = data[2];
-            var existence = data[3];
-            var purchaseAmount = data[4];
-
-
-            //we will to see if be a name
-            if(newBarcode!=""){
-                if(name!=""){
-                    if(description==""){
-                        description="-";
-                    }            
-                    window.location.href = `/fud/${id_company}/${id}/${barcode}/${nameDepartment}/${existence}/${purchaseAmount}/company-supplies`;
-                }
-                else{
-                    warningMessage('Error','You need add a name to your supplies');
-                }
-            }
-            else{
-                warningMessage('Error','You need add a barcode to your supplies');
+            var newExistence = parseFloat(data[0]);
+            if(newExistence>0){
+                window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/${newExistence}/update-products-branch`;
             }
         }
     }
