@@ -323,13 +323,13 @@ function parse_barcode_products(barcodeProducts) {
         var idProduct = parseInt(values[0]);
         var amount = parseInt(values[1]);
         var unity = values[2].trim();
-
+        unity=unity.replace("]", "");
         // Check if the values are valid before adding them to the result
         if (!isNaN(idProduct) && !isNaN(amount) && unity) {
             result.push({ idProduct: idProduct, amount: amount, unity: unity });
         }
     }
-
+    console.log(result)
     return result;
 }
 

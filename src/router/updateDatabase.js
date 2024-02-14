@@ -47,9 +47,7 @@ function get_query_edit_supplies_company(supplies) {
 
 
 async function update_combo(combo) {
-    console.log(combo)
     var queryText = get_query_edit_combo_company(combo);
-    console.log(queryText)
     try {
         await database.query(queryText);
         return true;

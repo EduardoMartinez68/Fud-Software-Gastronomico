@@ -225,8 +225,8 @@ async function save_supplies_combo_company(id_dishes_and_combos,supplies){
     var queryText = 'INSERT INTO "Kitchen".table_supplies_combo (id_dishes_and_combos, id_products_and_supplies, amount, unity)'
         +'VALUES ($1, $2, $3, $4)';
 
-    var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,get_unity(supplies.unity)] 
-
+    var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,supplies.unity] 
+    console.log(values)
     try{
         await database.query(queryText, values);
         return true;
