@@ -1,20 +1,159 @@
-<table class="table table-hover">
+<link rel="stylesheet" href="/css/manager/supplies_products.css">
+<table class="table table-hover" id="table-supplies">
   <thead>
     <tr>
+      <th></th>
       <th>Barcode</th>
       <th>Name</th>
+      <th>Sale Amount/Sale Price</th>
       <th>Cant.</th>
-      <th>$ Prices</th>
+      <th>$ Total</th>
     </tr>
   </thead>
   <tbody>
     {{#each suppliesCombo}}
         <tr>
+            {{#if img}}
+              <td><img src="/img/uploads/{{img}}" alt="" class="img-s-p"></td>
+            {{else}}
+              <td><img src="https://cdn-icons-png.flaticon.com/512/2909/2909753.png" alt="" class="img-s-p"></td>
+            {{/if}}
             <td>{{product_barcode}}</td>
             <td>{{product_name}}</td>
+            <td amount_sale="1" unity_sale="unity" sale_price="{{sale_price}}" currency="{{currency}}" amount="{{amount}}" unity="{{unity}}">1 Pza/ {{sale_price}}({{currency}})$</td>
             <td>{{amount}}/{{unity}}</td>
-            <td>{{sale_price}}/{{currency}}$</td>
+            <td price="0">0$</td>
         </tr>
     {{/each}}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label>Recommended price</label></td>
+        <td id="total">0$</td>
+    </tr>
   </tbody>
 </table>
+
+
+
+<script>
+  function sum_all_supplies(){
+    var table = document.getElementById("table-supplies");
+    var rows = table.getElementsByTagName("tr");
+    var totalPrice = 0;
+
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.getElementsByTagName("td");
+
+        for (var j = 0; j < cells.length; j++) {
+            var cell = cells[j];
+            var price = cell.getAttribute("price");
+
+            if (price !== null && !isNaN(parseFloat(price))) {
+                totalPrice += parseFloat(price);
+            }
+        }
+    }
+
+    return totalPrice;
+  }
+
+  function update_price_combo(){
+    var priceCombo=sum_all_supplies();
+    var totalCell = document.getElementById("total");
+    totalCell.textContent = priceCombo.toFixed(2) + "/MXN$";
+  }
+
+
+  function update_total_supplies(){
+    //get the id and the rows of the table 
+    var table = document.getElementById("table-supplies");
+    var rows = table.getElementsByTagName("tr");
+
+    //read all the table 
+    for (var i = 0; i < rows.length; i++) {
+        //get the row of the table and his cells for read next 
+        var row = rows[i];
+        var cells = row.getElementsByTagName("td");
+        var total=0;
+        var currency="MXN"
+        //we will reading all the cells of the row
+        for (var j = 0; j < cells.length; j++) {
+            //get the cell and his values 
+            var cell = cells[j];
+            var amountSale=parseFloat(cell.getAttribute("amount_sale"));
+            var unitySale=cell.getAttribute("unity_sale");
+            
+            var salePrice=parseFloat(cell.getAttribute("sale_price"));
+
+            var amount = parseFloat(cell.getAttribute("amount"));
+            var unity = cell.getAttribute("unity");
+
+            //get the cell of the price total for update with the sum 
+            var price=cell.getAttribute("price");
+
+            //we will watching that unity sale have this supplies
+            if(unitySale=='unity'){
+              currency=cell.getAttribute("currency");
+              total=(amount*salePrice)/amountSale;
+              cell.setAttribute("price", total);             
+            }
+          
+
+            if(j==cells.length-1){
+              cell.textContent = total +" "+currency+"$";
+            }
+        }
+    }
+  }
+
+
+  update_total_supplies();
+  update_price_combo();
+</script>
+
+
+<script>
+    function determinarMoneda() {
+        // Función para manejar la respuesta de la geolocalización
+        function mostrarMoneda(position) {
+            // Obtener las coordenadas de latitud y longitud
+            var latitud = position.coords.latitude;
+            var longitud = position.coords.longitude;
+
+            // Determinar el país según las coordenadas
+            // Aquí puedes implementar tu propia lógica para determinar el país
+            var pais;
+            if (latitud > 14 && latitud < 33 && longitud > -120 && longitud < -86) {
+                pais = "México";
+            } else {
+                pais = "Estados Unidos";
+            }
+
+            // Mostrar la moneda correspondiente en la consola
+            if (pais === "México") {
+                console.log("La ubicación actual es en México, se usará el peso mexicano.");
+            } else {
+                console.log("La ubicación actual es en Estados Unidos, se usará el dólar estadounidense.");
+            }
+        }
+
+        // Función para manejar errores de geolocalización
+        function errorGeolocalizacion(error) {
+            console.error("Error al obtener la ubicación:", error);
+        }
+
+        // Obtener la ubicación del usuario usando la API de geolocalización
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(mostrarMoneda, errorGeolocalizacion);
+        } else {
+            console.error("La geolocalización no está disponible en este navegador.");
+        }
+    }
+
+    // Llamada a la función para determinar la moneda según la ubicación del usuario
+    determinarMoneda();
+</script>

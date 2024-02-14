@@ -654,7 +654,7 @@ async function search_combo(id_company,id_dishes_and_combos){
 
 async function search_supplies_combo(id_dishes_and_combos){
     var queryText = `
-        SELECT tsc.*, pas.name AS product_name, pas.barcode AS product_barcode
+        SELECT tsc.*, pas.img AS img, pas.name AS product_name, pas.barcode AS product_barcode
         FROM "Kitchen".table_supplies_combo tsc
         JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
         WHERE tsc.id_dishes_and_combos = $1
@@ -1638,7 +1638,6 @@ async function this_combo_exist_branch(idCombo){
 router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch',isLoggedIn,async(req,res)=>{
     const {id_combo_features,id_branch}=req.params;
     const comboFeactures=await get_data_combo_factures(id_combo_features)
-    //const suppliesCombo=await search_supplies_combo(comboFeactures[0].id_dishes_and_combos);
     const suppliesCombo=await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos,id_branch)
     const branch= await get_data_branch(req);
     res.render('links/branch/combo/editCombo',{comboFeactures,suppliesCombo,branch});
@@ -1652,7 +1651,7 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
             FROM "Kitchen".table_supplies_combo tsc
             INNER JOIN "Inventory".product_and_suppiles_features psf
             ON tsc.id_products_and_supplies = psf.id_products_and_supplies
-            WHERE tsc.id_dishes_and_combos = $1
+            WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
         `;
         const comboValues = [idCombo];
         const comboResult = await database.query(comboQuery, comboValues);
@@ -1661,7 +1660,7 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
         const priceQuery = `
             SELECT psf.id_products_and_supplies, psf.sale_price, psf.sale_unity
             FROM "Inventory".product_and_suppiles_features psf
-            WHERE psf.id_branches = $1
+            WHERE psf.id_branches = $1 ORDER BY id_products_and_supplies DESC
         `;
         const priceValues = [idBranch];
         const priceResult = await database.query(priceQuery, priceValues);
@@ -1678,6 +1677,7 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
             const supplyId = row.id_products_and_supplies;
             const supplyPrice = suppliesWithPrice[supplyId] || 0; // Precio predeterminado si no se encuentra
             suppliesInfo.push({
+                img:'',
                 product_name:'',
                 product_barcode:'',
                 description:'',
@@ -1692,7 +1692,7 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
         //agregamos los datos del combo 
         const suppliesCombo=await search_supplies_combo(idCombo);
         for(var i=0;i<suppliesCombo.length;i++){
-            console.log(suppliesCombo[i].product_name)
+            suppliesInfo[i].img=suppliesCombo[i].img;
             suppliesInfo[i].product_name=suppliesCombo[i].product_name;
             suppliesInfo[i].product_barcode=suppliesCombo[i].product_barcode;
             suppliesInfo[i].description=suppliesCombo[i].description;
