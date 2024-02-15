@@ -32,6 +32,17 @@
                     <td><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></td>
                 </tr>
             {{/each}}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><label>Type Unity</label></td>
+                    <td>
+                        <select class="form-control" value="1">
+                            {{>unity/unitOfMeasure}}
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
         </tbody>
     </table>
     <input type="text" name="barcodeProducts" id="barcodeProducts">

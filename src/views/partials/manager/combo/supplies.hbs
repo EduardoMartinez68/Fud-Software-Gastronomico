@@ -64,7 +64,11 @@
   function update_price_combo(){
     var priceCombo=sum_all_supplies();
     var totalCell = document.getElementById("total");
-    totalCell.textContent = priceCombo.toFixed(2) + "/MXN$";
+    var total=priceCombo.toFixed(2) + "/MXN$";
+    totalCell.textContent = total;
+
+    var labelAveragePrice = document.getElementById("averagePrice");
+    labelAveragePrice.value = total;
   }
 
 
@@ -101,6 +105,9 @@
               total=(amount*salePrice)/amountSale;
               cell.setAttribute("price", total);             
             }
+            else{
+              //we will get
+            }
           
 
             if(j==cells.length-1){
@@ -113,47 +120,4 @@
 
   update_total_supplies();
   update_price_combo();
-</script>
-
-
-<script>
-    function determinarMoneda() {
-        // Función para manejar la respuesta de la geolocalización
-        function mostrarMoneda(position) {
-            // Obtener las coordenadas de latitud y longitud
-            var latitud = position.coords.latitude;
-            var longitud = position.coords.longitude;
-
-            // Determinar el país según las coordenadas
-            // Aquí puedes implementar tu propia lógica para determinar el país
-            var pais;
-            if (latitud > 14 && latitud < 33 && longitud > -120 && longitud < -86) {
-                pais = "México";
-            } else {
-                pais = "Estados Unidos";
-            }
-
-            // Mostrar la moneda correspondiente en la consola
-            if (pais === "México") {
-                console.log("La ubicación actual es en México, se usará el peso mexicano.");
-            } else {
-                console.log("La ubicación actual es en Estados Unidos, se usará el dólar estadounidense.");
-            }
-        }
-
-        // Función para manejar errores de geolocalización
-        function errorGeolocalizacion(error) {
-            console.error("Error al obtener la ubicación:", error);
-        }
-
-        // Obtener la ubicación del usuario usando la API de geolocalización
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(mostrarMoneda, errorGeolocalizacion);
-        } else {
-            console.error("La geolocalización no está disponible en este navegador.");
-        }
-    }
-
-    // Llamada a la función para determinar la moneda según la ubicación del usuario
-    determinarMoneda();
 </script>

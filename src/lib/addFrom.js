@@ -320,8 +320,8 @@ function parse_barcode_products(barcodeProducts) {
 
         // Split the values of the object by ',' and convert them as needed
         var values = objectData.split(',');
-        var idProduct = parseInt(values[0]);
-        var amount = parseInt(values[1]);
+        var idProduct = parseFloat(values[0]);
+        var amount = parseFloat(values[1]);
         var unity = values[2].trim();
         unity=unity.replace("]", "");
         // Check if the values are valid before adding them to the result

@@ -94,7 +94,7 @@ function addRowToTable(idProduct,barcodeProduct,nameProduct){
     cellBarcode.innerHTML = barcodeProduct;
     cellName.innerHTML = nameProduct;
     cellCant.innerHTML = '<button class="btn" onclick="edit_cant(this)">' + 1 + '</button>';
-    cellForSell.innerHTML='<select class="form-control"><option value="unity">Pza</option><option value="kg">kg</option><option value="g">g</option><option value="l">L</option><option value="ml">ml</option></select>';
+    cellForSell.innerHTML='<select class="form-control"><option value="unity">Pza</option><option value="kg">kg</option><option value="l">L</option></select>';
     cellBtn.innerHTML = '<button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button>';
 }
 

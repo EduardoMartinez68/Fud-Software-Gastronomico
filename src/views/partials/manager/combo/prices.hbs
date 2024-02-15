@@ -1,9 +1,11 @@
 <hr>
 <div class="row">
-    <div class="col-6">
+    <div class="col-5">
         <label for="validationCustom01">Average Price *</label>
-        <input type="number" id="quantity" class="form-control"  name="price1" min="0" step="1" placeholder="Price" required>
+        <input type="text" id="averagePrice" class="form-control" name="price1" min="0" step="1" placeholder="Price" required readonly>
     </div>
+</div>
+<div class="row">
     <div class="col-2">
         <label for="validationCustom01">Currency *</label>
         <select name="selectCurrency" id="" class="form-select" aria-label="Default select example">
@@ -14,11 +16,11 @@
 <div class="row">
     <div class="col">
         <label for="validationCustom01">Sale price *</label>
-        <input type="number" id="quantity" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required>
+        <input type="number" id="price1" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required oninput="calculate_input_price(1)">
     </div>
     <div class="col">
         <label for="validationCustom01">% Revenue *</label>
-        <input type="number" id="quantity" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required>
+        <input type="number" id="revenue1" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required oninput="calculate_input_revenue(1)">
     </div>
 </div>
 
@@ -33,23 +35,89 @@
         <div class="row">
             <div class="col">
                 <label for="validationCustom01">Sale price 2</label>
-                <input type="number" id="quantity" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2">
+                <input type="number" id="price2" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2" oninput="calculate_input_price(2)">
             </div>
             <div class="col">
                 <label for="validationCustom01">% Revenue 2</label>
-                <input type="number" id="quantity" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2">
+                <input type="number" id="revenue2" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2" oninput="calculate_input_revenue(2)">
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <label for="validationCustom01">Sale price 3</label>
-                <input type="number" id="quantity" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3">
+                <input type="number" id="price3" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3" oninput="calculate_input_price(3)">
             </div>
             <div class="col">
                 <label for="validationCustom01">% Revenue 3</label>
-                <input type="number" id="quantity" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3">
+                <input type="number" id="revenue3" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3" oninput="calculate_input_revenue(3)">
             </div>
         </div>
 
     </div>
 </div>
+
+
+<script>
+    function calculate_input_price(input){
+        const price=get_input_price(input)
+        const revenue=get_input_revenue(input)
+        calculate_revenue(price,revenue)
+    }
+
+    function calculate_input_revenue(input){
+        const price=get_input_price(input)
+        const revenue=get_input_revenue(input)
+        calculate_price(price,revenue)
+    }
+
+    function get_input_price(input){
+        var price = document.getElementById("price1");
+
+        if (input==2){
+            price = document.getElementById("price2");
+        }
+        else if (input==3){
+            price = document.getElementById("price3");
+        }
+
+        return price;
+    }
+
+    function get_input_revenue(input){
+        var revenue = document.getElementById("revenue1");
+
+        if (input==2){
+            revenue = document.getElementById("revenue2");
+        }
+        else if (input==3){
+            revenue = document.getElementById("revenue3");
+        }
+
+        return revenue;
+    }
+
+    function calculate_price(price,revenue){
+        //we will doing a rule of three for calculate the price 
+        const total=get_price_total();
+        const valueRevenue=revenue.value;
+        const newPrice=(valueRevenue*total)/100;
+
+        //update the input of the price 
+        price.value=total+newPrice;
+    }
+
+    function calculate_revenue(price,revenue){
+        //we will doing a rule of three for calculate the revenue 
+        const total=get_price_total();
+        const valuePrice=price.value;
+        const newRevenue=(valuePrice*100)/total;
+
+        //update the input of the revenue 
+        revenue.value=newRevenue-100;
+    }
+
+    function get_price_total(){
+        const total = document.getElementById("total");
+        return   parseFloat(total.textContent);
+    }
+</script>
