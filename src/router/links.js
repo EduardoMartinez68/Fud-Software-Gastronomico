@@ -190,10 +190,9 @@ router.get('/:id/add-dish',isLoggedIn,async (req,res)=>{
 });
 
 //----------------------------------------------------------------category
-async function get_category(req){
-    const {id}=req.params;
+async function get_category(id_company){
     var queryText = 'SELECT * FROM "Kitchen".product_category WHERE id_companies= $1';
-    var values = [id];
+    var values = [id_company];
     const result = await database.query(queryText, values);
     const data=result.rows;
     return data;
@@ -214,7 +213,8 @@ async function delate_product_category(id){
 
 router.get('/:id/food-category',isLoggedIn,async (req,res)=>{
     const company=await check_company(req);
-    const categories=await get_category(req);
+    const {id}=req.params;
+    const categories=await get_category(id);
     res.render(companyName+'/manager/areas/category',{company,categories})
 });
 
@@ -297,10 +297,9 @@ async function update_product_category(id, name, description) {
 }
 
 //----------------------------------------------------------------department
-async function get_department(req){
-    const {id}=req.params;
+async function get_department(id_company){
     var queryText = 'SELECT * FROM "Kitchen".product_department WHERE id_companies= $1';
-    var values = [id];
+    var values = [id_company];
     const result = await database.query(queryText, values);
     const data=result.rows;
     return data;
@@ -327,7 +326,8 @@ router.get('/:id/add-department',isLoggedIn,async (req,res)=>{
 
 router.get('/:id/food-department',isLoggedIn,async (req,res)=>{
     const company=await check_company(req);
-    const departments=await get_department(req);
+    const {id}=req.params;
+    const departments=await get_department(id);
     res.render(companyName+'/manager/areas/department',{company,departments})
 });
 
@@ -1761,6 +1761,48 @@ router.get('/:id_company/:id_branch/:id_provider/edit-provider',isLoggedIn,async
     const provider=await search_provider(id_provider);
     const branch=await get_data_branch(req);
     res.render('links/manager/providers/editProviders',{provider,branch});
+})
+
+router.get('/:id_company/:id_branch/food-department',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const departments=await get_department(id_company);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/areas/department',{departments,branch});
+})
+
+router.get('/:id_company/:id_branch/food-category',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const categories=await get_category(id_company);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/areas/category',{categories,branch});
+})
+
+router.get('/:id_company/:id_branch/roles-department',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const departments=await search_employee_departments(id_company);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/role_type_employees/departmentEmployees',{departments,branch});
+})
+
+router.get('/:id_company/:id_branch/type-employees',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const typeEmployees=await get_type_employees(id_company);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/role_type_employees/typeEmployees',{typeEmployees,branch});
+})
+
+router.get('/:id_company/:id_branch/:id_role_employee/edit-role-user',isLoggedIn,async(req,res)=>{
+    const {id_role_employee}=req.params;
+    const roleEmployee=await get_data_tole_employees(id_role_employee);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/role_type_employees/editRoleEmployee',{roleEmployee,branch});
+})
+
+router.get('/:id_company/:id_branch/customer',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const branch= await get_data_branch(req);
+    const customers=await searc_all_customers(id_company)
+    res.render('links/branch/customers/customers',{customers,branch});
 })
 
 //-------------------------------------------------------------home

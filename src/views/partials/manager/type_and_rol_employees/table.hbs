@@ -1,0 +1,22 @@
+
+<table class="table table-hover"> <!--table-bordered-->
+    <colgroup>
+        <col style="width: 30%;">
+        <col style="width: 70%;">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each departments}}
+        <tr>
+            <td>{{name_departaments}}</td>
+            <td>{{description}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+

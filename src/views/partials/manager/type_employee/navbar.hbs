@@ -1,0 +1,56 @@
+
+
+<div class="container">
+  <div class="row">
+    <div class="nav flex-column col nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="navbar-character-tab" data-toggle="pill" href="#navbar-character" role="tab"
+        aria-controls="navbar-character" aria-selected="true"><i class="fi-icon fi-ss-package"></i> Character</a>
+
+      <a class="nav-link" id="navbar-branch-tab" data-toggle="pill" href="#navbar-branch" role="tab"
+        aria-controls="navbar-branch" aria-selected="true"><i class="fi-icon fi-sr-store-alt"></i> Branch</a>
+
+      <a class="nav-link" id="navbar-customer-tab" data-toggle="pill" href="#navbar-customer" role="tab"
+        aria-controls="navbar-customer" aria-selected="false"><i class="fi-icon fi-sr-user"></i> Customer</a>
+
+      <a class="nav-link" id="navbar-employee-tab" data-toggle="pill" href="#navbar-employee" role="tab"
+        aria-controls="navbar-employee" aria-selected="false"><i class="fi-icon fi-sr-hat-chef"></i> Employee</a>
+
+      <a class="nav-link" id="navbar-products-tab" data-toggle="pill" href="#navbar-products" role="tab"
+        aria-controls="navbar-products" aria-selected="false"><i class="fi-icon fi-sr-restaurant"></i> Kitchen</a>
+
+      <a class="nav-link" id="navbar-sales-tab" data-toggle="pill" href="#navbar-sales" role="tab"
+        aria-controls="navbar-sales" aria-selected="false"><i class="fi-icon fi-ss-label"></i> Sales</a>
+
+      <a class="nav-link" id="navbar-history-tab" data-toggle="pill" href="#navbar-history" role="tab"
+        aria-controls="navbar-history" aria-selected="false"><i class="fi-icon fi-sr-clock-three"></i> History</a>
+
+      <a class="nav-link" id="navbar-providers-tab" data-toggle="pill" href="#navbar-providers" role="tab"
+        aria-controls="navbar-providers" aria-selected="false"><i class="fi-icon fi-ss-truck-side"></i> Providers</a>
+
+      <a class="nav-link" id="navbar-setting-tab" data-toggle="pill" href="#navbar-setting" role="tab"
+        aria-controls="navbar-setting" aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Setting</a>
+
+    </div>
+    <div class="tab-content col" id="v-pills-tabContent">
+      {{>manager/type_employee/from}}
+      {{>CEO/type_employee/branch}}
+      {{>CEO/type_employee/customer}}
+      {{>CEO/type_employee/employee}}
+      {{>CEO/type_employee/history}}
+      {{>CEO/type_employee/sales}}
+      {{>CEO/type_employee/providers}}
+      {{>CEO/type_employee/Kitchen}}
+      {{>CEO/type_employee/setting}}
+      <hr>
+    </div>
+  </div>
+</div>
+<script>
+  // get all the element of input of type checkbox in the container
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+  // read all the checkboxes and disabled
+  checkboxes.forEach(function(checkbox) {
+      checkbox.disabled = true;
+  });
+</script>

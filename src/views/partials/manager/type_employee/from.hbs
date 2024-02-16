@@ -1,0 +1,50 @@
+<div class="tab-pane fade show active" id="navbar-character" role="tabpanel" aria-labelledby="navbar-character-tab">
+    <div class="card">
+        <div class="card-body">
+            <label><i class="fi-icon fi-sr-shield-check"></i>Information of the type user</label>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" placeholder="Name" name="name" required value="{{name_role}}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Salary $</label>
+                    <input type="text" class="form-control" placeholder="Salary" name="salary" required value="{{salary}}" disabled>
+                </div>
+                <div class="col">
+                    <label for="">Currency</label>
+                    <select  id="currency" class="form-control" name="currency" value="{{currency}}" disabled>
+                        <option value="mx">🇲🇽 MXN &#x20B1;</option>
+                        <option value="us">🇺🇸 USD &#x0024;</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="">Type Salary</label>
+                    <select id="typeSalary" class="form-control" name="typeSalary" value="{{type_of_salary}}" disabled>
+                        <option value="Minute">Minutes</option>
+                        <option value="Hour">Hours</option>
+                        <option value="Day">Days</option>
+                        <option value="Week">Week</option>
+                        <option value="Fortnight">Fortnight</option>
+                        <option value="Month">Month</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <label for="">% Discount for product</label>
+                    <input type="text" class="form-control" placeholder="Discount for product" name="discount" value="{{discount_for_product}}" disabled>
+                </div>
+                <div class="col">
+                    <label for="">% Commissions</label>
+                    <input type="text" class="form-control" placeholder="Commissions" name="comissions" value="{{commissions}}" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{>updateSelects}}

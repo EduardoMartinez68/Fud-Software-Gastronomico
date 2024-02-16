@@ -23,7 +23,7 @@
                                             alt="">
                                     </div>
                                     <div class="d-flex flex-column"> <b>supplies</b> <a href="/fud/{{id_companies}}/{{id}}/supplies">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                            <p class="text-muted">Edit or search</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                             alt="">
                                     </div>
                                     <div class="d-flex flex-column"> <b>Products</b> <a href="/fud/{{id_companies}}/{{id}}/products">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                            <p class="text-muted">Edit or search</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                         <img src="https://cdn-icons-png.flaticon.com/512/6269/6269329.png" alt="">
                                     </div>
                                     <div class="d-flex flex-column"> <b>Combos</b> <a href="/fud/{{id_companies}}/{{id}}/combos">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                            <p class="text-muted">Edit or search</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -72,57 +72,57 @@
                         </div>
 
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" id="{{id}}" onclick="nextWeb(this.id+'/food-department')">
+                            <div class="box bg-white" id="{{id}}" onclick="nextWeb('/{{id_companies}}/{{id}}/food-department')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/5323/5323820.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Food Department</b> <a href="/fud/{{id}}/food-department">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Food Department</b> <a href="/fud/{{id_companies}}/{{id}}/food-department">
+                                            <p class="text-muted">search</p>
                                         </a> </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" id="{{id}}" onclick="nextWeb(this.id+'/food-category')">
+                            <div class="box bg-white" id="{{id}}" onclick="nextWeb('/{{id_companies}}/{{id}}/food-category')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/5323/5323820.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Food Category</b> <a href="/fud/{{id}}/food-category">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Food Category</b> <a href="/fud/{{id_companies}}/{{id}}/food-category">
+                                            <p class="text-muted">search</p>
                                         </a> </div>
                                 </div>
                             </div>
                         </div>
 
-
+                        <!--
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" onclick="nextWeb('salesHistory')">
+                            <div class="box bg-white" onclick="nextWeb('/{{id_companies}}/{{id}}/customer')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pink">
                                         <img src="https://cdn-icons-png.flaticon.com/512/6633/6633170.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Customers</b> <a href="#">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Customers</b> <a href="/fud/{{id_companies}}/{{id}}/customer">
+                                            <p class="text-muted">Add, edit or search</p>
                                         </a> </div>
                                 </div>
                             </div>
                         </div>
-
+                        --->
 
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" onclick="nextWeb('employees')">
+                            <div class="box bg-white" onclick="nextWeb('/{{id_companies}}/{{id}}/employees')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/526/526190.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"><b>Employees</b> <a href="#">
+                                    <div class="d-flex flex-column"><b>Employees</b> <a href="/fud/{{id_companies}}/{{id}}/employees">
                                             <p class="text-muted">add, edit, search or delate</p>
                                         </a> </div>
                                 </div>
@@ -130,14 +130,14 @@
                         </div>
 
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" onclick="nextWeb('report-global')">
+                            <div class="box bg-white" onclick="nextWeb('/{{id_companies}}/{{id}}/roles-department')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/3985/3985090.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Roles employees</b> <a href="report-global">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Roles employees</b> <a href="/fud/{{id_companies}}/{{id}}/roles-department">
+                                            <p class="text-muted">search</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -145,14 +145,14 @@
 
 
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
-                            <div class="box bg-white" onclick="nextWeb('report-global')">
+                            <div class="box bg-white" onclick="nextWeb('/{{id_companies}}/{{id}}/type-employees')">
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/3985/3985090.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Types users</b> <a href="report-global">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Types users</b> <a href="/fud/{{id_companies}}/{{id}}/type-employees">
+                                            <p class="text-muted">search</p>
                                         </a> </div>
                                 </div>
                             </div>
