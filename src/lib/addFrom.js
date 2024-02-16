@@ -207,7 +207,6 @@ passport.use('local.add_supplies', new LocalStrategy({
     passReqToCallback: true
 }, async (req ,name, password, done) => {
     var path_image=create_a_new_image(req);
-    console.log(req.body);
     done(null,false,req.flash('success','the department was add with success! 😄'));
 }));
 
@@ -1032,12 +1031,31 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers-branch',isL
 
 router.post('/fud/:id_company/:id_branch/:id_combo/update-combo-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_combo,id_branch}=req.params;
-    const provider=create_new_combo_branch(req);
+    const combo=create_new_combo_branch(req,id_combo);
+    if(await update.update_combo_branch(combo)){
+        req.flash('success','The combo was update with success 😄');
+    }else{
+        req.flash('message','The combo not was update 😳');
+    }
+
     res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
 })
 
-function create_new_combo_branch(req){
-    const {purchase_amount, purchase_price, sale_amount, sale_price, max_inventory, minimum_inventory, existence}=req.body;
+function create_new_combo_branch(req,id_combo){
+    const {price1, revenue1, price2, revenue2, price3, revenue3, satKey}=req.body;
+    const favorites= (req.body.favorites == 'on')
+    combo={
+        favorites, 
+        price1:string_to_float(price1), 
+        revenue1:string_to_float(revenue1),
+        price2:string_to_float(price2), 
+        revenue2:string_to_float(revenue2),
+        price3:string_to_float(price3), 
+        revenue3:string_to_float(revenue3), 
+        satKey,
+        id_combo:id_combo
+    }
+    return combo;
 }
 
 

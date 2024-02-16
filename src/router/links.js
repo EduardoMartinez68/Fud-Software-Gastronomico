@@ -1637,7 +1637,7 @@ async function this_combo_exist_branch(idCombo){
 
 router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch',isLoggedIn,async(req,res)=>{
     const {id_combo_features,id_branch}=req.params;
-    const comboFeactures=await get_data_combo_factures(id_combo_features)
+    const comboFeactures=await get_data_combo_factures(id_combo_features);
     const suppliesCombo=await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos,id_branch)
     const branch= await get_data_branch(req);
     res.render('links/branch/combo/editCombo',{comboFeactures,suppliesCombo,branch});

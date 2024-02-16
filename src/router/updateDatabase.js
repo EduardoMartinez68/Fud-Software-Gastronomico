@@ -410,6 +410,35 @@ async function update_supplies_branch(supplies){
     }
 }
 
+async function update_combo_branch(combo){
+    const queryText = `
+    UPDATE "Inventory".dish_and_combo_features
+    SET 
+        favorites=$1,
+        price_1=$2,
+        revenue_1=$3,
+        price_2=$4,
+        revenue_2=$5,
+        price_3=$6,
+        revenue_3=$7,
+        sat_key=$8
+    WHERE 
+        id=$9
+    `;
+    
+    //create the array of the new data combo
+    var values = Object.values(combo);
+
+    //update the provider data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
 
 module.exports = {
     update_company,
@@ -421,5 +450,6 @@ module.exports = {
     update_user,
     update_employee,
     update_provider_company,
-    update_supplies_branch
+    update_supplies_branch,
+    update_combo_branch
 };

@@ -2,59 +2,61 @@
 <div class="row">
     <div class="col-5">
         <label for="validationCustom01">Average Price *</label>
-        <input type="text" id="averagePrice" class="form-control" name="price1" min="0" step="1" placeholder="Price" required readonly>
+        <input type="text" id="averagePrice" class="form-control" name="averagePrice" min="0" step="1" placeholder="Price" required readonly>
     </div>
 </div>
 <div class="row">
     <div class="col-2">
         <label for="validationCustom01">Currency *</label>
-        <select name="selectCurrency" id="" class="form-select" aria-label="Default select example">
+        <select name="selectCurrency" class="form-select" aria-label="Default select example">
             {{>unity/unitOfMoney}}
         </select>
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        <label for="validationCustom01">Sale price *</label>
-        <input type="number" id="price1" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required oninput="calculate_input_price(1)">
-    </div>
-    <div class="col">
-        <label for="validationCustom01">% Revenue *</label>
-        <input type="number" id="revenue1" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required oninput="calculate_input_revenue(1)">
-    </div>
-</div>
 
-<br>
-<div class="row">
-    <div class="col-3">
-        <button onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-sr-add"></i></button>
+
+    <div class="row">
+        <div class="col">
+            <label for="validationCustom01">Sale price *</label>
+            <input type="text" id="price1" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required oninput="calculate_input_price(1)" value="{{price_1}}">
+        </div>
+        <div class="col">
+            <label for="validationCustom01">% Revenue *</label>
+            <input type="text" id="revenue1" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required oninput="calculate_input_revenue(1)" value="{{revenue_1}}">
+        </div>
     </div>
-</div>
-<div class="row">
-    <div id="div1" class="hidden">
-        <div class="row">
-            <div class="col">
-                <label for="validationCustom01">Sale price 2</label>
-                <input type="number" id="price2" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2" oninput="calculate_input_price(2)">
+
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <button type="button" onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-sr-add"></i></button>
+        </div>
+    </div>
+    <div class="row">
+        <div id="div1" class="hidden">
+            <div class="row">
+                <div class="col">
+                    <label for="validationCustom01">Sale price 2</label>
+                    <input type="text" id="price2" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2" oninput="calculate_input_price(2)" value="{{price_2}}">
+                </div>
+                <div class="col">
+                    <label for="validationCustom01">% Revenue 2</label>
+                    <input type="text" id="revenue2" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2" oninput="calculate_input_revenue(2)" value="{{revenue_2}}">
+                </div>
             </div>
-            <div class="col">
-                <label for="validationCustom01">% Revenue 2</label>
-                <input type="number" id="revenue2" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2" oninput="calculate_input_revenue(2)">
+            <div class="row">
+                <div class="col">
+                    <label for="validationCustom01">Sale price 3</label>
+                    <input type="text" id="price3" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3" oninput="calculate_input_price(3)" value="{{price_3}}">
+                </div>
+                <div class="col">
+                    <label for="validationCustom01">% Revenue 3</label>
+                    <input type="text" id="revenue3" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3" oninput="calculate_input_revenue(3)" value="{{revenue_3}}">
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <label for="validationCustom01">Sale price 3</label>
-                <input type="number" id="price3" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3" oninput="calculate_input_price(3)">
-            </div>
-            <div class="col">
-                <label for="validationCustom01">% Revenue 3</label>
-                <input type="number" id="revenue3" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3" oninput="calculate_input_revenue(3)">
-            </div>
-        </div>
-
     </div>
-</div>
+
 
 
 <script>
@@ -118,6 +120,11 @@
 
     function get_price_total(){
         const total = document.getElementById("total");
-        return   parseFloat(total.textContent);
+        return parseFloat(total.textContent);
     }
+
+    //this scripts is for update all the price 
+    calculate_input_revenue(1)
+    calculate_input_revenue(2)
+    calculate_input_revenue(3)
 </script>

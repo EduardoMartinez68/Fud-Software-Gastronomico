@@ -72,8 +72,8 @@
                     <!---this is the start favorites--->
                     <div class="container-start">
                         <div class="star-checkbox">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required
-                                onclick="read_check_box()">
+                            <input class="form-check-input" type="checkbox" {{#if favorites}}checked{{/if}} id="invalidCheck"
+                                onclick="read_check_box()" name="favorites">
                             <label for="invalidCheck"></label>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <br>
-                    <button class="btn btn-success" id="myForm">Save</button>
+                    <button class="btn btn-success" id="myForm" type="submit">Save</button>
                 </form>
                 {{/each}}
                 <br><br>
