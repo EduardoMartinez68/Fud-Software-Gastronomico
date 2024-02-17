@@ -1246,7 +1246,6 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
         const country=await get_country()
         const roles=await get_type_employees(id)
         const branches=await search_all_branch(id)
-        console.log(employee)
         res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches});
     }
     else{
@@ -1354,9 +1353,6 @@ router.get('/:id_company/:id_user/employees',isLoggedIn,async(req,res)=>{
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
-router.get('/:id_company/:id/add-employee',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/employee/addEmployee');
-})
 
 router.get('/:id_company/:id/add-schedules',isLoggedIn,(req,res)=>{
     res.render(companyName+'/manager/employee/addSchedules');
@@ -1805,6 +1801,51 @@ router.get('/:id_company/:id_branch/customer',isLoggedIn,async(req,res)=>{
     res.render('links/branch/customers/customers',{customers,branch});
 })
 
+//employees
+router.get('/:id_company/:id_branch/employees-branch',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company}=req.params;
+    const employees=await search_employees(id_company);
+    const branch= await get_data_branch(req);
+    res.render('links/branch/employees/employee',{employees,branch});
+})
+
+router.get('/:id_company/:id_branch/:id_user/employees',isLoggedIn,async(req,res)=>{
+    const {id_company,id_user}=req.params;
+    const employees=await search_employees(id_company);
+    const employee_user=await search_employee(id_user);
+
+    const branch= await get_data_branch(req);
+    res.render('links/branch/employees/employee',{employees,branch,employee_user});
+})
+
+router.get('/:id_company/:id_branch/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_employee}=req.params;
+    const branch=await get_data_branch(req);
+    const employee=await search_employee(id_employee);
+    const departments=await search_employee_departments(id_company);
+    const country=await get_country();
+    const roles=await get_type_employees(id_company);
+    const branches=branch;
+    res.render('links/branch/employees/editEmployee',{employee,branch,departments,country,roles,branches});
+})
+
+async function search_employee_branch(idBranch){
+    var queryText = 'SELECT * FROM "Company".employees WHERE id_branches = $1';
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
+
+router.get('/:id_company/:id_branch/add-employee',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const departments=await search_employee_departments(id_company);
+    const country=await get_country()
+    const roles=await get_type_employees(id_company)
+    const branch=await get_data_branch(req);
+    const branches=branch;
+    res.render(companyName+'/branch/employees/addEmployee',{departments,country,roles,branches,branch});
+})
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)
