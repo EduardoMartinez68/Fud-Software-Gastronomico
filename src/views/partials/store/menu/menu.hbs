@@ -1,33 +1,63 @@
 <div class="title-home-store">
     <br>
-    <h3><b>EXPLORE OUR MENU <i class="fi fi-ss-book-alt"></i></b></h3>
+    <h5><b>EXPLORE OUR MENU <i class="fi fi-ss-book-alt"></i></b></h5>
     <hr>
 </div>
-
-
 <div class="container-menu-store px-3 py-3">
     <div class="row">
         <div class="col-md-9">
-            <div class="container-browser">
-                <button class="btn-search-browser"><i class="fi-browser fi-rr-search" onclick="searchBarCode()"></i></button>
-                <input placeholder="Search..." class="barcode-menu" id="barCode" autofocus>
-                <button class="btn-barcode-browser"><i class="fi-browser fi-ts-barcode-read" onclick="onCamera()"></i></button>
-            </div>
+            <!--this is the search-->
+            <table class="" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="td1"><input type="text" placeholder="Search for barcode..." class="form-control"
+                                name="usernameSearch" autofocus id="search"></th>
+                        <th class="td2">
+                            <button class="btn" onclick="search_browser_div()">🔎</button>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
             <hr>
-            <div class="row container-menu" name="container-menu">
+            <div class="row container-menu" name="container-menu" id="container-div">
 
 
                 {{#if dishAndCombo}}
                     {{#each dishAndCombo}}
-                        <div class="col-3">
+                    <!--
+                        <div class="card col-3" id="{{barcode}}" style="background: transparent; border: none;">
                             <div class="product">
-                                <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                                    class="product-img">
+                                {{#if img}}
+                                    <img src="/img/uploads/{{img}}"
+                                        class="product-img">
+                                {{else}}
+                                    <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png"
+                                        class="product-img">
+                                {{/if}}
                                 <div class="product-character">
                                     <h3 class="product-name">{{name}}</h3>
-                                    <p class="product-price">{{price_1}}$</p>
-                                    <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
+                                    <h6 class="product-name">{{barcode}}</h6>
+                                    <p class="product-price">{{description}}$</p>
+                                    <button class="btn-add-product" name="{{name}}" onclick="addFish('{{name}}/{{purchase_unit}}','{{price_1}}')"><i class="fi-icon fi-sr-cart-arrow-down"></i><b>Add ({{price_1}}$)</b></button>
                                 </div>
+                            </div>
+                        </div>
+                    -->
+                        <div class="card col-3">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <h1 class="name">${{price_1}}</h1>
+                                <p class="description">{{barcode}}</p>
+                                <button class="button-card" onclick="addFish('{{name}}','{{price_1}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
                     {{/each}}
@@ -42,101 +72,109 @@
                         </div>
                     </div>                 
                 {{/if}}
-                
 
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
 
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
 
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
+
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
+
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
+
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
+
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
+                <div class="card col-3">
+                    <div class="image-content">
+                        <span class="overlay">
+
+                        </span>
+                        <div class="card-image">
+                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h2 class="name">BUCKET 12 PARTS</h2>
+                        <p class="description">$200.00</p>
+                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                    </div>
+                </div>
 
             </div>
         </div>
     </div>
 </div>
-
-<!--
-<div class="container-menu-store px-3 py-3">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="row container-menu" name="container-menu">
-                <div class="col-4">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="product">
-                        <img src="https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg"
-                            class="product-img">
-                        <div class="product-character">
-                            <h3 class="product-name">Hamburger</h3>
-                            <p class="product-price">69</p>
-                            <button class="btn-add-product" name="Hamburger" onclick="addProduct(this)">Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
-
-<!--this is my car
-        <div class="col-md-5">
-            <div class="container-browser">
-                <button class="btn-search-browser"><i class="fi-browser fi-rr-search" onclick="searchBarCode()"></i></button>
-                <input placeholder="Search..." class="barcode-menu" id="barCode" autofocus>
-                <button class="btn-barcode-browser"><i class="fi-browser fi-ts-barcode-read" onclick="onCamera()"></i></button>
-            </div>
-            <hr>
-            <div class="container-card">
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="https://cdn.forbes.com.mx/2023/05/dia-hamburguesa-e1684977814759.webp" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <label>0101010110101</label><br>
-                                    <b>Hamburger</b><br>
-                                    <small class="text-muted">$270</small><br>
-                                    2 PZA
-                                </h5>
-                                <p class="card-text">TOTAL: $580</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
---->
 <br><br><br><br>
 <script src="/js/menu.js"></script>
 <script src="/js/store/search.js"></script>
+<script src="/js/search.js"></script>

@@ -23,6 +23,7 @@
     function addFish(product,price){
         // get the body of the table
         var bodyTable = tabla.getElementsByTagName("tbody")[0];
+        console.log(bodyTable)
         if(!this_product_exists_in_the_cart(bodyTable,product)){
             add_new_product_to_the_car(bodyTable,product,price);
         }
@@ -60,7 +61,6 @@
     function this_product_exists_in_the_cart(bodyTable,newProduct){
         // get all the row of body of the tabla
         var rows = bodyTable.getElementsByTagName("tr");
-
         // read all the row
         for (var i = 0; i < rows.length; i++) {
             // get the cell 0, 2 y 3 of the row
@@ -185,7 +185,7 @@
 <script>
     function delate_all_car(){
         delate_all_fish()
-        confirmationMessage('Thanks for his buy 👍','This is the change')
+        confirmationMessage('Thanks for his buy ❤️','This is the change')
     }
 
     function delate_all_fish(){
@@ -195,7 +195,7 @@
         var rows = bodyTable.getElementsByTagName("tr");
         var btn = document.getElementById("btn-total-home");
 
-        
+        console.log('yes')
         // read all the row
         for (var i = 0; i < rows.length; i++) {
             // get the cell 3 of the row
@@ -204,8 +204,13 @@
 
             //get the row
             var row = btnCell.parentNode.parentNode;
-            row.parentNode.removeChild(row); //delate row 
+            //row.parentNode.removeChild(row); //delate row 
         }
+        tabla.removeChild(bodyTable);
+        console.log('yes')
+        //this is for that when we will delete the data of the table, add the new tbody for that not have a error  
+        const tbody = document.createElement("tbody");
+        tabla.appendChild(tbody);
 
         //update the total
         var total=0;

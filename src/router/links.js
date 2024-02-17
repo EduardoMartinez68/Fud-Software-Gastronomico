@@ -1836,7 +1836,6 @@ async function search_employee_branch(idBranch){
     return result.rows;
 }
 
-
 router.get('/:id_company/:id_branch/add-employee',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const departments=await search_employee_departments(id_company);
@@ -1846,6 +1845,7 @@ router.get('/:id_company/:id_branch/add-employee',isLoggedIn,async(req,res)=>{
     const branches=branch;
     res.render(companyName+'/branch/employees/addEmployee',{departments,country,roles,branches,branch});
 })
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)
@@ -1901,6 +1901,7 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
     if(await this_employee_works_here(req,res)){
         const {id_company,id_branch}=req.params;
         const dishAndCombo=await get_all_dish_and_combo(id_company,id_branch);
+        console.log(dishAndCombo)
         res.render('links/store/home/home',{dishAndCombo});
     }
 });
@@ -1945,11 +1946,11 @@ async function get_all_dish_and_combo(idCompany,idBranch){
             d.id_product_category
         FROM "Inventory".dish_and_combo_features i
         INNER JOIN "Kitchen".dishes_and_combos d ON i.id_dishes_and_combos = d.id
-        WHERE i.id_companies = $1 AND i.id_branches = $2
+        WHERE i.id_branches = $1
     `;
-    var values = [idCompany,idBranch];
+    var values = [idBranch];
     const result = await database.query(queryText, values);
-    const companies=result.rows;
+    return result.rows;
 }
 
 
