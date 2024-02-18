@@ -614,8 +614,9 @@ async function get_all_combos(req){
 router.get('/:id/add-combos',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
-        const departments=await get_department(req);
-        const category=await get_category(req);
+        const {id}=req.params;
+        const departments=await get_department(id);
+        const category=await get_category(id);
         const supplies=await search_company_supplies_or_products(req,true);
         const products=await search_company_supplies_or_products(req,false);
         const suppliesCombo=[]

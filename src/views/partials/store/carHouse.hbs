@@ -20,11 +20,11 @@
 <script>
     //get the table for his id
     const tabla = document.getElementById("table-car-home");
-    function addFish(product,price,idProduct){
+    function addFish(idProduct,product,price,price2,price3){
         // get the body of the table
         var bodyTable = tabla.getElementsByTagName("tbody")[0];
         if(!this_product_exists_in_the_cart(bodyTable,product)){
-            add_new_product_to_the_car(bodyTable,product,price,idProduct);
+            add_new_product_to_the_car(bodyTable,idProduct,product,price,price,price2,price3);
         }
 
         //show a message of that we add the product to the car
@@ -32,7 +32,7 @@
         update_total();
     }
 
-    function add_new_product_to_the_car(bodyTable,product,price,idProduct){
+    function add_new_product_to_the_car(bodyTable,idProduct,product,price,price2,price3){
         // create the new row
         var newRow = bodyTable.insertRow();
 
@@ -48,10 +48,16 @@
         cell1.id = idProduct;
         cell1.className='dish'
 
-        cell2.innerHTML = `<td class="price">${price}</td>`;
+        //add the three price different
+        cell2.innerHTML = `<button class="btn-car" onclick="edit_price(this)">${price}</button>`;//`<td class="price">${price}</td>`;
         cell2.className = 'price';
+        cell2.price1 = price;
+        cell2.price2 = price2;
+        cell2.price3 = price3;
 
+        //this is the cant 
         cell3.innerHTML = `<button class="btn-car" onclick="edit_car(this)">1</button>`;
+        cell3.className = 'amount';
 
         cell4.innerHTML = `<td class="total">${price}</td>`;
         cell4.className = 'total';
@@ -138,7 +144,7 @@
     function upload_cant_total(button){
         // Obtener la fila (tr) padre del botón
         var row = button.parentNode.parentNode;
-        console.log(row)
+
         // Obtener el elemento con clase "text-price" dentro de la fila
         var textPriceElement = row.querySelector('.price');
         
@@ -150,6 +156,29 @@
         var currentPriceValue = textPriceElement.innerText;
         
         // Actualizar el valor en la página si el usuario ingresó un nuevo valor
+        console.log(currentCantValue)
+        console.log(currentPriceValue)
+        textTotalElement.innerText = parseFloat(currentCantValue) * parseFloat(currentPriceValue);
+        update_total();
+    }
+
+    function upload_cant_total_for_price(button){
+        // Obtener la fila (tr) padre del botón
+        var row = button.parentNode.parentNode;
+
+        // Obtener el elemento con clase "text-price" dentro de la fila
+        var textPriceElement = row.querySelector('.amount');
+        
+        // Obtener el elemento con clase "text-total" dentro de la fila
+        var textTotalElement = row.querySelector('.total');
+        
+        // Obtener y mostrar el valor actual
+        var currentCantValue = button.innerText;
+        var currentPriceValue = textPriceElement.innerText;
+        
+        // Actualizar el valor en la página si el usuario ingresó un nuevo valor
+        console.log(currentCantValue)
+        console.log(currentPriceValue)
         textTotalElement.innerText = parseFloat(currentCantValue) * parseFloat(currentPriceValue);
         update_total();
     }
@@ -177,6 +206,21 @@
             delate_fish_car(button)
         }
     }
+    
+    async function edit_price(button){
+        //get old value
+        var oldValue = button.innerText;
+
+        //get the new value that the user need 
+        var newValue=parseFloat(await edit_cant_car('Edit Price.',oldValue));
+        if (removal_amount(newValue)){
+            button.innerText = newValue; //upload the cant
+            upload_cant_total_for_price(button);
+        }
+        else{
+            delate_fish_car(button)
+        }
+    }
 
     function removal_amount(newValue){
         return (newValue  !='') && (newValue>0)
@@ -188,8 +232,8 @@
         delate_all_fish()
 
         //we will watching if exist exchange in the buy
-        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon';
-        confirmationMessage('Thanks for his buy ❤️',text);
+        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon 😄';
+        confirmationMessage(text,'Thanks for his buy ❤️');
     }
 
     function delate_all_fish(){
