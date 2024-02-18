@@ -1847,6 +1847,7 @@ router.get('/:id_company/:id_branch/add-employee',isLoggedIn,async(req,res)=>{
     res.render(companyName+'/branch/employees/addEmployee',{departments,country,roles,branches,branch});
 })
 
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

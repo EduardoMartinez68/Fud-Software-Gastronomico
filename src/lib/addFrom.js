@@ -1114,4 +1114,22 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
 
     res.redirect('/fud/'+id_company+'/'+id_branch+'/employees-branch');
 })
+
+router.post('/fud/cart-post',isLoggedIn,async(req,res)=>{
+    try {
+        //get the data of the server
+        const combos = req.body;
+        console.log(combos)
+        //we will to read all the buy and update in the inventory 
+        
+        // send an answer to the customer
+        //res.status(200).json({ message: 'data ger success'+ combos});
+        res.status(200).json({ message: 'success'});
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+})
+
+
 module.exports=router;

@@ -16,7 +16,7 @@
     <button class="btn-container-cart" id="btn-total-home" onclick="buy_my_car(this)">Buy $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
 </div>
 
-<!--this script is for add a fish to the car-->
+<!--this script is for add a combo to the car-->
 <script>
     //get the table for his id
     const tabla = document.getElementById("table-car-home");
@@ -49,13 +49,10 @@
         cell1.className='dish'
 
         //add the three price different
-        cell2.innerHTML = `<button class="btn-car" onclick="edit_price(this)">${price}</button>`;//`<td class="price">${price}</td>`;
+        cell2.innerHTML = `<button class="btn-car" price1=${price}  price2=${price2}  price3=${price3} onclick="edit_price(this)">${price}</button>`;
         cell2.className = 'price';
-        cell2.price1 = price;
-        cell2.price2 = price2;
-        cell2.price3 = price3;
 
-        //this is the cant 
+        //this is the amount 
         cell3.innerHTML = `<button class="btn-car" onclick="edit_car(this)">1</button>`;
         cell3.className = 'amount';
 
@@ -156,8 +153,6 @@
         var currentPriceValue = textPriceElement.innerText;
         
         // Actualizar el valor en la página si el usuario ingresó un nuevo valor
-        console.log(currentCantValue)
-        console.log(currentPriceValue)
         textTotalElement.innerText = parseFloat(currentCantValue) * parseFloat(currentPriceValue);
         update_total();
     }
@@ -177,8 +172,6 @@
         var currentPriceValue = textPriceElement.innerText;
         
         // Actualizar el valor en la página si el usuario ingresó un nuevo valor
-        console.log(currentCantValue)
-        console.log(currentPriceValue)
         textTotalElement.innerText = parseFloat(currentCantValue) * parseFloat(currentPriceValue);
         update_total();
     }
@@ -209,10 +202,13 @@
     
     async function edit_price(button){
         //get old value
-        var oldValue = button.innerText;
+        const oldValue = button.innerText;
+        var price1 = button.getAttribute('price1');
+        var price2 = button.getAttribute('price2');
+        var price3 = button.getAttribute('price3');
 
-        //get the new value that the user need 
-        var newValue=parseFloat(await edit_cant_car('Edit Price.',oldValue));
+        //get the new value that the user need
+        var newValue=parseFloat(await edit_price_car('Select a new Price 🏷️',price1,price2,price3));
         if (removal_amount(newValue)){
             button.innerText = newValue; //upload the cant
             upload_cant_total_for_price(button);
@@ -228,12 +224,76 @@
 </script>
 
 <script>
-    function delate_all_car(exchange){
-        delate_all_fish()
+    async function delate_all_car(exchange){
+        const combos=get_all_combo();
 
-        //we will watching if exist exchange in the buy
-        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon 😄';
-        confirmationMessage(text,'Thanks for his buy ❤️');
+        //we will watching if the server can complete the pay and setting the inventory
+        const answerServer=await get_answer_server(combos)
+        if(answerServer.message=='success'){
+            //if the server can do the pay we will to delete all the cart and send a message of success
+            delate_all_fish()
+            var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon 😄';
+            confirmationMessage(text,'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
+        }else{
+            //if the server not can complete the pay we going to send a message of error
+            errorMessage('ERROR 👁️','The purchase could not be completed, try again 👉👈');
+        }
+    }
+
+    async function get_answer_server(combos) {
+        try {
+            const url = '/fud/cart-post';
+
+            // Configurar la solicitud
+            const options = {
+                method: 'POST', // Puedes usar POST en lugar de GET si necesitas enviar muchos datos
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(combos)
+            };
+
+            // Realizar la solicitud y esperar la respuesta
+            const response = await fetch(url, options);
+
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+
+            // Convertir la respuesta a JSON y devolverla
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    }
+
+    function get_all_combo(){
+        var bodyTable = tabla.getElementsByTagName("tbody")[0];
+
+        // get all the row of body of the tabla
+        var rows = bodyTable.getElementsByTagName("tr");
+        
+        // read all the row
+        var combos=[]
+        for (var i = 0; i < rows.length; i++) {
+            // get the cell 3 of the row
+            var dataRow=get_data_row(rows[i]);
+            var btnCell = dataRow[3];
+
+            //get the id and amount of the product 
+            const id=dataRow[0].id;
+            const price=dataRow[1].textContent;
+            const amount=dataRow[2].textContent;
+            const total=dataRow[3].textContent;
+
+            //add the combo data to the list 
+            const dataCombo={id,price,amount,total}
+            combos.push(dataCombo)
+        }
+
+        return combos;
     }
 
     function delate_all_fish(){
@@ -242,23 +302,7 @@
         // get all the row of body of the tabla
         var rows = bodyTable.getElementsByTagName("tr");
         var btn = document.getElementById("btn-total-home");
-
-        // read all the row
-        for (var i = 0; i < rows.length; i++) {
-            // get the cell 3 of the row
-            var dataRow=get_data_row(rows[i]);
-            var btnCell = dataRow[3];
-
-            //get the id and amount of the product 
-            const id=dataRow[0].id;
-            const amount=dataRow[2].textContent;
-            console.log(id)
-            console.log(amount)
-            
-            //get the row
-            var row = btnCell.parentNode.parentNode;
-        }
-
+        
         //delate all the car data 
         tabla.removeChild(bodyTable);
 
@@ -315,6 +359,7 @@
 
         //if exist a product in 
         if(value>0){
+            //we going to watch if the user input the pay
             var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
             if(dataBuy){
                 //we will watching if the money input is equal or elderly to the car price
@@ -331,10 +376,13 @@
     }
 
     function get_value_car(button){
+        //get the value of the button of the total
         var buttonText = button.textContent || button.innerText;
-        var numericValue = buttonText.match(/\d+/);
+        var numericValue = buttonText.match(/\d+(\.\d+)?/);
+
+        //if exist a value we going to calculate the total of the button
         if (numericValue) {
-            var value = parseInt(numericValue[0], 10);
+            var value = parseFloat(numericValue[0],10);
             return value;
         } else {
             return 0;

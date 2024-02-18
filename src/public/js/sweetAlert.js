@@ -294,6 +294,31 @@ async function edit_cant_car(title,cant) {
     });
 }
 
+async function edit_price_car(title,price1,price2,price3){
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html:
+            `<select id="price_select" class="form-select form-select-lg mb-3">'
+                '<option value=${price1}>${price1}</option>'
+                '<option value=${price2}>${price2}</option>'
+                '<option value=${price3}>${price3}</option>'
+            '</select>`,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const price = Swal.getPopup().querySelector('#price_select').value;
+                const data = [price];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
 async function show_message_buy_car(title,customer,total,typeOfCurrency) {
     var containerHtml=`
         <style>
