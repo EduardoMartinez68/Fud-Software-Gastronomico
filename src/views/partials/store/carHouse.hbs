@@ -20,12 +20,11 @@
 <script>
     //get the table for his id
     const tabla = document.getElementById("table-car-home");
-    function addFish(product,price){
+    function addFish(product,price,idProduct){
         // get the body of the table
         var bodyTable = tabla.getElementsByTagName("tbody")[0];
-        console.log(bodyTable)
         if(!this_product_exists_in_the_cart(bodyTable,product)){
-            add_new_product_to_the_car(bodyTable,product,price);
+            add_new_product_to_the_car(bodyTable,product,price,idProduct);
         }
 
         //show a message of that we add the product to the car
@@ -33,7 +32,7 @@
         update_total();
     }
 
-    function add_new_product_to_the_car(bodyTable,product,price){
+    function add_new_product_to_the_car(bodyTable,product,price,idProduct){
         // create the new row
         var newRow = bodyTable.insertRow();
 
@@ -46,6 +45,8 @@
 
         // add data to the new row
         cell1.innerHTML = `<td class="dish">${product}</td>`;
+        cell1.id = idProduct;
+        cell1.className='dish'
 
         cell2.innerHTML = `<td class="price">${price}</td>`;
         cell2.className = 'price';
@@ -183,9 +184,12 @@
 </script>
 
 <script>
-    function delate_all_car(){
+    function delate_all_car(exchange){
         delate_all_fish()
-        confirmationMessage('Thanks for his buy ❤️','This is the change')
+
+        //we will watching if exist exchange in the buy
+        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon';
+        confirmationMessage('Thanks for his buy ❤️',text);
     }
 
     function delate_all_fish(){
@@ -195,19 +199,25 @@
         var rows = bodyTable.getElementsByTagName("tr");
         var btn = document.getElementById("btn-total-home");
 
-        console.log('yes')
         // read all the row
         for (var i = 0; i < rows.length; i++) {
             // get the cell 3 of the row
             var dataRow=get_data_row(rows[i]);
             var btnCell = dataRow[3];
 
+            //get the id and amount of the product 
+            const id=dataRow[0].id;
+            const amount=dataRow[2].textContent;
+            console.log(id)
+            console.log(amount)
+            
             //get the row
             var row = btnCell.parentNode.parentNode;
-            //row.parentNode.removeChild(row); //delate row 
         }
+
+        //delate all the car data 
         tabla.removeChild(bodyTable);
-        console.log('yes')
+
         //this is for that when we will delete the data of the table, add the new tbody for that not have a error  
         const tbody = document.createElement("tbody");
         tabla.appendChild(tbody);
@@ -256,11 +266,22 @@
     }
 
     async function buy_my_car(button){
+        //get the price of the car with all the combo
         var value = get_value_car(button)
+
+        //if exist a product in 
         if(value>0){
             var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
             if(dataBuy){
-                delate_all_car()
+                //we will watching if the money input is equal or elderly to the car price
+                const money=parseFloat(dataBuy[0])
+                if(money>=value){
+                    //we calculate the exchange 
+                    exchange=money-value;
+                    delate_all_car(exchange) //reset the car
+                }else{
+                    errorMessage('Error! the buy not was complete 👁️','The money not is enough')
+                }
             }
         }
     }
