@@ -235,8 +235,10 @@
             var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲': 'Come back soon 😄';
             confirmationMessage(text,'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
         }else{
+            console.log(answerServer.message)
             //if the server not can complete the pay we going to send a message of error
-            errorMessage('ERROR 👁️','The purchase could not be completed, try again 👉👈');
+            errorMessage('ERROR 👁️',answerServer.message+' 👉👈');
+            //errorMessage('ERROR 👁️','The purchase could not be completed, try again 👉👈');
         }
     }
 

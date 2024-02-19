@@ -1119,17 +1119,215 @@ router.post('/fud/cart-post',isLoggedIn,async(req,res)=>{
     try {
         //get the data of the server
         const combos = req.body;
-        console.log(combos)
-        //we will to read all the buy and update in the inventory 
-        
+
+        //we will seeing if can create all the combo of the car
+        var text=await watch_if_can_create_all_the_combo(combos)
+        console.log(text)
         // send an answer to the customer
-        //res.status(200).json({ message: 'data ger success'+ combos});
-        res.status(200).json({ message: 'success'});
+        res.status(200).json({ message: text});
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
     }
 })
 
+async function watch_if_can_create_all_the_combo(combos) {
+    // Iterate through all the combos
+    for (const combo of combos) {
+        const amountCombo = combo.amount;
+        const dataComboFeatures = await get_data_combo_features(combo.id);
+        console.log(dataComboFeatures)
+        if (dataComboFeatures != null) {
+            // If cannot create the combo, send a message of warning
+            const answer = await can_create_this_combo(dataComboFeatures, amountCombo);
+            if (answer!=true) {
+                return 'No can create the combo ' + dataComboFeatures.name + ' we dont have enough ' + answer;
+            }
+        }
+    }
+
+    return 'success';
+}
+
+
+async function can_create_this_combo(dataComboFeatures, amountCombo) {
+    // Get the data of the combo to check if the inventory has the supplies to create the combo
+    const idCombo = dataComboFeatures.id_dishes_and_combos;
+    const idBranch = dataComboFeatures.id_branches;
+    const dataSupplies = await get_all_price_supplies_branch(idCombo, idBranch);
+
+    // first Iterate through all the supplies needed for this combo
+    for (const supplies of dataSupplies) {
+        const idSupplies = supplies.id_products_and_supplies;
+        const amount = supplies.amount * amountCombo;
+
+        // Check if the supplies needed to create the combo exist in the inventory
+        if (!(await exist_supplies_for_create_this_combo(idBranch, idSupplies, amount))) {
+            return supplies.product_name;
+        }
+    }
+
+    //if we can create the combo, we will to order 
+    for (const supplies of dataSupplies) {
+        const idSupplies = supplies.id_products_and_supplies;
+        const amount = supplies.amount * amountCombo;
+
+        // If supplies exist, update the inventory
+        const dataSuppliesFeactures = await get_data_supplies_features(idBranch, idSupplies);
+        const newAmount = dataSuppliesFeactures.existence - amount;
+        await update_inventory(idBranch, idSupplies, newAmount);
+    }
+
+    // If all the exist_supplies_for_create_this_combo were successful, return true
+    return true;
+}
+
+async function update_inventory(idBranch,idCombo,newAmount){
+    const queryText = `
+    UPDATE "Inventory".product_and_suppiles_features
+    SET 
+        existence=$1
+    WHERE 
+        id_branches=$2 and id_products_and_supplies=$3
+    `;
+    
+    //create the array of the new data supplies
+    var values = [newAmount,idBranch,idCombo];
+
+    //update the provider data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
+async function exist_supplies_for_create_this_combo(idBranch,idSupplies,amount){
+    try{
+        //we going to get the data that need for calculate if we can create the combo
+        const dataSuppliesFeactures=await get_data_supplies_features(idBranch,idSupplies)
+        const existence=dataSuppliesFeactures.existence;
+        const minimumInventory=dataSuppliesFeactures.minimum_inventory;
+        console.log(existence-amount)
+        //we will calculate if can create the combo
+        return (existence-amount>=0);
+    }catch(error){
+        return false;
+    }
+}
+
+async function get_data_supplies_features(idBranch,idSupplies){
+    const queryText = `
+    SELECT 
+        existence,
+        minimum_inventory
+    FROM "Inventory".product_and_suppiles_features
+    WHERE id_branches = $1 and id_products_and_supplies=$2
+    `;
+    
+    try {
+        const result=await database.query(queryText, [idBranch,idSupplies]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error get data combo feactures car:', error);
+        return false;
+    }  
+}
+
+
+async function get_data_combo_features(idCombo){
+    const queryText = `
+    SELECT dc.name, df.id_companies, df.id_branches, df.id_dishes_and_combos
+    FROM "Kitchen".dishes_and_combos dc
+    INNER JOIN "Inventory".dish_and_combo_features df
+    ON dc.id = df.id_dishes_and_combos
+    WHERE df.id = $1;
+    `;
+    
+    //update the provider data in the database
+    try {
+        const result=await database.query(queryText, [idCombo]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error get data combo feactures car:', error);
+        return null;
+    }  
+}
+
+async function get_all_price_supplies_branch(idCombo, idBranch) {
+    try {
+        // Consulta para obtener los suministros de un combo específico
+        const comboQuery = `
+            SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale
+            FROM "Kitchen".table_supplies_combo tsc
+            INNER JOIN "Inventory".product_and_suppiles_features psf
+            ON tsc.id_products_and_supplies = psf.id_products_and_supplies
+            WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
+        `;
+        const comboValues = [idCombo];
+        const comboResult = await database.query(comboQuery, comboValues);
+
+        // Consulta para obtener el precio de los suministros en la sucursal específica
+        const priceQuery = `
+            SELECT psf.id_products_and_supplies, psf.sale_price, psf.sale_unity
+            FROM "Inventory".product_and_suppiles_features psf
+            WHERE psf.id_branches = $1 ORDER BY id_products_and_supplies DESC
+        `;
+        const priceValues = [idBranch];
+        const priceResult = await database.query(priceQuery, priceValues);
+
+        // Construir un objeto que contenga los suministros y sus precios en la sucursal específica
+        const suppliesWithPrice = {};
+        priceResult.rows.forEach(row => {
+            suppliesWithPrice[row.id_products_and_supplies] = row.sale_price;
+        });
+
+        // Agregar los suministros y sus cantidades del combo junto con sus precios
+        const suppliesInfo = [];
+        comboResult.rows.forEach(row => {
+            const supplyId = row.id_products_and_supplies;
+            const supplyPrice = suppliesWithPrice[supplyId] || 0; // Precio predeterminado si no se encuentra
+            suppliesInfo.push({
+                img:'',
+                product_name:'',
+                product_barcode:'',
+                description:'',
+                id_products_and_supplies: supplyId,
+                amount: row.amount,
+                unity: row.unity,
+                sale_price: supplyPrice,
+                currency: row.currency_sale
+            });
+        });
+
+        //agregamos los datos del combo 
+        const suppliesCombo=await search_supplies_combo(idCombo);
+        for(var i=0;i<suppliesCombo.length;i++){
+            suppliesInfo[i].img=suppliesCombo[i].img;
+            suppliesInfo[i].product_name=suppliesCombo[i].product_name;
+            suppliesInfo[i].product_barcode=suppliesCombo[i].product_barcode;
+            suppliesInfo[i].description=suppliesCombo[i].description;
+        }
+
+        return suppliesInfo;
+    } catch (error) {
+        console.error("Error en la consulta:", error);
+        throw error;
+    }
+}
+
+async function search_supplies_combo(id_dishes_and_combos){
+    var queryText = `
+        SELECT tsc.*, pas.img AS img, pas.name AS product_name, pas.barcode AS product_barcode
+        FROM "Kitchen".table_supplies_combo tsc
+        JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
+        WHERE tsc.id_dishes_and_combos = $1
+    `;
+    var values = [id_dishes_and_combos];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
 
 module.exports=router;
