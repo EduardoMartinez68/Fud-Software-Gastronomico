@@ -1115,14 +1115,27 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
     res.redirect('/fud/'+id_company+'/'+id_branch+'/employees-branch');
 })
 
-router.post('/fud/cart-post',isLoggedIn,async(req,res)=>{
+//------------------------------------------------------------------------------------------------cart
+router.post('/fud/:id_customer/cart-post',isLoggedIn,async(req,res)=>{
     try {
         //get the data of the server
         const combos = req.body;
 
         //we will seeing if can create all the combo of the car
-        var text=await watch_if_can_create_all_the_combo(combos)
-        console.log(text)
+        var text=await watch_if_can_create_all_the_combo(combos);
+
+        //if can buy this combos, we going to add this buy to the database 
+        if(text=='success'){
+            const {id_customer}=req.body;
+            const id_employee=await get_id_employee(req.user.id);
+            const day=new Date();
+            //we will read all the combos and save in the database 
+            for(const combo of combos){
+                const dataComboFeatures = await get_data_combo_features(combo.id); //get the data of the combo
+                await addDatabase.add_buy_history(dataComboFeatures.id_companies, dataComboFeatures.id_branches, id_employee, id_customer, dataComboFeatures.id_dishes_and_combos,combo.price,combo.amount,combo.total,day);
+            }
+        }
+
         // send an answer to the customer
         res.status(200).json({ message: text});
     } catch (error) {
@@ -1130,6 +1143,25 @@ router.post('/fud/cart-post',isLoggedIn,async(req,res)=>{
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
     }
 })
+
+async function get_id_employee(idUser) {
+    var queryText = 'SELECT id FROM "Company".employees WHERE id_users = $1';
+    var values = [idUser];
+    try {
+        const result = await database.query(queryText, values);
+        // Verificar si se obtuvo algún resultado
+        if (result.rows.length > 0) {
+            // Devolver el ID del empleado
+            return result.rows[0].id;
+        } else {
+            console.error('No se encontró ningún empleado con el ID de usuario proporcionado.');
+            return null; // O cualquier otro valor que indique que no se encontró el empleado
+        }
+    } catch (error) {
+        console.error('Error al consultar la base de datos:', error);
+        throw error; // Lanzar el error para que sea manejado en otro lugar si es necesario
+    }
+}
 
 async function watch_if_can_create_all_the_combo(combos) {
     // Iterate through all the combos
@@ -1288,7 +1320,6 @@ async function get_data_supplies_features(idBranch,idSupplies){
     }  
 }
 
-
 async function get_data_combo_features(idCombo){
     const queryText = `
     SELECT dc.name, df.id_companies, df.id_branches, df.id_dishes_and_combos
@@ -1381,5 +1412,10 @@ async function search_supplies_combo(id_dishes_and_combos){
     const result = await database.query(queryText, values);
     return result.rows;
 }
+
+
+
+
+
 
 module.exports=router;

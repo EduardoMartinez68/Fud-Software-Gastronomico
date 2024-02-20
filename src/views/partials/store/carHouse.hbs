@@ -61,14 +61,13 @@
         const answerServer = await get_answer_server(combos);
 
         if (answerServer.message == 'success') {
-        //if the server can do the pay we will to delete all the cart and send a message of success
-        delate_all_fish();
-        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
-        confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
+            //if the server can do the pay we will to delete all the cart and send a message of success
+            delate_all_fish();
+            var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
+            confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
         } else {
-        console.log(answerServer.message)
-        //if the server not can complete the pay we going to send a message of error
-        errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
+            //if the server not can complete the pay we going to send a message of error
+            errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
         }
     } catch (error) {
         console.error('Error:', error);
@@ -81,7 +80,7 @@
 
   async function get_answer_server(combos) {
     try {
-      const url = '/fud/cart-post';
+      const url = '/fud/'+null+'/cart-post';
 
       // Configurar la solicitud
       const options = {

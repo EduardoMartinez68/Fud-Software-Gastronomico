@@ -274,6 +274,20 @@ function calculate_components(data){
     return data.length>0;
 }
 
+//add buy to the history 
+async function add_buy_history(id_companies, id_branches, id_employees, id_customers,id_dishes_and_combos,price,amount,total,day){
+    var queryText = 'INSERT INTO "Box".sales_history (id_companies, id_branches, id_employees, id_customers, id_dishes_and_combos, price, amount, total, sale_day)'
+        +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+    var values = [id_companies, id_branches, id_employees, id_customers,id_dishes_and_combos,price,amount,total,day] 
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return false;
+    }
+}
+
 
 //////////////////////branch
 async function add_branch(branch){
@@ -464,5 +478,6 @@ module.exports={
     add_new_employees,
     add_provider_company,
     add_product_and_suppiles_features,
-    add_combo_branch
+    add_combo_branch,
+    add_buy_history
 };
