@@ -1,3 +1,115 @@
+<!--this code is for load screen-->
+<style>
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none; /* Inicialmente oculto */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's on top of other content */
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-left: 10px;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text"><i class="fi fi-sr-hat-chef"></i> Reviewing inventory...</div>
+</div>
+
+
+<script>
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    async function delate_all_car(exchange) {
+    // Show loading overlay
+    loadingOverlay.style.display = "flex";
+
+    const combos = get_all_combo();
+
+    try {
+        //we will watching if the server can complete the pay and setting the inventory
+        const answerServer = await get_answer_server(combos);
+
+        if (answerServer.message == 'success') {
+        //if the server can do the pay we will to delete all the cart and send a message of success
+        delate_all_fish();
+        var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
+        confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
+        } else {
+        console.log(answerServer.message)
+        //if the server not can complete the pay we going to send a message of error
+        errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorMessage('ERROR 👁️', 'An error occurred while processing your request.');
+    } finally {
+        // Hide loading overlay regardless of success or failure
+        loadingOverlay.style.display = "none";
+    }
+    }
+
+  async function get_answer_server(combos) {
+    try {
+      const url = '/fud/cart-post';
+
+      // Configurar la solicitud
+      const options = {
+        method: 'POST', // Puedes usar POST en lugar de GET si necesitas enviar muchos datos
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(combos)
+      };
+
+      // Realizar la solicitud y esperar la respuesta
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+
+      // Convertir la respuesta a JSON y devolverla
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+</script>
+<!--this code is for end load screen-->
+
 <div class="container-car-home">
     <table id="table-car-home" border="1" class="table-container-car">
         <thead>
@@ -224,6 +336,7 @@
 </script>
 
 <script>
+    /*
     async function delate_all_car(exchange){
         const combos=get_all_combo();
 
@@ -238,7 +351,6 @@
             console.log(answerServer.message)
             //if the server not can complete the pay we going to send a message of error
             errorMessage('ERROR 👁️',answerServer.message+' 👉👈');
-            //errorMessage('ERROR 👁️','The purchase could not be completed, try again 👉👈');
         }
     }
 
@@ -269,7 +381,7 @@
             console.error('Error:', error);
             throw error;
         }
-    }
+    }*/
 
     function get_all_combo(){
         var bodyTable = tabla.getElementsByTagName("tbody")[0];

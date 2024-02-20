@@ -1133,53 +1133,105 @@ router.post('/fud/cart-post',isLoggedIn,async(req,res)=>{
 
 async function watch_if_can_create_all_the_combo(combos) {
     // Iterate through all the combos
-    for (const combo of combos) {
-        const amountCombo = combo.amount;
-        const dataComboFeatures = await get_data_combo_features(combo.id);
-        console.log(dataComboFeatures)
-        if (dataComboFeatures != null) {
-            // If cannot create the combo, send a message of warning
-            const answer = await can_create_this_combo(dataComboFeatures, amountCombo);
-            if (answer!=true) {
-                return 'No can create the combo ' + dataComboFeatures.name + ' we dont have enough ' + answer;
+    var arrayCombo=await get_all_supplies_of_the_combos(combos)
+    var listSupplies=calculate_the_supplies_that_need(arrayCombo);
+
+    //we will to calculate if have the supplies need for create all the combos that the customer would like eat
+    const answer=await exist_the_supplies_need_for_creat_all_the_combos(listSupplies);
+    if(answer==true){
+        //if exist all the supplies, we update the inventory 
+        for(const supplies of listSupplies){
+            //get the data feature of the supplies and his existence 
+            const dataSuppliesFeactures=await get_data_supplies_features(supplies.idBranch,supplies.idSupplies)
+            const existence=dataSuppliesFeactures.existence;
+            const newAmount=existence-supplies.amount; //calculate the new amount for update in the inventory
+            console.log(supplies.name+' new amount: '+newAmount);
+            await update_inventory(supplies.idBranch,supplies.idSupplies,newAmount);
+        }
+    }else{
+        return 'not can create the combo becaus not exist enough '+answer;
+    }
+
+    // If cannot create the combo, send a message of warning
+    return 'success';
+}
+
+async function exist_the_supplies_need_for_creat_all_the_combos(listSupplies){
+    //we will to calculate if have the supplies need for create all the combos that the customer would like eat
+    for(const supplies of listSupplies){
+        console.log(supplies);
+        if(!await exist_supplies_for_create_this_combo(supplies.idBranch,supplies.idSupplies,supplies.amount)){
+            //if there are not enough supplies, we will send the supplies that need buy the restaurant 
+            return supplies.name;
+        }
+    }   
+
+    return true;
+}
+
+function calculate_the_supplies_that_need(arrayCombo){
+    var listSupplies=[] //this list is for save all the supplies for that do not repeat
+
+    //we will to read all the combos of the array 
+    for(const combo of arrayCombo){
+        //this for read all the supplies of the combo current
+        for(const suppliesCombo of combo){
+            //we will see if exist this supplies in our list of supplies not repeat 
+            var thisSuppliesExistInMyList=false;
+            for(const supplies of listSupplies){
+                //if the supplies exist in our list, we will increase the amount of supplies we will use
+                if(supplies.idSupplies==suppliesCombo.idSupplies){
+                    thisSuppliesExistInMyList=true;
+
+                    //we will to calculate the new amount of the supplies 
+                    const newAmount=supplies.amount+suppliesCombo.amount;
+                    supplies.amount=newAmount;
+                    break;
+                }
+            }
+
+            //if the supplies not exist we will add to the list 
+            if(!thisSuppliesExistInMyList){
+                listSupplies.push(suppliesCombo);
             }
         }
     }
 
-    return 'success';
+    return listSupplies;
 }
 
+async function get_all_supplies_of_the_combos(combos){
+    // Iterate through all the combos
+    var arrayCombo=[]
+    for (const combo of combos) {
+        const amountCombo = combo.amount;
+        const dataComboFeatures = await get_data_combo_features(combo.id);
+        if (dataComboFeatures != null) {
+            //get the supplies that need this combo for his creation
+            const supplies = await get_all_supplies_this_combo(dataComboFeatures, amountCombo);
+            arrayCombo.push(supplies)
+        }
+    }
 
-async function can_create_this_combo(dataComboFeatures, amountCombo) {
+    return arrayCombo;
+}
+
+async function get_all_supplies_this_combo(dataComboFeatures, amountCombo) {
     // Get the data of the combo to check if the inventory has the supplies to create the combo
     const idCombo = dataComboFeatures.id_dishes_and_combos;
     const idBranch = dataComboFeatures.id_branches;
     const dataSupplies = await get_all_price_supplies_branch(idCombo, idBranch);
 
     // first Iterate through all the supplies needed for this combo
+    var arraySupplies=[] 
     for (const supplies of dataSupplies) {
+        const name=supplies.product_name;
         const idSupplies = supplies.id_products_and_supplies;
         const amount = supplies.amount * amountCombo;
-
-        // Check if the supplies needed to create the combo exist in the inventory
-        if (!(await exist_supplies_for_create_this_combo(idBranch, idSupplies, amount))) {
-            return supplies.product_name;
-        }
+        arraySupplies.push({idBranch,name,idSupplies,amount});
     }
 
-    //if we can create the combo, we will to order 
-    for (const supplies of dataSupplies) {
-        const idSupplies = supplies.id_products_and_supplies;
-        const amount = supplies.amount * amountCombo;
-
-        // If supplies exist, update the inventory
-        const dataSuppliesFeactures = await get_data_supplies_features(idBranch, idSupplies);
-        const newAmount = dataSuppliesFeactures.existence - amount;
-        await update_inventory(idBranch, idSupplies, newAmount);
-    }
-
-    // If all the exist_supplies_for_create_this_combo were successful, return true
-    return true;
+    return arraySupplies;
 }
 
 async function update_inventory(idBranch,idCombo,newAmount){
@@ -1210,7 +1262,7 @@ async function exist_supplies_for_create_this_combo(idBranch,idSupplies,amount){
         const dataSuppliesFeactures=await get_data_supplies_features(idBranch,idSupplies)
         const existence=dataSuppliesFeactures.existence;
         const minimumInventory=dataSuppliesFeactures.minimum_inventory;
-        console.log(existence-amount)
+
         //we will calculate if can create the combo
         return (existence-amount>=0);
     }catch(error){
