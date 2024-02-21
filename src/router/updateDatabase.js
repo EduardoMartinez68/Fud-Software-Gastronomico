@@ -46,8 +46,8 @@ function get_query_edit_supplies_company(supplies) {
 }
 
 
-async function update_combo(combo) {
-    var queryText = get_query_edit_combo_company(combo);
+async function update_combo(idCombo,combo) {
+    var queryText = get_query_edit_combo_company(idCombo,combo);
     try {
         await database.query(queryText);
         return true;
@@ -57,16 +57,16 @@ async function update_combo(combo) {
     }
 }
 
-function get_query_edit_combo_company(combo) {
+function get_query_edit_combo_company(idCombo,combo) {
     if (combo.path_image == "") {
         var queryText = `UPDATE "Kitchen".dishes_and_combos SET name='${combo.name}', barcode='${combo.barcode}', description='${combo.description}', 
-        id_product_department='${combo.id_product_department}', id_product_category='${combo.id_product_category}'`;
+        id_product_department='${combo.id_product_department}', id_product_category='${combo.id_product_category}' WHERE id=${idCombo}`;
 
         return queryText;
     }
     else {
         var queryText = `UPDATE "Kitchen".dishes_and_combos SET img='${combo.path_image}', name='${combo.name}', barcode='${combo.alias}', description='${combo.description}', 
-        id_product_department='${combo.id_product_department}', id_product_category='${combo.id_product_category}'`;
+        id_product_department='${combo.id_product_department}', id_product_category='${combo.id_product_category}' WHERE id=${idCombo}`;
 
         return queryText;
     }

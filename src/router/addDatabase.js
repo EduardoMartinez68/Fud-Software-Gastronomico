@@ -276,14 +276,19 @@ function calculate_components(data){
 
 //add buy to the history 
 async function add_buy_history(id_companies, id_branches, id_employees, id_customers,id_dishes_and_combos,price,amount,total,day){
+    let idCustomer = parseInt(id_customers);
+    if (isNaN(idCustomer)) {
+        idCustomer = null;
+    }
+    
     var queryText = 'INSERT INTO "Box".sales_history (id_companies, id_branches, id_employees, id_customers, id_dishes_and_combos, price, amount, total, sale_day)'
         +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-    var values = [id_companies, id_branches, id_employees, id_customers,id_dishes_and_combos,price,amount,total,day] 
+    var values = [id_companies, id_branches, id_employees, idCustomer,id_dishes_and_combos,price,amount,total,day] 
     try{
         await database.query(queryText, values);
         return true;
     } catch (error) {
-        console.error('Error al insertar en la base de datos:', error);
+        console.error('Error add database history:', error);
         return false;
     }
 }

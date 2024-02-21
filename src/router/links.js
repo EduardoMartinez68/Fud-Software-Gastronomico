@@ -658,7 +658,7 @@ async function search_supplies_combo(id_dishes_and_combos){
         SELECT tsc.*, pas.img AS img, pas.name AS product_name, pas.barcode AS product_barcode
         FROM "Kitchen".table_supplies_combo tsc
         JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
-        WHERE tsc.id_dishes_and_combos = $1
+        WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
     `;
     var values = [id_dishes_and_combos];
     const result = await database.query(queryText, values);
@@ -1508,11 +1508,21 @@ router.get('/:id_company/:id_branch/:id_supplies/edit-products-branch',isLoggedI
 router.get('/:id_company/:id_branch/:id_supplies/:existence/update-products-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies,existence}=req.params;
     if(await update_inventory_supplies_branch(id_supplies,existence)){
+        req.flash('success','The product was update with exist ⭐')
+    }else{
+        req.flash('message','This product not was 😅')
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/products');
+})
+
+router.get('/:id_company/:id_branch/:id_supplies/:existence/update-supplies-branch',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_supplies,existence}=req.params;
+    if(await update_inventory_supplies_branch(id_supplies,existence)){
         req.flash('success','The supplies was update with exist ⭐')
     }else{
         req.flash('message','This supplies not was 😅')
     }
-    res.redirect('/fud/'+id_company+'/'+id_branch+'/products');
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/supplies');
 })
 
 async function update_inventory_supplies_branch(idSupplies,newExistence) {
@@ -1903,8 +1913,8 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
     if(await this_employee_works_here(req,res)){
         const {id_company,id_branch}=req.params;
         const dishAndCombo=await get_all_dish_and_combo(id_company,id_branch);
-        console.log(dishAndCombo)
-        res.render('links/store/home/home',{dishAndCombo});
+        const dataEmployee=await get_data_employee(req);
+        res.render('links/store/home/home',{dishAndCombo,dataEmployee});
     }
 });
 

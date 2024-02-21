@@ -51,36 +51,46 @@
     const loadingOverlay = document.getElementById("loadingOverlay");
 
     async function delate_all_car(exchange) {
-    // Show loading overlay
-    loadingOverlay.style.display = "flex";
+        // Show loading overlay
+        loadingOverlay.style.display = "flex";
 
-    const combos = get_all_combo();
+        const combos = get_all_combo();
 
-    try {
-        //we will watching if the server can complete the pay and setting the inventory
-        const answerServer = await get_answer_server(combos);
+        try {
+            //get the email and the id of the customer 
+            const button = document.getElementById('emailClient');
+            const idClient=button.getAttribute('idClient');
 
-        if (answerServer.message == 'success') {
-            //if the server can do the pay we will to delete all the cart and send a message of success
-            delate_all_fish();
-            var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
-            confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
-        } else {
-            //if the server not can complete the pay we going to send a message of error
-            errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
+            //we will watching if the server can complete the pay and setting the inventory
+            const link = '/fud/'+idClient+'/car-post';
+            const answerServer = await get_answer_server(combos,link);
+
+            if (answerServer.message == 'success') {
+                //if the server can do the pay we will to delete all the cart and send a message of success
+                delate_all_fish();
+
+                //restart the email of the customer
+                button.innerHTML='<i class="fi-icon fi-sr-following"></i> Client';
+                button.setAttribute('idClient', null);  
+                
+                var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
+                confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
+            } else {
+                //if the server not can complete the pay we going to send a message of error
+                errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
+            }    
+        } catch (error) {
+            console.error('Error:', error);
+            errorMessage('ERROR 👁️', 'An error occurred while processing your request.');
+        } finally {
+            // Hide loading overlay regardless of success or failure
+            loadingOverlay.style.display = "none";
         }
-    } catch (error) {
-        console.error('Error:', error);
-        errorMessage('ERROR 👁️', 'An error occurred while processing your request.');
-    } finally {
-        // Hide loading overlay regardless of success or failure
-        loadingOverlay.style.display = "none";
-    }
     }
 
-  async function get_answer_server(combos) {
+  async function get_answer_server(combos,link) {
     try {
-      const url = '/fud/'+null+'/cart-post';
+      const url = link;
 
       // Configurar la solicitud
       const options = {
@@ -108,24 +118,61 @@
   }
 </script>
 <!--this code is for end load screen-->
+{{#each dataEmployee}}
+    <div class="container-car-home">
+        <div class="container" style="width: 90%; margin-left: auto; margin-right: 0;">
+            <button class="form-control" id="emailClient" email="" idClient="null" onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Client</button>
+        </div>
+        <br>
+        <table id="table-car-home" border="1" class="table-container-car">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Cant.</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br>
+        <button class="btn-container-cart" id="btn-total-home" onclick="buy_my_car(this)">Buy $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
+    </div>
+{{/each}}
 
-<div class="container-car-home">
-    <table id="table-car-home" border="1" class="table-container-car">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Cant.</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <br>
-    <button class="btn-container-cart" id="btn-total-home" onclick="buy_my_car(this)">Buy $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
-</div>
+<!---->
+<script>
+    async function select_customer(idCompany){
+        const button = document.getElementById('emailClient');
+        const emailClient = button.textContent;
+        const client=await edit_client_car(emailClient); //we going to get the email of the customer 
+        client.push(idCompany)
+        if(client!=''){
+            loadingOverlay.style.display = "flex";
+            const answer=await get_answer_server(client,'/fud/client');
+
+            if(answer.idCustomer!=null){
+                const idCustomer=answer.idCustomer
+                const firstName=answer.firstName
+                const lastName=answer.lastName
+                const email=answer.email
+                //update the name of the customer
+                button.textContent=email;
+                button.innerHTML='<i class="fi-icon fi-sr-following"></i> '+email;
+                button.setAttribute('idClient', idCustomer);
+            }else{
+                button.innerHTML='<i class="fi-icon fi-sr-following"></i> Client';
+                button.setAttribute('idClient', null);
+            }
+        }else{
+            button.innerHTML='<i class="fi-icon fi-sr-following"></i> Client';
+            button.setAttribute('idClient', null);              
+        }
+        loadingOverlay.style.display = "none";
+    }
+</script>
 
 <!--this script is for add a combo to the car-->
 <script>
@@ -472,8 +519,12 @@
 
         //if exist a product in 
         if(value>0){
+            //we will to get the email of the client 
+            const button = document.getElementById('emailClient');
+            const emailClient = button.textContent;
+
             //we going to watch if the user input the pay
-            var dataBuy=await show_message_buy_car('Total to pay','Client',value,getLocation());
+            var dataBuy=await show_message_buy_car('Total to pay',emailClient,value,getLocation());
             if(dataBuy){
                 //we will watching if the money input is equal or elderly to the car price
                 const money=parseFloat(dataBuy[0])

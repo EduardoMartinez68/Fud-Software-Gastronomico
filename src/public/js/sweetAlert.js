@@ -294,6 +294,30 @@ async function edit_cant_car(title,cant) {
     });
 }
 
+async function edit_client_car(email){
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: 'Select the client for this buy',
+            html:
+            `
+            <label>Escribe el email de el usuario</label>
+            <input id="email" type="text" class="form-control" placeholder="write the email of the client" value=${email}>
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'search',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const emailInput = Swal.getPopup().querySelector('#email').value;
+                const data = [emailInput];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
 async function edit_price_car(title,price1,price2,price3){
     return new Promise((resolve, reject) => {
         Swal.fire({

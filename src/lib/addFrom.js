@@ -257,8 +257,8 @@ function get_supplies_or_product_company(req,this_is_a_supplies){
 }
 
 //add combo
-router.post('/fud/:id/add-company-combo',async (req,res)=>{
-    const {id}=req.params;
+router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
+    const {id_company}=req.params;
     const {barcodeProducts}=req.body;
 
     //we will see if the user add a product or supplies 
@@ -278,18 +278,18 @@ router.post('/fud/:id/add-company-combo',async (req,res)=>{
             req.flash('message','the combo not was add 😳')
         }
 
-        res.redirect('/fud/'+id+'/combos');
+        res.redirect('/fud/'+id_company+'/combos');
     }
 });
 
 function create_a_new_combo(req){
     const {barcode,name,description,barcodeProducts}=req.body;
-    const {id}=req.params;
+    const {id_company}=req.params;
 
     const supplies=parse_barcode_products(barcodeProducts)
     var path_image=create_a_new_image(req);
     const combo={
-        id_company: id,
+        id_company: id_company,
         path_image,
         barcode,
         name,
@@ -333,8 +333,8 @@ function parse_barcode_products(barcodeProducts) {
 }
 
 //edit combo 
-router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=>{
-    const {id_company,id}=req.params;
+router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req,res)=>{
+    const {id_company,id_combo}=req.params;
     const {barcodeProducts}=req.body;
 
     //we will see if the user add a product or supplies 
@@ -347,10 +347,10 @@ router.post('/fud/:id_company/:id/edit-combo-company',isLoggedIn,async(req,res)=
         const combo=create_a_new_combo(req)
 
         //we will see if can add the combo to the database
-        if(await update.update_combo(combo)){
+        if(await update.update_combo(id_combo,combo)){
             //we will delate all the supplies of the combo for to save it later
-            await delete_all_supplies_combo(id)
-            await addDatabase.save_all_supplies_combo_company(id,combo.supplies) //We will save all the supplies again
+            await delete_all_supplies_combo(id_combo) //id
+            await addDatabase.save_all_supplies_combo_company(id_combo,combo.supplies) //We will save all the supplies again
             req.flash('success','the combo was update with success ❤️')
         }
         else{
@@ -1116,7 +1116,32 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
 })
 
 //------------------------------------------------------------------------------------------------cart
-router.post('/fud/:id_customer/cart-post',isLoggedIn,async(req,res)=>{
+router.post('/fud/client',isLoggedIn,async(req,res)=>{
+    try {
+        //get the data of the server
+        const email = req.body;
+        var queryText = 'SELECT * FROM "Company".customers WHERE id_companies= $1 and email= $2';
+        var values = [email[1],email[0]];
+        const result = await database.query(queryText, values);
+        console.log(result.rows[0])
+        if(result.rows.length>0){
+            const idCustomer=result.rows[0].id;
+            const firstName=result.rows[0].first_name;
+            const secondName=result.rows[0].second_name;
+            const lastName=result.rows[0].last_name;
+            const email=result.rows[0].email;
+            res.status(200).json({ idCustomer,firstName,secondName,lastName,email});
+        }else{
+            res.status(200).json({ idCustomer: null});
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+})
+
+
+router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
     try {
         //get the data of the server
         const combos = req.body;
@@ -1126,7 +1151,7 @@ router.post('/fud/:id_customer/cart-post',isLoggedIn,async(req,res)=>{
 
         //if can buy this combos, we going to add this buy to the database 
         if(text=='success'){
-            const {id_customer}=req.body;
+            const {id_customer}=req.params;
             const id_employee=await get_id_employee(req.user.id);
             const day=new Date();
             //we will read all the combos and save in the database 
@@ -1201,6 +1226,39 @@ async function exist_the_supplies_need_for_creat_all_the_combos(listSupplies){
     return true;
 }
 
+async function exist_supplies_for_create_this_combo(idBranch,idSupplies,amount){
+    try{
+        //we going to get the data that need for calculate if we can create the combo
+        const dataSuppliesFeactures=await get_data_supplies_features(idBranch,idSupplies)
+        const existence=dataSuppliesFeactures.existence;
+        const minimumInventory=dataSuppliesFeactures.minimum_inventory;
+
+        //we will calculate if can create the combo
+        console.log(existence-amount);
+        return (existence-amount>=0);
+    }catch(error){
+        return false;
+    }
+}
+
+async function get_data_supplies_features(idBranch,idSupplies){
+    const queryText = `
+    SELECT 
+        existence,
+        minimum_inventory
+    FROM "Inventory".product_and_suppiles_features
+    WHERE id_branches = $1 and id_products_and_supplies=$2
+    `;
+    
+    try {
+        const result=await database.query(queryText, [idBranch,idSupplies]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error get data combo feactures car:', error);
+        return false;
+    }  
+}
+
 function calculate_the_supplies_that_need(arrayCombo){
     var listSupplies=[] //this list is for save all the supplies for that do not repeat
 
@@ -1228,7 +1286,7 @@ function calculate_the_supplies_that_need(arrayCombo){
             }
         }
     }
-
+    console.log(listSupplies)
     return listSupplies;
 }
 
@@ -1241,6 +1299,7 @@ async function get_all_supplies_of_the_combos(combos){
         if (dataComboFeatures != null) {
             //get the supplies that need this combo for his creation
             const supplies = await get_all_supplies_this_combo(dataComboFeatures, amountCombo);
+            
             arrayCombo.push(supplies)
         }
     }
@@ -1253,7 +1312,7 @@ async function get_all_supplies_this_combo(dataComboFeatures, amountCombo) {
     const idCombo = dataComboFeatures.id_dishes_and_combos;
     const idBranch = dataComboFeatures.id_branches;
     const dataSupplies = await get_all_price_supplies_branch(idCombo, idBranch);
-
+    console.log(dataSupplies)
     // first Iterate through all the supplies needed for this combo
     var arraySupplies=[] 
     for (const supplies of dataSupplies) {
@@ -1264,79 +1323,6 @@ async function get_all_supplies_this_combo(dataComboFeatures, amountCombo) {
     }
 
     return arraySupplies;
-}
-
-async function update_inventory(idBranch,idCombo,newAmount){
-    const queryText = `
-    UPDATE "Inventory".product_and_suppiles_features
-    SET 
-        existence=$1
-    WHERE 
-        id_branches=$2 and id_products_and_supplies=$3
-    `;
-    
-    //create the array of the new data supplies
-    var values = [newAmount,idBranch,idCombo];
-
-    //update the provider data in the database
-    try {
-        await database.query(queryText, values);
-        return true;
-    } catch (error) {
-        console.error('Error updating provider:', error);
-        return false;
-    }
-}
-
-async function exist_supplies_for_create_this_combo(idBranch,idSupplies,amount){
-    try{
-        //we going to get the data that need for calculate if we can create the combo
-        const dataSuppliesFeactures=await get_data_supplies_features(idBranch,idSupplies)
-        const existence=dataSuppliesFeactures.existence;
-        const minimumInventory=dataSuppliesFeactures.minimum_inventory;
-
-        //we will calculate if can create the combo
-        return (existence-amount>=0);
-    }catch(error){
-        return false;
-    }
-}
-
-async function get_data_supplies_features(idBranch,idSupplies){
-    const queryText = `
-    SELECT 
-        existence,
-        minimum_inventory
-    FROM "Inventory".product_and_suppiles_features
-    WHERE id_branches = $1 and id_products_and_supplies=$2
-    `;
-    
-    try {
-        const result=await database.query(queryText, [idBranch,idSupplies]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error get data combo feactures car:', error);
-        return false;
-    }  
-}
-
-async function get_data_combo_features(idCombo){
-    const queryText = `
-    SELECT dc.name, df.id_companies, df.id_branches, df.id_dishes_and_combos
-    FROM "Kitchen".dishes_and_combos dc
-    INNER JOIN "Inventory".dish_and_combo_features df
-    ON dc.id = df.id_dishes_and_combos
-    WHERE df.id = $1;
-    `;
-    
-    //update the provider data in the database
-    try {
-        const result=await database.query(queryText, [idCombo]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error get data combo feactures car:', error);
-        return null;
-    }  
 }
 
 async function get_all_price_supplies_branch(idCombo, idBranch) {
@@ -1401,12 +1387,55 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
     }
 }
 
+async function update_inventory(idBranch,idCombo,newAmount){
+    const queryText = `
+    UPDATE "Inventory".product_and_suppiles_features
+    SET 
+        existence=$1
+    WHERE 
+        id_branches=$2 and id_products_and_supplies=$3
+    `;
+    
+    //create the array of the new data supplies
+    var values = [newAmount,idBranch,idCombo];
+
+    //update the provider data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
+
+async function get_data_combo_features(idCombo){
+    const queryText = `
+    SELECT dc.name, df.id_companies, df.id_branches, df.id_dishes_and_combos
+    FROM "Kitchen".dishes_and_combos dc
+    INNER JOIN "Inventory".dish_and_combo_features df
+    ON dc.id = df.id_dishes_and_combos
+    WHERE df.id = $1;
+    `;
+    
+    //update the provider data in the database
+    try {
+        const result=await database.query(queryText, [idCombo]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error get data combo feactures car:', error);
+        return null;
+    }  
+}
+
+
 async function search_supplies_combo(id_dishes_and_combos){
     var queryText = `
         SELECT tsc.*, pas.img AS img, pas.name AS product_name, pas.barcode AS product_barcode
         FROM "Kitchen".table_supplies_combo tsc
         JOIN "Kitchen".products_and_supplies pas ON tsc.id_products_and_supplies = pas.id
-        WHERE tsc.id_dishes_and_combos = $1
+        WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
     `;
     var values = [id_dishes_and_combos];
     const result = await database.query(queryText, values);

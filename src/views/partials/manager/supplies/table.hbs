@@ -60,16 +60,4 @@
             window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/edit-supplies-branch`;
         }     
     }
-
-    async function show_message_edit(id_supplies,id_company,id_branch,img,barcode,nameDepartment,existence,purchaseAmount){
-        //we will to get the data of the new department
-        const data=await edit_supplies_branch('Edit '+nameDepartment,img,barcode,nameDepartment,existence,purchaseAmount);
-        if(data){
-            //get the data of the from 
-            var newExistence = parseFloat(data[0]);
-            if(newExistence>0){
-                window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/${newExistence}/update-products-branch`;
-            }
-        }
-    }
 </script>
