@@ -45,23 +45,23 @@
                         col-3 pc col-5 en ipad
                         -->
                         <div class="card container-combo col-3" style="padding-right: 0.5rem; background:transparent; margin:0;border: none" id="{{barcode}}">
-                        <div class="card" id="{{barcode}}">
-                            <div class="image-content">
-                                <span class="overlay">
+                            <div class="card" id="{{barcode}}">
+                                <div class="image-content">
+                                    <span class="overlay">
 
-                                </span>
-                                <div class="card-image" style="width: 80%;">
-                                    <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                                    </span>
+                                    <div class="card-image" style="width: 80%;">
+                                        <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                                    </div>
+                                </div>
+
+                                <div class="card-content">
+                                    <h2 class="name">{{name}}</h2>
+                                    <h1 class="name">${{price_1}}</h1>
+                                    <p class="description">{{barcode}}</p>
+                                    <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                                 </div>
                             </div>
-
-                            <div class="card-content">
-                                <h2 class="name">{{name}}</h2>
-                                <h1 class="name">${{price_1}}</h1>
-                                <p class="description">{{barcode}}</p>
-                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                            </div>
-                        </div>
                         </div>
                     {{/each}}
                 {{else}}
@@ -84,3 +84,26 @@
 <script src="/js/menu.js"></script>
 <script src="/js/store/search.js"></script>
 <script src="/js/search.js"></script>
+
+<script>
+    // Función para ajustar dinámicamente la clase de los elementos con la clase "container-combo"
+    function adjustDivClass() {
+        // Obtén todos los elementos con la clase "container-combo"
+        const divElements = document.querySelectorAll('.container-combo');
+
+        // Itera sobre cada elemento
+        divElements.forEach(function(element) {
+            if (window.innerWidth <= 1500) { // Si el ancho de la ventana es menor o igual a 500px
+                element.classList.remove('col-3'); // Elimina la clase col-3
+                element.classList.add('col-5'); // Agrega la clase col-5
+            } else {
+                element.classList.remove('col-5'); // Elimina la clase col-5
+                element.classList.add('col-3'); // Agrega la clase col-3
+            }
+        });
+    }
+
+    // Llama a la función al cargar la página y cuando se redimensione la ventana
+    window.onload = adjustDivClass;
+    window.onresize = adjustDivClass;
+</script>
