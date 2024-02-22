@@ -1,0 +1,44 @@
+<br><br>
+<div class="container">
+    <label for=""><i class="fi-icon fi-sr-label"></i> Sales History</label>
+    <hr>
+    <table class="table table-hover"> <!--table-bordered-->
+        <colgroup>
+            <col style="width: 15%;"> <!--Branch-->
+            <col style="width: 20%;"> <!--Employee-->
+            <col style="width: 20%;"> <!--Customer-->
+            <col style="width: 15%;"> <!--ombo/Dish-->
+            <col style="width: 5%;"> <!--Price-->
+            <col style="width: 5%;"> <!--Amount-->
+            <col style="width: 5%;"> <!--Total-->
+            <col style="width: 15%;"> <!--Date-->
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Branch</th>
+            <th>Employee</th>
+            <th>Customer</th>
+            <th>Combo/Dish</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th>Total</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each sales}}
+            <tr>
+                <td>{{name_branch}}</td>
+                <td>{{employee_first_name}} {{employee_second_name}} {{employee_last_name}}</td>
+                <td>{{customer_email}}</td>
+                <td>{{name}}</td>
+                <td>{{price}}</td>
+                <td>{{amount}}</td>
+                <td>{{total}}</td>
+                <td>{{sale_day}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<br><br><br>

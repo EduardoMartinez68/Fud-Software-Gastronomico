@@ -901,7 +901,6 @@ async function searc_customers(idCustomer){
     return result.rows;
 }
 
-
 router.get('/:id/customers-company',isLoggedIn,async(req,res)=>{
     const {id}=req.params;
     const customers=await searc_all_customers(id)
@@ -996,7 +995,6 @@ router.get('/:idBranch/:idCompany/edit-branch',isLoggedIn,async(req,res)=>{
     const branch=await get_branch(req);
     res.render("links/manager/branches/editBranches",{branch,country});
 })
-
 
 async function get_branch(req){
     const {idBranch}=req.params;
@@ -1220,7 +1218,6 @@ async function search_employees(idCompany){
         return result.rows;
 }
 
-
 router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
@@ -1351,6 +1348,39 @@ router.get('/:id_company/:id_user/employees',isLoggedIn,async(req,res)=>{
     }
 })
 
+//-------------------------------------------------------------sales 
+router.get('/:id_company/sales',isLoggedIn,async(req,res)=>{
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+        const {id_company,id_user}=req.params;
+        const sales=await get_sales_company(id_company);
+        console.log(sales)
+        res.render('links/manager/sales/sales',{company,sales});
+    }
+})
+
+async function get_sales_company(idCompany) {
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
@@ -1857,6 +1887,37 @@ router.get('/:id_company/:id_branch/add-employee',isLoggedIn,async(req,res)=>{
     res.render(companyName+'/branch/employees/addEmployee',{departments,country,roles,branches,branch});
 })
 
+
+router.get('/:id_company/:id_branch/sales',isLoggedIn,async(req,res)=>{
+    const {id_branch}=req.params;
+    const sales=await get_sales_branch(id_branch);
+    const branch=await get_data_branch(req);
+    res.render('links/manager/sales/sales',{branch,sales});
+})
+
+
+async function get_sales_branch(idBranch) {
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_branches = $1
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
