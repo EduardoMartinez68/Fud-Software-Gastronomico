@@ -262,7 +262,7 @@ async function update_role_employee(idRoleEmployee, newRole){
 
 
 
-function get_query_edit_combo(dataUser){
+function get_query_edit_user(dataUser){
     var queryText = `
     UPDATE "Fud".users
     SET 
@@ -297,11 +297,11 @@ function get_query_edit_combo(dataUser){
 
 
 async function update_user(idUser,dataUser){
-    var queryText = get_query_edit_combo(dataUser)
-    
+    var queryText = get_query_edit_user(dataUser)
+    console.log(queryText);
     //create the array
     var values = Object.values(dataUser);
-
+    
     //we will see if exist a new image for the perfil photo
     if(dataUser.image==""){
         //we will delete the data of the image 

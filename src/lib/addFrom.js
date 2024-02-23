@@ -873,14 +873,17 @@ async function update_employee(req,res){
     const {email,username}=req.body
     const newDataUser=new_data_user(req)
     const newDataEmployee=new_data_employee(req)
-
+    console.log(id_user)
     //we will see if exist a new perfil photo 
     if(newDataUser.image!=""){
         //get the old direction of the imagen 
         const path_photo=await get_profile_picture(id_user)
-        await delete_image_upload(path_photo)
+        //we will watching if the user haved a photo for delete
+        if(path_photo!=null){
+            await delete_image_upload(path_photo);
+        }
     }
-
+    
     if(await update.update_user(id_user,newDataUser)){
         if(await update.update_employee(id_user,newDataEmployee)){
             req.flash('success','the employee was update 🥳')
@@ -1062,7 +1065,7 @@ function create_new_combo_branch(req,id_combo){
     return combo;
 }
 
-router.post('/fud/:id_users/:id_company/:id_branch/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
+router.post('/fud/:id_user/:id_company/:id_branch/:id_employee/edit-employees',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     await update_employee(req,res);
     res.redirect('/fud/'+id_company+'/'+id_branch+'/employees-branch');

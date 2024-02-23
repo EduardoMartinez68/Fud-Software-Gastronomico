@@ -50,6 +50,13 @@ async function questionMessage(title, text) {
     });
 }
 
+async function informationMessage(){
+    Swal.bindClickHandler();
+    Swal.mixin({
+      toast: true
+    }).bindClickHandler("data-swal-toast-template");
+}
+
 async function new_data_departments(title) {
     return new Promise((resolve, reject) => {
         Swal.fire({
