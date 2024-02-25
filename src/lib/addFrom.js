@@ -1148,7 +1148,7 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
     try {
         //get the data of the server
         const combos = req.body;
-
+        
         //we will seeing if can create all the combo of the car
         var text=await watch_if_can_create_all_the_combo(combos);
 
@@ -1157,20 +1157,59 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
             const {id_customer}=req.params;
             const id_employee=await get_id_employee(req.user.id);
             const day=new Date();
+
+            //we will to save the data for create the commander
+            var commanderDish=[]
+            var idBranch=0;
+
             //we will read all the combos and save in the database 
             for(const combo of combos){
                 const dataComboFeatures = await get_data_combo_features(combo.id); //get the data of the combo
+                idBranch=dataComboFeatures.id_branches; //change the id branch for save the commander
+                const dataComandera=create_data_commander(combo)
+                commanderDish.push(dataComandera);
+
+                //save the buy in the database 
                 await addDatabase.add_buy_history(dataComboFeatures.id_companies, dataComboFeatures.id_branches, id_employee, id_customer, dataComboFeatures.id_dishes_and_combos,combo.price,combo.amount,combo.total,day);
             }
+
+            //save the comander
+            const commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,'',day)
+            console.log(commander)
+            await addDatabase.add_commanders(commander);
         }
 
-        // send an answer to the customer
+        //send an answer to the customer
         res.status(200).json({ message: text});
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
     }
 })
+
+function create_data_commander(combo){
+    const name=combo.name;
+    const price=combo.price;
+    const amount=combo.amount;
+    const total=combo.total;
+    return {name,price,amount,total}
+}
+
+function create_commander(id_branch,id_employee,id_customer,commanderDish,total,moneyReceived,change,comment,date){
+    const commander={
+        id_branch,
+        id_employee,
+        id_customer: id_customer === 'null' ? null : id_customer,
+        commanderDish:JSON.stringify(commanderDish),
+        total,
+        moneyReceived,
+        change,
+        status:0,
+        comment,
+        date
+    }
+    return commander;
+}
 
 async function get_id_employee(idUser) {
     var queryText = 'SELECT id FROM "Company".employees WHERE id_users = $1';
@@ -1205,7 +1244,6 @@ async function watch_if_can_create_all_the_combo(combos) {
             const dataSuppliesFeactures=await get_data_supplies_features(supplies.idBranch,supplies.idSupplies)
             const existence=dataSuppliesFeactures.existence;
             const newAmount=existence-supplies.amount; //calculate the new amount for update in the inventory
-            console.log(supplies.name+' new amount: '+newAmount);
             await update_inventory(supplies.idBranch,supplies.idSupplies,newAmount);
         }
     }else{
@@ -1219,7 +1257,6 @@ async function watch_if_can_create_all_the_combo(combos) {
 async function exist_the_supplies_need_for_creat_all_the_combos(listSupplies){
     //we will to calculate if have the supplies need for create all the combos that the customer would like eat
     for(const supplies of listSupplies){
-        console.log(supplies);
         if(!await exist_supplies_for_create_this_combo(supplies.idBranch,supplies.idSupplies,supplies.amount)){
             //if there are not enough supplies, we will send the supplies that need buy the restaurant 
             return supplies.name;
@@ -1237,7 +1274,6 @@ async function exist_supplies_for_create_this_combo(idBranch,idSupplies,amount){
         const minimumInventory=dataSuppliesFeactures.minimum_inventory;
 
         //we will calculate if can create the combo
-        console.log(existence-amount);
         return (existence-amount>=0);
     }catch(error){
         return false;
@@ -1289,7 +1325,6 @@ function calculate_the_supplies_that_need(arrayCombo){
             }
         }
     }
-    console.log(listSupplies)
     return listSupplies;
 }
 
@@ -1315,7 +1350,7 @@ async function get_all_supplies_this_combo(dataComboFeatures, amountCombo) {
     const idCombo = dataComboFeatures.id_dishes_and_combos;
     const idBranch = dataComboFeatures.id_branches;
     const dataSupplies = await get_all_price_supplies_branch(idCombo, idBranch);
-    console.log(dataSupplies)
+
     // first Iterate through all the supplies needed for this combo
     var arraySupplies=[] 
     for (const supplies of dataSupplies) {

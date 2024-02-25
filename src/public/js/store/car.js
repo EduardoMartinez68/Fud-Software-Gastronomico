@@ -1,11 +1,11 @@
 //////--------------------------screen load
 const loadingOverlay = document.getElementById("loadingOverlay");
 
-async function delate_all_car(exchange) {
+async function delate_all_car(total,moneyReceived,exchange) {
     // Show loading overlay
     loadingOverlay.style.display = "flex";
 
-    const combos = get_all_combo();
+    const combos = get_all_combo(total,moneyReceived,exchange);
 
     try {
         //get the email and the id of the customer 
@@ -14,7 +14,7 @@ async function delate_all_car(exchange) {
 
         //we will watching if the server can complete the pay and setting the inventory
         const link = '/fud/' + idClient + '/car-post';
-        const answerServer = await get_answer_server(combos, link);
+        const answerServer = await get_answer_server(combos,link);
 
         if (answerServer.message == 'success') {
             //if the server can do the pay we will to delete all the cart and send a message of success
@@ -23,6 +23,10 @@ async function delate_all_car(exchange) {
             //restart the email of the customer
             button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
             button.setAttribute('idClient', null);
+
+            //we will playing a effect sound 
+            var sound = new Audio('/effect/buy.mp3');
+            sound.play();
 
             var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
             confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
@@ -74,6 +78,8 @@ async function select_customer(idCompany) {
     const emailClient = button.textContent;
     const client = await edit_client_car(emailClient); //we going to get the email of the customer 
     client.push(idCompany)
+
+    var customerFound=false
     if (client != '') {
         loadingOverlay.style.display = "flex";
         const answer = await get_answer_server(client, '/fud/client');
@@ -87,6 +93,7 @@ async function select_customer(idCompany) {
             button.textContent = email;
             button.innerHTML = '<i class="fi-icon fi-sr-following"></i> ' + email;
             button.setAttribute('idClient', idCustomer);
+            customerFound=true;
         } else {
             button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
             button.setAttribute('idClient', null);
@@ -96,6 +103,11 @@ async function select_customer(idCompany) {
         button.setAttribute('idClient', null);
     }
     loadingOverlay.style.display = "none";
+
+    //show a message of that we not found to the customer
+    if(!customerFound){
+        errorMessage('UPS 😅', 'El cliente no fue encontrado. Por favor busque de nuevo');
+    }
 }
 
 
@@ -306,7 +318,7 @@ function removal_amount(newValue) {
 }
 
 
-function get_all_combo() {
+function get_all_combo(totalCar,moneyReceived,exchange) {
     var bodyTable = tabla.getElementsByTagName("tbody")[0];
 
     // get all the row of body of the tabla
@@ -321,12 +333,13 @@ function get_all_combo() {
 
         //get the id and amount of the product 
         const id = dataRow[0].id;
+        const name = dataRow[0].textContent;
         const price = dataRow[1].textContent;
         const amount = dataRow[2].textContent;
         const total = dataRow[3].textContent;
 
         //add the combo data to the list 
-        const dataCombo = { id, price, amount, total }
+        const dataCombo = { id, name, price, amount, total , totalCar, moneyReceived, exchange}
         combos.push(dataCombo)
     }
 
@@ -408,7 +421,7 @@ async function buy_my_car(button) {
             if (money >= value) {
                 //we calculate the exchange 
                 exchange = money - value;
-                delate_all_car(exchange) //reset the car
+                delate_all_car(value,money,exchange) //reset the car
             } else {
                 errorMessage('Error! the buy not was complete 👁️', 'The money not is enough')
             }
