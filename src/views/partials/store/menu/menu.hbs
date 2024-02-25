@@ -15,11 +15,14 @@
                                 name="usernameSearch" autofocus id="search"></th>
                         <th class="td2">
                             <button class="btn" onclick="search_browser_div()">🔎</button>
-                            <button class="btn"><i class="fi-icon fi-sr-money-from-bracket"></i></button>
+                            {{#each dataEmployee}}
+                                <button class="btn" onclick="cash_movement('{{id}}','{{id_branches}}')"><i class="fi-icon fi-sr-money-from-bracket"></i></button>
+                            {{/each}}
                         </th>
                     </tr>
                 </thead>
             </table>
+            
             <hr>
             <div class="row container-menu" name="container-menu" id="container-div">
 
@@ -86,7 +89,7 @@
 <script src="/js/menu.js"></script>
 <script src="/js/store/search.js"></script>
 <script src="/js/search.js"></script>
-
+<script src="/js/store/cashMovement.js"></script>
 <script>
     
     // Función para ajustar dinámicamente la clase de los elementos con la clase "container-combo"

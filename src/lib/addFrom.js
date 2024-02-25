@@ -1445,8 +1445,40 @@ async function search_supplies_combo(id_dishes_and_combos){
     return result.rows;
 }
 
+router.post('/fud/:id_branch/:id_employee/:id_box/move',isLoggedIn,async(req,res)=>{
+    try {
+        //we will to add the information to the database 
+        const move=create_move(req);
+        console.log(move)
+        const answer=await addDatabase.add_movement_history(move);
 
+        // send an answer to the customer
+        res.status(200).json({ message: answer});
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+})
 
+function create_move(req){
+    //get the data of the server
+    const {id_branch,id_employee,id_box}=req.params;
+    const data = req.body;
+    const cash=data[0]
+    const comment=data[1]
+    const moveDtae=new Date();
+
+    const move={
+        id_branch,
+        id_box,
+        id_employee,
+        cash,
+        comment,
+        moveDtae
+    }
+
+    return move;
+}
 
 
 

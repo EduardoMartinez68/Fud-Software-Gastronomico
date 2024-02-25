@@ -463,3 +463,10 @@ label #btn-navbar-cancel{
 .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
     height: 30px !important;
 }
+
+
+.img-message{
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 2rem;
+}

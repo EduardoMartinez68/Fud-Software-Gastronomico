@@ -307,8 +307,9 @@ async function edit_client_car(email){
             title: 'Select the client for this buy',
             html:
             `
+            <img src="https://cdn-icons-png.flaticon.com/512/8339/8339939.png" class="img-message"><br>
             <label>Escribe el email de el usuario</label>
-            <input id="email" type="text" class="form-control" placeholder="write the email of the client" value=${email}>
+            <input id="email" type="text" class="swal2-input" placeholder="write the email of the client" value=${email}>
             `,
             focusConfirm: false,
             showCancelButton: true,
@@ -458,6 +459,32 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
             preConfirm: () => {
                 const cant = Swal.getPopup().querySelector('#money').value;
                 const data = [cant];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
+async function cash_movement_message() {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: 'Movimiento de caja',
+            html:
+                '<img src="https://cdn-icons-png.flaticon.com/512/6149/6149018.png" class="img-message">'+
+                '<br> <label>Dinero ingresado o retirado *</label>'+
+                '<input id="money" class="swal2-input" placeholder="Dinero que movere">' +
+                '<br><br> <label>Motivo del movimiento de caja *</label>'+
+                '<br> <textarea class="form-control" id="comment" rows="3" placeholder="Comentario"></textarea>',
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const cash = Swal.getPopup().querySelector('#money').value;
+                const comment = Swal.getPopup().querySelector('#comment').value;
+                const data = [cash, comment];
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()

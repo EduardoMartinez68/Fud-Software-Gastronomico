@@ -1381,6 +1381,39 @@ async function get_sales_company(idCompany) {
         throw error;
     }
 }
+
+//move
+router.get('/:id_company/movements',isLoggedIn,async(req,res)=>{
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+        const {id_company}=req.params;
+        const movements=await get_movements_company(5);
+        res.render('links/manager/movements/movements',{company,movements});
+    }
+})
+
+
+async function get_movements_company(idCompany){
+    try {
+        const query = `
+            SELECT sh.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, b.name_branch
+            FROM "Box".movement_history sh
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            WHERE sh.id_branches = $1
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
+
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
@@ -1918,6 +1951,14 @@ async function get_sales_branch(idBranch) {
         throw error;
     }
 }
+
+
+router.get('/:id_company/:id_branch/movements',isLoggedIn,async(req,res)=>{
+    const {id_branch}=req.params;
+    const movements=await get_movements_company(id_branch);
+    const branch=await get_data_branch(req);
+    res.render('links/manager/movements/movements',{branch,movements});
+})
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{

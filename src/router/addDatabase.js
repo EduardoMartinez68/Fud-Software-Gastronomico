@@ -451,7 +451,20 @@ async function add_combo_branch(combo){
     }
 }
 
-
+//add  box move branch 
+async function add_movement_history(data){
+    var queryText = 'INSERT INTO "Box".movement_history(id_branches, id_boxes, id_employees, move, comment, date_move)'
+    + ' VALUES ($1, $2, $3, $4,$5,$6)';
+    var values = Object.values(data);
+    console.log(values)
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error to add in the database movement_history:', error);
+        return false;
+    }
+}
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -484,5 +497,6 @@ module.exports={
     add_provider_company,
     add_product_and_suppiles_features,
     add_combo_branch,
-    add_buy_history
+    add_buy_history,
+    add_movement_history
 };

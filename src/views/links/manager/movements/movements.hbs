@@ -1,0 +1,35 @@
+<br><br>
+<div class="container">
+    <label for=""><i class="fi-icon fi-sr-money-from-bracket"></i> Movements History</label>
+    <hr>
+    <table class="table table-hover"> <!--table-bordered-->
+        <colgroup>
+            <col style="width: 20%;"> <!--Branch-->
+            <col style="width: 25%;"> <!--Employee-->
+            <col style="width: 10%;"> <!--Move-->
+            <col style="width: 25%;"> <!--Comment-->
+            <col style="width: 20%;"> <!--Date-->
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Branch</th>
+            <th>Employee</th>
+            <th>Move</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each movements}}
+            <tr>
+                <td>{{name_branch}}</td>
+                <td>{{employee_first_name}} {{employee_second_name}} {{employee_last_name}}</td>
+                <td>{{move}}</td>
+                <td>{{comment}}</td>
+                <td>{{date_move}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<br><br><br>
