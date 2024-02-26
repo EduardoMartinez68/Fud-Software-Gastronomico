@@ -1960,6 +1960,21 @@ router.get('/:id_company/:id_branch/movements',isLoggedIn,async(req,res)=>{
     res.render('links/manager/movements/movements',{branch,movements});
 })
 
+router.get('/:id_company/:id_branch/box',isLoggedIn,async(req,res)=>{
+    const {id_branch}=req.params;
+    const boxes=await get_box_branch(id_branch);
+    const branch=await get_data_branch(req);
+    res.render('links/branch/box/box',{branch,boxes});
+})
+
+async function get_box_branch(idBranch){
+    //we will search all the box that exist in the branch
+    var queryText = 'SELECT * FROM "Branch".boxes WHERE id_branches= $1';
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

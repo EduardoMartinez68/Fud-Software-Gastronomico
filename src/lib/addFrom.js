@@ -1118,6 +1118,34 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
     res.redirect('/fud/'+id_company+'/'+id_branch+'/employees-branch');
 })
 
+
+router.post('/fud/:id_company/:id_branch/add-box',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    const {number,ipPrinter,ipBox}=req.body;
+
+    //we will watching if this number of box exist in the branch 
+    if(await this_box_exist_in_this_branch(id_branch,number)){
+        req.flash('message','this box exist in the branch 👉👈')
+    }else{
+        //we will watching if can add the box to the database
+        if(await addDatabase.add_box(id_branch,number,ipPrinter,ipBox)){
+            req.flash('success','the box was add with supplies 🥳')
+        }else{
+            req.flash('message','the box not was add 😳')
+        }
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
+})
+
+async function this_box_exist_in_this_branch(idBranch,numer){
+    //we will search all the box that exist in the branch
+    var queryText = 'SELECT * FROM "Branch".boxes WHERE id_branches= $1 and num_box=$2';
+    var values = [idBranch,numer];
+    const result = await database.query(queryText, values);
+    return result.rows.length>0;
+}
+
 //------------------------------------------------------------------------------------------------cart
 router.post('/fud/client',isLoggedIn,async(req,res)=>{
     try {
@@ -1494,6 +1522,7 @@ router.post('/fud/:id_branch/:id_employee/:id_box/move',isLoggedIn,async(req,res
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
     }
 })
+
 
 function create_move(req){
     //get the data of the server

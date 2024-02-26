@@ -1,0 +1,29 @@
+<table class="table">
+    <colgroup>
+        <col style="width: 10%;">
+        <col style="width: 35%;">
+        <col style="width: 35%;">
+        <col style="width: 20%;"> <!--20-->
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Ip Printer</th>
+            <th>Ip</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each boxes}}
+            <tr>
+                <td>{{num_box}}</td>
+                <td>{{ip_printer}}</td>
+                <td>{{ip}}</td>
+                <td>
+                    <button id="{{ID_usuario}}" onclick="nextWeb('{{id_companies}}/{{id_users}}/edit-employees')" class="btn btn-danger"><i class="fi-department fi-sr-pencil"></i></button>
+                    <button id="{{id_user}}" onclick="delete_employee('{{id_companies}}','{{id_users}}')" class="btn btn-danger"><i class="fi-department fi-sr-trash"></i></button>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

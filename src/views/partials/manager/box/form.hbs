@@ -1,0 +1,53 @@
+{{#each branch}}
+    <div class="card">
+        <form action="/fud/{{id_companies}}/{{id}}/add-box" method="post">
+            <div class="form-group">
+                <div class="container">
+                    <br>
+                    <center>
+                        Add a new Box
+                        <hr>
+                    </center>
+                </div>
+                <div class="col-4">
+                    <label for="exampleInputEmail1">Number of Box" *</label>
+                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Number..." min="0" name="number" required>
+                </div>
+                <!--
+                <label for="">Ip Printer</label>
+                <input type="text" class="form-control" id="ipResult" aria-describedby="emailHelp" placeholder="Ip Printer..." name="ipPrinter"><button onclick="getIP()">ip</button>
+                <label for="">Ip Box</label>
+                <input type="text" class="form-control" id="" aria-describedby="emailHelp" placeholder="Ip Box..." name="ipBox">
+                -->
+                <br>
+                <center>
+                    <button class="btn btn-success btn-block" type="submit">Save</button>
+                </center>
+                <br>
+            </div>
+        </form>
+        <br>
+    </div>
+{{/each}}
+
+
+<script>
+    // Función para obtener la IP
+    function getIP() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.ipify.org?format=json", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var ipAddress = data.ip;
+                document.getElementById("ipResult").textContent =ipAddress;
+            } else {
+                document.getElementById("ipResult").textContent = "Error al obtener la IP";
+            }
+        };
+        xhr.send();
+    }
+
+    // Asociar la función getIP al evento click del botón
+    document.getElementById("getIPButton").addEventListener("click", getIP);
+</script>
