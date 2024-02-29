@@ -14,6 +14,9 @@ const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 
 const fs = require('fs');
 const path = require('path');
+
+const printer=require('../lib/printer');
+
 async function delete_image_upload(pathImg){
     var pathImage=path.join(__dirname, '../public/img/uploads', pathImg);
     fs.unlink(pathImage, (error) => {
@@ -1205,6 +1208,7 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
             const commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,'',day)
             console.log(commander)
             await addDatabase.add_commanders(commander);
+            await printer.print_ticket(commander); //this is for print the ticket 
         }
 
         //send an answer to the customer
