@@ -5,28 +5,32 @@
                 <div class="container">
                     <br>
                     <center>
-                        Add a new Box
+                        <i class="fi-icon fi-ss-cash-register"></i>Add a new Box
                         <hr>
                     </center>
                 </div>
-                <div class="col-4">
-                    <label for="exampleInputEmail1">Number of Box" *</label>
-                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Number..." min="0" name="number" required>
+                <div class="row">
+                    <div class="col-4">
+                        <label for="exampleInputEmail1">Number of Box *</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Number..." min="0" name="number" required>
+                    </div>
+                    <div class="col-8">
+                        <label>Ip Printer</label>
+                        <input type="text" class="form-control"  placeholder="Ip Printer..." name="ipPrinter">
+                    </div>
                 </div>
-                <!--
-                <label for="">Ip Printer</label>
-                <input type="text" class="form-control" id="ipResult" aria-describedby="emailHelp" placeholder="Ip Printer..." name="ipPrinter"><button onclick="getIP()">ip</button>
-                <label for="">Ip Box</label>
-                <input type="text" class="form-control" id="" aria-describedby="emailHelp" placeholder="Ip Box..." name="ipBox">
-                -->
                 <br>
                 <center>
-                    <button class="btn btn-success btn-block" type="submit">Save</button>
+                <div class="col-6">
+                    <center>
+                       <button class="btn btn-success btn-block" type="submit">Save</button> 
+                    </center>
+                </div>
                 </center>
                 <br>
             </div>
         </form>
-        <br>
+        
     </div>
 {{/each}}
 

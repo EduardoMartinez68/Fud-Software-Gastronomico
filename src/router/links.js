@@ -1928,7 +1928,6 @@ router.get('/:id_company/:id_branch/sales',isLoggedIn,async(req,res)=>{
     res.render('links/manager/sales/sales',{branch,sales});
 })
 
-
 async function get_sales_branch(idBranch) {
     try {
         const query = `
@@ -1964,15 +1963,82 @@ router.get('/:id_company/:id_branch/box',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const boxes=await get_box_branch(id_branch);
     const branch=await get_data_branch(req);
+    console.log(boxes)
     res.render('links/branch/box/box',{branch,boxes});
 })
 
 async function get_box_branch(idBranch){
-    //we will search all the box that exist in the branch
-    var queryText = 'SELECT * FROM "Branch".boxes WHERE id_branches= $1';
+    //we will search all the box that exist in the branc
+    
+    var queryText = `
+        SELECT b.*, br.id_companies
+        FROM "Branch".boxes b
+        JOIN "Company".branches br ON b.id_branches = br.id
+        WHERE b.id_branches = $1;
+    `;
+    
+    //var queryText = `SELECT * from "Branch".boxes WHERE id_branches = $1`
     var values = [idBranch];
     const result = await database.query(queryText, values);
     return result.rows;
+}
+
+router.get('/:id_company/:id_branch/:id_box/:new_number/:new_ipPrinter/edit-box',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company,id_box,new_number,new_ipPrinter}=req.params;
+
+    //we will watching if caned update the box
+    if(await update_box_branch(id_box,new_number,new_ipPrinter)){
+        req.flash('success','the box was update with supplies 🤩')
+    }else{
+        req.flash('messagge','the box not was update with supplies 😰')
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
+})
+
+async function update_box_branch(id,  num_box, ip_printer) {
+    try {
+        const queryText = `
+            UPDATE "Branch".boxes
+            SET num_box = $1, ip_printer = $2
+            WHERE id = $3
+        `;
+        const values = [num_box, ip_printer, id];
+        const result=await database.query(queryText, values);
+        console.log(result)
+        return true;
+    } catch (error) {
+        console.error("Error to update the data of the box:", error);
+        return false;
+    }
+}
+
+router.get('/:id_company/:id_branch/:id_box/delete-box',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company,id_box}=req.params;
+    //we will watching if caned delete the box
+    if(await delete_box_branch(parseInt(id_box))){
+        req.flash('success','the box was delete with supplies 👍')
+    }else{
+        req.flash('messagge','the box not was delete 🗑️')
+    }
+
+    console.log(req.params)
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
+})
+
+async function delete_box_branch(id) {
+    try {
+        const queryText = `
+            DELETE FROM "Branch".boxes
+            WHERE id = $1
+        `;
+        const values = [id];
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar la caja:", error);
+        return false;
+    }
 }
 
 //-------------------------------------------------------------home

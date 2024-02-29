@@ -479,9 +479,9 @@ async function add_commanders(data){
 }
 
 async function add_box(idBranch,number,idPrinter,idBox){
-    var queryText = 'INSERT INTO "Branch".boxes(id_branches, num_box)'
-    + ' VALUES ($1, $2)';
-    var values = [idBranch,number];
+    var queryText = 'INSERT INTO "Branch".boxes(id_branches, num_box, ip_printer)'
+    + ' VALUES ($1, $2,$3)';
+    var values = [idBranch,number,idPrinter];
 
     try{
         await database.query(queryText, values);

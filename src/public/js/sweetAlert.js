@@ -278,6 +278,42 @@ async function edit_supplies_branch(title,img,barcode,name,existence,purchase_am
     });
 }
 
+
+///////////////////////////////box//////////////////////////////////////////////////
+async function edit_box_message(number,ipPrinter){ 
+    return new Promise((resolve, reject) => { 
+        Swal.fire({
+            title: 'Edit the box',
+            html:
+            `
+            <img src="https://cdn-icons-png.flaticon.com/512/1198/1198290.png" class="img-message"><br>
+            <div class="row">
+                <div class="col-4">
+                    <label for="exampleInputEmail1">Number of Box *</label>
+                    <input type="number" class="form-control" id="number" aria-describedby="emailHelp" placeholder="Number..." min="0" name="number" required value=${number}>
+                </div>
+                <div class="col-6">
+                    <label>Ip Printer</label>
+                    <input type="text" class="form-control" id="ipPrinter" placeholder="Ip Printer..." name="ipPrinter" value=${ipPrinter}>
+                </div>
+                <br>
+            </div>
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const number = Swal.getPopup().querySelector('#number').value;
+                const ipPrinter = Swal.getPopup().querySelector('#ipPrinter').value;
+                const data = [number,ipPrinter];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
 /////////////////////////////////cart//////////////////////////////////////////////
 
 async function edit_cant_car(title,cant) {
