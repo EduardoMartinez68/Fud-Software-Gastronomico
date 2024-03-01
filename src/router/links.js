@@ -2104,10 +2104,10 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         const {id_company,id_branch}=req.params;
         const dishAndCombo=await get_all_dish_and_combo(id_company,id_branch);
         const dataEmployee=await get_data_employee(req);
-
+        const newCombos=await get_data_recent_combos(id_company);
         const mostSold=await get_all_data_combo_most_sold(id_branch);
-        console.log(mostSold)
-        res.render('links/store/home/home',{dishAndCombo,dataEmployee,mostSold});
+        console.log(newCombos)
+        res.render('links/store/home/home',{dishAndCombo,dataEmployee,mostSold,newCombos});
     }
 });
 
@@ -2169,6 +2169,37 @@ async function get_all_data_combo_most_sold(id_branch){
 
     return dataComboSold;
 }
+
+async function get_data_recent_combos(id_company){
+    const newCombo=await get_recent_combos(id_company);
+    var dataCombo=[]
+    for (let i = 0; i < newCombo.length; i++) {
+        const combo = newCombo[i];
+        const data=await get_dish_and_combo_with_id(combo.id);
+        dataCombo.push(data);
+    }
+
+    return dataCombo;
+}
+
+async function get_recent_combos(id_company) {
+    try {
+        const queryText = `
+            SELECT *
+            FROM "Kitchen".dishes_and_combos
+            WHERE id_companies = $1
+            ORDER BY id DESC
+            LIMIT 10;
+        `;
+        const values = [id_company];
+        const result = await database.query(queryText, values);
+        return result.rows;
+    } catch (error) {
+        console.error("Error occurred while fetching recent combos:", error);
+        throw error;
+    }
+}
+
 
 async function get_all_combo_most_sold(idNranch){
     try {
