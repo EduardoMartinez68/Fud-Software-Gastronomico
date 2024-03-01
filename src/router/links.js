@@ -1244,7 +1244,7 @@ router.get('/:id/:idEmployee/edit-employees',isLoggedIn,async(req,res)=>{
         const country=await get_country()
         const roles=await get_type_employees(id)
         const branches=await search_all_branch(id)
-        res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches});
+        res.render('links/manager/employee/editEmployee',{employee,departments,country,roles,branches,company});
     }
     else{
         res.redirect('/fud/home');
@@ -1414,17 +1414,24 @@ async function get_movements_company(idCompany){
     }
 }
 
+//-------------------------------------------------------------schelude 
+router.get('/:id_comopany/:id_branch/schedules',isLoggedIn,(req,res)=>{
+    res.render("links/manager/branch/schedule");
+    //res.render("links/manager/employee/schedule");
+})
+
+router.get('/:id_company/:id_branch/add-schedules',isLoggedIn,(req,res)=>{
+    res.render(companyName+'/manager/employee/addSchedules');
+})
+
+router.get('/:id_company/:id_branch/employee-schedules',isLoggedIn,(req,res)=>{
+    res.render('links/manager/employee/employeeSchedules');
+})
+
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
 
-router.get('/:id_company/:id/add-schedules',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/employee/addSchedules');
-})
-
-router.get('/:id_company/:id/employee-schedules',isLoggedIn,(req,res)=>{
-    res.render('links/manager/employee/employeeSchedules');
-})
 
 //-----------------------------------------------------------manager (visit branch)
 async function get_data_branch(req){
@@ -2097,7 +2104,10 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         const {id_company,id_branch}=req.params;
         const dishAndCombo=await get_all_dish_and_combo(id_company,id_branch);
         const dataEmployee=await get_data_employee(req);
-        res.render('links/store/home/home',{dishAndCombo,dataEmployee});
+
+        const mostSold=await get_all_data_combo_most_sold(id_branch);
+        console.log(mostSold)
+        res.render('links/store/home/home',{dishAndCombo,dataEmployee,mostSold});
     }
 });
 
@@ -2148,6 +2158,55 @@ async function get_all_dish_and_combo(idCompany,idBranch){
     return result.rows;
 }
 
+async function get_all_data_combo_most_sold(id_branch){
+    const mostSold=await get_all_combo_most_sold(id_branch);
+    var dataComboSold=[]
+    for (let i = 0; i < mostSold.length; i++) {
+        const combo = mostSold[i];
+        const data=await get_dish_and_combo_with_id(combo.id_dishes_and_combos);
+        dataComboSold.push(data);
+    }
+
+    return dataComboSold;
+}
+
+async function get_all_combo_most_sold(idNranch){
+    try {
+        const queryText = `
+            SELECT id_dishes_and_combos, SUM(amount) AS total_sold
+            FROM "Box".sales_history
+            WHERE id_branches = $1
+            GROUP BY id_dishes_and_combos
+            ORDER BY total_sold DESC
+            LIMIT 10;
+        `;
+        const values = [idNranch];
+        const result = await database.query(queryText, values);
+        return result.rows;
+    } catch (error) {
+        console.error("Error occurred while fetching top 10 products:", error);
+        throw error;
+    }
+}
+
+async function get_dish_and_combo_with_id(idCombo){
+    var queryText = `
+        SELECT 
+            i.*,
+            d.barcode,
+            d.name,
+            d.description,
+            d.img,
+            d.id_product_department,
+            d.id_product_category
+        FROM "Inventory".dish_and_combo_features i
+        INNER JOIN "Kitchen".dishes_and_combos d ON i.id_dishes_and_combos = d.id
+        WHERE d.id = $1
+    `;
+    var values = [idCombo];
+    const result = await database.query(queryText, values);
+    return result.rows[0];
+}
 
 
 router.get('/store-home',isLoggedIn,async (req,res)=>{
@@ -2184,9 +2243,6 @@ router.get('/report',isLoggedIn,(req,res)=>{
     res.render("links/manager/reports/report");
 })
 
-router.get('/schedule',isLoggedIn,(req,res)=>{
-    res.render("links/manager/employee/schedule");
-})
 
 /*reports*/
 router.get('/report-global',isLoggedIn,(req,res)=>{

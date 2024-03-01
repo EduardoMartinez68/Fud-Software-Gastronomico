@@ -11,158 +11,97 @@
             <div class="card-wrapper swiper-wrapper">
 
 
-                <!---oferts--->
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
+                <!---this is repeat three times for that tha carousel is fine--->
+                {{#each mostSold}}
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay">
 
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                            </span>
+                            <div class="card-image">
+                                <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                            </div>
+                        </div>
+
+                        <div class="card-content">
+                            <h2 class="name">{{name}}</h2>
+                            <p class="description">${{price_1}}</p>
+                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                         </div>
                     </div>
+                {{/each}}
+                {{#each mostSold}}
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay">
 
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card" onclick="addFish('BUCKET 12 PARTS',200.00)"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <!---oferts--->
+                            </span>
+                            <div class="card-image">
+                                <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                            </div>
+                        </div>
 
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
-
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        <div class="card-content">
+                            <h2 class="name">{{name}}</h2>
+                            <p class="description">${{price_1}}</p>
+                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                         </div>
                     </div>
+                {{/each}}
+                {{#each mostSold}}
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay">
 
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
+                            </span>
+                            <div class="card-image">
+                                <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                            </div>
+                        </div>
 
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        <div class="card-content">
+                            <h2 class="name">{{name}}</h2>
+                            <p class="description">${{price_1}}</p>
+                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                         </div>
                     </div>
+                {{/each}}
+                {{#each mostSold}}
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay">
 
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
+                            </span>
+                            <div class="card-image">
+                                <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                            </div>
+                        </div>
 
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        <div class="card-content">
+                            <h2 class="name">{{name}}</h2>
+                            <p class="description">${{price_1}}</p>
+                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                         </div>
                     </div>
+                {{/each}}
+                {{#each mostSold}}
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay">
 
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
+                            </span>
+                            <div class="card-image">
+                                <img class="card-img" src="/img/uploads/{{img}}" alt="">
+                            </div>
+                        </div>
 
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
+                        <div class="card-content">
+                            <h2 class="name">{{name}}</h2>
+                            <p class="description">${{price_1}}</p>
+                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                         </div>
                     </div>
-
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
-
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
-
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
-
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-                <div class="card swiper-slide">
-                    <div class="image-content">
-                        <span class="overlay">
-
-                        </span>
-                        <div class="card-image">
-                            <img class="card-img" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/cf6b7b28-2b0d-8653-cc70-08323a8de235.jpeg?a=eec49e9e-cb94-fb5d-8086-8092e1894e2c" alt="">
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h2 class="name">BUCKET 12 PARTS</h2>
-                        <p class="description">$200.00</p>
-                        <button class="button-card"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                    </div>
-                </div>
-
-                
-
-
-
+                {{/each}}
             </div>
         </div>
 
