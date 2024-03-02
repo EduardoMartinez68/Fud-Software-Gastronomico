@@ -391,17 +391,29 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
     var containerHtml=`
         <style>
             table {
-            border-collapse: collapse;
-            width: 100%;
+                border-collapse: collapse;
+                width: 100%;
+                height:25px;
             }
 
             th, td {
-            padding: 8px;
-            text-align: left;
+                padding: 5px;
+                text-align: left;
             }
 
             tr {
-            margin-bottom: 1rem; /* Agrega espacio entre las filas */
+                margin-bottom: .25rem;
+            }
+
+            .swal2-popup {
+                width: 38%;
+            }
+
+            .cash{
+                height:65px;
+                font-size:3rem;
+                text-align: center;
+                line-height: 65px;
             }
         </style>
         
@@ -410,6 +422,8 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
         <h5 class="title-company">${title}</h5>
         <h1>$${total}<h1>
         <hr>
+        <label>💵 Cash</label><br>
+        <input id="money" name="money" type="text" class="form-control cash" placeholder="$0.00">
         <table border="1">
         <thead>
           <tr>
@@ -420,57 +434,15 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
         <tbody>
           <tr>
             <td>
-                <label>💵 Cash</label><br>
+                <label>💳 Credit Card</label><br>
                 <div class="input-group mb-3">
-                    <input id="money" type="text" class="form-control" placeholder="$0.00">
-
-                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
-                        <option value="MXN">$MXN 🇲🇽</option>
-                        <option value="USA">$USD 🇺🇸</option>
-                    </select>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="creditCard" id="creditCard">
                 </div>
             </td>
             <td>
                 <label>💳 Debit Card</label><br>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
-
-                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
-                        <option value="MXN">$MXN 🇲🇽</option>
-                        <option value="USA">$USD 🇺🇸</option>
-                    </select>
-                </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-                <label>💳 Credit Card</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
-
-                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
-                        <option value="MXN">$MXN 🇲🇽</option>
-                        <option value="USA">$USD 🇺🇸</option>
-                    </select>
-                </div>
-            </td>
-            <td>
-                <label>📑 Cheque</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
-
-                    <select class="form-select" aria-label="Default select ${typeOfCurrency}">
-                        <option value="MXN">$MXN 🇲🇽</option>
-                        <option value="USA">$USD 🇺🇸</option>
-                    </select>
-                </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-                <label>🏷️ Points</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00">
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="debitCard" id="debitCard">
                 </div>
             </td>
           </tr>
@@ -478,8 +450,8 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
       </table>
 
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Comment</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea placeholder="Comment">
+            <label for="exampleFormControlTextarea1">💬 Comment</label>
+            <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comment"></textarea>
         </div>
     `
     return new Promise((resolve, reject) => {
@@ -488,13 +460,16 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
             html:containerHtml,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonText: 'Buy',
+            confirmButtonText: '❤️ Buy',
             cancelButtonText: 'Exit',
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
-                const cant = Swal.getPopup().querySelector('#money').value;
-                const data = [cant];
+                const cash = Swal.getPopup().querySelector('#money').value;
+                const debitCard=Swal.getPopup().querySelector('#debitCard').value;
+                const creditCard=Swal.getPopup().querySelector('#creditCard').value;
+                const comment = Swal.getPopup().querySelector('#comment').value;
+                const data = [cash,debitCard,creditCard,comment];
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()

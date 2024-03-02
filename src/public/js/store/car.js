@@ -1,11 +1,11 @@
 //////--------------------------screen load
 const loadingOverlay = document.getElementById("loadingOverlay");
 
-async function delate_all_car(total,moneyReceived,exchange) {
+async function delete_all_car(total,moneyReceived,exchange,comment) {
     // Show loading overlay
     loadingOverlay.style.display = "flex";
 
-    const combos = get_all_combo(total,moneyReceived,exchange);
+    const combos = get_all_combo(total,moneyReceived,exchange,comment);
 
     try {
         //get the email and the id of the customer 
@@ -18,7 +18,7 @@ async function delate_all_car(total,moneyReceived,exchange) {
 
         if (answerServer.message == 'success') {
             //if the server can do the pay we will to delete all the cart and send a message of success
-            delate_all_fish();
+            delete_all_fish();
 
             //restart the email of the customer
             button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
@@ -318,7 +318,7 @@ function removal_amount(newValue) {
 }
 
 
-function get_all_combo(totalCar,moneyReceived,exchange) {
+function get_all_combo(totalCar,moneyReceived,exchange,comment) {
     var bodyTable = tabla.getElementsByTagName("tbody")[0];
 
     // get all the row of body of the tabla
@@ -339,14 +339,14 @@ function get_all_combo(totalCar,moneyReceived,exchange) {
         const total = dataRow[3].textContent;
 
         //add the combo data to the list 
-        const dataCombo = { id, name, price, amount, total , totalCar, moneyReceived, exchange}
+        const dataCombo = { id, name, price, amount, total , totalCar, moneyReceived, exchange,comment}
         combos.push(dataCombo)
     }
 
     return combos;
 }
 
-function delate_all_fish() {
+function delete_all_fish() {
     var bodyTable = tabla.getElementsByTagName("tbody")[0];
 
     // get all the row of body of the tabla
@@ -415,13 +415,21 @@ async function buy_my_car(button) {
 
         //we going to watch if the user input the pay
         var dataBuy = await show_message_buy_car('Total to pay', emailClient, value, getLocation());
+        
         if (dataBuy) {
             //we will watching if the money input is equal or elderly to the car price
-            const money = parseFloat(dataBuy[0])
-            if (money >= value) {
+            const money = string_to_float(dataBuy[0])
+            const debitCard=string_to_float(dataBuy[1])
+            const creditCard=string_to_float(dataBuy[2])
+
+            //we will calculating if all the money input in the box can buy the food
+            const totalMoney=money+debitCard+creditCard;
+            console.log(money)
+            if (totalMoney >= value) {
                 //we calculate the exchange 
-                exchange = money - value;
-                delate_all_car(value,money,exchange) //reset the car
+                exchange = totalMoney - value;
+                const comment=dataBuy[3];
+                delete_all_car(value,totalMoney,exchange,comment) //reset the car
             } else {
                 errorMessage('Error! the buy not was complete 👁️', 'The money not is enough')
             }
@@ -441,4 +449,9 @@ function get_value_car(button) {
     } else {
         return 0;
     }
+}
+
+function string_to_float(text) {
+    const floatValue = parseFloat(text);
+    return isNaN(floatValue) ? 0 : floatValue;
 }

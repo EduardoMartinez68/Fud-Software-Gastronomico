@@ -1205,7 +1205,7 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
             }
 
             //save the comander
-            const commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,'',day)
+            const commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,combos[0].comment,day)
             console.log(commander)
             await addDatabase.add_commanders(commander);
             await printer.print_ticket(commander); //this is for print the ticket 
