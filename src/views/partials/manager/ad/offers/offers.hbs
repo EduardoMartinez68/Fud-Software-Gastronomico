@@ -1,27 +1,33 @@
-<form action="">
-    <div class="col">
-        <label>Image (2,000x400)</label><br>
-        <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage1">
-        <input type="file" accept="image/*" id="uploadInput1" style="display: none;" onchange="previewFile(1)">
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput1').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput1').click()"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
-    </div>
-</form>
+{{#each branch}}
+    <form action="/fud/{{id_companies}}/{{id}}/ad-offer" method="POST" enctype="multipart/form-data">
+        <div class="col">
+            <label>Image (2,000x400)</label><br>
+            <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage-1">
+            <input type="file" accept="image/*" id="uploadInput-1" style="display: none;" onchange="previewFile(-1)" name="image">
+            <button type="button" class="btn" onclick="document.getElementById('uploadInput-1').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+            <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+        </div>
+    </form>
+{{/each}}
 <hr>
 <div class="row">
-    <div class="col">
-        <label>All the image of the carousel</label><br>
-        <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage2">
-        <input type="file" accept="image/*" id="uploadInput2" style="display: none;" onchange="previewFile(2)">
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-rr-refresh"></i> Update</button>
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-sr-trash"></i> Delete</button>
-    </div>
-    <div class="col">
-        <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage2">
-        <input type="file" accept="image/*" id="uploadInput2" style="display: none;" onchange="previewFile(2)">
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-rr-refresh"></i> Update</button>
-        <button type="button" class="btn" onclick="document.getElementById('uploadInput2').click()"><i class="fi-icon fi-sr-trash"></i> Delete</button>
-    </div>
+    <label>All the image of the carousel</label><br>
+    {{#each offerAd}}
+        <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-ad-offer" method="POST" enctype="multipart/form-data">
+            <div class="col">
+                {{#if img}}
+                    <img src="/img/uploads/{{img}}" alt="" class="img-carousel" id="previewImage{{id}}">
+                {{else}}
+                    <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage{{id}}">
+                {{/if}}
+
+                <input type="file" accept="image/*" id="uploadInput{{id}}" style="display: none;" onchange="previewFile('{{id}}')" name="image">
+                <button type="button" class="btn" onclick="document.getElementById('uploadInput{{id}}').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                <button type="send" class="btn"><i class="fi-icon fi-rr-refresh"></i> Update</button>
+                <button type="button" class="btn" onclick="delete_ad('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-icon fi-sr-trash"></i> Delete</button>
+            </div>
+        </form>
+    {{/each}}
 </div>
+
+<script src="/js/manager/ad/deleteAd.js"></script>

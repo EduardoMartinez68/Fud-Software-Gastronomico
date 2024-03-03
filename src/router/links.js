@@ -11,6 +11,14 @@ const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 const fs = require('fs');
 const path = require('path');
 
+function create_a_new_image(req){
+    if (req.file!=undefined){
+        return req.file.filename;
+    }
+
+    return '';
+}
+
 async function delate_image(id){
     var image=await get_image(id);
     var pathImage=path.join(__dirname, '../public/img/uploads', image);
@@ -1966,10 +1974,11 @@ router.get('/:id_company/:id_branch/movements',isLoggedIn,async(req,res)=>{
     res.render('links/manager/movements/movements',{branch,movements});
 })
 
-router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
-    const {id_company,id_branch}=req.params;
+router.get('/:id_company/:id_branch/box',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company}=req.params;
+    const boxes=await get_box_branch(id_branch);
     const branch=await get_data_branch(req);
-    res.render('links/branch/ad/ad',{branch});
+    res.render('links/branch/box/box',{branch,boxes});
 })
 
 async function get_box_branch(idBranch){
@@ -2027,7 +2036,6 @@ router.get('/:id_company/:id_branch/:id_box/delete-box',isLoggedIn,async(req,res
         req.flash('messagge','the box not was delete 🗑️')
     }
 
-    console.log(req.params)
     res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
 })
 
@@ -2049,18 +2057,121 @@ async function delete_box_branch(id) {
 
 //add 
 router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
-    const {id_branch,id_company,id_box}=req.params;
-    //we will watching if caned delete the box
-    if(await delete_box_branch(parseInt(id_box))){
-        req.flash('success','the box was delete with supplies 👍')
-    }else{
-        req.flash('messagge','the box not was delete 🗑️')
-    }
+    const {id_branch}=req.params;
+    const branch=await get_data_branch(req);
 
-    console.log(req.params)
-    res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
+    //we going to get all the type of ad in the branch
+    const offerAd=await get_all_ad(id_branch,'offer');
+    const newAd=await get_all_ad(id_branch,'new');
+
+    res.render('links/branch/ad/ad',{branch,offerAd,newAd});
 })
 
+async function get_all_ad(idBranch,type){
+    var queryText = `
+        SELECT 
+            ad.id,
+            ad.id_branches,
+            ad.img,
+            ad.type,
+            br.id_companies
+        FROM 
+            "Branch"."Ad" AS ad
+        JOIN 
+            "Company".branches AS br
+        ON 
+            ad.id_branches = br.id
+        WHERE 
+            ad.id_branches = $1
+        AND 
+            ad.type = $2;
+    `;
+    var values = [idBranch,type];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
+router.get('/:id_company/:id_branch/:id_ad/delete-ad',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company,id_ad}=req.params;
+    //we will geting the path of tha image for delete 
+    const pathImg=await get_ad_image(id_ad);
+    await delate_image_upload(pathImg);
+
+    //if we can delete or not the ad, show a message
+    if(await delete_ad(id_ad)){
+        req.flash('success','El anuncio fue eliminado con exito 👍')
+    }else{
+        req.flash('messagge','El anuncio no se pudo eliminar🗑️')
+    }   
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
+
+async function get_ad_image(adId) {
+    var queryText = `
+        SELECT 
+            img
+        FROM 
+            "Branch"."Ad"
+        WHERE 
+            id = $1;
+    `;
+    var values = [adId];
+    const result = await database.query(queryText, values);
+    return result.rows[0]?.img; // Devuelve solo la imagen si existe
+}
+
+async function delete_ad(id) {
+    try {
+        const queryText = `
+            DELETE FROM "Branch"."Ad"
+            WHERE id = $1
+        `;
+        const values = [id];
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error("Error to delete ad:", error);
+        return false;
+    }
+}
+
+router.post('/:id_company/:id_branch/:id_ad/update-ad-offer',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_ad}=req.params;
+    if(req.file!=undefined){
+        //if can delete the old image, we will creating the new ad
+        const pathImg=await get_ad_image(id_ad);
+        await delate_image_upload(pathImg);
+        const image=await create_a_new_image(req);
+
+        if(await update_ad(id_ad,image)){
+            req.flash('success','El anuncio fue actualizado 😉')
+        }else{
+            req.flash('message','El anuncio no pudo ser actualizado 👉👈')
+        }
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
+
+async function update_ad(adId, newImg) {
+    try{
+            var queryText = `
+            UPDATE 
+                "Branch"."Ad"
+            SET 
+                img = $1
+            WHERE 
+                id = $2;
+        `;
+        var values = [newImg, adId];
+        await database.query(queryText, values);
+        return true;
+    }catch(error){
+        console.log('No was update the database ad '+error)
+        return false;
+    }
+}
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{

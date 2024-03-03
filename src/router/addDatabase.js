@@ -491,6 +491,20 @@ async function add_box(idBranch,number,idPrinter,idBox){
         return false;
     }
 }
+
+async function add_ad(data){
+    var queryText = 'INSERT INTO "Branch"."Ad" (id_branches, img, type)'
+    + ' VALUES ($1, $2,$3)';
+    var values = Object.values(data);
+
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error to add in the database boxes:', error);
+        return false;
+    }
+}
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -526,5 +540,6 @@ module.exports={
     add_buy_history,
     add_movement_history,
     add_commanders,
-    add_box
+    add_box,
+    add_ad
 };

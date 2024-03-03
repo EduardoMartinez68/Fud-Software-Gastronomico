@@ -1149,12 +1149,47 @@ async function this_box_exist_in_this_branch(idBranch,numer){
     return result.rows.length>0;
 }
 
-router.post('/fud/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
+router.post('/fud/:id_company/:id_branch/ad-offer',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
-    console.log('--------req-----------------')
-    console.log(req.file)
+    //we will to create the ad and save the image in the server
+    const newAd=create_ad(req,id_branch,'offer'); 
+
+    //we will watching if can save the ad in the database
+    if(addDatabase.add_ad(newAd)){
+        req.flash('success','El anuncio fue agregado con exito 🥳')
+    }else{
+        req.flash('message','El anuncio no fue agregado 👉👈')
+    }
+
     res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
 })
+
+router.post('/fud/:id_company/:id_branch/ad-new',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    //we will to create the ad and save the image in the server
+    const newAd=create_ad(req,id_branch,'new'); 
+
+    //we will watching if can save the ad in the database
+    if(addDatabase.add_ad(newAd)){
+        req.flash('success','El anuncio fue agregado con exito 🥳')
+    }else{
+        req.flash('message','El anuncio no fue agregado 👉👈')
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
+
+function create_ad(req,id_branch,type){
+    const image=create_a_new_image(req)
+    const ad={
+        id_branch,
+        image,
+        type
+    }
+
+    return ad;
+}
+
 //------------------------------------------------------------------------------------------------cart
 router.post('/fud/client',isLoggedIn,async(req,res)=>{
     try {
