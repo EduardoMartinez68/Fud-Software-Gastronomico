@@ -29,26 +29,6 @@
 
                 {{#if dishAndCombo}}
                     {{#each dishAndCombo}}
-                        <!--
-                        <div class="card col-3" id="{{barcode}}" style="background: transparent; border: none;">
-                            <div class="product">
-                                {{#if img}}
-                                    <img src="/img/uploads/{{img}}"
-                                        class="product-img">
-                                {{else}}
-                                    <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png"
-                                        class="product-img">
-                                {{/if}}
-                                <div class="product-character">
-                                    <h3 class="product-name">{{name}}</h3>
-                                    <h6 class="product-name">{{barcode}}</h6>
-                                    <p class="product-price">{{description}}$</p>
-                                    <button class="btn-add-product" name="{{name}}" onclick="addFish('{{name}}/{{purchase_unit}}','{{price_1}}')"><i class="fi-icon fi-sr-cart-arrow-down"></i><b>Add ({{price_1}}$)</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        col-3 pc col-5 en ipad
-                        -->
                         <div class="card container-combo col-3" style="padding-right: 0.5rem; background:transparent; margin:0;border: none" id="{{barcode}}">
                             <div class="card" id="{{barcode}}">
                                 <div class="image-content">

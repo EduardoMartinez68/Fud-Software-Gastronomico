@@ -1149,6 +1149,12 @@ async function this_box_exist_in_this_branch(idBranch,numer){
     return result.rows.length>0;
 }
 
+router.post('/fud/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    console.log('--------req-----------------')
+    console.log(req.file)
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
 //------------------------------------------------------------------------------------------------cart
 router.post('/fud/client',isLoggedIn,async(req,res)=>{
     try {

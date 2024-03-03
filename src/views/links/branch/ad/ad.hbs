@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="/css/ad/ad.css">
+<br>
+<div class="container">
+    <label for=""><i class="fi-icon fi-ss-megaphone"></i> Ad</label>
+    <hr>
+    <div class="card">
+        <div class="container">
+            {{>manager/ad/form}}
+        </div>
+        <br>
+    </div>
+    <br><br>
+</div>
+
+<!-- JavaScript for upload image -->
+<script>
+function previewFile(image) {
+    const preview = get_id_image(image)
+    const file = get_id_upload(image)
+    const reader = new FileReader();
+
+    reader.onloadend = function() {
+        preview.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "/img/ad.png"; // Si no se selecciona ninguna imagen, mostrar la imagen predeterminada
+    }
+}
+
+function get_id_image(image){
+    const preview='previewImage'+image;
+    return document.getElementById(preview);
+}
+
+function get_id_upload(image){
+    const preview='uploadInput'+image;
+    return document.getElementById(preview).files[0];
+}
+
+</script>

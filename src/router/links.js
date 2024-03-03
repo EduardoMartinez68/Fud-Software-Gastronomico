@@ -1966,12 +1966,10 @@ router.get('/:id_company/:id_branch/movements',isLoggedIn,async(req,res)=>{
     res.render('links/manager/movements/movements',{branch,movements});
 })
 
-router.get('/:id_company/:id_branch/box',isLoggedIn,async(req,res)=>{
-    const {id_branch}=req.params;
-    const boxes=await get_box_branch(id_branch);
+router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
     const branch=await get_data_branch(req);
-    console.log(boxes)
-    res.render('links/branch/box/box',{branch,boxes});
+    res.render('links/branch/ad/ad',{branch});
 })
 
 async function get_box_branch(idBranch){
@@ -2047,6 +2045,22 @@ async function delete_box_branch(id) {
         return false;
     }
 }
+
+
+//add 
+router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
+    const {id_branch,id_company,id_box}=req.params;
+    //we will watching if caned delete the box
+    if(await delete_box_branch(parseInt(id_box))){
+        req.flash('success','the box was delete with supplies 👍')
+    }else{
+        req.flash('messagge','the box not was delete 🗑️')
+    }
+
+    console.log(req.params)
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/box');
+})
+
 
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{

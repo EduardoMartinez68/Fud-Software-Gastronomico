@@ -1,0 +1,32 @@
+{{#each branch}}
+<form action="/fud/{{id_companies}}/{{id}}/ad" method="POST" enctype="multipart/form-data">
+{{/each}}
+    <!--this is the menu-->
+    <br>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Offer</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New</a>
+            <a class="nav-item nav-link" id="nav-ad-tab" data-toggle="tab" href="#nav-ad" role="tab" aria-controls="nav-ad" aria-selected="false">Ad</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            {{>manager/ad/offers/offers}}
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            {{>manager/ad/new/new}}
+        </div>
+        <div class="tab-pane fade" id="nav-ad" role="tabpanel" aria-labelledby="nav-ad-tab">
+            {{>manager/ad/ad/ad}}
+        </div>
+    </div>
+    <!--end menu-->
+
+    <br>
+</form>
+
+<!-- JavaScript de Bootstrap (incluye Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
