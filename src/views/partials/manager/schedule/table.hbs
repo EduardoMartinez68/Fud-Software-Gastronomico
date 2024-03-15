@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <button class="btn btn-danger" onclick="delete_schedule('{{id}}','{{name}}','{{id_companies}}','{{id_branches}}')"><i class="fi-department fi-sr-trash"></i></button>
-                    <button class="btn btn-danger" onclick="edit_schedule('{{id}}','{{id_companies}}','{{id_branches}}'"><i class="fi-department fi-sr-pencil"></i></button>            
+                    <button class="btn btn-danger" onclick="edit_schedule('{{id}}','{{id_companies}}','{{id_branches}}')"><i class="fi-department fi-sr-pencil"></i></button>            
                 </td>
             </tr>
         {{/each}}
@@ -43,8 +43,8 @@
             window.location.href = '/fud/'+idCompany+'/'+idBranch+'/'+idSchedule+'/delete-schedule';
         }
     }
-    
-    function edit_schedule(){
 
+    function edit_schedule(idSchedule,idCompany,idBranch){
+        window.location.href = '/fud/'+idCompany+'/'+idBranch+'/'+idSchedule+'/edit-schedule';
     }
 </script>

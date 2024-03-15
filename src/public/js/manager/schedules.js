@@ -140,12 +140,13 @@ function onclickBtnHours(iconDay,inputStart,inputFinish){
   } else {
     iconDay.classList.add('schedule-active');
   }
+
   restartTime(inputStart,inputFinish,iconDay);
 };
 
 function restartInput(input){
   const btnTime = document.getElementById(input);
-  btnTime.value = btnTime.defaultValue;
+  btnTime.value = '0:00' //btnTime.defaultValue;
 
   uploadHours();
 };
@@ -154,8 +155,8 @@ function restartInput(input){
 function restartTime(inputStart,inputFinish,iconDay){
   const starTime = document.getElementById(inputStart);
   const finishTime = document.getElementById(inputFinish);
-  starTime.value = starTime.defaultValue;
-  finishTime.value = finishTime.defaultValue;
+  starTime.value = '0:00'//starTime.defaultValue;
+  finishTime.value = '0:00'//finishTime.defaultValue;
 
   //we will watch if the icon be on or off
   starTime.disabled = !iconDay.classList.contains('schedule-active');
@@ -281,4 +282,4 @@ function calculateAllTheHours(){
 }
 
 
-restartAllTime();
+//restartAllTime();

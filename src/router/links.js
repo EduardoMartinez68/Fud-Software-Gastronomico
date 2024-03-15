@@ -2205,6 +2205,21 @@ async function delete_schedule(idSchedule){
         return false;
     }
 }
+
+router.get('/:id_company/:id_branch/:id_schedule/edit-schedule',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_schedule}=req.params;
+    const branch=await get_data_branch(req);
+    const schedule=await get_data_schedule(id_schedule);
+    res.render(companyName+'/manager/employee/editSchedule',{branch,schedule});
+})
+
+async function get_data_schedule(idSchedule){
+    var queryText = 'SELECT s.*, b.id_companies FROM "Employee".schedules s JOIN "Company".branches b ON s.id_branches = b.id WHERE s.id = $1';
+    var values = [idSchedule];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

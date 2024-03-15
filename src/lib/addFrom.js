@@ -1202,7 +1202,7 @@ router.post('/fud/:id_company/:id_branch/add-schedule',isLoggedIn,async(req,res)
     }else{
         req.flash('message','Ups! El horario no fue agregado 👉👈');
     }
-    
+
     res.redirect('/fud/'+id_company+'/'+id_branch+'/schedules');
 })
 
@@ -1249,6 +1249,35 @@ function create_schedule(req,id_branch){
 function is_valid_value(value1, value2) {
     return (value1 ?? '') !== '' && (value2 ?? '') !== '';
 }
+
+router.post('/fud/:id_company/:id_branch/:id_schedule/edit-schedule',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_schedule}=req.params;
+    //we will create the new schedule 
+    const schedule=create_schedule(req,id_branch);
+
+    //add the new schedule to the database
+    if(await update_schedule_by_id(schedule,id_schedule)){
+        req.flash('success','El horario fue actualizado con exito 🥳');
+    }else{
+        req.flash('message','Ups! El horario no fue actualizado 👉👈');
+    }
+    
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/schedules');
+})
+
+async function update_schedule_by_id(schedule, id) {
+    try {
+        const queryText = 'UPDATE "Employee".schedules SET id_branches = $1, name = $2, tolerance_time = $3, color = $4, monday = $5, tuesday = $6, wednesday = $7, thursday = $8, friday = $9, saturday = $10, sunday = $11, ms = $12, mf = $13, ts = $14, tf = $15, ws = $16, wf = $17, ths = $18, thf = $19, fs = $20, ff = $21, sas = $22, saf = $23, sus = $24, suf = $25 WHERE id = $26';
+        var values = Object.values(schedule);
+        values.push(id);
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating schedule:', error);
+        return false;
+    }
+}
+
 //------------------------------------------------------------------------------------------------cart
 router.post('/fud/client',isLoggedIn,async(req,res)=>{
     try {

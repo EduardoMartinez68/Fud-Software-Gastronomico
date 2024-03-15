@@ -3,7 +3,3 @@ async function delete_schedule(idSchedule,nameSchedule,idCompany,idBranch){
         window.location.href = '/fud/'+idCompany+'/'+idBranch+'/'+idSchedule+'/delete-schedule';
     }
 }
-
-function edit_schedule(){
-
-}
