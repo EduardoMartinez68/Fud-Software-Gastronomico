@@ -505,6 +505,21 @@ async function add_ad(data){
         return false;
     }
 }
+
+async function add_schedule(schedule){
+    var queryText = 'INSERT INTO "Employee".schedules(id_branches, name, tolerance_time, color, monday, tuesday, wednesday, thursday, friday, saturday, sunday, ms, mf, ts, tf, ws, wf, ths, thf, fs, ff, sas, saf, sus, suf)'
+    + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)';
+    var values = Object.values(schedule);
+
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error to schedule in the database:', error);
+        return false;
+    }
+}
+
 //////////////////////////////////////////////////
 async function add_department(name,description){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_company, name, description)'
@@ -541,5 +556,6 @@ module.exports={
     add_movement_history,
     add_commanders,
     add_box,
-    add_ad
+    add_ad,
+    add_schedule
 };

@@ -285,6 +285,10 @@
     color: white;
 }
 
+.img-icon{
+    width: 35px;
+    height: auto;
+}
 
 /**profile**/
 .img-profile{

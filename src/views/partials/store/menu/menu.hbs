@@ -16,7 +16,8 @@
                         <th class="td2">
                             <button class="btn" onclick="search_browser_div()">🔎</button>
                             {{#each dataEmployee}}
-                                <button class="btn" onclick="cash_movement('{{id}}','{{id_branches}}')"><i class="fi-icon fi-sr-money-from-bracket"></i></button>
+                                <button class="btn" onclick="cash_movement('{{id}}','{{id_branches}}')"><img src="https://cdn-icons-png.flaticon.com/256/7070/7070865.png" alt="" class="img-icon"></button>
+                                <button class="btn" onclick="car_returns('{{id}}','{{id_branches}}')"><img src="https://cdn-icons-png.flaticon.com/512/3176/3176255.png" alt="" class="img-icon"></button>
                             {{/each}}
                         </th>
                     </tr>
@@ -70,6 +71,7 @@
 <script src="/js/store/search.js"></script>
 <script src="/js/search.js"></script>
 <script src="/js/store/cashMovement.js"></script>
+<script src="/js/store/return.js"></script>
 <script>
     
     // Función para ajustar dinámicamente la clase de los elementos con la clase "container-combo"

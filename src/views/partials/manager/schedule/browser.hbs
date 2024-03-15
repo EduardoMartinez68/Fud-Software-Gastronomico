@@ -1,0 +1,23 @@
+<div class="container">
+    <label>Buscar un horario</label>
+    <div class="row">
+        <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="Busca por nombre..." id="search">
+        </div>
+        <div class="col-sm-1">
+            <button class="btn" onclick="search_browser()"><i class="fi-icon fi-rs-search"></i></button>
+        </div>
+        {{#each company}}
+            <div class="col-sm-1">
+                <button class="btn-table-employee-edit" onclick="nextWeb('/{{id}}/add-providers')">+</button>
+            </div>
+        {{/each}}
+        {{#each branch}}
+            <div class="col-sm-1">
+                <button class="btn-table-employee-edit" onclick="nextWeb('/{{id_companies}}/{{id}}/add-schedule')">+</button>
+            </div>
+        {{/each}}
+    </div>
+</div>
+<br>
+<script src="/js/search.js"></script>

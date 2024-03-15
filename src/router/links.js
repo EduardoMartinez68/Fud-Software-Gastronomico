@@ -1351,7 +1351,6 @@ router.get('/:id_company/:id_user/employees',isLoggedIn,async(req,res)=>{
         const {id_company,id_user}=req.params;
         const employees=await search_employees(id_company);
         const employee_user=await search_employee(id_user);
-        console.log(company)
         res.render('links/manager/employee/employee',{company,employees,employee_user});
     }
 })
@@ -1421,20 +1420,6 @@ async function get_movements_company(idCompany){
         throw error;
     }
 }
-
-//-------------------------------------------------------------schelude 
-router.get('/:id_comopany/:id_branch/schedules',isLoggedIn,(req,res)=>{
-    res.render("links/manager/branch/schedule");
-    //res.render("links/manager/employee/schedule");
-})
-
-router.get('/:id_company/:id_branch/add-schedules',isLoggedIn,(req,res)=>{
-    res.render(companyName+'/manager/employee/addSchedules');
-})
-
-router.get('/:id_company/:id_branch/employee-schedules',isLoggedIn,(req,res)=>{
-    res.render('links/manager/employee/employeeSchedules');
-})
 
 //-----------------------------------------------------------visit branch
 
@@ -2174,6 +2159,52 @@ async function update_ad(adId, newImg) {
     }
 }
 
+//schelude 
+router.get('/:id_comopany/:id_branch/schedules',isLoggedIn,async (req,res)=>{
+    const {id_company,id_branch,id_ad}=req.params;
+    const branch=await get_data_branch(req);
+    const schedules=await get_schedule_branch(id_branch);
+    res.render("links/manager/employee/scheduleHome",{branch,schedules});
+    //res.render("links/manager/employee/schedule");
+})
+
+async function get_schedule_branch(idBranch){
+    var queryText = 'SELECT s.*, b.id_companies FROM "Employee".schedules s JOIN "Company".branches b ON s.id_branches = b.id WHERE s.id_branches = $1';
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
+router.get('/:id_company/:id_branch/add-schedule',isLoggedIn,async(req,res)=>{
+    const branch=await get_data_branch(req);
+    res.render(companyName+'/manager/employee/addSchedules',{branch});
+})
+
+router.get('/:id_company/:id_branch/employee-schedules',isLoggedIn,(req,res)=>{
+    res.render('links/manager/employee/employeeSchedules');
+})
+
+router.get('/:id_company/:id_branch/:id_schedule/delete-schedule',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch,id_schedule}=req.params;
+    if(await delete_schedule(id_schedule)){
+        req.flash('success','El horario fue eliminado con exito 😉')
+    }else{
+        req.flash('message','El horario no pudo ser eliminado 😅')
+    }
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/schedules');
+})
+
+async function delete_schedule(idSchedule){
+    try {
+        const queryText = 'DELETE FROM "Employee".schedules WHERE id = $1';
+        const values = [idSchedule];
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error deleting schedule:', error);
+        return false;
+    }
+}
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

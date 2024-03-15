@@ -1,0 +1,50 @@
+<table class="table" id="table-container">
+    <colgroup>
+        <col style="width: 5%;">
+        <col style="width: 20%;">
+        <col style="width: 60%;">
+        <col style="width: 15%;">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Color</th>
+            <th>Nombre</th>
+            <th>Horario</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each schedules}}
+            <tr id="{{name}}">
+                <td style="background-color: {{color}};"></td>
+                <td>{{name}}</td>
+                <td>
+                    Monday:{{ms}}--{{mf}}<br>
+                    Tuesday:{{ts}}--{{tf}}<br>
+                    Wednesday:{{ws}}--{{wf}}<br>
+                    Thuesday:{{ths}}--{{thf}}<br>
+                    Friday:{{fs}}--{{ff}}<br>
+                    Saturday:{{sas}}--{{saf}}<br>
+                    Sunday:{{sus}}--{{suf}}<br>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="delete_schedule('{{id}}','{{name}}','{{id_companies}}','{{id_branches}}')"><i class="fi-department fi-sr-trash"></i></button>
+                    <button class="btn btn-danger" onclick="edit_schedule('{{id}}','{{id_companies}}','{{id_branches}}'"><i class="fi-department fi-sr-pencil"></i></button>            
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+<script>
+    async function delete_schedule(idSchedule,nameSchedule,idCompany,idBranch){
+        if(await questionMessage('Borrar horario','¿Quieres borrar el horario '+nameSchedule+' ?')){
+            window.location.href = '/fud/'+idCompany+'/'+idBranch+'/'+idSchedule+'/delete-schedule';
+        }
+    }
+    
+    function edit_schedule(){
+
+    }
+</script>

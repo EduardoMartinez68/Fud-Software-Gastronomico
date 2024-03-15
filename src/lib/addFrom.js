@@ -1179,6 +1179,7 @@ router.post('/fud/:id_company/:id_branch/ad-new',isLoggedIn,async(req,res)=>{
     res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
 })
 
+
 function create_ad(req,id_branch,type){
     const image=create_a_new_image(req)
     const ad={
@@ -1190,6 +1191,64 @@ function create_ad(req,id_branch,type){
     return ad;
 }
 
+router.post('/fud/:id_company/:id_branch/add-schedule',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+    //we will create the new schedule 
+    const schedule=create_schedule(req,id_branch);
+
+    //add the new schedule to the database
+    if(await addDatabase.add_schedule(schedule)){
+        req.flash('success','El horario fue agregado con exito 🥳');
+    }else{
+        req.flash('message','Ups! El horario no fue agregado 👉👈');
+    }
+    
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/schedules');
+})
+
+function create_schedule(req,id_branch){
+    const { name_schedule, tolerance, color, ms, mf, ts, tf, ws, wf, ths, thf, fs, ff, sas, saf, sus, suf } = req.body;
+
+    // Función para obtener el tiempo en formato adecuado
+    function get_time_form(value1,value2) {
+        return (value1 !== undefined && value1 !== null && value1 !== '') && (value2 !== undefined && value2 !== null && value2 !== '') ? value1 : '00:00';
+    }
+
+    // Crear el objeto schedule con las variables ajustadas
+    const schedule = {
+        id_branch,
+        name_schedule: name_schedule,
+        tolerance: tolerance,
+        color: color,
+        monda:is_valid_value(ms,mf),
+        tuesday:is_valid_value(ts,tf),
+        wedsney:is_valid_value(ws,wf),
+        thuesday:is_valid_value(ths,thf),
+        friday:is_valid_value(fs,ff),
+        saturday:is_valid_value(sas,saf),
+        sunday:is_valid_value(sus,suf),
+        ms: get_time_form(ms,mf),
+        mf: get_time_form(mf,ms),
+        ts: get_time_form(ts,tf),
+        tf: get_time_form(tf,ts),
+        ws: get_time_form(ws,wf),
+        wf: get_time_form(wf,ws),
+        ths: get_time_form(ths,thf),
+        thf: get_time_form(thf,ths),
+        fs: get_time_form(fs,ff),
+        ff: get_time_form(ff,fs),
+        sas: get_time_form(sas,saf),
+        saf: get_time_form(saf,sas),
+        sus: get_time_form(sus,suf),
+        suf: get_time_form(suf,sus)
+    };
+
+    return schedule;
+}
+
+function is_valid_value(value1, value2) {
+    return (value1 ?? '') !== '' && (value2 ?? '') !== '';
+}
 //------------------------------------------------------------------------------------------------cart
 router.post('/fud/client',isLoggedIn,async(req,res)=>{
     try {
