@@ -270,6 +270,10 @@ body{
     margin-top: -25px;
 }
 
+.icon-bar:hover {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1300px){
     .titleDesciption{
         padding-left: 50%;
