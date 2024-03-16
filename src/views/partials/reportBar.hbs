@@ -5,7 +5,12 @@
             <div class="row">
                 <div class="col-lg-9">
                     <h1 class="font-weight-bold mb-0">Hi, Welcome {{user.user_name}}!</h1>
-                    <p class="lead text-muted">Check the latest reports of your businesses</p>
+                    {{#each company}}
+                        <p class="lead text-muted">Check the latest reports of your businesses {{name}}</p>
+                    {{/each}}
+                    {{#each branch}}
+                        <p class="lead text-muted">Check the latest reports of your businesses {{name}}</p>
+                    {{/each}}
                 </div>
                 <div class="col-lg-3 d-flex">
                     <button class="btn btn-primary w-100 align-self-center">

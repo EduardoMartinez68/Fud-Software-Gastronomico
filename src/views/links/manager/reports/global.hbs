@@ -9,14 +9,14 @@
 <body>
     {{>reportBar}}
 
-    
+    <div class="container">
     <table class="table-report" border="1px">
         <tr>
             <th colspan="3">My Portfolio</th>
         </tr>
         <tr>
             <td>My company</td>
-            <td>Sales per day</td>
+            <td>Reporte de ganancias</td>
             <td>Earnings by company</td>
         </tr>
         <tr>
@@ -37,35 +37,9 @@
             </td>
         </tr>
     </table>
+    </div>
     
     <!--DASHBOARD-->
-    <table class="table-report" border="1px">
-        <tr>
-            <th colspan="3">Name Company</th>
-        </tr>
-        <tr>
-            <td>Sales per day</td>
-            <td>Payment Methods</td>
-            <td>Entrances and exits</td>
-        </tr>
-        <tr>
-            <td class="td-report">
-                <div>
-                    <canvas id="myPortfolio"></canvas>
-                </div>
-            </td>
-            <td class="td-report">
-                <div>
-                    <canvas id="companyExpenses"></canvas>
-                </div>
-            </td>
-            <td class="td-report">
-                <div>
-                    <canvas id="companyExpenses1"></canvas>
-                </div>
-            </td>
-        </tr>
-    </table>
     <section>
         <div class="container">
             <div class="">
@@ -77,7 +51,7 @@
                                     <i class="fi-success fi-sr-tags"></i>
                                     Sales
                                 </h6>
-                                <h3 class="font-weight-bold">5 ($2,100)</h3>
+                                <h3 class="font-weight-bold">${{total}}</h3>
                             </div>
                         </div>
                         <div class="col-lg-3 d-flex card-dashboard">
@@ -93,9 +67,9 @@
                             <div class="mx-auto">
                                 <h6 class="text-success">
                                     <i class="fi-success fi-sr-ticket-alt"></i>
-                                    Utility
+                                    Combo Sales
                                 </h6>
-                                <h3 class="font-weight-bold">$50,000</h3>
+                                <h3 class="font-weight-bold">{{unity}}</h3>
                             </div>
                         </div>
                         <div class="col-lg-2 d-flex card-dashboard">
@@ -128,4 +102,46 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--
 <script src="/js/report/company_report.js"></script>
+--->
+<script>
+    // Datos recibidos del servidor
+    const arrayYears=[{{years}}]
+    const arrayMonths=[{{months}}]
+    const arrayDays=[{{days}}]
+    const arrayServerLabel=[]
+
+    for (var i = 0; i < arrayYears.length; i++) {
+        const date = arrayDays[i] + '/' + arrayMonths[i] + '/' + arrayYears[i];
+        arrayServerLabel.push(date);
+    }
+        
+    const chartData = {{chartData}};
+
+    var ctx = document.getElementById('companyExpenses');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: arrayServerLabel,
+            datasets: [{
+                label: 'Total Sales',
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'title_graph'
+            },
+            aspectRatio: 2, 
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

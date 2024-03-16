@@ -1429,7 +1429,7 @@ router.get('/:id_company/reports2',isLoggedIn,(req,res)=>{
     res.render("links/manager/reports/report");
 })
 
-router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
+router.get('/:id_company/reports3',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const data=await get_sales_company(id_company); //get data of the database
     const salesData=get_sales_data(data); //convert this data for that char.js can read
@@ -1441,21 +1441,21 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     const years = [];
     
     chartLabels.forEach(dateString => {
-        const parts = dateString.split('/'); // Dividir la cadena de fecha en partes
-        const day = parseInt(parts[0]); // Obtener el día y convertirlo a número entero
-        const month = parseInt(parts[1]); // Obtener el mes y convertirlo a número entero
-        const year = parseInt(parts[2]); // Obtener el año y convertirlo a número entero
+        const parts = dateString.split('/'); // Split date string into parts
+        const day = parseInt(parts[0]); // get the day 
+        const month = parseInt(parts[1]); // get the month
+        const year = parseInt(parts[2]); // get the year
         
+        //save the data in his array
         days.push(day);
         months.push(month);
         years.push(year);
     });
 
-
+    //this is for convert the data of sale to object 
     const chartData = Object.values(salesData);
-    console.log(JSON.stringify(chartData));
 
-    res.render("links/manager/reports/sales", { days: days, months:months,years:years,chartData: JSON.stringify(chartData) });
+    res.render("links/manager/reports/sales", { days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
 })
 
 function get_sales_data(data) {
@@ -1482,7 +1482,79 @@ async function get_data_report(id_company){
     });
 }
 
+router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+    const data=await get_sales_company(id_company); //get data of the database
+    const salesData=get_sales_data(data); //convert this data for that char.js can read
 
+    // convert the data in a format for Chart.js
+    const chartLabels = Object.keys(salesData);
+    const days = [];
+    const months = [];
+    const years = [];
+    
+    chartLabels.forEach(dateString => {
+        const parts = dateString.split('/'); // Split date string into parts
+        const day = parseInt(parts[0]); // get the day 
+        const month = parseInt(parts[1]); // get the month
+        const year = parseInt(parts[2]); // get the year
+        
+        //save the data in his array
+        days.push(day);
+        months.push(month);
+        years.push(year);
+    });
+
+    //this is for convert the data of sale to object 
+    const chartData = Object.values(salesData);
+
+    //this is for get the total of the sale of today
+    const total=await get_total_sales_company(id_company);
+    const unity=await get_total_unity_company(id_company);
+    console.log(unity)
+
+    res.render("links/manager/reports/global",{ company, total,unity, days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
+    }
+})
+
+//this function is for get all the sale of today
+async function get_total_sales_company(idCompany) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND sale_day = CURRENT_DATE;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_total_unity_company(idCompany) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(amount), 0) AS total_items_sold
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND sale_day = CURRENT_DATE;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows[0].total_items_sold;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
@@ -2514,9 +2586,6 @@ router.get('/report',isLoggedIn,(req,res)=>{
 
 
 /*reports*/
-router.get('/report-global',isLoggedIn,(req,res)=>{
-    res.render("links/manager/reports/global");
-})
 
 router.get('/report-sales',isLoggedIn,(req,res)=>{
     res.render("links/manager/reports/sales");
