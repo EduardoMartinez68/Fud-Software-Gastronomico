@@ -143,6 +143,7 @@
         </div>
     </center>
 
+    <canvas id="salesChart" width="400" height="400"></canvas>
 
     <script>
         const tabs = document.querySelectorAll('.tab_btn');
@@ -170,4 +171,46 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--
 <script src="/js/report/company_report.js"></script>
+-->
+<script>
+    // Datos recibidos del servidor
+    const arrayYears=[{{years}}]
+    const arrayMonths=[{{months}}]
+    const arrayDays=[{{days}}]
+    const arrayServerLabel=[]
+
+    for (var i = 0; i < arrayYears.length; i++) {
+        const date = arrayDays[i] + '/' + arrayMonths[i] + '/' + arrayYears[i];
+        arrayServerLabel.push(date);
+    }
+        
+    const chartData = {{chartData}};
+
+    var ctx = document.getElementById('companyExpenses');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: arrayServerLabel,
+            datasets: [{
+                label: 'Total Sales',
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'title_graph'
+            },
+            aspectRatio: 2, 
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

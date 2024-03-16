@@ -1431,10 +1431,46 @@ router.get('/:id_company/reports2',isLoggedIn,(req,res)=>{
 
 router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
-    const data=await get_data_report(id_company);
+    const data=await get_sales_company(id_company); //get data of the database
+    const salesData=get_sales_data(data); //convert this data for that char.js can read
 
-    res.render("links/manager/reports/sales",{data});
+    // convert the data in a format for Chart.js
+    const chartLabels = Object.keys(salesData);
+    const days = [];
+    const months = [];
+    const years = [];
+    
+    chartLabels.forEach(dateString => {
+        const parts = dateString.split('/'); // Dividir la cadena de fecha en partes
+        const day = parseInt(parts[0]); // Obtener el día y convertirlo a número entero
+        const month = parseInt(parts[1]); // Obtener el mes y convertirlo a número entero
+        const year = parseInt(parts[2]); // Obtener el año y convertirlo a número entero
+        
+        days.push(day);
+        months.push(month);
+        years.push(year);
+    });
+
+
+    const chartData = Object.values(salesData);
+    console.log(JSON.stringify(chartData));
+
+    res.render("links/manager/reports/sales", { days: days, months:months,years:years,chartData: JSON.stringify(chartData) });
 })
+
+function get_sales_data(data) {
+    const salesData = {};
+    data.forEach(item => {
+        const saleDay = new Date(item.sale_day).toLocaleDateString();
+        if (!salesData[saleDay]) {
+            salesData[saleDay] = 0;
+        }
+        salesData[saleDay] += item.total;
+    });
+    
+    return salesData;
+}
+
 
 async function get_data_report(id_company){
     const pythonPath='src/dataScine/sales.py';
@@ -1445,7 +1481,6 @@ async function get_data_report(id_company){
         console.log('salida del script python en script: ', output);
     });
 }
-
 
 
 //-----------------------------------------------------------visit branch

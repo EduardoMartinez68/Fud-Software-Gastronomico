@@ -60,10 +60,11 @@ try:
     combos=list(set(names)) #this is for that not exist data repeat
 
     #read all the combos and calculate the amount of times that is in the list 
+    answer=[]
     for combo in combos:
         amount=names.count(combo)
-        tex = f'{combo} amount {amount}'
-        print(tex)
+        answer.append([combo,amount])
+    print(answer)
 
 except:
     print([])
