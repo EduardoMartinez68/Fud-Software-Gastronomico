@@ -1513,9 +1513,22 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     //this is for get the total of the sale of today
     const total=await get_total_sales_company(id_company);
     const unity=await get_total_unity_company(id_company);
-    console.log(unity)
 
-    res.render("links/manager/reports/global",{ company, total,unity, days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
+    const totalYear=await get_total_year(id_company);
+    const totalMonth=await get_total_month(id_company);
+    const totalCompany=await get_total_company(id_company);
+
+    //% aument 
+    const totalYearOld=await get_total_year_old(id_company);
+    const percentageYear=calculate_sale_increase(totalYearOld,totalYear);
+
+    const totalMonthOld=await get_total_month_old(id_company);
+    const percentageMonth=calculate_sale_increase(totalMonthOld,totalMonth);
+
+    const totalDayhOld=await get_total_day_old(id_company);
+    const percentageDay=calculate_sale_increase(totalDayhOld,total);
+
+    res.render("links/manager/reports/global",{ company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
     }
 })
 
@@ -1526,7 +1539,25 @@ async function get_total_sales_company(idCompany) {
             SELECT COALESCE(SUM(total), 0) AS total_sales
             FROM "Box".sales_history
             WHERE id_companies = $1
-            AND sale_day = CURRENT_DATE;
+            AND DATE_TRUNC('day', sale_day) = CURRENT_DATE;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_total_day_old(idCompany) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND DATE_TRUNC('day', sale_day) = CURRENT_DATE-1;
         `;
         const values = [idCompany];
         const result = await database.query(query, values);
@@ -1544,7 +1575,7 @@ async function get_total_unity_company(idCompany) {
             SELECT COALESCE(SUM(amount), 0) AS total_items_sold
             FROM "Box".sales_history
             WHERE id_companies = $1
-            AND sale_day = CURRENT_DATE;
+            AND DATE_TRUNC('day', sale_day) = CURRENT_DATE;
         `;
         const values = [idCompany];
         const result = await database.query(query, values);
@@ -1554,6 +1585,105 @@ async function get_total_unity_company(idCompany) {
         console.error("Error al obtener datos de ventas:", error);
         throw error;
     }
+}
+
+async function get_total_year(idCompany){
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND EXTRACT(YEAR FROM sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener la suma de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_total_year_old(idCompany){
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND EXTRACT(YEAR FROM sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)-1;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener la suma de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_total_month(idCompany){
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND EXTRACT(MONTH FROM sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener la suma de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_total_month_old(idCompany){
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+            AND EXTRACT(MONTH FROM sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)-1;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener la suma de ventas:", error);
+        throw error;
+    }
+}
+
+
+async function get_total_company(idCompany){
+    try {
+        const query = `
+            SELECT COALESCE(SUM(total), 0) AS total_sales
+            FROM "Box".sales_history
+            WHERE id_companies = $1
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows[0].total_sales;
+    } catch (error) {
+        console.error("Error al obtener la suma de ventas:", error);
+        throw error;
+    }
+}
+
+function calculate_sale_increase(previousSales, currentSales) {
+    if(previousSales==0){
+        return 100;
+    }
+
+    // calculate the aument absolute in the sales
+    const salesIncrease = currentSales - previousSales;
+
+    // calculate the % of aument
+    const percentageIncrease = (salesIncrease / previousSales) * 100;
+
+    return percentageIncrease;
 }
 //-----------------------------------------------------------visit branch
 

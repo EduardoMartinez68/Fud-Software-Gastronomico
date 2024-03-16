@@ -6,7 +6,7 @@
                 <div class="col-lg-9">
                     <h1 class="font-weight-bold mb-0">Hi, Welcome {{user.user_name}}!</h1>
                     {{#each company}}
-                        <p class="lead text-muted">Check the latest reports of your businesses {{name}}</p>
+                        <p class="lead text-muted">Check the latest reports of your businesses {{alias}}</p>
                     {{/each}}
                     {{#each branch}}
                         <p class="lead text-muted">Check the latest reports of your businesses {{name}}</p>
@@ -27,39 +27,39 @@
                             <div class="row">
                                 <div class="col-lg-3 d-flex stat my-2">
                                     <div class="mx-auto">
-                                        <h6 class="text-muted">27 June</h6>
-                                        <h3 class="font-weight-bold">$50,000</h3>
-                                        <h6 class="text-success">
+                                        <h6 class="text-muted" id="day">27 June</h6>
+                                        <h3 class="font-weight-bold">${{total}}</h3>
+                                        <h6 class="text-success" id="percentageDay">
                                             <i class="fi-success fi-sr-angle-small-down"></i>
-                                            50.50%
+                                            {{percentageDay}}%
                                         </h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 d-flex stat  my-2">
                                     <div class="mx-auto">
-                                        <h6 class="text-muted">June 2023</h6>
-                                        <h3 class="font-weight-bold">$50,000</h3>
-                                        <h6 class="text-success">
+                                        <h6 class="text-muted" id="month">June 2023</h6>
+                                        <h3 class="font-weight-bold">${{totalMonth}}</h3>
+                                        <h6 class="text-success" id="percentageMonth">
                                             <i class="fi-success fi-sr-angle-small-down"></i>
-                                            50.50%
+                                            {{percentageMonth}}%
                                         </h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 d-flex stat  my-2">
                                     <div class="mx-auto">
-                                        <h6 class="text-muted">2023</h6>
-                                        <h3 class="font-weight-bold">$50,000</h3>
-                                        <h6 class="text-success">
+                                        <h6 class="text-muted" id="year">2023</h6>
+                                        <h3 class="font-weight-bold">${{totalYear}}</h3>
+                                        <h6 class="text-success" id="percentageYear">
                                             <i class="fi-success fi-sr-angle-small-down"></i>
-                                            50.50%
+                                            {{percentageYear}}%
                                         </h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 d-flex my-2">
                                     <div class="mx-auto">
                                         <h6 class="text-muted">All</h6>
-                                        <h3 class="font-weight-bold">$50,000</h3>
-                                        <h6 class="text-success">
+                                        <h3 class="font-weight-bold">${{totalCompany}}</h3>
+                                        <h6 class="text-success" id="percentageAll">
                                             <i class="fi-success fi-sr-angle-small-down"></i>
                                             50.50%
                                         </h6>
@@ -73,3 +73,56 @@
         </div>
     </section>
 </div>
+
+<script>
+    // get all the element  HTML with the class 'text-success'
+    const percentageElements = document.querySelectorAll(".text-success");
+
+    // Iterar about each element
+    percentageElements.forEach(function(element) {
+    // Get the percentage value as a string
+    const percentageValueString = element.textContent.trim();
+
+    // Convert percentage value to a number
+    const percentageValue = parseFloat(percentageValueString);
+
+    // Check if the percentage is negative
+    if (percentageValue < 0) {
+        // if the value is negative, we going to choose the style of the color
+        element.classList.add("text-danger");
+    }
+});
+</script>
+
+<script>
+    // get the component html for his id
+    const yearElement = document.getElementById("year");
+    const monthElement = document.getElementById("month");
+    const dayElement = document.getElementById("day");
+
+    // get the data
+    const currentYear = new Date().getFullYear();
+    const currentDay = new Date().getDate();
+    const currentMonth = new Date().getMonth() + 1;
+
+    // choose the year, month and day
+    const month=get_month_name(currentMonth);
+    yearElement.textContent = "January--"+month+" "+currentYear;
+    monthElement.textContent = month;
+    dayElement.textContent = currentDay+" "+month;
+
+
+    function get_month_name(monthNumber) {
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Verificar si el número de mes está dentro del rango válido (1-12)
+        if (monthNumber >= 1 && monthNumber <= 12) {
+            return months[monthNumber - 1]; // Restamos 1 porque los meses están indexados desde 0
+        } else {
+            return "Invalid month number";
+        }
+    }
+</script>
