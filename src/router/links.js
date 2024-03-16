@@ -1421,6 +1421,33 @@ async function get_movements_company(idCompany){
     }
 }
 
+//-------------------------------------------------------------reports 
+//this is for use python and that we can do datascine
+const {spawn}=require('child_process');
+
+router.get('/:id_company/reports2',isLoggedIn,(req,res)=>{
+    res.render("links/manager/reports/report");
+})
+
+router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const data=await get_data_report(id_company);
+
+    res.render("links/manager/reports/sales",{data});
+})
+
+async function get_data_report(id_company){
+    const pythonPath='src/dataScine/sales.py';
+    const arg=[id_company]//await get_sales_company(id_company);
+    const pythonProcess=spawn('python',[pythonPath,...arg]);
+    pythonProcess.stdout.on('data',(data)=>{
+        const output=data.toString();
+        console.log('salida del script python en script: ', output);
+    });
+}
+
+
+
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
@@ -2040,7 +2067,7 @@ async function delete_box_branch(id) {
 }
 
 
-//add 
+//ad
 router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const branch=await get_data_branch(req);
