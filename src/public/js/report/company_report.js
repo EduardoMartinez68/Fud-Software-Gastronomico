@@ -40,6 +40,10 @@ function draw_line(canva,labels,data){
   draw_graph(canva,'line','My Portfolio',labels,data)
 }
 
+function draw_bar(canva,labels,data){
+  draw_graph(canva,'line','My Portfolio',labels,data)
+}
+
 data=[12, 19, 3, 5, 2, 3]
 labels=['red']
 //draw_graph(myPortfolio,'doughnut','My Portfolio',labels,data)

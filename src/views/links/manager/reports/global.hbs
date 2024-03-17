@@ -73,9 +73,18 @@
                             <div class="mx-auto">
                                 <h6 class="text-danger">
                                     <i class="fi-success fi-sr-tags"></i>
-                                    Sales canceled
+                                    Salidas
                                 </h6>
-                                <h3 class="font-weight-bold text-danger">5 ($2,100)</h3>
+                                <h3 class="font-weight-bold text-danger">${{moveNegative}}</h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 d-flex card-dashboard">
+                            <div class="mx-auto">
+                                <h6 class="text-success">
+                                    <i class="fi-success fi-sr-ticket-alt"></i>
+                                    Entradas
+                                </h6>
+                                <h3 class="font-weight-bold">${{movePositive}}</h3>
                             </div>
                         </div>
                         <div class="col-lg-2 d-flex card-dashboard">
@@ -90,19 +99,10 @@
                         <div class="col-lg-2 d-flex card-dashboard">
                             <div class="mx-auto">
                                 <h6 class="text-success">
-                                    <i class="fi-success fi-sr-ticket-alt"></i>
-                                    Average ticket
-                                </h6>
-                                <h3 class="font-weight-bold">$50,000</h3>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 d-flex card-dashboard">
-                            <div class="mx-auto">
-                                <h6 class="text-success">
                                     <i class="fi-success fi-br-percentage"></i>
-                                    Discount
+                                    Total de movimiento
                                 </h6>
-                                <h3 class="font-weight-bold">$50,000</h3>
+                                <h3 class="font-weight-bold">${{totalMovimientos}}</h3>
                             </div>
                         </div>
                     </div>
@@ -140,4 +140,11 @@
     const arrayDistributeLabels = text.split(',');
     var ctx2 = document.getElementById('myPortfolio');
     draw_doughnut(ctx2,arrayDistributeLabels,{{distributeData}})
+</script>
+
+<script>
+    var ctx3 = document.getElementById('companyExpenses1');
+    const salesBranchesLabels=JSON.stringify('{{ salesBranchesLabels}}');
+    
+    draw_graph(ctx3,'bar','My Portfolio',salesBranchesLabels,[{{salesBranchesData}}])
 </script>

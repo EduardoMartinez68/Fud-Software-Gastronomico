@@ -30,7 +30,6 @@ def get_data_sales(cur,company_id):
     rows = cur.fetchall() # get all the results
     return rows
 
-
 try:
     conn = connection_with_database()
     cur = conn.cursor() # create a cursor 

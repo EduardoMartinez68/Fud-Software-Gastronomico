@@ -74,15 +74,17 @@
                 </thead>
                 <tbody>
                     {{#each branches}}
-                        <td><label>{{name_branch}}</label></td>
-                        <td><label>{{representative}}</label></td>
-                        <td><label>{{country_name}}</label></td>
-                        <td><label>{{municipality}}, {{city}}, {{cologne}}, {{address}}, {{num_int}}, {{num_ext}}</label></td>
-                        <td><label>{{cell_phone}}</label></td>
-                        <td>
-                            <button class="btn btn-danger" id="{{id}}" onclick="edit_branch({{id}},{{id_companies}})"><i class="fi-department fi-sr-pencil"></i></button>
-                            <button class="btn btn-danger" id="{{id}}" onclick="visit_branch({{id}},{{id_companies}})"><i class="fi-department fi-ss-store-alt"></i></button>
-                        </td>
+                        <tr>
+                            <td><label>{{name_branch}}</label></td>
+                            <td><label>{{representative}}</label></td>
+                            <td><label>{{country_name}}</label></td>
+                            <td><label>{{municipality}}, {{city}}, {{cologne}}, {{address}}, {{num_int}}, {{num_ext}}</label></td>
+                            <td><label>{{cell_phone}}</label></td>
+                            <td>
+                                <button class="btn btn-danger" id="{{id}}" onclick="edit_branch({{id}},{{id_companies}})"><i class="fi-department fi-sr-pencil"></i></button>
+                                <button class="btn btn-danger" id="{{id}}" onclick="visit_branch({{id}},{{id_companies}})"><i class="fi-department fi-ss-store-alt"></i></button>
+                            </td>
+                        </tr>
                     {{/each}}
                 </tbody>
             </table>

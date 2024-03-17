@@ -1508,6 +1508,19 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     const totalMonth=await get_total_month(id_company);
     const totalCompany=await get_total_company(id_company);
 
+    const branches=await get_branchIds_by_company(id_company);
+    const moveNegative=await get_movements_company_negative(branches);
+    const movePositive=await get_movements_company_positive(branches)
+
+    //this is for tha table of the sales of the branch 
+    const dataSalesBranches=await get_sale_branch(branches)
+    const salesBranchesLabels=[]
+    const salesBranchesData=[]
+    dataSalesBranches.forEach(item => {
+        salesBranchesLabels.push(item[0]); // add the name of the branch 
+        salesBranchesData.push(item[1]); // add the sales of the array 
+    });
+    console.log(salesBranchesData)
     //% aument 
     const totalYearOld=await get_total_year_old(id_company);
     const percentageYear=calculate_sale_increase(totalYearOld,totalYear);
@@ -1529,7 +1542,9 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
         distributeData.push( parseFloat(item[1])); // add the numer of the array 
     });
 
-    res.render("links/manager/reports/global",{ company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
+    
+    totalMovimientos=total+moveNegative+movePositive
+    res.render("links/manager/reports/global",{ salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
     }
 })
 
@@ -1736,8 +1751,109 @@ function calculate_sale_increase(previousSales, currentSales) {
     return percentageIncrease;
 }
 
+async function get_movements_company_negative(branches){
+    var total=0;
+    for(var i=0;i<branches.length;i++){
+        total+=await get_negative_moves_by_branch(branches[i]);
+    }
+    return total;
+}
 
+async function get_branchIds_by_company(idCompany) {
+    try {
+        const query = `
+            SELECT id
+            FROM "Company".branches
+            WHERE id_companies = $1;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows.map(row => row.id);
+    } catch (error) {
+        console.error("Error al obtener los IDs de sucursales:", error);
+        throw error;
+    }
+}
 
+async function get_negative_moves_by_branch(idBranch) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(move), 0) AS total_negative_moves
+            FROM "Box".movement_history
+            WHERE id_branches IN (
+                SELECT id
+                FROM "Company".branches
+                WHERE id = $1
+            )
+            AND date_move::date = CURRENT_DATE
+            AND move < 0;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0].total_negative_moves;
+    } catch (error) {
+        console.error("Error al obtener los movimientos en negativo:", error);
+        throw error;
+    }
+}
+
+async function get_movements_company_positive(branches){
+    var total=0;
+    for(var i=0;i<branches.length;i++){
+        total+=await get_positive_moves_by_branch(branches[i]);
+    }
+    return total;
+}
+
+async function get_positive_moves_by_branch(idBranch) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(move), 0) AS total_negative_moves
+            FROM "Box".movement_history
+            WHERE id_branches IN (
+                SELECT id
+                FROM "Company".branches
+                WHERE id = $1
+            )
+            AND date_move::date = CURRENT_DATE
+            AND move > 0;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0].total_negative_moves;
+    } catch (error) {
+        console.error("Error al obtener los movimientos en negativo:", error);
+        throw error;
+    }
+}
+
+async function get_sale_branch(branches){
+    const dataSales=[]
+    for(var i=0;i<branches.length;i++){
+        const data=await get_sales_total_by_branch(branches[i]);
+        dataSales.push([data.name_branch,data.total_sales])
+    }
+
+    return dataSales;
+}
+
+async function get_sales_total_by_branch(idBranch) {
+    try {
+        const query = `
+            SELECT b.name_branch, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM "Company".branches AS b
+            LEFT JOIN "Box".sales_history AS s ON s.id_branches = b.id
+            WHERE b.id = $1
+            GROUP BY b.name_branch;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0] || { name_branch: null, total_sales: 0 };
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
