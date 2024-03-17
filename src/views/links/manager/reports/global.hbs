@@ -17,7 +17,7 @@
         <tr>
             <td>Productos mas vendidos</td>
             <td>Distribucion de mi negocio</td>
-            <td>Ganancia de Sucursales este mes</td>
+            <td>Ganancia de Sucursales</td>
         </tr>
         <tr>
             <td class="td-report">
@@ -132,19 +132,20 @@
         
     const chartData = {{chartData}};
     var ctx = document.getElementById('companyExpenses');
-    draw_line(ctx,arrayServerLabel,chartData)
+    draw_graph(ctx,'line','My Portfolio',arrayServerLabel,chartData,'Ventas')
 
 </script>
 <script>
     const text=JSON.stringify('{{ distributeLabels}}');
     const arrayDistributeLabels = text.split(',');
     var ctx2 = document.getElementById('myPortfolio');
-    draw_doughnut(ctx2,arrayDistributeLabels,{{distributeData}})
+    draw_graph(ctx2,'doughnut','My Portfolio',arrayDistributeLabels,{{distributeData}},'Ventas')
 </script>
 
 <script>
     var ctx3 = document.getElementById('companyExpenses1');
-    const salesBranchesLabels=JSON.stringify('{{ salesBranchesLabels}}');
+    const text2=JSON.stringify('{{ salesBranchesLabels}}');
+    const salesBranchesLabels=text2.split(',');
     
-    draw_graph(ctx3,'bar','My Portfolio',salesBranchesLabels,[{{salesBranchesData}}])
+    draw_graph(ctx3,'bar','My Portfolio',salesBranchesLabels,[{{salesBranchesData}}],'Ganancias')
 </script>
