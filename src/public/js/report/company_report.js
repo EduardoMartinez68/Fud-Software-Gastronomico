@@ -3,11 +3,11 @@ const companyExpenses = document.getElementById('companyExpenses');
 const companyExpenses1 = document.getElementById('companyExpenses1');
 
 
-function draw_graph(ctx,type,title_graph,data){
+function draw_graph(ctx,type,title_graph,labels,data){
   new Chart(ctx, {
     type: type,
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: labels,
       datasets: [{
         label: '# of Votes',
         data: data,
@@ -30,10 +30,21 @@ function draw_graph(ctx,type,title_graph,data){
   });  
 }
 
+
+
+function draw_doughnut(canva,labels,data){
+  draw_graph(canva,'doughnut','My Portfolio',labels,data)
+}
+
+function draw_line(canva,labels,data){
+  draw_graph(canva,'line','My Portfolio',labels,data)
+}
+
 data=[12, 19, 3, 5, 2, 3]
-draw_graph(myPortfolio,'doughnut','My Portfolio',data)
-draw_graph(companyExpenses,'line','Company Expenses',data)
-draw_graph(companyExpenses1,'bar','Company Expenses',data)
+labels=['red']
+//draw_graph(myPortfolio,'doughnut','My Portfolio',labels,data)
+//draw_graph(companyExpenses,'line','Company Expenses',labels,data)
+//draw_graph(companyExpenses1,'bar','Company Expenses',labels,data)
 
 /*
   line

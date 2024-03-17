@@ -1471,25 +1471,15 @@ function get_sales_data(data) {
     return salesData;
 }
 
-
-async function get_data_report(id_company){
-    const pythonPath='src/dataScine/sales.py';
-    const arg=[id_company]//await get_sales_company(id_company);
-    const pythonProcess=spawn('python',[pythonPath,...arg]);
-    pythonProcess.stdout.on('data',(data)=>{
-        const output=data.toString();
-        console.log('salida del script python en script: ', output);
-    });
-}
-
 router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const company=await this_company_is_of_this_user(req,res);
     if (company!=null){
+    //-----------graph of sales
     const data=await get_sales_company(id_company); //get data of the database
     const salesData=get_sales_data(data); //convert this data for that char.js can read
 
-    // convert the data in a format for Chart.js
+    //convert the data in a format for Chart.js
     const chartLabels = Object.keys(salesData);
     const days = [];
     const months = [];
@@ -1528,11 +1518,71 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
     const totalDayhOld=await get_total_day_old(id_company);
     const percentageDay=calculate_sale_increase(totalDayhOld,total);
 
-    res.render("links/manager/reports/global",{ company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
+    //----graph distribute
+    const distribute=await get_data_distribute_company(id_company)
+    const distributeLabels=[]
+    const distributeData=[]
+    
+    // we will reading all the array and get the elements
+    distribute.forEach(item => {
+        distributeLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
+        distributeData.push( parseFloat(item[1])); // add the numer of the array 
+    });
+
+    res.render("links/manager/reports/global",{ company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
     }
 })
 
 //this function is for get all the sale of today
+async function get_data_distribute_company(id_company){
+    //this function is for convert the string that return the script of python to a array for read in the web 
+    var distribute=await get_data_report_distribute(id_company)
+    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Iteramos sobre los conjuntos de corchetes encontrados
+    const arrayData = matches.map(match => {
+        // Removemos los corchetes y las comillas y dividimos por la coma
+        return match.slice(1, -1).split(", ");
+    });
+    
+    return arrayData;
+}
+
+async function get_data_report_distribute(id_company){
+    //this function is for read a script of python for calculate the distribute of the bussiner 
+    return new Promise((resolve, reject) => {
+        //we going to call the script python, send the id company
+        const pythonPath = 'src/dataScine/sales.py';
+        const arg = [id_company];
+        const pythonProcess = spawn('python', [pythonPath, ...arg]);
+
+        let outputData = ''; //this is for save the output 
+
+        //get the result of the script 
+        pythonProcess.stdout.on('data', (data) => {
+            outputData += data.toString();
+        });
+
+
+        //we will watching if exist a error in the script 
+        pythonProcess.stderr.on('data', (data) => {
+            //Handle standard output errors
+            console.error('Error en la salida estándar del proceso de Python:', data.toString());
+            reject(new Error(data.toString()));
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(outputData);
+            } else {
+                // Python process terminated with error code
+                reject(new Error(`El proceso de Python terminó con un código de error: ${code}`));
+            }
+        });
+    });
+}
+
 async function get_total_sales_company(idCompany) {
     try {
         const query = `
@@ -1685,6 +1735,9 @@ function calculate_sale_increase(previousSales, currentSales) {
 
     return percentageIncrease;
 }
+
+
+
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
