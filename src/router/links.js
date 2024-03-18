@@ -1542,9 +1542,17 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
         distributeData.push( parseFloat(item[1])); // add the numer of the array 
     });
 
-    
+    //graph 
+    const salesByCombos=await get_sales_total_by_combo(id_company)
+    const salesByCombosLabels=[]
+    const salesByCombosData=[]
+    salesByCombos.forEach(sale => {
+        salesByCombosLabels.push(sale.name);
+        salesByCombosData.push(sale.total_sales);
+    });
+
     totalMovimientos=total+moveNegative+movePositive
-    res.render("links/manager/reports/global",{ salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
+    res.render("links/manager/reports/global",{ salesByCombosLabels,salesByCombosData:JSON.stringify(salesByCombosData),salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
     }
 })
 
@@ -1851,6 +1859,28 @@ async function get_sales_total_by_branch(idBranch) {
         return result.rows[0] || { name_branch: null, total_sales: 20000 };
     } catch (error) {
         console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
+
+async function get_sales_total_by_combo(idCompany){
+    try {
+        const query = `
+            WITH productos AS (
+                SELECT id, name
+                FROM "Kitchen".dishes_and_combos
+                WHERE id_companies = $1
+            )
+            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM productos p
+            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
+            GROUP BY p.id, p.name;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows || [];
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por empresa:", error);
         throw error;
     }
 }

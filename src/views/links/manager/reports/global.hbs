@@ -132,7 +132,7 @@
         
     const chartData = {{chartData}};
     var ctx = document.getElementById('companyExpenses');
-    draw_graph(ctx,'line','My Portfolio',arrayServerLabel,chartData,'Ventas')
+    draw_graph(ctx,'line','My Portfolio',arrayServerLabel,chartData,'Ganancias')
 
 </script>
 <script>
@@ -148,4 +148,12 @@
     const salesBranchesLabels=text2.split(',');
     
     draw_graph(ctx3,'bar','My Portfolio',salesBranchesLabels,[{{salesBranchesData}}],'Ganancias')
+</script>
+
+<script>
+    var ctx4 = document.getElementById('companyExpenses3');
+    const text3=JSON.stringify('{{ salesByCombosLabels}}');
+    const salesByCombosLabels=text3.split(',');
+    
+    draw_graph(ctx4,'doughnut','My Portfolio',salesByCombosLabels,{{salesByCombosData}},'Ganancias por combos')
 </script>
