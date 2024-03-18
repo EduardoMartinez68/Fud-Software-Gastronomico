@@ -1839,7 +1839,7 @@ async function get_sale_branch(branches){
     const dataSales=[]
     for(var i=0;i<branches.length;i++){
         const data=await get_sales_total_by_branch(branches[i]);
-        dataSales.push([data.name_branch,data.total_sales+10000])
+        dataSales.push([data.name_branch,data.total_sales])
     }
 
     return dataSales;

@@ -9,44 +9,164 @@
 <body>
     {{>reportBar}}
 
-    <div class="container">
-    <table class="table-report" border="1px">
-        <tr>
-            <th colspan="3">Dashboard</th>
-        </tr>
-        <tr>
-            <td>Productos mas vendidos</td>
-            <td>Distribucion de mi negocio</td>
-            <td>Ganancia de Sucursales</td>
-        </tr>
-        <tr>
-            <td class="td-report">
-                <div>
-                    <canvas id="myPortfolio"></canvas>
-                </div>
-            </td>
-            <td class="td-report">
-                <div>
-                    <canvas id="companyExpenses3"></canvas>
-                </div>
-            </td>
-            <td class="td-report">
-                <div>
-                    <canvas id="companyExpenses1"></canvas>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div class="container" id="graphics-day">
+        <table class="table-report" border="1px">
+            <tr>
+                <th colspan="3">Dashboard</th>
+            </tr>
+            <tr>
+                <td><i class="fi-icon fi-ss-hamburger"></i> Productos mas vendidos</td>
+                <td><i class="fi-icon fi-sr-label"></i> Distribucion de mi negocio</td>
+                <td><i class="fi-icon fi-sr-store-alt"></i> Ganancia de Sucursales</td>
+            </tr>
+            <tr>
+                <td class="td-report">
+                    <div>
+                        <canvas id="myPortfolioDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
 
-    <div class="row">
-        <div class="col">
-            <label for="">Reporte de mis ganancias</label>
-            <div class="card">
-                <canvas id="companyExpenses"></canvas>
+        <div class="row">
+            <div class="col">
+                <label for="">Reporte de mis ganancias</label>
+                <div class="card">
+                    <canvas id="companyExpensesDay"></canvas>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="container div-disabled" id="graphics-month">
+        <table class="table-report" border="1px">
+            <tr>
+                <th colspan="3">Dashboard</th>
+            </tr>
+            <tr>
+                <td><i class="fi-icon fi-ss-hamburger"></i> Productos mas vendidos</td>
+                <td><i class="fi-icon fi-sr-label"></i> Distribucion de mi negocio</td>
+                <td><i class="fi-icon fi-sr-store-alt"></i> Ganancia de Sucursales</td>
+            </tr>
+            <tr>
+                <td class="td-report">
+                    <div>
+                        <canvas id="myPortfolioDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="row">
+            <div class="col">
+                <label for="">Reporte de mis ganancias</label>
+                <div class="card">
+                    <canvas id="companyExpensesDay"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container div-disabled" id="graphics-year">
+        <table class="table-report" border="1px">
+            <tr>
+                <th colspan="3">Dashboard</th>
+            </tr>
+            <tr>
+                <td><i class="fi-icon fi-ss-hamburger"></i> Productos mas vendidos</td>
+                <td><i class="fi-icon fi-sr-label"></i> Distribucion de mi negocio</td>
+                <td><i class="fi-icon fi-sr-store-alt"></i> Ganancia de Sucursales</td>
+            </tr>
+            <tr>
+                <td class="td-report">
+                    <div>
+                        <canvas id="myPortfolioDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpensesDay"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="row">
+            <div class="col">
+                <label for="">Reporte de mis ganancias</label>
+                <div class="card">
+                    <canvas id="companyExpensesDay"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container div-disabled" id="graphics-all">
+        <table class="table-report" border="1px">
+            <tr>
+                <th colspan="3">Dashboard</th>
+            </tr>
+            <tr>
+                <td><i class="fi-icon fi-ss-hamburger"></i> Productos mas vendidos</td>
+                <td><i class="fi-icon fi-sr-label"></i> Distribucion de mi negocio</td>
+                <td><i class="fi-icon fi-sr-store-alt"></i> Ganancia de Sucursales</td>
+            </tr>
+            <tr>
+                <td class="td-report">
+                    <div>
+                        <canvas id="myPortfolio"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpenses3"></canvas>
+                    </div>
+                </td>
+                <td class="td-report">
+                    <div>
+                        <canvas id="companyExpenses1"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="row">
+            <div class="col">
+                <label for="">Reporte de mis ganancias</label>
+                <div class="card">
+                    <canvas id="companyExpenses"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!--DASHBOARD-->
@@ -111,6 +231,8 @@
         </div>
     </section>
     </div>
+    <br>
+    <br>
 </body>
 
 </html>
@@ -156,4 +278,54 @@
     const salesByCombosLabels=text3.split(',');
     
     draw_graph(ctx4,'doughnut','My Portfolio',salesByCombosLabels,{{salesByCombosData}},'Ganancias por combos')
+</script>
+
+<script>
+    // get the div for his id
+    const salesDiv1 = document.getElementById('salesDiv1');
+    const salesDiv2 = document.getElementById('salesDiv2');
+    const salesDiv3 = document.getElementById('salesDiv3');
+    const salesDiv4 = document.getElementById('salesDiv4');
+
+    //get the container of the graphs 
+    const graphicsAll = document.getElementById('graphics-all');
+    const graphicsDay = document.getElementById('graphics-day');
+    const graphicsMonth = document.getElementById('graphics-month');
+    const graphicsYear = document.getElementById('graphics-year');
+
+    function remove_active_class_from_all() {
+        graphicsAll.classList.remove('div-disabled');
+        graphicsAll.classList.add('div-disabled');
+
+        graphicsDay.classList.remove('div-disabled');
+        graphicsDay.classList.add('div-disabled');
+
+        graphicsMonth.classList.remove('div-disabled');
+        graphicsMonth.classList.add('div-disabled');
+
+        graphicsYear.classList.remove('div-disabled');
+        graphicsYear.classList.add('div-disabled');
+    }
+
+
+    // add a event listener for the click
+    salesDiv1.addEventListener('click', function() {
+        remove_active_class_from_all();
+        graphicsDay.classList.remove('div-disabled');
+    });
+
+    salesDiv2.addEventListener('click', function() {
+        remove_active_class_from_all();
+        graphicsMonth.classList.remove('div-disabled');
+    });
+
+    salesDiv3.addEventListener('click', function() {
+        remove_active_class_from_all();
+        graphicsYear.classList.remove('div-disabled');
+    });
+
+    salesDiv4.addEventListener('click', function() {
+        remove_active_class_from_all();
+        graphicsAll.classList.remove('div-disabled');
+    });
 </script>
