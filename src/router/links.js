@@ -1458,6 +1458,217 @@ router.get('/:id_company/reports3',isLoggedIn,async(req,res)=>{
     res.render("links/manager/reports/sales", { days: days, months:months, years:years,chartData: JSON.stringify(chartData) });
 })
 
+router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
+    const {id_company}=req.params;
+    const company=await this_company_is_of_this_user(req,res);
+    if (company!=null){
+        //--------------------------------------------------------------this is data all--------------------------------------
+        //-----------graph of sales
+        const data=await get_sales_company(id_company); //get data of the database
+        const salesData=get_sales_data(data); //convert this data for that char.js can read
+
+        //convert the data in a format for Chart.js
+        const chartLabels = Object.keys(salesData);
+        const days = [];
+        const months = [];
+        const years = [];
+        
+        chartLabels.forEach(dateString => {
+            const parts = dateString.split('/'); // Split date string into parts
+            const day = parseInt(parts[0]); // get the day 
+            const month = parseInt(parts[1]); // get the month
+            const year = parseInt(parts[2]); // get the year
+            
+            //save the data in his array
+            days.push(day);
+            months.push(month);
+            years.push(year);
+        });
+
+        //this is for convert the data of sale to object 
+        const chartData = Object.values(salesData);
+
+        //this is for get the total of the sale of today
+        const total=await get_total_sales_company(id_company);
+        const unity=await get_total_unity_company(id_company);
+
+        const totalYear=await get_total_year(id_company);
+        const totalMonth=await get_total_month(id_company);
+        const totalCompany=await get_total_company(id_company);
+
+        const branches=await get_branchIds_by_company(id_company);
+
+
+        const moveNegative=await get_movements_company_negative(branches);
+        const movePositive=await get_movements_company_positive(branches)
+
+        //this is for tha table of the sales of the branch 
+        const dataSalesBranches=await get_sale_branch(branches)
+        const salesBranchesLabels=[]
+        const salesBranchesData=[]
+        dataSalesBranches.forEach(item => {
+            salesBranchesLabels.push(item[0]); // add the name of the branch 
+            salesBranchesData.push(item[1]); // add the sales of the array 
+        });
+        
+        //% aument 
+        const totalYearOld=await get_total_year_old(id_company);
+        const percentageYear=calculate_sale_increase(totalYearOld,totalYear);
+
+        const totalMonthOld=await get_total_month_old(id_company);
+        const percentageMonth=calculate_sale_increase(totalMonthOld,totalMonth);
+
+        const totalDayhOld=await get_total_day_old(id_company);
+        const percentageDay=calculate_sale_increase(totalDayhOld,total);
+
+        //----graph distribute
+        const distribute=await get_data_distribute_company(id_company)
+        const distributeLabels=[]
+        const distributeData=[]
+        
+        // we will reading all the array and get the elements
+        distribute.forEach(item => {
+            distributeLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
+            distributeData.push( parseFloat(item[1])); // add the numer of the array 
+        });
+
+        //graph sale combos
+        const salesByCombos=await get_sales_total_by_combo(id_company)
+        const salesByCombosLabels=[]
+        const salesByCombosData=[]
+        salesByCombos.forEach(sale => {
+            salesByCombosLabels.push(sale.name);
+            salesByCombosData.push(sale.total_sales);
+        });
+
+        totalMovimientos=total+moveNegative+movePositive;
+
+
+
+        //--------------------------------------------------------------this is data day--------------------------------------
+        //this is for know much profit have we had today
+        const dataDay=await get_sales_company_for_day(id_company); //get data of the database
+        const salesDataDay=get_sales_data_day(dataDay); //convert this data for that char.js can read (hours)
+        
+        const salesDayLabels = Object.keys(salesDataDay);
+        const salesDayData = Object.values(salesDataDay);
+
+        //this is for get the sale of the branch today
+        const dataSalesBranchesDay=await get_sale_branch_today(branches)
+        const salesBranchesLabelsDay=[]
+        const salesBranchesDataDay=[]
+        dataSalesBranchesDay.forEach(item => {
+            salesBranchesLabelsDay.push(item[0]); // add the name of the branch 
+            salesBranchesDataDay.push(item[1]); // add the sales of the array 
+        });
+        
+        //graph distribute, 
+        //for know which products is most sale. This not means that that combos be the that most money generate in the business 
+        const comboMostSaleForDay=await get_data_distribute_company_day(id_company)
+        const comboMostSaleForDayLabels=[]
+        const comboMostSaleForDayData=[]
+        console.log(comboMostSaleForDay)
+        // we will reading all the array and get the elements
+        comboMostSaleForDay.forEach(item => {
+            comboMostSaleForDayLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
+            comboMostSaleForDayData.push( parseFloat(item[1])); // add the numer of the array 
+        });
+
+
+        //graph sale combos for day. This is for knwo when much profit does each combo leave me for day
+        //this is for know how is distribuite the sale of the business 
+        const salesByCombosDay=await get_sales_total_by_combo_today(id_company)
+        const salesByCombosLabelsDay=[]
+        const salesByCombosDataDay=[]
+        salesByCombosDay.forEach(sale => {
+            salesByCombosLabelsDay.push(sale.name);
+            salesByCombosDataDay.push(sale.total_sales);
+        });
+
+        //--------------------------------------------------------------this is data month--------------------------------------
+        //this is for know much profit have we had today
+        const dataMonth=await get_sales_company_for_month(id_company); //get data of the database
+        const salesDataMonth=get_sales_data(dataMonth); //convert this data for that char.js can read
+        const salesMonthLabels = Object.keys(salesDataMonth);
+        const salesMonthData = Object.values(salesDataMonth);
+
+        //this is for get the sale of the branch month
+        const dataSalesBranchesMonth=await get_sale_branch_month(branches)
+        const salesBranchesLabelsMonth=[]
+        const salesBranchesDataMonth=[]
+        dataSalesBranchesMonth.forEach(item => {
+            salesBranchesLabelsMonth.push(item[0]); // add the name of the branch 
+            salesBranchesDataMonth.push(item[1]); // add the sales of the array 
+        });
+
+        //graph sale combos for day. This is for knwo when much profit does each combo leave me for month
+        //this is for know how is distribuite the sale of the business 
+        const salesByCombosMonth=await get_sales_total_by_combo_month(id_company)
+        
+        const salesByCombosLabelsMonth=[]
+        const salesByCombosDataMonth=[]
+        salesByCombosMonth.forEach(sale => {
+            salesByCombosLabelsMonth.push(sale.name);
+            salesByCombosDataMonth.push(sale.total_sales);
+        });
+        
+        //graph distribute, 
+        //for know which products is most sale. This not means that that combos be the that most money generate in the business 
+        const comboMostSaleForMonth=await get_data_distribute_company_month(id_company)
+        const comboMostSaleForMonthLabels=[]
+        const comboMostSaleForMonthData=[]
+        
+        // we will reading all the array and get the elements
+        comboMostSaleForMonth.forEach(item => {
+            comboMostSaleForMonthLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
+            comboMostSaleForMonthData.push( parseFloat(item[1])); // add the numer of the array 
+        });
+
+
+        //--------------------------------------------------------------this is data year--------------------------------------
+        //this is for know much profit have we had today
+        const dataYear=await get_sales_company_for_year(id_company); //get data of the database
+        const salesDataYear=get_sales_data(dataYear); //convert this data for that char.js can read
+        const salesYearLabels = Object.keys(salesDataYear);
+        const salesYearData = Object.values(salesDataYear);
+
+        //this is for get the sale of the branch year
+        const dataSalesBranchesYear=await get_sale_branch_year(branches)
+        const salesBranchesLabelsYear=[]
+        const salesBranchesDataYear=[]
+        dataSalesBranchesYear.forEach(item => {
+            salesBranchesLabelsYear.push(item[0]); // add the name of the branch 
+            salesBranchesDataYear.push(item[1]); // add the sales of the array 
+        });
+        
+        //graph sale combos for day. This is for knwo when much profit does each combo leave me for year
+        //this is for know how is distribuite the sale of the business 
+        const salesByCombosYear=await get_sales_total_by_combo_year(id_company)
+        const salesByCombosLabelsYear=[]
+        const salesByCombosDataYear=[]
+        salesByCombosYear.forEach(sale => {
+            salesByCombosLabelsYear.push(sale.name);
+            salesByCombosDataYear.push(sale.total_sales);
+        });
+
+        //graph distribute, 
+        //for know which products is most sale. This not means that that combos be the that most money generate in the business 
+        const comboMostSaleForYear=await get_data_distribute_company_year(id_company)
+        const comboMostSaleForYearLabels=[]
+        const comboMostSaleForYearData=[]
+        
+        // we will reading all the array and get the elements
+        comboMostSaleForYear.forEach(item => {
+            comboMostSaleForYearLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
+            comboMostSaleForYearData.push( parseFloat(item[1])); // add the numer of the array 
+        });
+
+        console.log(comboMostSaleForYearData)
+        res.render("links/manager/reports/global",{ comboMostSaleForDayLabels,comboMostSaleForDayData,comboMostSaleForMonthLabels,comboMostSaleForMonthData,comboMostSaleForYearLabels,comboMostSaleForYearData,salesByCombosLabelsYear,salesByCombosDataYear,salesByCombosLabelsMonth,salesByCombosDataMonth,salesByCombosLabelsDay,salesByCombosDataDay,salesBranchesLabelsYear,salesBranchesDataYear,salesBranchesLabelsMonth,salesBranchesDataMonth,salesBranchesLabelsDay,salesBranchesDataDay, salesYearLabels, salesYearData, salesMonthLabels, salesMonthData,salesDayLabels, salesDayData, salesByCombosLabels,salesByCombosData:JSON.stringify(salesByCombosData),salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
+        
+    }
+})
+//-----------------------------------------------------------this function is for get all the sale of today (day,month,reay)
 function get_sales_data(data) {
     const salesData = {};
     data.forEach(item => {
@@ -1471,92 +1682,353 @@ function get_sales_data(data) {
     return salesData;
 }
 
-router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
-    const company=await this_company_is_of_this_user(req,res);
-    if (company!=null){
-    //-----------graph of sales
-    const data=await get_sales_company(id_company); //get data of the database
-    const salesData=get_sales_data(data); //convert this data for that char.js can read
+async function get_sales_company_for_day(idCompany) {
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch,
+                   EXTRACT(HOUR FROM sh.sale_day) AS sale_hour
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+            AND DATE(sh.sale_day) = current_date
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
 
-    //convert the data in a format for Chart.js
-    const chartLabels = Object.keys(salesData);
-    const days = [];
-    const months = [];
-    const years = [];
-    
-    chartLabels.forEach(dateString => {
-        const parts = dateString.split('/'); // Split date string into parts
-        const day = parseInt(parts[0]); // get the day 
-        const month = parseInt(parts[1]); // get the month
-        const year = parseInt(parts[2]); // get the year
-        
-        //save the data in his array
-        days.push(day);
-        months.push(month);
-        years.push(year);
-    });
-
-    //this is for convert the data of sale to object 
-    const chartData = Object.values(salesData);
-
-    //this is for get the total of the sale of today
-    const total=await get_total_sales_company(id_company);
-    const unity=await get_total_unity_company(id_company);
-
-    const totalYear=await get_total_year(id_company);
-    const totalMonth=await get_total_month(id_company);
-    const totalCompany=await get_total_company(id_company);
-
-    const branches=await get_branchIds_by_company(id_company);
-    const moveNegative=await get_movements_company_negative(branches);
-    const movePositive=await get_movements_company_positive(branches)
-
-    //this is for tha table of the sales of the branch 
-    const dataSalesBranches=await get_sale_branch(branches)
-    const salesBranchesLabels=[]
-    const salesBranchesData=[]
-    dataSalesBranches.forEach(item => {
-        salesBranchesLabels.push(item[0]); // add the name of the branch 
-        salesBranchesData.push(item[1]); // add the sales of the array 
-    });
-    
-    //% aument 
-    const totalYearOld=await get_total_year_old(id_company);
-    const percentageYear=calculate_sale_increase(totalYearOld,totalYear);
-
-    const totalMonthOld=await get_total_month_old(id_company);
-    const percentageMonth=calculate_sale_increase(totalMonthOld,totalMonth);
-
-    const totalDayhOld=await get_total_day_old(id_company);
-    const percentageDay=calculate_sale_increase(totalDayhOld,total);
-
-    //----graph distribute
-    const distribute=await get_data_distribute_company(id_company)
-    const distributeLabels=[]
-    const distributeData=[]
-    
-    // we will reading all the array and get the elements
-    distribute.forEach(item => {
-        distributeLabels.push(item[0].replace(/'/g, '')); // add the name of the array 
-        distributeData.push( parseFloat(item[1])); // add the numer of the array 
-    });
-
-    //graph 
-    const salesByCombos=await get_sales_total_by_combo(id_company)
-    const salesByCombosLabels=[]
-    const salesByCombosData=[]
-    salesByCombos.forEach(sale => {
-        salesByCombosLabels.push(sale.name);
-        salesByCombosData.push(sale.total_sales);
-    });
-
-    totalMovimientos=total+moveNegative+movePositive
-    res.render("links/manager/reports/global",{ salesByCombosLabels,salesByCombosData:JSON.stringify(salesByCombosData),salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
     }
-})
+}
 
-//this function is for get all the sale of today
+function get_sales_data_day(data) {
+    const salesData = {};
+    data.forEach(item => {
+        const saleHour = new Date(item.sale_day).getHours(); // Obtener solo la hora de la venta
+        if (!salesData[saleHour]) {
+            salesData[saleHour] = 0;
+        }
+        salesData[saleHour] += item.total;
+    });
+    
+    return salesData;
+}
+
+async function get_sales_company_for_month(idCompany) {
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+            AND EXTRACT(MONTH FROM sh.sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)
+            AND EXTRACT(YEAR FROM sh.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
+
+async function get_sales_company_for_year(idCompany) {
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+            AND EXTRACT(YEAR FROM sh.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de ventas:", error);
+        throw error;
+    }
+}
+
+//-----------------------------------------------------------this function is for get all the moving of branches (day)
+async function get_branchIds_by_company(idCompany) {
+    try {
+        const query = `
+            SELECT id
+            FROM "Company".branches
+            WHERE id_companies = $1;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows.map(row => row.id);
+    } catch (error) {
+        console.error("Error al obtener los IDs de sucursales:", error);
+        throw error;
+    }
+}
+
+async function get_movements_company_negative(branches){
+    var total=0;
+    for(var i=0;i<branches.length;i++){
+        total+=await get_negative_moves_by_branch(branches[i]);
+    }
+    return total;
+}
+
+async function get_negative_moves_by_branch(idBranch) {
+    try {
+        const query = `
+            SELECT COALESCE(SUM(move), 0) AS total_negative_moves
+            FROM "Box".movement_history
+            WHERE id_branches IN (
+                SELECT id
+                FROM "Company".branches
+                WHERE id = $1
+            )
+            AND date_move::date = CURRENT_DATE
+            AND move < 0;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0].total_negative_moves;
+    } catch (error) {
+        console.error("Error al obtener los movimientos en negativo:", error);
+        throw error;
+    }
+}
+
+//-----------------------------------------------------------this function is for get all the sale of the combo (day,month,reay,all)
+async function get_sale_branch(branches){
+    const dataSales=[]
+    for(var i=0;i<branches.length;i++){
+        const data=await get_sales_total_by_branch(branches[i]);
+        dataSales.push([data.name_branch,data.total_sales])
+    }
+
+    return dataSales;
+}
+
+async function get_sales_total_by_branch(idBranch) {
+    try {
+        const query = `
+            SELECT b.name_branch, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM "Company".branches AS b
+            LEFT JOIN "Box".sales_history AS s ON s.id_branches = b.id
+            WHERE b.id = $1
+            GROUP BY b.name_branch;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0] || { name_branch: null, total_sales: 0 };
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
+
+async function get_sale_branch_today(branches){
+    const dataSales=[]
+    for(var i=0;i<branches.length;i++){
+        const data=await get_sales_total_by_branch_today(branches[i]);
+        dataSales.push([data.name_branch,data.total_sales])
+    }
+
+    return dataSales;
+}
+
+async function get_sales_total_by_branch_today(idBranch) {
+    try {
+        const query = `
+            SELECT b.name_branch, COALESCE(SUM(sh.total), 0) AS total_sales
+            FROM "Company".branches AS b
+            LEFT JOIN "Box".sales_history AS sh ON sh.id_branches = b.id
+            WHERE b.id = $1
+            AND sh.sale_day >= CURRENT_DATE AND sh.sale_day < CURRENT_DATE + INTERVAL '1 day'
+            GROUP BY b.name_branch;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0] || { name_branch: null, total_sales: 0 };
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
+
+async function get_sale_branch_month(branches){
+    const dataSales=[]
+    for(var i=0;i<branches.length;i++){
+        const data=await get_sales_total_by_branch_this_month(branches[i]);
+        dataSales.push([data.name_branch,data.total_sales])
+    }
+
+    return dataSales;
+}
+
+async function get_sales_total_by_branch_this_month(idBranch) {
+    try {
+        const query = `
+            SELECT b.name_branch, COALESCE(SUM(sh.total), 0) AS total_sales
+            FROM "Company".branches AS b
+            LEFT JOIN "Box".sales_history AS sh ON sh.id_branches = b.id
+            WHERE b.id = $1
+            AND EXTRACT(MONTH FROM sh.sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)
+            AND EXTRACT(YEAR FROM sh.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+            GROUP BY b.name_branch;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0] || { name_branch: null, total_sales: 0 };
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
+
+async function get_sale_branch_year(branches){
+    const dataSales=[]
+    for(var i=0;i<branches.length;i++){
+        const data=await get_sales_total_by_branch_this_year(branches[i]);
+        dataSales.push([data.name_branch,data.total_sales])
+    }
+
+    return dataSales;
+}
+
+async function get_sales_total_by_branch_this_year(idBranch) {
+    try {
+        const query = `
+            SELECT b.name_branch, COALESCE(SUM(sh.total), 0) AS total_sales
+            FROM "Company".branches AS b
+            LEFT JOIN "Box".sales_history AS sh ON sh.id_branches = b.id
+            WHERE b.id = $1
+            AND EXTRACT(YEAR FROM sh.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+            GROUP BY b.name_branch;
+        `;
+        const values = [idBranch];
+        const result = await database.query(query, values);
+        return result.rows[0] || { name_branch: null, total_sales: 0 };
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por sucursal:", error);
+        throw error;
+    }
+}
+
+//-----------------------------------------------------------this function is for get all sale that we get with the combos (day,month,reay,all)
+async function get_sales_total_by_combo(idCompany){
+    try {
+        const query = `
+            WITH productos AS (
+                SELECT id, name
+                FROM "Kitchen".dishes_and_combos
+                WHERE id_companies = $1
+            )
+            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM productos p
+            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
+            GROUP BY p.id, p.name;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows || [];
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por empresa:", error);
+        throw error;
+    }
+}
+
+async function get_sales_total_by_combo_today(idCompany) {
+    try {
+        const query = `
+            WITH productos AS (
+                SELECT id, name
+                FROM "Kitchen".dishes_and_combos
+                WHERE id_companies = $1
+            )
+            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM productos p
+            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
+            WHERE DATE(s.sale_day) = CURRENT_DATE
+            GROUP BY p.id, p.name;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows || [];
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por empresa:", error);
+        throw error;
+    }
+}
+
+async function get_sales_total_by_combo_year(idCompany) {
+    try {
+        const query = `
+            WITH productos AS (
+                SELECT id, name
+                FROM "Kitchen".dishes_and_combos
+                WHERE id_companies = $1
+            )
+            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM productos p
+            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
+            WHERE EXTRACT(YEAR FROM s.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+            GROUP BY p.id, p.name;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows || [];
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por empresa:", error);
+        throw error;
+    }
+}
+
+async function get_sales_total_by_combo_month(idCompany) {
+    try {
+        const query = `
+            WITH productos AS (
+                SELECT id, name
+                FROM "Kitchen".dishes_and_combos
+                WHERE id_companies = $1
+            )
+            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
+            FROM productos p
+            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
+            WHERE EXTRACT(MONTH FROM s.sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)
+              AND EXTRACT(YEAR FROM s.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+            GROUP BY p.id, p.name;
+        `;
+        const values = [idCompany];
+        const result = await database.query(query, values);
+        return result.rows || [];
+    } catch (error) {
+        console.error("Error al obtener la suma total de ventas por empresa:", error);
+        throw error;
+    }
+}
+
+
+//---------------------------------------------------------this function is for get the combo most sale (day,month,reay,all)
+//for know which products is most sale. This not means that that combos be the that most money generate in the business 
 async function get_data_distribute_company(id_company){
     //this function is for convert the string that return the script of python to a array for read in the web 
     var distribute=await get_data_report_distribute(id_company)
@@ -1576,7 +2048,7 @@ async function get_data_report_distribute(id_company){
     //this function is for read a script of python for calculate the distribute of the bussiner 
     return new Promise((resolve, reject) => {
         //we going to call the script python, send the id company
-        const pythonPath = 'src/dataScine/sales.py';
+        const pythonPath = 'src/dataScine/sales/sales.py';
         const arg = [id_company];
         const pythonProcess = spawn('python', [pythonPath, ...arg]);
 
@@ -1606,6 +2078,153 @@ async function get_data_report_distribute(id_company){
     });
 }
 
+async function get_data_distribute_company_day(id_company){
+    //this function is for convert the string that return the script of python to a array for read in the web 
+    var distribute=await get_data_report_distribute_day(id_company)
+    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Iteramos sobre los conjuntos de corchetes encontrados
+    const arrayData = matches.map(match => {
+        // Removemos los corchetes y las comillas y dividimos por la coma
+        return match.slice(1, -1).split(", ");
+    });
+    
+    return arrayData;
+}
+
+async function get_data_report_distribute_day(id_company){
+    //this function is for read a script of python for calculate the distribute of the bussiner 
+    return new Promise((resolve, reject) => {
+        //we going to call the script python, send the id company
+        const pythonPath = 'src/dataScine/sales/salesDay.py';
+        const arg = [id_company];
+        const pythonProcess = spawn('python', [pythonPath, ...arg]);
+
+        let outputData = ''; //this is for save the output 
+
+        //get the result of the script 
+        pythonProcess.stdout.on('data', (data) => {
+            outputData += data.toString();
+        });
+
+
+        //we will watching if exist a error in the script 
+        pythonProcess.stderr.on('data', (data) => {
+            //Handle standard output errors
+            console.error('Error en la salida estándar del proceso de Python:', data.toString());
+            reject(new Error(data.toString()));
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(outputData);
+            } else {
+                // Python process terminated with error code
+                reject(new Error(`El proceso de Python terminó con un código de error: ${code}`));
+            }
+        });
+    });
+}
+
+async function get_data_distribute_company_month(id_company){
+    //this function is for convert the string that return the script of python to a array for read in the web 
+    var distribute=await get_data_report_distribute_month(id_company)
+    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Iteramos sobre los conjuntos de corchetes encontrados
+    const arrayData = matches.map(match => {
+        // Removemos los corchetes y las comillas y dividimos por la coma
+        return match.slice(1, -1).split(", ");
+    });
+    
+    return arrayData;
+}
+
+async function get_data_report_distribute_month(id_company){
+    //this function is for read a script of python for calculate the distribute of the bussiner 
+    return new Promise((resolve, reject) => {
+        //we going to call the script python, send the id company
+        const pythonPath = 'src/dataScine/sales/salesMonth.py';
+        const arg = [id_company];
+        const pythonProcess = spawn('python', [pythonPath, ...arg]);
+
+        let outputData = ''; //this is for save the output 
+
+        //get the result of the script 
+        pythonProcess.stdout.on('data', (data) => {
+            outputData += data.toString();
+        });
+
+
+        //we will watching if exist a error in the script 
+        pythonProcess.stderr.on('data', (data) => {
+            //Handle standard output errors
+            console.error('Error en la salida estándar del proceso de Python:', data.toString());
+            reject(new Error(data.toString()));
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(outputData);
+            } else {
+                // Python process terminated with error code
+                reject(new Error(`El proceso de Python terminó con un código de error: ${code}`));
+            }
+        });
+    });
+}
+
+async function get_data_distribute_company_year(id_company){
+    //this function is for convert the string that return the script of python to a array for read in the web 
+    var distribute=await get_data_report_distribute_month(id_company)
+    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Iteramos sobre los conjuntos de corchetes encontrados
+    const arrayData = matches.map(match => {
+        // Removemos los corchetes y las comillas y dividimos por la coma
+        return match.slice(1, -1).split(", ");
+    });
+    
+    return arrayData;
+}
+
+async function get_data_report_distribute_year(id_company){
+    //this function is for read a script of python for calculate the distribute of the bussiner 
+    return new Promise((resolve, reject) => {
+        //we going to call the script python, send the id company
+        const pythonPath = 'src/dataScine/sales/salesYear.py';
+        const arg = [id_company];
+        const pythonProcess = spawn('python', [pythonPath, ...arg]);
+
+        let outputData = ''; //this is for save the output 
+
+        //get the result of the script 
+        pythonProcess.stdout.on('data', (data) => {
+            outputData += data.toString();
+        });
+
+
+        //we will watching if exist a error in the script 
+        pythonProcess.stderr.on('data', (data) => {
+            //Handle standard output errors
+            console.error('Error en la salida estándar del proceso de Python:', data.toString());
+            reject(new Error(data.toString()));
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                resolve(outputData);
+            } else {
+                // Python process terminated with error code
+                reject(new Error(`El proceso de Python terminó con un código de error: ${code}`));
+            }
+        });
+    });
+}
+//-----------------------------------------------------------this function is for get all the sale of today (all)
 async function get_total_sales_company(idCompany) {
     try {
         const query = `
@@ -1728,7 +2347,6 @@ async function get_total_month_old(idCompany){
     }
 }
 
-
 async function get_total_company(idCompany){
     try {
         const query = `
@@ -1757,52 +2375,6 @@ function calculate_sale_increase(previousSales, currentSales) {
     const percentageIncrease = (salesIncrease / previousSales) * 100;
 
     return percentageIncrease;
-}
-
-async function get_movements_company_negative(branches){
-    var total=0;
-    for(var i=0;i<branches.length;i++){
-        total+=await get_negative_moves_by_branch(branches[i]);
-    }
-    return total;
-}
-
-async function get_branchIds_by_company(idCompany) {
-    try {
-        const query = `
-            SELECT id
-            FROM "Company".branches
-            WHERE id_companies = $1;
-        `;
-        const values = [idCompany];
-        const result = await database.query(query, values);
-        return result.rows.map(row => row.id);
-    } catch (error) {
-        console.error("Error al obtener los IDs de sucursales:", error);
-        throw error;
-    }
-}
-
-async function get_negative_moves_by_branch(idBranch) {
-    try {
-        const query = `
-            SELECT COALESCE(SUM(move), 0) AS total_negative_moves
-            FROM "Box".movement_history
-            WHERE id_branches IN (
-                SELECT id
-                FROM "Company".branches
-                WHERE id = $1
-            )
-            AND date_move::date = CURRENT_DATE
-            AND move < 0;
-        `;
-        const values = [idBranch];
-        const result = await database.query(query, values);
-        return result.rows[0].total_negative_moves;
-    } catch (error) {
-        console.error("Error al obtener los movimientos en negativo:", error);
-        throw error;
-    }
 }
 
 async function get_movements_company_positive(branches){
@@ -1835,55 +2407,7 @@ async function get_positive_moves_by_branch(idBranch) {
     }
 }
 
-async function get_sale_branch(branches){
-    const dataSales=[]
-    for(var i=0;i<branches.length;i++){
-        const data=await get_sales_total_by_branch(branches[i]);
-        dataSales.push([data.name_branch,data.total_sales])
-    }
 
-    return dataSales;
-}
-
-async function get_sales_total_by_branch(idBranch) {
-    try {
-        const query = `
-            SELECT b.name_branch, COALESCE(SUM(s.total), 0) AS total_sales
-            FROM "Company".branches AS b
-            LEFT JOIN "Box".sales_history AS s ON s.id_branches = b.id
-            WHERE b.id = $1
-            GROUP BY b.name_branch;
-        `;
-        const values = [idBranch];
-        const result = await database.query(query, values);
-        return result.rows[0] || { name_branch: null, total_sales: 20000 };
-    } catch (error) {
-        console.error("Error al obtener la suma total de ventas por sucursal:", error);
-        throw error;
-    }
-}
-
-async function get_sales_total_by_combo(idCompany){
-    try {
-        const query = `
-            WITH productos AS (
-                SELECT id, name
-                FROM "Kitchen".dishes_and_combos
-                WHERE id_companies = $1
-            )
-            SELECT p.id, p.name, COALESCE(SUM(s.total), 0) AS total_sales
-            FROM productos p
-            LEFT JOIN "Box".sales_history s ON p.id = s.id_dishes_and_combos
-            GROUP BY p.id, p.name;
-        `;
-        const values = [idCompany];
-        const result = await database.query(query, values);
-        return result.rows || [];
-    } catch (error) {
-        console.error("Error al obtener la suma total de ventas por empresa:", error);
-        throw error;
-    }
-}
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
@@ -1951,7 +2475,6 @@ async function get_supplies_with_id(id_supplies){
     const data=result.rows;
     return data;
 }
-
 
 router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
@@ -2414,7 +2937,6 @@ async function get_sales_branch(idBranch) {
     }
 }
 
-
 router.get('/:id_company/:id_branch/movements',isLoggedIn,async(req,res)=>{
     const {id_branch}=req.params;
     const movements=await get_movements_company(id_branch);
@@ -2501,7 +3023,6 @@ async function delete_box_branch(id) {
         return false;
     }
 }
-
 
 //ad
 router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
@@ -2731,8 +3252,6 @@ async function home_company(req,res){
     const companies=result.rows;
     res.render('links/manager/home',{companies});
 }
-
-
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     if(await this_employee_works_here(req,res)){

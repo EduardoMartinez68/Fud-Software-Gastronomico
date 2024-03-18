@@ -22,17 +22,17 @@
             <tr>
                 <td class="td-report">
                     <div>
-                        <canvas id="myPortfolioDay"></canvas>
+                        <canvas id="MostSaleForDay"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="salesByCombosDay"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="saleBranchDay"></canvas>
                     </div>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
             <div class="col">
                 <label for="">Reporte de mis ganancias</label>
                 <div class="card">
-                    <canvas id="companyExpensesDay"></canvas>
+                    <canvas id="salesDay"></canvas>
                 </div>
             </div>
         </div>
@@ -62,17 +62,17 @@
             <tr>
                 <td class="td-report">
                     <div>
-                        <canvas id="myPortfolioDay"></canvas>
+                        <canvas id="MostSaleForMonth"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="salesByCombosMonth"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="saleBranchMonth"></canvas>
                     </div>
                 </td>
             </tr>
@@ -83,7 +83,7 @@
             <div class="col">
                 <label for="">Reporte de mis ganancias</label>
                 <div class="card">
-                    <canvas id="companyExpensesDay"></canvas>
+                    <canvas id="salesMonth"></canvas>
                 </div>
             </div>
         </div>
@@ -102,17 +102,17 @@
             <tr>
                 <td class="td-report">
                     <div>
-                        <canvas id="myPortfolioDay"></canvas>
+                        <canvas id="MostSaleForYear"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="salesByCombosYear"></canvas>
                     </div>
                 </td>
                 <td class="td-report">
                     <div>
-                        <canvas id="companyExpensesDay"></canvas>
+                        <canvas id="saleBranchYear"></canvas>
                     </div>
                 </td>
             </tr>
@@ -123,7 +123,7 @@
             <div class="col">
                 <label for="">Reporte de mis ganancias</label>
                 <div class="card">
-                    <canvas id="companyExpensesDay"></canvas>
+                    <canvas id="salesYear"></canvas>
                 </div>
             </div>
         </div>
@@ -278,6 +278,77 @@
     const salesByCombosLabels=text3.split(',');
     
     draw_graph(ctx4,'doughnut','My Portfolio',salesByCombosLabels,{{salesByCombosData}},'Ganancias por combos')
+</script>
+
+<script>
+    //
+    var ctxSales = document.getElementById('salesDay');
+    var textServer=JSON.stringify('{{ salesDayLabels}}');
+    var salesLabels=textServer.split(',');
+    
+    draw_graph(ctxSales,'line','My Portfolio',salesLabels,[{{salesDayData}}],'Ganancias del dia')
+
+    ctxSales = document.getElementById('salesMonth');
+    textServer=JSON.stringify('{{ salesMonthLabels}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'line','My Portfolio',salesLabels,[{{salesMonthData}}],'Ganancias del mes')
+
+    ctxSales = document.getElementById('salesYear');
+    textServer=JSON.stringify('{{ salesYearLabels}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'line','My Portfolio',salesLabels,[{{salesYearData}}],'Ganancias del año')
+</script>
+
+<script>
+    ctxSales = document.getElementById('saleBranchDay');
+    textServer=JSON.stringify('{{ salesBranchesLabelsDay}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'bar','My Portfolio',salesLabels,[{{salesBranchesDataDay}}],'Ganancias del dia por sucursal')
+
+    ctxSales = document.getElementById('saleBranchMonth');
+    textServer=JSON.stringify('{{ salesBranchesLabelsMonth}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'bar','My Portfolio',salesLabels,[{{salesBranchesDataMonth}}],'Ganancias del dia por mes')
+
+    ctxSales = document.getElementById('saleBranchYear');
+    textServer=JSON.stringify('{{ salesBranchesLabelsYear}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'bar','My Portfolio',salesLabels,[{{salesBranchesDataYear}}],'Ganancias del dia por año')
+</script>
+
+<script>
+    ctxSales = document.getElementById('salesByCombosDay');
+    textServer=JSON.stringify('{{ salesByCombosLabelsDay}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{salesBranchesDataDay}}],'Ganancias por combos')
+
+    ctxSales = document.getElementById('salesByCombosMonth');
+    textServer=JSON.stringify('{{ salesByCombosLabelsMonth}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{salesByCombosDataYear}}],'Ganancias por combos')
+
+    ctxSales = document.getElementById('salesByCombosYear');
+    textServer=JSON.stringify('{{ salesByCombosLabelsYear}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{salesByCombosDataYear}}],'Ganancias por combos')
+</script>
+
+
+<script>
+    ctxSales = document.getElementById('MostSaleForDay');
+    textServer=JSON.stringify('{{ comboMostSaleForDayLabels}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{comboMostSaleForDayData}}],'Ganancias por combos')
+
+    ctxSales = document.getElementById('MostSaleForMonth');
+    textServer=JSON.stringify('{{ comboMostSaleForMonthLabels}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{comboMostSaleForMonthData}}],'Ganancias por combos')
+
+    ctxSales = document.getElementById('MostSaleForYear');
+    textServer=JSON.stringify('{{ comboMostSaleForYearLabels}}');
+    salesLabels=textServer.split(',');
+    draw_graph(ctxSales,'doughnut','My Portfolio',salesLabels,[{{comboMostSaleForYearData}}],'Ganancias por combos')
 </script>
 
 <script>
