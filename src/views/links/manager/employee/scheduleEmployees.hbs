@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="/css/manager/employee/employee.css">
+<style>
+    .fi-error{
+        color: red;
+    }
+    .fi-success{
+        color: rgb(99, 236, 81);
+    }
+
+    .td-icon{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fi-button:hover{
+        cursor: pointer;
+    }
+
+    .desactive {
+        display: none;
+    }
+</style>
+<br>
+
+<div class="container">
+    <div class="row">
+        {{>manager/schedule/scheduleEmployees/tableEmployees}}
+        <div class="col">
+            {{>manager/schedule/scheduleEmployees/informationSchedule}}
+            <br>
+
+            {{#each schedulesEmployees}}
+                <div class="container-schedule-employee desactive" idEmployee={{id_employees}}>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Dia</th>
+                                <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if monday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Lunes</td>
+                                <td>{{ms}}--{{mf}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if tuesday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Martes</td>
+                                <td>{{ts}}--{{tf}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if wednesday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Miercoles</td>
+                                <td>{{ws}}--{{wf}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if thursday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Jueves</td>
+                                <td>{{ths}}--{{thf}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if friday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Viernes</td>
+                                <td>{{fs}}--{{ff}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if saturday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Sabado</td>
+                                <td>{{sas}}--{{saf}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--this is for know if the employee work this day-->
+                                    {{#if sunday}}
+                                        <i class="fi-icon fi-sr-check-circle fi-success"></i>
+                                    {{else}}
+                                        <i class="fi-icon fi-sr-circle-xmark fi-error"></i>
+                                    {{/if}}
+                                </td>
+                                <td>Domingo</td>
+                                <td>{{sus}}--{{suf}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

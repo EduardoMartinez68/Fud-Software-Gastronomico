@@ -1,29 +1,42 @@
-const ThermalPrinter = require("node-thermal-printer").printer;
-const PrinterTypes = require("node-thermal-printer").types;
+const usb = require('usb');
+const escpos = require('escpos');
 
-// Iniciar la conexión con la impresora
+// Función para imprimir un ticket
 async function print_ticket(commander) {
-    // Crear una nueva instancia de la impresora
-    const printer = new ThermalPrinter({
-        type: PrinterTypes.EPSON,  // Tipo de impresora (ajusta según tu modelo)
-        interface: "printer:/dev/usb/lp0"  // Puerto o interfaz de la impresora
-    });
+    const USB_VENDOR_ID = 0x1234; // Reemplaza 0x1234 con el Vendor ID de tu impresora USB
+    const USB_PRODUCT_ID=0x1234;
+    
+    // Encuentra el dispositivo USB con el Vendor ID y el Product ID específicos
+    const devices = usb.getDeviceList();
+    const device = devices.find(device => device.deviceDescriptor.idVendor === USB_VENDOR_ID && device.deviceDescriptor.idProduct === USB_PRODUCT_ID);
 
-    try {
-        // Establecer el texto a imprimir
-        printer.alignCenter();
-        printer.println("¡Hola, mundo!");
-        printer.cut(); // Cortar el papel
-
-        // Enviar el trabajo de impresión a la impresora
-        await printer.execute();
-
-        console.log("Impresión completa.");
-    } catch (error) {
-        console.error("Error al imprimir:", error);
+    if (!device) {
+        console.error('No se encontró ningún dispositivo USB con los IDs especificados.');
+        return;
     }
+
+    // Crea una instancia de la impresora utilizando el dispositivo USB
+    const printer = new escpos.Printer(device);
+
+    // Abre el dispositivo USB y ejecuta la impresión
+    device.open(function () {
+        printer
+            .font('a')
+            .align('ct')
+            .style('bu')
+            .size(1, 1)
+            .text('¡Bienvenido a nuestra tienda!\n')
+            .text('--------------------------------\n')
+            .text(commander)
+            .text('--------------------------------\n')
+            .text('--------------------------------\n')
+            .text('Total:                       $60\n')
+            .text('--------------------------------\n')
+            .cut()
+            .close();
+    });
 }
 
 module.exports = {
     print_ticket
-}
+};

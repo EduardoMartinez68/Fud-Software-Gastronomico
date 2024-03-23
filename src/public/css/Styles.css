@@ -115,6 +115,20 @@
 
 
 /*global styles*/
+.btn-update {
+    background-color: var(--color-company);
+    width: 100%;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    text-align: center;
+
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-success {
     background-color: var(--color-company);
     width: 100%;

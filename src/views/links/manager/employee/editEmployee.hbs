@@ -7,7 +7,7 @@
     <div class="container p-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <label><i class="fi-icon fi-sr-hat-chef"></i> Add a new employee</label>
+                <label><i class="fi-icon fi-sr-hat-chef"></i> Update a employee</label>
                 <hr>
                 <div class="card">
                     <div class="card-body">
@@ -79,7 +79,7 @@
                                             <div class="row">
                                                 <label>.</label>
                                                 {{#each company}}
-                                                    <button class="btn-add" onclick="nextWeb('{{id}}/add-branches')"><i class="fi-icon fi-sr-store-alt"></i> +</button>
+                                                    <button class="btn-add" onclick="nextWeb('{{id}}/add-branches')" type="button"><i class="fi-icon fi-sr-store-alt"></i> +</button>
                                                 {{/each}}
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-block">Save</button>
+                                    <button class="btn btn-success btn-block" type="submit">Save</button>
                                 </div>
                             </form>
                         {{/each}}

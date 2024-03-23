@@ -1226,6 +1226,39 @@ async function search_employees(idCompany){
         return result.rows;
 }
 
+async function search_employees_branch(idBranch){
+    // Buscamos los empleados de la empresa con información adicional de otras tablas
+    /*
+    const queryText = `
+        SELECT e.id, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*, r.*, d.*, b.*, c.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+        LEFT JOIN "Company".branches b ON e.id_branches = b.id
+        LEFT JOIN "Fud".country c ON e.id_country = c.id
+        WHERE e.id_branches = $1
+    `;*/
+    const queryText = `
+        SELECT e.id AS id_employee, e.id_companies, e.id_users, e.id_roles_employees, e.id_departments_employees, e.id_branches, e.num_int, e.num_ext, e.city, e.street, e.phone, e.cell_phone,
+               u.*, r.*, d.*, b.*, c.*
+        FROM "Company".employees e
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Employee".roles_employees r ON e.id_roles_employees = r.id
+        LEFT JOIN "Employee".departments_employees d ON e.id_departments_employees = d.id
+        LEFT JOIN "Company".branches b ON e.id_branches = b.id
+        LEFT JOIN "Fud".country c ON e.id_country = c.id
+        WHERE e.id_branches = $1
+    `;
+
+
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+
+    return result.rows;
+}
+
 router.get('/:id/add-employee',isLoggedIn,async(req,res)=>{
     const company=await check_company(req);
     if(company.length>0){
@@ -1668,6 +1701,7 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
         
     }
 })
+
 //-----------------------------------------------------------this function is for get all the sale of today (day,month,reay)
 function get_sales_data(data) {
     const salesData = {};
@@ -2864,7 +2898,7 @@ router.get('/:id_company/:id_branch/customer',isLoggedIn,async(req,res)=>{
 //employees
 router.get('/:id_company/:id_branch/employees-branch',isLoggedIn,async(req,res)=>{
     const {id_branch,id_company}=req.params;
-    const employees=await search_employees(id_company);
+    const employees=await search_employees_branch(id_branch);
     const branch= await get_data_branch(req);
     res.render('links/branch/employees/employee',{employees,branch});
 })
@@ -3204,6 +3238,98 @@ async function get_data_schedule(idSchedule){
     return result.rows;
 }
 
+
+router.get('/:id_comopany/:id_branch/schedules-employees',isLoggedIn,async (req,res)=>{
+    const {id_company,id_branch,id_ad}=req.params;
+    const branch=await get_data_branch(req);
+    const schedules=await get_schedule_branch(id_branch);
+
+    //we will watching if exist a schedule
+    if(schedules.length>0){
+        const employees=await search_employees_branch(id_branch);
+        await create_new_schedule_of_the_week(id_branch,employees,schedules[0].id); //create the new schedule of the week 
+        const schedulesEmployees=await get_schedule_employees(id_branch);
+        console.log(schedulesEmployees)
+        res.render("links/manager/employee/scheduleEmployees",{branch,schedules,employees,schedulesEmployees});
+    }else{
+        //if not exist a schedule, the user go to tha web of schedule for add a schedule
+        res.redirect('/'+id_company+'/'+id_branch+'/add-schedule');
+    }
+})
+
+async function get_schedule_employees(idBranch) {
+    // get the day
+    var today = new Date();
+
+    // get the first day of the week (monday)
+    var dateStart = new Date(today);
+    dateStart.setDate(dateStart.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+
+    // get the finish day of the week (Sunday)
+    var dateFinish = new Date(today);
+    dateFinish.setDate(dateFinish.getDate() - today.getDay() + 7);
+
+    var queryText = `
+        SELECT hs.*, s.*
+        FROM "Employee".history_schedules hs
+        JOIN "Employee".schedules s ON hs.id_schedules = s.id
+        WHERE hs.id_branches = $1 
+        AND hs.date_start >= $2 
+        AND hs.date_finish <= $3`;
+
+    var values = [idBranch, dateStart, dateFinish];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
+
+async function create_new_schedule_of_the_week(idBranch,employees,idSchedule){
+    // get the day
+    var today = new Date();
+
+    // get the first day of the week (monday)
+    var dateStart = new Date(today);
+    dateStart.setDate(dateStart.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+
+    // get the finish day of the week (Sunday)
+    var dateFinish = new Date(today);
+    dateFinish.setDate(dateFinish.getDate() - today.getDay() + 7);
+
+    for(var i=0;i<employees.length;i++){
+        const idEmployee=employees[i].id_employee;
+        if(!await this_schedule_exist(idEmployee,dateStart,dateFinish)){
+            await add_schedule(idEmployee, idBranch,idSchedule, dateStart, dateFinish);
+        }
+    }
+}
+
+async function this_schedule_exist(idEmployee,dateStart,dateFinish) {
+    var queryText = `SELECT * FROM "Employee".history_schedules 
+                     WHERE id_employees = $1 
+                     AND date_start >= $2 
+                     AND date_finish <= $3`;
+
+    var values = [idEmployee, dateStart, dateFinish];
+
+    const result = await database.query(queryText, values);
+    console.log(result.rows.length>0);
+    return result.rows.length > 0;
+}
+
+async function add_schedule(idEmployee, idBranch, idSchedule, dateStart, dateFinish) {
+    try {
+        var queryText = `INSERT INTO "Employee".history_schedules (id_employees, id_branches,id_schedules, date_start, date_finish)
+                         VALUES ($1, $2, $3, $4,$5)
+                         RETURNING *`;
+        
+        var values = [idEmployee, idBranch, idSchedule, dateStart, dateFinish];
+        const result = await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error al insertar el nuevo dato:', error);
+        throw error;
+        return false;
+    }
+}
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

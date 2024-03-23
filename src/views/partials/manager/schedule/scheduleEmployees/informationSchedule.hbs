@@ -1,0 +1,48 @@
+<label for=""><i class="fi-icon fi-sr-clock-three"></i> Horario</label>
+<hr>
+<div class="row">
+    <div class="col-3">
+        <label for="">leo martinez lopez</label>
+    </div>
+    <div class="col-6">
+        <select class="form-select" aria-label="Default select example">
+            {{#each schedules}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="col">
+        <button class="btn-update">Actualizar <i class="fi-icon fi-br-refresh"></i></button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label for="fecha">fecha inicio:</label>
+        <input type="date" id="date-start" name="fecha" class="form-control" readonly>
+    </div>
+    <div class="col">
+        <label for="fecha">fecha final:</label>
+        <input type="date" id="date-finish" name="fecha" class="form-control" readonly>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    // get the day
+    var hoy = new Date();
+
+    // get the first day of the week (monday)
+    var primerDiaSemana = new Date(hoy);
+    primerDiaSemana.setDate(primerDiaSemana.getDate() - hoy.getDay() + (hoy.getDay() === 0 ? -6 : 1));
+
+    // get the finish day of the week (Sunday)
+    var ultimoDiaSemana = new Date(hoy);
+    ultimoDiaSemana.setDate(ultimoDiaSemana.getDate() - hoy.getDay() + 7);
+
+    // Set default values ​​for date input fields
+    document.getElementById('date-start').valueAsDate = primerDiaSemana;
+    document.getElementById('date-finish').valueAsDate = ultimoDiaSemana;
+</script>

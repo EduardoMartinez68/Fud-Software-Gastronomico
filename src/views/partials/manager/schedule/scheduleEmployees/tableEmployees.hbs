@@ -1,0 +1,56 @@
+<div class="col-6">
+    <label for=""><i class="fi-icon fi-sr-user"></i> Empleados</label>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each employees}}
+            <tr>
+                <td>
+                    {{#if photo}}
+                    <img class="img-info" src="/img/uploads/{{photo}}">
+                    {{else}}
+                    <img class="img-info"
+                        src="https://cdn.icon-icons.com/icons2/1572/PNG/512/3592855-business-man-employee-general-human-member-office-tie_107745.png">
+                    {{/if}}
+                    <label class="text-info-employee">{{name_role}}</label>
+                    <label>{{name_departaments}}</label>
+                </td>
+                <td>{{user_name}}</td>
+                <td>{{first_name}} {{second_name}} {{last_name}}</td>
+                <td onclick="activate_schedule_employee('{{id_employee}}')"><i class="fi-icon fi-br-angle-right td-icon fi-button"></i></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function activate_schedule_employee(idEmployee){
+        // Obtener todos los elementos con la clase "container-schedule-employee"
+        var divs = document.querySelectorAll('.container-schedule-employee');
+
+        // Iterar sobre cada elemento
+        for (var i = 0; i < divs.length; i++) {
+            var div = divs[i];
+            // Obtener el valor de la etiqueta <idEmployee>
+            var employeeId = div.getAttribute('idEmployee');
+
+            // Verificar si el valor de la etiqueta coincide con el idEmployee pasado como argumento
+            if (employeeId === idEmployee) {
+                // Activar el div cambiando su clase
+                div.classList.remove('desactive');
+            } else {
+                // Desactivar el div cambiando su clase
+                div.classList.add('desactive');
+            }
+        }
+    }
+</script>

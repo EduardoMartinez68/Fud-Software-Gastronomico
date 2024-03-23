@@ -1305,12 +1305,14 @@ router.post('/fud/client',isLoggedIn,async(req,res)=>{
 
 
 router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
+    var commander=''
+    var text=''
     try {
         //get the data of the server
         const combos = req.body;
         
         //we will seeing if can create all the combo of the car
-        var text=await watch_if_can_create_all_the_combo(combos);
+        text=await watch_if_can_create_all_the_combo(combos);
 
         //if can buy this combos, we going to add this buy to the database 
         if(text=='success'){
@@ -1334,17 +1336,25 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
             }
 
             //save the comander
-            const commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,combos[0].comment,day)
-            console.log(commander)
+            commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,combos[0].comment,day)
+    
             await addDatabase.add_commanders(commander);
-            await printer.print_ticket(commander); //this is for print the ticket 
         }
 
         //send an answer to the customer
-        res.status(200).json({ message: text});
+        //res.status(200).json({ message: text});
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+
+    try{
+        await printer.print_ticket(commander); //this is for print the ticket 
+        res.status(200).json({ message: text});
+    }catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'No podemos imprimir el ticket' });
+
     }
 })
 
