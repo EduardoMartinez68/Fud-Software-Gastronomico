@@ -1696,7 +1696,6 @@ router.get('/:id_company/reports',isLoggedIn,async(req,res)=>{
             comboMostSaleForYearData.push( parseFloat(item[1])); // add the numer of the array 
         });
 
-        console.log(comboMostSaleForYearData)
         res.render("links/manager/reports/global",{ comboMostSaleForDayLabels,comboMostSaleForDayData,comboMostSaleForMonthLabels,comboMostSaleForMonthData,comboMostSaleForYearLabels,comboMostSaleForYearData,salesByCombosLabelsYear,salesByCombosDataYear,salesByCombosLabelsMonth,salesByCombosDataMonth,salesByCombosLabelsDay,salesByCombosDataDay,salesBranchesLabelsYear,salesBranchesDataYear,salesBranchesLabelsMonth,salesBranchesDataMonth,salesBranchesLabelsDay,salesBranchesDataDay, salesYearLabels, salesYearData, salesMonthLabels, salesMonthData,salesDayLabels, salesDayData, salesByCombosLabels,salesByCombosData:JSON.stringify(salesByCombosData),salesBranchesLabels, salesBranchesData, company, total, percentageDay , unity, totalYear, percentageYear,totalMonth, percentageMonth, totalCompany, moveNegative,movePositive,totalMovimientos, days: days, months:months, years:years, distributeLabels, distributeData: JSON.stringify(distributeData) ,chartData: JSON.stringify(chartData) });
         
     }
@@ -2113,18 +2112,24 @@ async function get_data_report_distribute(id_company){
 }
 
 async function get_data_distribute_company_day(id_company){
-    //this function is for convert the string that return the script of python to a array for read in the web 
-    var distribute=await get_data_report_distribute_day(id_company)
-    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute_day(id_company);
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
     const matches = distribute.match(/\[.*?\]/g);
 
-    // Iteramos sobre los conjuntos de corchetes encontrados
-    const arrayData = matches.map(match => {
-        // Removemos los corchetes y las comillas y dividimos por la coma
-        return match.slice(1, -1).split(", ");
-    });
-    
-    return arrayData;
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+        
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array or null as preferred
+        return []; // Or you can return null if you prefer
+    }
 }
 
 async function get_data_report_distribute_day(id_company){
@@ -2162,18 +2167,24 @@ async function get_data_report_distribute_day(id_company){
 }
 
 async function get_data_distribute_company_month(id_company){
-    //this function is for convert the string that return the script of python to a array for read in the web 
-    var distribute=await get_data_report_distribute_month(id_company)
-    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    // This function is for converting the string returned by the Python script into an array for web reading
+    var distribute = await get_data_report_distribute_month(id_company);
+    distribute = distribute.slice(1, -3); // Remove the [ ] from the corners
     const matches = distribute.match(/\[.*?\]/g);
 
-    // Iteramos sobre los conjuntos de corchetes encontrados
-    const arrayData = matches.map(match => {
-        // Removemos los corchetes y las comillas y dividimos por la coma
-        return match.slice(1, -1).split(", ");
-    });
-    
-    return arrayData;
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+        
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array or null as preferred
+        return []; // Or you can return null if you prefer
+    }
 }
 
 async function get_data_report_distribute_month(id_company){
@@ -3252,7 +3263,8 @@ router.get('/:id_company/:id_branch/schedules-employees',isLoggedIn,async (req,r
         res.render("links/manager/employee/scheduleEmployees",{branch,schedules,employees,schedulesEmployees});
     }else{
         //if not exist a schedule, the user go to tha web of schedule for add a schedule
-        res.redirect('/'+id_company+'/'+id_branch+'/add-schedule');
+        req.flash('message','Primero necesitas agregar un horario 👁️')
+        res.redirect('/fud/'+id_company+'/'+id_branch+'/add-schedule');
     }
 })
 
