@@ -3239,11 +3239,10 @@ async function get_data_schedule(idSchedule){
 }
 
 
-router.get('/:id_comopany/:id_branch/schedules-employees',isLoggedIn,async (req,res)=>{
-    const {id_company,id_branch,id_ad}=req.params;
+router.get('/:id_company/:id_branch/schedules-employees',isLoggedIn,async (req,res)=>{
+    const {id_company,id_branch}=req.params;
     const branch=await get_data_branch(req);
     const schedules=await get_schedule_branch(id_branch);
-
     //we will watching if exist a schedule
     if(schedules.length>0){
         const employees=await search_employees_branch(id_branch);
@@ -3270,12 +3269,12 @@ async function get_schedule_employees(idBranch) {
     dateFinish.setDate(dateFinish.getDate() - today.getDay() + 7);
 
     var queryText = `
-        SELECT hs.*, s.*
-        FROM "Employee".history_schedules hs
-        JOIN "Employee".schedules s ON hs.id_schedules = s.id
-        WHERE hs.id_branches = $1 
-        AND hs.date_start >= $2 
-        AND hs.date_finish <= $3`;
+    SELECT hs.id AS id_history_schedule, hs.id_branches, hs.id_employees, hs.id_schedules, hs.date_start, hs.date_finish, s.*
+    FROM "Employee".history_schedules hs
+    JOIN "Employee".schedules s ON hs.id_schedules = s.id
+    WHERE hs.id_branches = $1 
+    AND hs.date_start >= $2 
+    AND hs.date_finish <= $3`;
 
     var values = [idBranch, dateStart, dateFinish];
     const result = await database.query(queryText, values);
@@ -3330,6 +3329,48 @@ async function add_schedule(idEmployee, idBranch, idSchedule, dateStart, dateFin
         return false;
     }
 }
+
+
+router.get('/:id_company/:id_branch/:idScheduleEmployee/:idSchedule/edit-schedules-employees',isLoggedIn,async (req,res)=>{
+    const {id_company,id_branch,idScheduleEmployee,idSchedule}=req.params;
+    console.log(idScheduleEmployee)
+    console.log(idSchedule)
+    if(await update_history_schedule(idScheduleEmployee,idSchedule)){
+        req.flash('success','El horario fue actualizado con exito 😉')
+    }else{
+        req.flash('message','El horario no pudo ser actualizado 😮')
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/schedules-employees');
+})
+
+async function update_history_schedule(id, id_schedules) {
+    try {
+        // Construye la consulta SQL para actualizar la tabla history_schedules
+        const queryText = `
+            UPDATE "Employee".history_schedules
+            SET id_schedules = $1
+            WHERE id = $2;
+        `;
+        
+        // Valores para la consulta SQL
+        const values = [id_schedules, id];
+        
+        // Ejecuta la consulta en la base de datos
+        await database.query(queryText, values);
+        
+        // Si llegamos hasta aquí, la actualización fue exitosa
+        console.log(`Se actualizó el registro con id ${id}.`);
+        
+        // Puedes devolver algún mensaje si lo deseas
+        return true;
+    } catch (error) {
+        // Manejo de errores
+        console.error('Error al actualizar el registro:', error);
+        throw error; // Opcional: lanza el error para que sea manejado externamente
+    }
+}
+
 //-------------------------------------------------------------home
 router.get('/home',isLoggedIn,async(req,res)=>{
     await home_render(req,res)

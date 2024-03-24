@@ -32,7 +32,7 @@
             <br>
 
             {{#each schedulesEmployees}}
-                <div class="container-schedule-employee desactive" idEmployee={{id_employees}}>
+                <div class="container-schedule-employee desactive" idEmployee={{id_employees}} idSchedule="{{id_history_schedule}}">
                     <table class="table">
                         <thead>
                             <tr>
@@ -133,3 +133,7 @@
         </div>
     </div>
 </div>
+
+
+
+<script src="/js/manager/schedule/updateSchedule.js"></script>

@@ -25,32 +25,9 @@
                 </td>
                 <td>{{user_name}}</td>
                 <td>{{first_name}} {{second_name}} {{last_name}}</td>
-                <td onclick="activate_schedule_employee('{{id_employee}}')"><i class="fi-icon fi-br-angle-right td-icon fi-button"></i></td>
+                <td onclick="activate_schedule_employee('{{id_employee}}','{{first_name}} {{second_name}} {{last_name}}')"><i class="fi-icon fi-br-angle-right td-icon fi-button"></i></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
-
-<script>
-    function activate_schedule_employee(idEmployee){
-        // Obtener todos los elementos con la clase "container-schedule-employee"
-        var divs = document.querySelectorAll('.container-schedule-employee');
-
-        // Iterar sobre cada elemento
-        for (var i = 0; i < divs.length; i++) {
-            var div = divs[i];
-            // Obtener el valor de la etiqueta <idEmployee>
-            var employeeId = div.getAttribute('idEmployee');
-
-            // Verificar si el valor de la etiqueta coincide con el idEmployee pasado como argumento
-            if (employeeId === idEmployee) {
-                // Activar el div cambiando su clase
-                div.classList.remove('desactive');
-            } else {
-                // Desactivar el div cambiando su clase
-                div.classList.add('desactive');
-            }
-        }
-    }
-</script>

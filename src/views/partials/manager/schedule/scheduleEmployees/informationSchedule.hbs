@@ -2,17 +2,19 @@
 <hr>
 <div class="row">
     <div class="col-3">
-        <label for="">leo martinez lopez</label>
+        <label for="" id="nameEmployee">Nombre Empleado</label>
     </div>
     <div class="col-6">
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" aria-label="Default select example" id="selectSchedule">
             {{#each schedules}}
-            <option value="{{id}}">{{name}}</option>
+                <option value="{{id}}">{{name}}</option>
             {{/each}}
         </select>
     </div>
     <div class="col">
-        <button class="btn-update">Actualizar <i class="fi-icon fi-br-refresh"></i></button>
+        {{#each branch}}
+            <button class="btn-update" onclick="update_schedule('{{id_companies}}','{{id}}')">Actualizar <i class="fi-icon fi-br-refresh"></i></button>
+        {{/each}}
     </div>
 </div>
 <div class="row">
@@ -28,21 +30,3 @@
 
 
 
-
-
-<script>
-    // get the day
-    var hoy = new Date();
-
-    // get the first day of the week (monday)
-    var primerDiaSemana = new Date(hoy);
-    primerDiaSemana.setDate(primerDiaSemana.getDate() - hoy.getDay() + (hoy.getDay() === 0 ? -6 : 1));
-
-    // get the finish day of the week (Sunday)
-    var ultimoDiaSemana = new Date(hoy);
-    ultimoDiaSemana.setDate(ultimoDiaSemana.getDate() - hoy.getDay() + 7);
-
-    // Set default values ​​for date input fields
-    document.getElementById('date-start').valueAsDate = primerDiaSemana;
-    document.getElementById('date-finish').valueAsDate = ultimoDiaSemana;
-</script>
