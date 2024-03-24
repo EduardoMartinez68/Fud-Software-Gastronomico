@@ -11,11 +11,11 @@
             {{/each}}
         </select>
     </div>
-    <div class="col">
-        {{#each branch}}
+    {{#each branch}}
+        <div class="col">
             <button class="btn-update" onclick="update_schedule('{{id_companies}}','{{id}}')">Actualizar <i class="fi-icon fi-br-refresh"></i></button>
-        {{/each}}
-    </div>
+        </div>
+    {{/each}}
 </div>
 <div class="row">
     <div class="col">
