@@ -5,11 +5,12 @@
 </head>
 <body>
 {{#each schedule}}
+    <center>
     <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/edit-schedule" method="post">
     <div class="container p-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <div class="card">
+                <div class="card" style="width: 120%;">
                     <div class="card-body">
                         <center><h2 class="title-schedules">SCHEDULES SETTING</h2></center>
                         <br>
@@ -257,6 +258,8 @@
         </div>
     </div>
     </form>
+
+    </center>
 {{/each}}
 
     <script src="/js/manager/schedules.js"></script>

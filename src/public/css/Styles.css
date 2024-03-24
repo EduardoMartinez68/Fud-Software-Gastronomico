@@ -113,6 +113,11 @@
     background-color: var(--color-hover);
 }
 
+.scroll-navbar {
+    max-height: 600px;
+    overflow-y: auto; 
+    max-height: 84%;
+}
 
 /*global styles*/
 .btn-update {

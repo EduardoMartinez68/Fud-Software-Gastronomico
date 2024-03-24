@@ -106,3 +106,12 @@
 .fi-employee-setting:hover {
     font-size: 1rem;
 }
+
+
+
+
+@media (max-width: 1100px) {
+    .card-schedule{
+        width: 120%;
+    }
+}
