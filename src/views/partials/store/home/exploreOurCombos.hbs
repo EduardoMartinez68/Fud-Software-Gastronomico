@@ -5,51 +5,14 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/0ceaf41c-1d0b-7ab2-d44d-a367345bc87a.jpeg?a=83a72a4c-8fe8-cd6c-fbe9-382ac4ea5c88" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
+        {{#each combosAd}}
+            <div class="card card-explore-our-combo col-4">
+                <img class="card-img-top img-fluid img-explore-combo" src="/img/uploads/{{img}}" alt="card image">
+                <div class="card-body">
+                    <center><h4 class="card-title"><b>{{description}}</b></h4></center>
+                </div>
             </div>
-        </div>
-
-
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/0ceaf41c-1d0b-7ab2-d44d-a367345bc87a.jpeg?a=83a72a4c-8fe8-cd6c-fbe9-382ac4ea5c88" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
-            </div>
-        </div>
-
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/9c9b1e00-8c58-1da9-c477-a55648743e84.jpeg?a=00eb9e57-8284-d373-ba94-447a4a53c58c" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
-            </div>
-        </div>
-
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/0ceaf41c-1d0b-7ab2-d44d-a367345bc87a.jpeg?a=83a72a4c-8fe8-cd6c-fbe9-382ac4ea5c88" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
-            </div>
-        </div>
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/0ceaf41c-1d0b-7ab2-d44d-a367345bc87a.jpeg?a=83a72a4c-8fe8-cd6c-fbe9-382ac4ea5c88" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
-            </div>
-        </div>
-
-        <div class="card card-explore-our-combo col-4">
-            <img class="card-img-top img-fluid img-explore-combo" src="https://cdn.tictuk.com/090ea518-0179-bce6-ea53-4b55b81c379e/0ceaf41c-1d0b-7ab2-d44d-a367345bc87a.jpeg?a=83a72a4c-8fe8-cd6c-fbe9-382ac4ea5c88" alt="card image">
-            <div class="card-body">
-                <center><h4 class="card-title"><b>For time limit</b></h4></center>
-            </div>
-        </div>
-
-
-
-
+        {{/each}}
 
     </div>
 </div>

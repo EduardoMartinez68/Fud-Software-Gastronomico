@@ -1,61 +1,73 @@
-<div class="form-group">
-    <h6>Our Combos</h6>
-    <div class="row">
-        <div class="col">
-            <label>Image 1</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 2</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 3</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-    </div>  
-    <div class="row">
-        <div class="col">
-            <label>Image 4</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 5</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 6</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-    </div>  
-    <hr>
-    <h6>Specials</h6>
-    <div class="row">
-        <div class="col">
-            <label>Image 1</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 2</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 3</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-        <div class="col">
-            <label>Image 4</label><br>
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad">
-            <button type="button" class="btn"><i class="fi-icon fi-br-upload"></i> Upload</button>
-        </div>
-    </div>  
+{{#each branch}}
+    <div class="form-group">
+        <div class="row">
+            <div class="col">
+                <h6>Our Combos</h6>
+                <hr>
+                <form action="/fud/{{id_companies}}/{{id}}/ad-comboAd" method="post" enctype="multipart/form-data">
+                    <label>Image of a new combo</label><br>
+                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage-3">
+                    <input type="file" accept="image/*" id="uploadInput-3" style="display: none;" onchange="previewFile(-3)" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput-3').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+                    <br><br>
+                    <div class="col-10"><input type="text" class="form-control" placeholder="Name..." name="name" maxlength="30" required></div>
+                </form>
+            </div>
+            <div class="col">
+                <h6>Special</h6>
+                <hr>
+                <form action="/fud/{{id_companies}}/{{id}}/ad-specialAd" method="post" enctype="multipart/form-data">
+                    <label>Image of a new special</label><br>
+                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage-4">
+                    <input type="file" accept="image/*" id="uploadInput-4" style="display: none;" onchange="previewFile(-4)" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput-4').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+                    <br><br>
+                    <div class="col-10"><input type="text" class="form-control" placeholder="Name..." name="name" maxlength="30" required></div>      
+                </form>
+            </div>
+        </div>  
+{{/each}}
+
+<div class="row">
+    <div class="col">
+        <hr>
+        {{#each combosAd}}
+            <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-ad-offer" method="POST" enctype="multipart/form-data">
+                <div class="col">
+                    {{#if img}}
+                        <img src="/img/uploads/{{img}}" alt="" class="img-ad" id="previewImage{{id}}">
+                    {{else}}
+                        <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage{{id}}">
+                    {{/if}}
+                    {{description}}
+                    <input type="file" accept="image/*" id="uploadInput{{id}}" style="display: none;" onchange="previewFile('{{id}}')" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput{{id}}').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-rr-refresh"></i> Update</button>
+                    <button type="button" class="btn" onclick="delete_ad('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-icon fi-sr-trash"></i> Delete</button>
+                </div>
+            </form>
+        {{/each}}
+    </div>
+    <div class="col">
+        <hr>
+        {{#each specialsAd}}
+            <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-ad-offer" method="POST" enctype="multipart/form-data">
+                <div class="col">
+                    {{#if img}}
+                        <img src="/img/uploads/{{img}}" alt="" class="img-ad" id="previewImage{{id}}">
+                    {{else}}
+                        <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage{{id}}">
+                    {{/if}}
+                    {{description}}
+                    <input type="file" accept="image/*" id="uploadInput{{id}}" style="display: none;" onchange="previewFile('{{id}}')" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput{{id}}').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-rr-refresh"></i> Update</button>
+                    <button type="button" class="btn" onclick="delete_ad('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-icon fi-sr-trash"></i> Delete</button>
+                </div>
+            </form>
+        {{/each}}
+    </div>
+</div>  
 </div>

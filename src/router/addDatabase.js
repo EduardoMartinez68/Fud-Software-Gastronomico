@@ -493,15 +493,15 @@ async function add_box(idBranch,number,idPrinter,idBox){
 }
 
 async function add_ad(data){
-    var queryText = 'INSERT INTO "Branch"."Ad" (id_branches, img, type)'
-    + ' VALUES ($1, $2,$3)';
+    var queryText = 'INSERT INTO "Branch"."Ad" (id_branches, img, description, type)'
+    + ' VALUES ($1, $2,$3, $4)';
     var values = Object.values(data);
 
     try{
         await database.query(queryText, values);
         return true;
     } catch (error) {
-        console.error('Error to add in the database boxes:', error);
+        console.error('Error to add in the database combo:', error);
         return false;
     }
 }

@@ -1155,7 +1155,7 @@ router.post('/fud/:id_company/:id_branch/ad-offer',isLoggedIn,async(req,res)=>{
     const newAd=create_ad(req,id_branch,'offer'); 
 
     //we will watching if can save the ad in the database
-    if(addDatabase.add_ad(newAd)){
+    if(await addDatabase.add_ad(newAd)){
         req.flash('success','El anuncio fue agregado con exito 🥳')
     }else{
         req.flash('message','El anuncio no fue agregado 👉👈')
@@ -1170,7 +1170,39 @@ router.post('/fud/:id_company/:id_branch/ad-new',isLoggedIn,async(req,res)=>{
     const newAd=create_ad(req,id_branch,'new'); 
 
     //we will watching if can save the ad in the database
-    if(addDatabase.add_ad(newAd)){
+    if(await addDatabase.add_ad(newAd)){
+        req.flash('success','El anuncio fue agregado con exito 🥳')
+    }else{
+        req.flash('message','El anuncio no fue agregado 👉👈')
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
+
+router.post('/fud/:id_company/:id_branch/ad-comboAd',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+
+    //we will to create the ad and save the image in the server
+    const newAd=create_ad(req,id_branch,'combo'); 
+    
+    //we will watching if can save the ad in the database
+    if(await addDatabase.add_ad(newAd)){
+        req.flash('success','El anuncio fue agregado con exito 🥳')
+    }else{
+        req.flash('message','El anuncio no fue agregado 👉👈')
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/ad');
+})
+
+router.post('/fud/:id_company/:id_branch/ad-specialAd',isLoggedIn,async(req,res)=>{
+    const {id_company,id_branch}=req.params;
+
+    //we will to create the ad and save the image in the server
+    const newAd=create_ad(req,id_branch,'special'); 
+
+    //we will watching if can save the ad in the database
+    if(await addDatabase.add_ad(newAd)){
         req.flash('success','El anuncio fue agregado con exito 🥳')
     }else{
         req.flash('message','El anuncio no fue agregado 👉👈')
@@ -1181,15 +1213,32 @@ router.post('/fud/:id_company/:id_branch/ad-new',isLoggedIn,async(req,res)=>{
 
 
 function create_ad(req,id_branch,type){
-    const image=create_a_new_image(req)
+    const image=create_a_new_image(req);
+    const {name}=req.body; //get the name of the image 
+
+    //we will watching if the user is creating an ad of combo or spacial
+    if(name){
+        const ad={
+            id_branch,
+            image,
+            name:name,
+            type
+        }
+    
+        return ad;        
+    }
+
+    //else if the user not is creating an ad of combo or spacial, return the body norm 
     const ad={
         id_branch,
         image,
-        type
+        name:'',
+        type,
     }
 
     return ad;
 }
+
 
 router.post('/fud/:id_company/:id_branch/add-schedule',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;

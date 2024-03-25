@@ -2063,18 +2063,24 @@ async function get_sales_total_by_combo_month(idCompany) {
 //---------------------------------------------------------this function is for get the combo most sale (day,month,reay,all)
 //for know which products is most sale. This not means that that combos be the that most money generate in the business 
 async function get_data_distribute_company(id_company){
-    //this function is for convert the string that return the script of python to a array for read in the web 
-    var distribute=await get_data_report_distribute(id_company)
-    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute(id_company);
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
     const matches = distribute.match(/\[.*?\]/g);
 
-    // Iteramos sobre los conjuntos de corchetes encontrados
-    const arrayData = matches.map(match => {
-        // Removemos los corchetes y las comillas y dividimos por la coma
-        return match.slice(1, -1).split(", ");
-    });
-    
-    return arrayData;
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+        
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
+    }
 }
 
 async function get_data_report_distribute(id_company){
@@ -2222,18 +2228,24 @@ async function get_data_report_distribute_month(id_company){
 }
 
 async function get_data_distribute_company_year(id_company){
-    //this function is for convert the string that return the script of python to a array for read in the web 
-    var distribute=await get_data_report_distribute_month(id_company)
-    distribute=distribute.slice(1, -3); //delete the [ ] of the corner
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute_month(id_company);
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
     const matches = distribute.match(/\[.*?\]/g);
 
-    // Iteramos sobre los conjuntos de corchetes encontrados
-    const arrayData = matches.map(match => {
-        // Removemos los corchetes y las comillas y dividimos por la coma
-        return match.slice(1, -1).split(", ");
-    });
-    
-    return arrayData;
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+        
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
+    }
 }
 
 async function get_data_report_distribute_year(id_company){
@@ -3077,8 +3089,10 @@ router.get('/:id_company/:id_branch/ad',isLoggedIn,async(req,res)=>{
     //we going to get all the type of ad in the branch
     const offerAd=await get_all_ad(id_branch,'offer');
     const newAd=await get_all_ad(id_branch,'new');
+    const combosAd=await get_all_ad(id_branch,'combo');
+    const specialsAd=await get_all_ad(id_branch,'special');
 
-    res.render('links/branch/ad/ad',{branch,offerAd,newAd});
+    res.render('links/branch/ad/ad',{branch,offerAd,newAd,combosAd,specialsAd});
 })
 
 async function get_all_ad(idBranch,type){
@@ -3089,6 +3103,7 @@ async function get_all_ad(idBranch,type){
             ad.id_branches,
             ad.img,
             ad.type,
+            ad.description,
             br.id_companies
         FROM 
             "Branch"."Ad" AS ad
@@ -3443,8 +3458,10 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         //we going to get all the type of ad in the branch
         const offerAd=await get_all_ad(id_branch,'offer');
         const newAd=await get_all_ad(id_branch,'new');
+        const combosAd=await get_all_ad(id_branch,'combo');
+        const specialsAd=await get_all_ad(id_branch,'special');
 
-        res.render('links/store/home/home',{dishAndCombo,dataEmployee,mostSold,newCombos,offerAd,newAd});
+        res.render('links/store/home/home',{dishAndCombo,dataEmployee,mostSold,newCombos,offerAd,newAd,combosAd,specialsAd});
     }
 });
 
