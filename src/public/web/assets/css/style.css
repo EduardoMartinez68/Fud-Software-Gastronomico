@@ -50,7 +50,9 @@ a {
   transition: all 0.5s;
   text-decoration: none;
 }
-
+.accordion-title{
+  
+}
 a:hover {
   text-decoration: none;
   color: var(--color-hover);
@@ -1352,7 +1354,7 @@ Slider 2 Area Css
 }
 
 .slider-area-2 .owl-nav button.owl-prev:hover {
-  background: #051242;
+  background: #420505;
   color: #ffffff;
 }
 
@@ -1645,7 +1647,7 @@ Choose Area Css
 
 .choose-area .choose-content .faq-accordion .accordion .accordion-item .accordion-title {
   padding: 15px 60px 15px 70px;
-  color: #051242;
+  color: var(--color-footer);
   position: relative;
   border-radius: 2px;
   font-size: 18px;
@@ -1662,7 +1664,7 @@ Choose Area Css
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  color: #420505;
+  color: var(--color-company);
   -webkit-transition: 0.5s;
   transition: 0.5s;
   font-size: 16px;
@@ -1685,7 +1687,7 @@ Choose Area Css
   padding: 15px 30px 15px 30px;
   font-size: 16px;
   z-index: 1;
-  color: #50607f;
+  color: #7f5050;
   position: relative;
 }
 
@@ -1697,7 +1699,7 @@ Choose Area Css
   content: "";
   width: 75%;
   height: 2px;
-  background: #7a7e9a;
+  background: #f33838;
   top: 5px;
 }
 
@@ -1707,10 +1709,10 @@ Choose Area Css
   width: 40px;
   height: 40px;
   line-height: 40px;
-  background: #f5ebff;
+  background: rgba(0, 0, 0, 0);
   text-align: center;
   font-size: 25px;
-  color: var(--color-company);
+  color: var(--color-footer);
   top: 11.2px;
   left: 12px;
 }
@@ -1749,7 +1751,7 @@ Choose Area 2 Css
 
 .home2-choose-area .single-choose h3 {
   text-align: center;
-  color: #293a5c;
+  color: #fa3d3d;
   margin-bottom: 0;
   padding: 10px 5px;
   font-size: 17px;
@@ -2308,7 +2310,7 @@ Blog Area Css
 }
 
 .home-blog-area .single-blog .content span {
-  color: #293a5c;
+  color: #5c2929;
   font-weight: 500;
 }
 
@@ -2570,7 +2572,7 @@ About Area Css
   text-align: center;
   border-radius: 50%;
   color: #fff;
-  background: #3d59fa;
+  background: #fa3d3d;
   -webkit-box-shadow: 0 0 20px 8px rgba(228, 221, 221, 0.363);
           box-shadow: 0 0 20px 8px rgba(228, 221, 221, 0.363);
   -webkit-transition: 0.5s;
@@ -2909,7 +2911,7 @@ Solutions Details Area Css
 .solutions-details-area .right-content .serarch h3 {
   padding: 15px 20px;
   color: #fff;
-  background: #121e4c;
+  background: #4c1212;
   margin-bottom: 20px;
 }
 
@@ -3082,13 +3084,13 @@ Case Area Css
   position: absolute;
   width: 100%;
   height: 5px;
-  background: #3d59fa;
+  background: #fa3d3d;
   content: "";
   bottom: -9px;
 }
 
 .case-area .case .all-case .active span {
-  color: #3d59fa;
+  color: #fa3d3d;
 }
 
 .case-area .case-list {
@@ -3117,7 +3119,7 @@ Case Area Css
 }
 
 .case-area .case-list .single-case .content a h3 {
-  color: #051242;
+  color: #420505;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -3141,7 +3143,7 @@ Case Area Css
   position: absolute;
   bottom: 0;
   content: "";
-  background: #051242;
+  background: #420505;
   overflow: hidden;
   width: 100%;
   height: 0;
@@ -3181,10 +3183,10 @@ Case Area Css
 }
 
 .case-area .dropdown button {
-  border: 1px solid #293a5c;
+  border: 1px solid #5c2929;
   background: transparent;
   padding: 8px 30px;
-  color: #293a5c;
+  color: #5c2929;
   font-weight: 500;
 }
 
@@ -3267,7 +3269,7 @@ Case Details Area Css
 }
 
 .case-details-area .single-case .social li a:hover {
-  background: #3d59fa;
+  background: #fa3d3d;
   color: #fff;
   -webkit-transform: translateY(-10px);
           transform: translateY(-10px);
