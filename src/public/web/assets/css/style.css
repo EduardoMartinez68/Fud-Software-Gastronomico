@@ -35,7 +35,17 @@ Default Style
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+/*
 body {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  font-family: "Open Sans", sans-serif;
+  color: #7a7e9a;
+}*/
+
+body{
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -53,6 +63,7 @@ a {
 .accordion-title{
   
 }
+
 a:hover {
   text-decoration: none;
   color: var(--color-hover);
@@ -73,8 +84,14 @@ button:focus {
   -webkit-box-shadow: none;
           box-shadow: none;
 }
-
+/*
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  color: var(--color-company);
+  font-family: "Catamaran", sans-serif;
+  font-weight: 700;
+}
+*/
+.h1, .h2, .h3, .h4, .h5, .h6{
   color: var(--color-company);
   font-family: "Catamaran", sans-serif;
   font-weight: 700;
@@ -83,6 +100,18 @@ button:focus {
 h3 {
   font-size: 21px;
   line-height: 1.5;
+}
+
+.h32{
+  color: var(--color-company);
+  font-family: "Catamaran", sans-serif;
+  font-weight: 700;
+}
+
+.h-subtitle{
+  color: var(--color-company);
+  font-family: "Catamaran", sans-serif;
+  font-weight: 700;
 }
 
 .d-table {

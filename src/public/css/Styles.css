@@ -23,14 +23,10 @@
     color: var(--color-company);
 }
 
-.ul-bar{
-
-}
-
-
-.fi-icon{
-    padding: .6rem;
+.bar-link{
     font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
 }
 
 .container-message {
