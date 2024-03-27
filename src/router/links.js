@@ -156,6 +156,9 @@ router.get('/main',isNotLoggedIn,(req,res)=>{
     res.render(companyName+'/web/main'); //this web is for return your user
 })
 
+router.get('/partners',async(req,res)=>{
+    res.render(companyName+'/web/partners')
+});
 ///links of the store
 router.get('/store',isLoggedIn,(req,res)=>{
     res.render(companyName+'/store/store');
