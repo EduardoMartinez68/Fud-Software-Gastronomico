@@ -76,22 +76,45 @@
     </div>
 </div>
 
+    <style>
+        .logo img {
+            display: block;
+            margin: -37px auto 0; /* Ajusta este valor según sea necesario */
+        }
+
+        .header-area {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 10px 0; /* Ajusta el relleno según sea necesario */
+            z-index: 1000; /* Asegura que el encabezado esté encima de otros elementos */
+        }
+
+    </style>
 
 <header class="header-area">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-2 col-sm-0">
+            <div class="col-lg-1 col-sm-0">
                 <div class="logo">
-                    
+                    <img src="/img/logo3.png" alt="" class="icon-bar" onclick="nextWeb('main')">
                 </div>
             </div>
-            <div class="col-lg-8 col-sm-8 text-right pr-0">
+            <div class="col-lg-9 col-sm-9 text-right pr-0">
                 <div class="header-content-right">
                     <ul class="header-contact">
-                        <li class="t-li"><a class="t-a" href="tel:+524443579030"><i class="fi fi-brands-whatsapp t-i"></i>+52 444 357 9030</a></li>
-                        <li class="t-li"><a href=""><i class="fi fi-sr-comment-alt-dots"></i><span class="__cf_email__"
-                                    data-cfemail="78101d1414173808190b17561b1715">[füd@Outlook.es]</span></a>
+                        <li class="banner-btn">
+                            <button class="btn-navbar-login" onclick="nextWeb('/main')" style="color: var(--color-company);">Home</button>
                         </li>
+                        <li class="banner-btn">
+                            <button class="btn-navbar-login" onclick="nextWeb('/prices')" style="color: var(--color-company);">Price</button>
+                        </li>
+                        <li class="banner-btn">
+                            <a href="/fud/partners">Partner</a>
+                        </li>
+
+                        <li class="t-li"><a class="t-a" href="tel:+524443579030"><i class="fi fi-brands-whatsapp t-i"></i>+52 444 357 9030</a></li>
+
                         <li class="banner-btn">
                             <button class="btn-navbar-login" onclick="nextWeb('/home')" style="color: var(--color-company);">Log in</button>
                         </li>
@@ -101,16 +124,6 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-4 text-right pl-0">
-                <div class="header-content-right">
-                    <ul class="header-social">
-                        <li>
-                            <a href="#" target="_blank"><i class="fi fi-brands-youtube"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
         </div>
     </div>
 </header>

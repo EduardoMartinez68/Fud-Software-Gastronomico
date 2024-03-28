@@ -33,6 +33,13 @@
 </head>
 
 <body>
+    <style>
+        .active {
+            background-color: var(--color-company);
+            color: white;
+        }
+    </style>
+
     <div class="loader-content">
         <div class="d-table">
             <div class="d-table-cell">
@@ -62,18 +69,14 @@
             <div class="tab quote-list-tab">
                 <ul class="tabs">
                     <li>
-                        <a href="#">
-                            Restaurante 
-                        </a>
+                        <a href="#" onclick="showPrices('restaurant')" class="active">Restaurante</a>
                     </li>
                     <li>
-                        <a href="#">
-                            Franquicia 
-                        </a>
+                        <a href="#" onclick="showPrices('franchise')">Franquicia</a>
                     </li>
                 </ul>
                 <div class="tab_content">
-                    <div class="tabs_item">
+                    <div class="tabs_item" id="restaurant-prices" style="display: none;">
                         <div class="row">
                             <div class="col-lg-4 col-sm-6">
                                 <div class="single-pricing">
@@ -199,7 +202,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tabs_item">
+                    <div class="tabs_item" id="franchise-prices" style="display: none;">
                         <div class="row">
                             <div class="col-lg-4 col-sm-6">
                                 <div class="single-pricing">
@@ -354,7 +357,26 @@
     <script src="/web/assets/js/contact-form-script.js"></script>
 
     <script src="/web/assets/js/main.js"></script>
-
+    <script>
+        function showPrices(type) {
+            if (type === 'restaurant') {
+                document.getElementById('restaurant-prices').style.display = 'block';
+                document.getElementById('franchise-prices').style.display = 'none';
+            } else if (type === 'franchise') {
+                document.getElementById('restaurant-prices').style.display = 'none';
+                document.getElementById('franchise-prices').style.display = 'block';
+            }
+            // Establecer el botón activo
+            document.querySelectorAll('.tabs a').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.tabs a[href="#"][onclick="showPrices('${type}']`).classList.add('active');
+        }
+        // Llamar a la función showPrices al cargar la página
+        window.onload = function () {
+            showPrices('restaurant');
+        };
+    </script>
 </body>
 
 </html>
