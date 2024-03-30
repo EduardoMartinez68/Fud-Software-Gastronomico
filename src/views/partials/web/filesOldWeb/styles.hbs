@@ -28,3 +28,38 @@
     <link rel="stylesheet" href="/web/assets/css/dark.css" />
 
     <link rel="stylesheet" href="/web/assets/css/responsive.css" />
+
+    <style>
+        /*this is for create the subtitle with the subrayado*/
+        .subTitleText {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            /* Centra horizontalmente el contenido */
+            align-items: center;
+            /* Centra verticalmente el contenido */
+            height: 200px;
+            /* Altura de la imagen de fondo */
+            background-image: url('/web/assets/images/wallpaperText.png');
+            /* Establece la imagen de fondo */
+            background-size: cover;
+            /* Ajusta el tamaño de la imagen de fondo */
+            color: white;
+            /* Color del texto */
+        }
+
+        .subTitleText h2 {
+            margin: 0;
+            /* Elimina el margen por defecto del h2 */
+        }
+
+        @media (max-width: 1100px) {
+            .subTitleText {
+                height: 145px;
+            }
+
+            .subTitleText h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>

@@ -168,6 +168,14 @@ router.get('/download',async(req,res)=>{
     res.render(companyName+'/web/download')
 });
 
+router.get('/terms_conditions',async(req,res)=>{
+    res.render(companyName+'/web/terms_conditions')
+});
+
+router.get('/privacy',async(req,res)=>{
+    res.render(companyName+'/web/privacy')
+});
+
 ///links of the store
 router.get('/store',isLoggedIn,(req,res)=>{
     res.render(companyName+'/store/store');
