@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="/css/session.css">
     <!--this is the style of the new navbar, not delete--->
     {{>web/filesOldWeb/styles}}
 </head>
+
 <body>
+
     <section class="body-session">
         <div class="container p-4">
             <div class="row">
@@ -13,26 +16,31 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="/fud/login" method="POST">
-                                <center><h1 class="title-session">Login</h1></center>
+                                <center>
+                                    <h1 class="title-session">Login</h1>
+                                </center>
                                 <br>
                                 <div class="form-group">
                                     <lable>
-                                        <i class="fi-session fi-rr-user">User or E-mail *</i>
-                                        <input type="text" id="userName" name="userName" placeholder="User or E-mail" class="form-control" autofocus>
+                                        <i class="fi-session fi-rr-user">E-mail *</i>
+                                        <input type="text" id="userName" name="userName" placeholder="E-mail"
+                                            class="form-control" autofocus>
                                     </lable>
-                                </div>        
-                                
+                                </div>
+
                                 <div class="form-group">
                                     <lable>
                                         <i class="fi-session fi-rr-lock">Passwoard *</i>
-                                        <input type="password" id="password" name="password"  placeholder="password" class="form-control">
+                                        <input type="password" id="password" name="password" placeholder="password"
+                                            class="form-control">
                                     </lable>
-                                </div>    
+                                </div>
                                 <button class="btn btn-success btn-block">Login</button>
                                 <br><br>
-                                <center><a class="link-session" href="singup">Forgot your password?</a></center>
+                                <center><a class="link-session" href="/fud/restart-password">Forgot your password?</a></center>
                                 <br><br><br>
-                                <label class="link-session">Don't have an account?</label><a class="link-singUp" href="/fud/signup">Sing Up</a>
+                                <label class="link-session">Don't have an account?</label><a class="link-singUp"
+                                    href="/fud/signup">Sing Up</a>
                                 <br><br>
                             </form>
                         </div>
@@ -42,6 +50,7 @@
         </div>
     </section>
 </body>
+
 </html>
 
 
