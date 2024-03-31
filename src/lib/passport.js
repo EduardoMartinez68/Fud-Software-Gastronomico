@@ -4,6 +4,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const database=require('../database');
 const helpers=require('../lib/helpers.js');
 
+const sendEmail = require('../lib/sendEmail.js'); //this is for send emails 
+
 passport.use('local.login', new LocalStrategy({
     usernameField: 'userName',
     passwordField: 'password',
@@ -35,7 +37,6 @@ passport.use('local.signup', new LocalStrategy({
     passwordField: 'password',
     emailField:'email',
     passwordField: 'password',
-    birthdayField:'birthday',
     acceptTermsField:'acceptTerms',
     passReqToCallback: true
 }, async (req ,userName, password, done) => {
@@ -95,13 +96,19 @@ async function create_a_new_user(req,userName,password){
 
     newUser.password=await helpers.encryptPassword(password); //create a password encrypt
     //add the user to the database
-    await add_user(newUser);
+    if(await add_user(newUser)){
+        //if the user was add with success, sen a email of welcome 
+        subjectEmail=''
+        const nameUser=first_name+' '+second_name+' '+last_name;
+        await sendEmail.welcome_email(email,nameUser);
+    }
 
     //add the id of the user 
     newUser.id=await search_id(email);    
 
     return newUser;
 }
+
 
 async function this_user_exists(user_name){
     var queryText = 'SELECT * FROM "Fud".users Where user_name = $1';
@@ -140,9 +147,15 @@ async function search_id(email){
 }
 
 async function add_user(user){
-    var queryText = 'INSERT INTO "Fud".users (user_name, first_name,second_name,last_name, email, password, rol_user, id_packs_fud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
-    var values = [user.user_name,user.first_name,user.second_name,user.last_name,user.email,user.password,0,0] 
-    return await database.query(queryText, values);
+    try {
+        var queryText = 'INSERT INTO "Fud".users (user_name, first_name,second_name,last_name, email, password, rol_user, id_packs_fud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+        var values = [user.user_name,user.first_name,user.second_name,user.last_name,user.email,user.password,0,0] 
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error to add the a new user of the database:', error);
+        return false;
+    }
 }
 
 
