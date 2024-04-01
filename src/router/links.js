@@ -6,6 +6,7 @@ const addDatabase = require('../router/addDatabase');
 const databaseM = require('../mongodb');
 const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 const helpers=require('../lib/helpers.js');
+
 //const delateDatabase=require('delateDatabase');
 const nodemailer = require('nodemailer'); //this is for send emails 
 const crypto = require('crypto');
@@ -15,6 +16,10 @@ const sendEmail = require('../lib/sendEmail.js'); //this is for send emails
 //delate image
 const fs = require('fs');
 const path = require('path');
+
+//stripe 
+const {APP_PASSWORD_STRIPE} = process.env;
+const stripe = require('stripe')(APP_PASSWORD_STRIPE);
 
 function create_a_new_image(req) {
     if (req.file != undefined) {
@@ -138,7 +143,42 @@ async function check_company_user(id_company, req) {
     return company;
 }
 
+//suscriptions 
+router.post('/create-suscription-cloude', async (req, res) => {
+    try {
+      const prices = await stripe.prices.list({
+        lookup_keys: [req.body.lookup_key],
+        expand: ['data.product'],
+      });
+  
+      if (!prices.data || prices.data.length === 0) {
+        throw new Error('No se encontraron precios.');
+      }
+  
+      const session = await stripe.checkout.sessions.create({
+        billing_address_collection: 'auto',
+        line_items: [
+          {
+            price: prices.data[0].id,
+            // For metered billing, do not pass quantity
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+        success_url: `http://localhost:4000/fud/welcome-suscription/{CHECKOUT_SESSION_ID}`,
+        cancel_url: `http://localhost:4000/fud/prices`,
+      });
+      res.redirect(303, session.url);
+    } catch (error) {
+      console.error('Error al crear la suscripción:', error);
+      res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
 
+router.get('/welcome-suscription/:session_id', (req, res) => {
+    const {session_id}=req.params; //this is the key of stripe of the buy of the suscription 
+    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
+})
 
 ///links of the web
 router.get('/identify', isNotLoggedIn, (req, res) => {

@@ -1,6 +1,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="/css/web/web.css">
 {{>web/prices/price}}
+
+<script>
+    //THIS IS FOR STRIPE
+    // In production, this should check CSRF, and not pass the session ID.
+    // The customer ID for the portal should be pulled from the
+    // authenticated user on the server.
+    document.addEventListener('DOMContentLoaded', async () => {
+    let searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has('session_id')) {
+        const session_id = searchParams.get('session_id');
+        document.getElementById('session-id').setAttribute('value', session_id);
+    }
+    });
+</script>
 <!--
 <head>
     <link rel="stylesheet" href="/css/web/prices.css">
