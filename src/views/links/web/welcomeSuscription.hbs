@@ -1,14 +1,110 @@
 {{>web/filesOldWeb/styles}}
-¡Ya eres todo un emprendedor! 🤩
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Signika+Negative:wght@300..700&display=swap"
+    rel="stylesheet">
+<style>
+    .icon {
+        max-height: 100px;
+        width: auto;
+    }
 
-Queremos expresar nuestro más sincero agradecimiento por unirte a nuestra comunidad. Nos emociona tenerte como parte de nuestra familia y estamos comprometidos a proporcionarte contenido de alta calidad, servicios excepcionales y experiencias significativas.
+    .title-welcome {
+        font-size: 3rem;
+        color: var(--color-company);
+        font-family: "Signika Negative", sans-serif;
+    }
 
-Tu apoyo nos impulsa a seguir adelante y a mejorar constantemente. Estamos ansiosos por compartir contigo todo lo que tenemos preparado, desde actualizaciones exclusivas hasta eventos especiales.
+    .harder-card {
+        background-color: var(--color-company);
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
 
-No dudes en contactarnos si tienes alguna pregunta, sugerencia o simplemente deseas compartir tus pensamientos. Estamos aquí para ti.
+    .body-container {
+        text-align: center;
+        align-items: center;
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
 
-¡Gracias de nuevo por tu confianza en nosotros!
+    .title-main-2 {
+        font-size: 1.5rem;
+    }
 
-[Nombre del Equipo/Organización] ❤️
+    .icon-img {
+        max-height: 200px;
+        width: auto;
+    }
+
+    .col-welcome {
+        text-align: left;
+        align-items: left;
+    }
+</style>
+<br>
+<div class="container">
+    <div class="card">
+        <div class="harder-card">
+            <img src="/img/logo2.png" alt="" class="icon">
+            <br><br>
+        </div>
+        <div class="container body-container">
+            <br>
+            <center>
+                <h1 class="title-welcome">¡Felicidades por tu nuevo negocio! 🤩</h1>
+            </center>
+            <br>
+            <p class="col-welcome">
+                Eres una empresario de exito y nos alegra que estes aqui. Füd tiene la mejor plataforma gastronomica de
+                Mexico, listo para atender tus necesidades y ayudar a tu restaurante a crecer.
+                Con tu suscripción, tendrás acceso a una amplia gama de beneficios exclusivos, que incluyen contenido
+                premium, actualizaciones regulares y soporte prioritario. Estamos comprometidos a brindarte el mejor
+                servicio posible y a garantizar que tu experiencia con nosotros sea gratificante y satisfactoria.
+            </p>
+            <br>
+            <p class="col-welcome">
+                <b>Aqui te dejo 2 recomendaciones para usar todo el potencial de Füd:</b>
+            </p>
+            <br><br>
+            <div class="row">
+                <div class="col-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="" class="icon-img">
+                </div>
+                <div class="col col-welcome">
+                    <h1 class="title-main-2">Crear la nueva sucursal</h1>
+                    Primero deberias registrar toda la nueva informacion de tu nueva sucursal para iniciar a vender.
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1193/1193540.png" alt="" class="icon-img">
+                </div>
+                <div class="col col-welcome">
+                    <h1 class="title-main-2">Mide los reportes cada dia</h1>
+                    Deberias estar al tanto todos los dias de las estadisticas de tu negocio.
+                </div>
+            </div>
+            <br><br>
+            Estamos emocionados de tener a alguien tan leal como tu como parte de nuestra comunidad y esperamos poder
+            ofrecerte una experiencia excepcional. 
+            <br>
+            Debes visitar tu nueva sucursal y poner todas las cosas en orden.
+            <br>
+            <br>
+            <button class="btn btn-button" style="width: 120px;" onclick="nextWeb('/main')">Vamos! 💪</button>
+            <hr>
+            <center>
+                <label for="">
+                    No dudes en contactarnos si tienes alguna pregunta, sugerencia o simplemente deseas compartir tus
+                    pensamientos. Estamos aquí para ti.
+                    ¡Gracias de nuevo por tu confianza en nosotros! ❤️
+                </label>
+            </center>
+            <br>
+        </div>
+    </div>
+</div>
 {{>web/filesOldWeb/js}}
-

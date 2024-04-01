@@ -165,7 +165,7 @@ router.post('/create-suscription-cloude', async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/welcome-suscription/{CHECKOUT_SESSION_ID}`,
+        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-suscription`,
         cancel_url: `http://localhost:4000/fud/prices`,
       });
       res.redirect(303, session.url);
@@ -175,7 +175,7 @@ router.post('/create-suscription-cloude', async (req, res) => {
     }
 });
 
-router.get('/welcome-suscription/:session_id', (req, res) => {
+router.get('/:session_id/welcome-suscription', (req, res) => {
     const {session_id}=req.params; //this is the key of stripe of the buy of the suscription 
     res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
 })
@@ -487,6 +487,13 @@ router.get('/other', isLoggedIn, (req, res) => {
 router.get('/recipes', isLoggedIn, (req, res) => {
     res.render(companyName + '/store/recipes');
 })
+
+//-----------------------------------------------------------------suscriptions
+router.get('/:id_company/suscriptions', isLoggedIn, async (req, res) => {
+    const company = await check_company_other(req);
+    const { id_company } = req.params;
+    res.render(companyName + '/manager/options/suscriptions', { company });
+});
 
 //-----------------------------------------------------------------dish
 router.get('/:id/dish', isLoggedIn, async (req, res) => {
