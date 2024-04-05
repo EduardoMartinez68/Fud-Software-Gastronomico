@@ -492,8 +492,41 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 router.get('/:id_company/suscriptions', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id_company } = req.params;
-    res.render(companyName + '/manager/options/suscriptions', { company });
+    const suscriptions=await get_suscription_for_email_user(req.user.email); //get all the suscription of the user for his email 
+    res.render(companyName + '/manager/options/suscriptions', { company , suscriptions});
 });
+
+async function get_suscription_for_email_user(email) {
+    try {
+        // search the customer in Stripe for his email
+        const customer = await stripe.customers.list({ email: email });
+
+        //we will watching if exist suscription 
+        var customerLength=customer.data.length;
+        if (customerLength === 0) {
+            return []
+        }
+
+        //if exist suscription, get all his data
+        var list=[]
+        for(var i=0;i<customerLength;i++){
+            // get the customer ID
+            const customerId = customer.data[i].id;
+            // get the suscription of the customer
+            const suscripciones = await stripe.subscriptions.list({
+                customer: customerId
+            });
+            console.log(suscripciones)
+            list.push(suscripciones.data)
+        }
+        console.log(list)
+        return list;
+    } catch (error) {
+        console.log('Error al obtener las suscripciones: ' + error.message)
+        //throw new Error('Error al obtener las suscripciones: ' + error.message);
+        return []
+    }
+}
 
 //-----------------------------------------------------------------dish
 router.get('/:id/dish', isLoggedIn, async (req, res) => {

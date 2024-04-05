@@ -19,17 +19,22 @@
             <tr>
                 <th><label for="">id</label></th>
                 <th><label for="">pack</label></th>
+                <th><label for="">status</label></th>
                 <th><label for="">company</label></th>
                 <th><label for="">branch</label></th>
                 <th></th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            {{#each suscriptions}}
+                {{#each this}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{object}}/{{interval}}/{{currency}}</td>
+                        <td>{{status}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {{/each}}
+            {{/each}}
         </table>
     </div>
 </div>
