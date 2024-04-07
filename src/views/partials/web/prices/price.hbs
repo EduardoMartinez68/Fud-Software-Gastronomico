@@ -76,7 +76,7 @@
                                     </ul>
                                     <form action="/fud/create-suscription-free" method="POST">
                                         <input type="hidden" name="lookup_key" value="Füd-Studio "/>
-                                        <button id="checkout-and-portal-button" type="submit" class="box-btn">Comprar ⭐</button>
+                                        <button id="checkout-and-portal-button" type="submit" class="box-btn" status="{{user.id_packs_fud}}">Comprar ⭐</button>
                                     </form>
                                 </div>
                             </div>
@@ -482,4 +482,17 @@
         window.onload = function () {
             showPrices('restaurant');
         };
+    </script>
+    <script>
+        //this script is for that the user not have most free pack
+        // Obtener el botón por su ID
+        const button = document.getElementById('checkout-and-portal-button');
+
+        // Obtener el valor del atributo 'status' del botón
+        const statusValue = button.getAttribute('status');
+
+        // Verificar si el valor del status es diferente de 0
+        if (statusValue !== '0') {
+            button.remove();
+        }
     </script>

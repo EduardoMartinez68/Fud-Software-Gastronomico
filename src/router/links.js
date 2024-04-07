@@ -576,6 +576,7 @@ async function create_subscription(req,pack){
     //we will waching if the subscription is activate for save the data in the database
     const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription 
     const status = subscription.status; //get the status of the suscription (active,canceled)
+    await create_subscription_free(req,pack); //this is for that the user not can get other pack free
 
     if(status!='canceled'){
         //if the subscription is activate, save the ID in the database 
@@ -583,23 +584,20 @@ async function create_subscription(req,pack){
     }
 }
 
-async function create_subscription_free(req){
-
-    const customer = await stripe.customers.create({
-        email: req.user.email, 
-    });
-
-    //we going to create a subscription free
-    const subscription = await stripe.subscriptions.create({
-        customer: customer.id, //get the customer ID 
-        items: [
-            {
-            price: 'price_1P2x77RofynVwfKYLWTwJB22', //this is the price ID of the subscription 
-            },
-        ],
-        trial_period_days: 30,
-    });
-    console.log(subscription)
+async function create_subscription_free(req,pack){
+    //we will watching if the user not to used his free pack and if the pack that buy is the free pack
+    if(req.user.id_packs_fud==0 && pack==13){
+        try {
+            //if the user can use his free pack and buy the free pack , we will updating his status in the database
+            const queryText = 'UPDATE "Fud".users SET id_packs_fud = $1 WHERE id = $2';
+            const values = [1, req.user.id];
+            await database.query(queryText, values); //update the status
+            return true;
+          } catch (error) {
+            console.error('Error al actualizar id_packs_fud:', error);
+            return false;
+          }
+    }
 }
 
 async function save_subscription_in_database(id_subscription,id_user,id_packs_fud){
