@@ -475,12 +475,9 @@ router.post('/create-suscription-cloude', async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-suscription`,
+        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
         cancel_url: `http://localhost:4000/fud/prices`,
       });
-
-      const idSubscription = session.subscription; //get the subscription id 
-      //await save_subscription_in_database(idSubscription,11);
 
       res.redirect(303, session.url);
     } catch (error) {
@@ -488,6 +485,119 @@ router.post('/create-suscription-cloude', async (req, res) => {
       res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
 });
+
+router.post('/create-suscription-studio', async (req, res) => {
+    try {
+      const prices = await stripe.prices.list({
+        lookup_keys: [req.body.lookup_key],
+        expand: ['data.product'],
+      });
+  
+      if (!prices.data || prices.data.length === 0) {
+        throw new Error('No se encontraron precios.');
+      }
+  
+      const session = await stripe.checkout.sessions.create({
+        billing_address_collection: 'auto',
+        line_items: [
+          {
+            price: prices.data[0].id,
+            // For metered billing, do not pass quantity
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
+        cancel_url: `http://localhost:4000/fud/prices`,
+      });
+
+      res.redirect(303, session.url);
+    } catch (error) {
+      console.error('Error al crear la suscripción:', error);
+      res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
+
+router.post('/create-suscription-free', async (req, res) => {
+    try {
+        const prices = await stripe.prices.list({
+          lookup_keys: [req.body.lookup_key],
+          expand: ['data.product'],
+        });
+    
+        if (!prices.data || prices.data.length === 0) {
+          throw new Error('No se encontraron precios.');
+        }
+    
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [
+              {
+                price: 'price_1P2x77RofynVwfKYLWTwJB22',
+                quantity: 1,
+              },
+            ],
+            mode: 'subscription',
+            success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `http://localhost:4000/fud/prices`,
+          });
+  
+        res.redirect(303, session.url);
+      } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+      }
+});
+
+router.get('/:session_id/welcome-free',async (req, res) => {
+    await create_subscription(req,13); //this is for save the subscription in the database with the pack that buy the user 
+    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
+})
+
+router.get('/:session_id/welcome-subscription',async (req, res) => {
+    await create_subscription(req,11); //this is for save the subscription in the database with the pack that buy the user 
+    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
+})
+
+router.get('/:session_id/welcome-studio',async (req, res) => {
+    await create_subscription(req,12); //this is for save the subscription in the database with the pack that buy the user 
+    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
+})
+
+async function create_subscription(req,pack){
+    const {session_id}=req.params; //this is the key of stripe of the buy of the subscription 
+    const dataSubscription = await stripe.checkout.sessions.retrieve(session_id); //get the id of the subscription
+    const idSubscription = dataSubscription.subscription;
+    
+    
+    //we will waching if the subscription is activate for save the data in the database
+    const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription 
+    const status = subscription.status; //get the status of the suscription (active,canceled)
+
+    if(status!='canceled'){
+        //if the subscription is activate, save the ID in the database 
+        await save_subscription_in_database(idSubscription,req.user.id,pack);
+    }
+}
+
+async function create_subscription_free(req){
+
+    const customer = await stripe.customers.create({
+        email: req.user.email, 
+    });
+
+    //we going to create a subscription free
+    const subscription = await stripe.subscriptions.create({
+        customer: customer.id, //get the customer ID 
+        items: [
+            {
+            price: 'price_1P2x77RofynVwfKYLWTwJB22', //this is the price ID of the subscription 
+            },
+        ],
+        trial_period_days: 30,
+    });
+    console.log(subscription)
+}
 
 async function save_subscription_in_database(id_subscription,id_user,id_packs_fud){
     const queryText = `
@@ -507,14 +617,6 @@ async function save_subscription_in_database(id_subscription,id_user,id_packs_fu
       return false;
     }
 }
-
-router.get('/:session_id/welcome-suscription',async (req, res) => {
-    const {session_id}=req.params; //this is the key of stripe of the buy of the suscription 
-    const dataSubscription = await stripe.checkout.sessions.retrieve(session_id); //get the id of the subscription
-    const idSubscription = dataSubscription.subscription;
-    await save_subscription_in_database(idSubscription,req.user.id,11);
-    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
-})
 
 router.get('/subscription', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);

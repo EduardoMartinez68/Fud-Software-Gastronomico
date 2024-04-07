@@ -28,8 +28,8 @@
                 <p>
                     Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir
                     el paquete que más se adecue a tus necesidades de empresario.
-                    Vende comida y aumenta tus ingresos, mientras nosotrso nos centramos en administra tus comidas ,
-                     bebidas, reservaciones y empleados. 
+                    Vende comida y aumenta tus ingresos, mientras nosotrso nos centramos en administra tus insumos ,
+                    bebidas, reservaciones y empleados. 
                 </p>
             </div>
             <div class="tab quote-list-tab">
@@ -43,7 +43,7 @@
                                         El primer mes totalmente gratis para que compruebes que Füd es lo que necesita tu negocio.
                                         Al siguiente mes pasaras a la suscripcion Füd Studio.
                                     </div>
-                                    <span>$0<sub></sub></span>
+                                    <span>$499<sub></sub></span>
                                     <ul>
                                         <li>                                           
 						                    <i class="fi fi-sr-star"></i>	
@@ -74,7 +74,10 @@
                                             Administracion de sucursales, stock, y empleados
                                         </li>
                                     </ul>
-                                    <a href="/fud/prices" class="box-btn">Comprar ⭐</a>
+                                    <form action="/fud/create-suscription-free" method="POST">
+                                        <input type="hidden" name="lookup_key" value="Füd-Studio "/>
+                                        <button id="checkout-and-portal-button" type="submit" class="box-btn">Comprar ⭐</button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6">
@@ -112,7 +115,10 @@
                                         </li>
                                     </ul>
                                     <br><br>
-                                    <a href="/fud/prices" class="box-btn">Hagámoslo! 💪</a>
+                                    <form action="/fud/create-suscription-studio" method="POST">
+                                        <input type="hidden" name="lookup_key" value="Füd-Studio "/>
+                                        <button id="checkout-and-portal-button" type="submit" class="box-btn">Hagámoslo! 💪</button>
+                                    </form>
                                     <strong class="popular">Popular</strong>
                                 </div>
                             </div>
@@ -155,6 +161,7 @@
                                         </li>
                                     </ul>
                                     <form action="/fud/create-suscription-cloude" method="POST">
+                                        <input type="hidden" name="lookup_key" value="Füd_Cloud" />
                                         <button id="checkout-and-portal-button" type="submit" class="box-btn">Comprar ⭐</button>
                                     </form>
                                 </div>
