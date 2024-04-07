@@ -1,48 +1,80 @@
 <br>
 <div class="container">
     <label for=""><i class="fi-icon fi-sr-credit-card"></i> My subscriptions</label>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-button" style="width: 240px;" onclick="nextWeb('prices')" style="font-size: 1rem;">Add new subscription 🍽️</button>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-3">
-            <div class="card" style="padding-left: 1rem;padding-right: 4rem;">
-                <label for="" id="numberSubscriptions">number of subscriptions: 1</label>
+    <!--we will watching if exist a subscription-->
+    {{#if subscription}}
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-button" style="width: 240px;" onclick="nextWeb('prices')" style="font-size: 1rem;">Add new subscription 🍽️</button>
             </div>
         </div>
-    </div>
-    <br>
-    <div class="card" style="padding-left: 4rem;padding-right: 4rem;">
         <br>
-        <table class="table" id="{{id}}">
-            <tr>
-                <th><label for="">id</label></th>
-                <th><label for="">pack</label></th>
-                <th><label for="">status</label></th>
-                <th><label for="">Prices</label></th>
-                <th><label for="">Branch</label></th>
-                <th></th>
-            </tr>
-            {{#each subscription}}
-                {{#each this}}
+        <div class="row">
+            <div class="col-3">
+                <div class="card" style="padding-left: 1rem;padding-right: 4rem;">
+                    <label for="" id="numberSubscriptions">number of subscriptions: 1</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card" style="padding-left: 4rem;padding-right: 4rem;">
+            <br>
+            <table class="table" id="{{id}}">
+                <tr>
+                    <th><label for="">id</label></th>
+                    <th><label for="">pack</label></th>
+                    <th><label for="">status</label></th>
+                    <th><label for="">Prices</label></th>
+                    <th><label for="">Branch</label></th>
+                    <th></th>
+                </tr>
+                {{#each subscription}}
                     <tr>
                         <td>{{id}}</td>
                         <td>Fud/{{object}}</td>
-                        <td>{{status}}</td>
-                        <td>{{interval}}/{{currency}}</td>
-                        <td></td>
+                        <td>Active</td>
+                        <td>{{id_companies}}</td>
+                        <td>{{id_branches}}</td>
                         <td>
                             <button class="btn btn-danger" onclick="delete_subscription('{{id}}')"><i class="fi-department fi-sr-trash"></i></button>
                         </td>
                     </tr>
                 {{/each}}
-            {{/each}}
-        </table>
-    </div>
+                <!--
+                {{#each subscription}}
+                    {{#each this}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td>Fud/{{object}}</td>
+                            <td>{{status}}</td>
+                            <td>{{interval}}/{{currency}}</td>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-danger" onclick="delete_subscription('{{id}}')"><i class="fi-department fi-sr-trash"></i></button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{/each}}
+                -->
+            </table>
+        </div>
+    {{else}}
+    <hr>
+        <div class="container">
+            <center>
+                <div class="section-title">
+                    <h1 class="title-main-2">¿Todavia no tienes ninguna sucursal? </h1>
+                    <span>Conoce nuestras ofertas y empieza a cocinar 🍳</span>
+                    <br>
+                    <img src="https://cdn-icons-png.flaticon.com/512/843/843260.png" alt="">
+                    <p>
+                        <button class="btn btn-button" style="width: 240px;" onclick="nextWeb('prices')" style="font-size: 1rem;">Add new subscription 🍽️</button>
+                    </p>
+                </div>
+            </center>
+        </div>
+    {{/if}}
 </div>
 
 <script>

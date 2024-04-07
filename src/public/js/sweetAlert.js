@@ -510,7 +510,7 @@ async function get_id_subscription(){
             title: 'Delete, subscription 💔',
             html:
             `
-            <img src="https://cdn-icons-png.flaticon.com/512/1039/1039367.png" class="img-message"><br><br>
+            <img src="https://cdn-icons-png.flaticon.com/512/7406/7406952.png" class="img-message"><br><br>
             <label>Lamentamos que cancele la suscripcion y esperamos que su negocio se recupere pronto 🙌</label>
             <label>Escribe el ID de la suscripcion que deseas cancelar</label>
             <input id="idSubscription" type="text" class="swal2-input" placeholder="Escribe el ID de la suscripcion">

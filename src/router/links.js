@@ -144,41 +144,6 @@ async function check_company_user(id_company, req) {
 }
 
 //suscriptions 
-router.post('/create-suscription-cloude', async (req, res) => {
-    try {
-      const prices = await stripe.prices.list({
-        lookup_keys: [req.body.lookup_key],
-        expand: ['data.product'],
-      });
-  
-      if (!prices.data || prices.data.length === 0) {
-        throw new Error('No se encontraron precios.');
-      }
-  
-      const session = await stripe.checkout.sessions.create({
-        billing_address_collection: 'auto',
-        line_items: [
-          {
-            price: prices.data[0].id,
-            // For metered billing, do not pass quantity
-            quantity: 1,
-          },
-        ],
-        mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-suscription`,
-        cancel_url: `http://localhost:4000/fud/prices`,
-      });
-      res.redirect(303, session.url);
-    } catch (error) {
-      console.error('Error al crear la suscripción:', error);
-      res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
-    }
-});
-
-router.get('/:session_id/welcome-suscription', (req, res) => {
-    const {session_id}=req.params; //this is the key of stripe of the buy of the suscription 
-    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
-})
 
 ///links of the web
 router.get('/identify', isNotLoggedIn, (req, res) => {
@@ -489,12 +454,87 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 })
 
 //-----------------------------------------------------------------subscription
+router.post('/create-suscription-cloude', async (req, res) => {
+    try {
+      const prices = await stripe.prices.list({
+        lookup_keys: [req.body.lookup_key],
+        expand: ['data.product'],
+      });
+  
+      if (!prices.data || prices.data.length === 0) {
+        throw new Error('No se encontraron precios.');
+      }
+  
+      const session = await stripe.checkout.sessions.create({
+        billing_address_collection: 'auto',
+        line_items: [
+          {
+            price: prices.data[0].id,
+            // For metered billing, do not pass quantity
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-suscription`,
+        cancel_url: `http://localhost:4000/fud/prices`,
+      });
+
+      const idSubscription = session.subscription; //get the subscription id 
+      //await save_subscription_in_database(idSubscription,11);
+
+      res.redirect(303, session.url);
+    } catch (error) {
+      console.error('Error al crear la suscripción:', error);
+      res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
+
+async function save_subscription_in_database(id_subscription,id_user,id_packs_fud){
+    const queryText = `
+      INSERT INTO "User".subscription (id, id_users, id_packs_fud)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (id) DO NOTHING
+    `;
+  
+    const values = [id_subscription,id_user, id_packs_fud];
+  
+    try {
+      await database.query(queryText, values);
+      console.error('Subscription save');
+      return true;
+    } catch (error) {
+      console.error('Error al guardar la suscripción en la base de datos:', error);
+      return false;
+    }
+}
+
+router.get('/:session_id/welcome-suscription',async (req, res) => {
+    const {session_id}=req.params; //this is the key of stripe of the buy of the suscription 
+    const dataSubscription = await stripe.checkout.sessions.retrieve(session_id); //get the id of the subscription
+    const idSubscription = dataSubscription.subscription;
+    await save_subscription_in_database(idSubscription,req.user.id,11);
+    res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
+})
+
 router.get('/subscription', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id_company } = req.params;
-    const subscription=await get_subscription_for_email_user(req.user.email); //get all the suscription of the user for his email 
+    const subscription=await get_subscription_for_id_user(req.user.id); //get all the suscription of the user for his id 
     res.render(companyName + '/manager/options/subscription', { company , subscription});
 });
+
+async function get_subscription_for_id_user(idUser) {
+    try {
+        var queryText = 'SELECT * FROM "User".subscription WHERE id_users= $1';
+        var values = [idUser];
+        const result = await database.query(queryText, values);
+        const data = result.rows;
+        return data;
+    } catch (error) {
+        console.log('Error al obtener las subscription: ' + error.message)
+        return []
+    }
+}
 
 async function get_subscription_for_email_user(email) {
     try {
@@ -527,12 +567,13 @@ async function get_subscription_for_email_user(email) {
         return []
     }
 }
+
 router.get('/:id_subscription/delete-subscription', isLoggedIn, async (req, res) => {
     const { id_subscription } = req.params; //get the id subscription 
 
     //we will watching if the subscription can delete
     if(await delete_subscription(id_subscription)){
-        req.flash('success', 'La suscripcion fue cancelada con exito. Esperamos tener tu comida de vuelta muy pronto 😢')
+        req.flash('success', 'Suscripcion cancelada. Esperamos tener tu comida de vuelta muy pronto 😢')
     }else{
         //if not can delete the subscription, show a message of error 
         req.flash('message', 'La suscripcion no pudo cancelarse, intentelo de nuevo 👁️')
@@ -545,6 +586,10 @@ async function delete_subscription(id_subscription){
     try {
         // Cancelar la suscripción utilizando la API de Stripe
         const canceledSubscription = await stripe.subscriptions.cancel(id_subscription);
+        var queryText = 'DELETE FROM "User".subscription WHERE id= $1';
+        var values = [id_subscription];
+        await database.query(queryText, values);
+
         return true;
         // Devolver una respuesta de éxito
         //res.status(200).json({ mensaje: 'Suscripción cancelada exitosamente', suscripcion: canceledSubscription });
