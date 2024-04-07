@@ -488,15 +488,15 @@ router.get('/recipes', isLoggedIn, (req, res) => {
     res.render(companyName + '/store/recipes');
 })
 
-//-----------------------------------------------------------------suscriptions
-router.get('/:id_company/suscriptions', isLoggedIn, async (req, res) => {
+//-----------------------------------------------------------------subscription
+router.get('/subscription', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id_company } = req.params;
-    const suscriptions=await get_suscription_for_email_user(req.user.email); //get all the suscription of the user for his email 
-    res.render(companyName + '/manager/options/suscriptions', { company , suscriptions});
+    const subscription=await get_subscription_for_email_user(req.user.email); //get all the suscription of the user for his email 
+    res.render(companyName + '/manager/options/subscription', { company , subscription});
 });
 
-async function get_suscription_for_email_user(email) {
+async function get_subscription_for_email_user(email) {
     try {
         // search the customer in Stripe for his email
         const customer = await stripe.customers.list({ email: email });
@@ -516,16 +516,44 @@ async function get_suscription_for_email_user(email) {
             const suscripciones = await stripe.subscriptions.list({
                 customer: customerId
             });
-            console.log(suscripciones)
+            //console.log(suscripciones)
             list.push(suscripciones.data)
         }
-        console.log(list)
+
         return list;
     } catch (error) {
-        console.log('Error al obtener las suscripciones: ' + error.message)
+        console.log('Error al obtener las subscription: ' + error.message)
         //throw new Error('Error al obtener las suscripciones: ' + error.message);
         return []
     }
+}
+router.get('/:id_subscription/delete-subscription', isLoggedIn, async (req, res) => {
+    const { id_subscription } = req.params; //get the id subscription 
+
+    //we will watching if the subscription can delete
+    if(await delete_subscription(id_subscription)){
+        req.flash('success', 'La suscripcion fue cancelada con exito. Esperamos tener tu comida de vuelta muy pronto 😢')
+    }else{
+        //if not can delete the subscription, show a message of error 
+        req.flash('message', 'La suscripcion no pudo cancelarse, intentelo de nuevo 👁️')
+    }
+
+    res.redirect('/fud/subscription');
+});
+
+async function delete_subscription(id_subscription){
+    try {
+        // Cancelar la suscripción utilizando la API de Stripe
+        const canceledSubscription = await stripe.subscriptions.cancel(id_subscription);
+        return true;
+        // Devolver una respuesta de éxito
+        //res.status(200).json({ mensaje: 'Suscripción cancelada exitosamente', suscripcion: canceledSubscription });
+      } catch (error) {
+        console.log(error)
+        return false;
+        // Manejar errores
+        //res.status(500).json({ error: error.message });
+      }
 }
 
 //-----------------------------------------------------------------dish
