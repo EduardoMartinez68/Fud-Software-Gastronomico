@@ -540,6 +540,9 @@ router.post('/create-suscription-free', async (req, res) => {
             mode: 'subscription',
             success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
             cancel_url: `http://localhost:4000/fud/prices`,
+            subscription_data:{
+                trial_period_days:15
+            }
           });
   
         res.redirect(303, session.url);
