@@ -487,15 +487,54 @@ async function update_provider_to_database(id_provider,provider,req){
 //add branches
 router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
-    const newBranch=create_new_branch(req);
-    if(await addDatabase.add_branch(newBranch)){
-        req.flash('success','the branch was add with supplies ❤️')
+    const {idSubscription}=req.body;
+
+    //we will watching if this subscription exist in my database 
+    if(await this_subscription_exist(idSubscription)){
+        //if this subscription was used, show a message of error 
+        req.flash('message','Esta suscripción ya fue utilizada 😮');
+    }else{
+        const newBranch=create_new_branch(req);
+        const idBranch=await addDatabase.add_branch(newBranch); //get the ID branch that save in the database
+        //console.log(idBranch)
+        if(idBranch!=false){
+            console.log(idBranch)
+            await save_the_id_branch_with_the_id_subscription(idSubscription,idBranch);
+            req.flash('success','the branch was add with supplies ❤️')
+        }
+        else{
+            req.flash('message','the branch not was add 👉👈')
+        }
     }
-    else{
-        req.flash('message','the branch not was add 👉👈')
-    }
+
     res.redirect('/fud/'+id_company+'/branches');
 })
+
+async function save_the_id_branch_with_the_id_subscription(idSubscription,idBranch){
+    try {
+        //this function is for save the branch with the subscription 
+        const queryText = 'UPDATE "User".subscription SET id_branches = $1 WHERE id = $2';
+        const values = [idBranch, idSubscription];
+        await database.query(queryText, values); //update the status
+        return true;
+      } catch (error) {
+        console.error('Error to update subscription branch:', error);
+        return false;
+      }
+}
+
+async function this_subscription_exist(idSubscription){
+    try {
+        //we going to know if this subscription is save in the database 
+        const queryText = 'SELECT * FROM "User".subscription WHERE id = $1';
+        const values = [idSubscription];
+        const result = await database.query(queryText, values);
+        return result.rows[0].id_branches!=null;
+    } catch (error) {
+        console.error('Error for know if exist the subscription:', error);
+        return false;
+    }
+}
 
 router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;

@@ -305,15 +305,16 @@ async function add_branch(branch){
 }
 
 async function save_branch(branch){
-    var queryText = 'INSERT INTO "Company".branches (id_companies,name_branch,alias,representative,phone,cell_phone,email_branch,id_country,municipality,city,cologne,address,num_ext,num_int,postal_code)'
-        +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
-    var values = Object.values(branch);
-    console.log(values)
     try{
-        await database.query(queryText, values);
-        return true;
+        var queryText = 'INSERT INTO "Company".branches (id_companies,name_branch,alias,representative,phone,cell_phone,email_branch,id_country,municipality,city,cologne,address,num_ext,num_int,postal_code)'
+        + 'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id';
+        var values = Object.values(branch);
+
+        const result = await database.query(queryText, values);
+        console.log(result)
+        return result.rows[0].id;
     } catch (error) {
-        console.error('Error al insertar en la base de datos:', error);
+        console.error('Error to insert branch', error);
         return false;
     }
 }

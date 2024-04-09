@@ -626,6 +626,66 @@ router.get('/subscription', isLoggedIn, async (req, res) => {
     res.render(companyName + '/manager/options/subscription', { company , subscription});
 });
 
+router.get('/:id_subscription/:nam_branch/link-subscription', isLoggedIn, async (req, res) => {
+    const { id_subscription , nam_branch} = req.params;
+    const idBranch=await get_id_branch_byt_name(nam_branch);
+    await update_subscription(id_subscription,idBranch);
+    res.redirect('/fud/subscription');
+});
+
+async function update_subscription(id_subscription,id_branch){
+    try {
+        //if the user can use his free pack and buy the free pack , we will updating his status in the database
+        const queryText = 'UPDATE "Fud".subscription SET id_branches = $1 WHERE id = $2';
+        const values = [id_branch, id_subscription];
+        await database.query(queryText, values); //update the status
+        return true;
+      } catch (error) {
+        console.error('Error al actualizar id_packs_fud:', error);
+        return false;
+      }
+}
+
+async function validate_subscription(res,req,id_branch){
+    const dataSubscription=await get_subscription_by_branch_id(id_branch); //get the data of the subscription from my database
+
+    //we going to wacht if this subscription not is activate in this branch
+    if(!await this_subscription_is_activate(dataSubscription)){
+        //if the subscription not is activate or not exist show a message of subscription renewal
+        res.flash('message', 'Esta sucursal no cuenta con una suscripción activa. Por favor, renueva o asígnale una suscripción ya existente 🙅‍♂️')
+        req.redirect('/fud/home');
+    }
+
+    return true; //if this subscription is activate return true
+}
+
+async function this_subscription_is_activate(dataSubscription){
+    //we going to wacht if exist a branch with this id 
+    if(dataSubscription.length>0){
+        const idSubscription=dataSubscription[0].id; //get the subscription id
+
+        //we will waching if the subscription is activate 
+        const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription from stripe 
+        const status = subscription.status; //get the status of the suscription (active,canceled)
+        return (status!='canceled')
+    }
+
+    return false;
+}
+
+async function get_subscription_by_branch_id(id_branch){
+    try {
+        var queryText = 'SELECT * FROM "User".subscription WHERE id_branches= $1';
+        var values = [id_branch];
+        const result = await database.query(queryText, values);
+        const data = result.rows;
+        return data;
+    } catch (error) {
+        console.log('Error al obtener las subscription: ' + error.message)
+        return []
+    }
+}
+
 async function get_subscription_for_id_user(idUser) {
     try {
         var queryText = 'SELECT * FROM "User".subscription WHERE id_users= $1';
@@ -3003,8 +3063,11 @@ async function get_data_branch(req) {
 }
 
 router.get('/:id_company/:id_branch/visit-branch', isLoggedIn, async (req, res) => {
-    const branch = await get_data_branch(req)
-    res.render('links/branch/home', { branch });
+    const { id_branch } = req.params;
+    if(await validate_subscription(req,res,id_branch)){
+        const branch = await get_data_branch(req)
+        res.render('links/branch/home', { branch });
+    }
 })
 
 

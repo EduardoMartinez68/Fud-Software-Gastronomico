@@ -529,3 +529,28 @@ async function get_id_subscription(){
         });
     });
 }
+
+async function get_name_branch(){
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: 'Link branch 🤩',
+            html:
+            `
+            <img src="https://cdn-icons-png.flaticon.com/512/2037/2037105.png" class="img-message"><br><br>
+            <label>Escribe el nombre de la sucursal que deseas enlazar con esta suscripción</label>
+            <input id="idSubscription" type="text" class="swal2-input" placeholder="Nombre sucursal">
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'search',
+            confirmButtonColor: 'rgb(25, 135, 84)',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const emailInput = Swal.getPopup().querySelector('#idSubscription').value;
+                const data = [emailInput];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}

@@ -37,6 +37,7 @@
                         <td>{{id_companies}}</td>
                         <td>{{id_branches}}</td>
                         <td>
+                            <button class="btn btn-danger" onclick="add_branch('{{id}}')"><i class="fi-department fi-sr-pencil"></i></button>
                             <button class="btn btn-danger" onclick="delete_subscription('{{id}}')"><i class="fi-department fi-sr-trash"></i></button>
                         </td>
                     </tr>
@@ -100,5 +101,10 @@
                 errorMessage('Error al comprobar la suscripcion 👁️','Este ID no es el mismo de la suscripcion que quieres cancerlar')
             }
         }
+    }
+
+    async function add_branch(idSubscription){
+        const nameBranch=await get_name_branch();
+        window.location.href = "/fud/"+idSubscription+"/"+nameBranch+"/link-subscription";
     }
 </script>
