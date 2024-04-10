@@ -3151,7 +3151,7 @@ async function update_supplies_branch(req, res, type) {
     //we will to read all the supplies and we going to watch if the supplies is in the branch
     for (var i = 0; i < supplies.length; i++) {
         const idSupplies = supplies[i].id; //get id of the array 
-        if (!await this_supplies_exist(idSupplies)) {
+        if (!await this_supplies_exist(id_branch,idSupplies)) {
             //if the supplies not exist in this branch, we going to add the database
             //we will watching if the product was add with success, if not was add, save in the note
             if (!await addDatabase.add_product_and_suppiles_features(id_branch, idSupplies)) {
@@ -3169,9 +3169,9 @@ async function update_supplies_branch(req, res, type) {
     }
 }
 
-async function this_supplies_exist(idSupplies) {
-    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_products_and_supplies = $1';
-    var values = [idSupplies];
+async function this_supplies_exist(idBranc,idSupplies) {
+    var queryText = 'SELECT * FROM "Inventory".product_and_suppiles_features WHERE id_products_and_supplies = $1 and id_branches=$2';
+    var values = [idSupplies,idBranc];
     const result = await database.query(queryText, values);
     const data = result.rows;
     return data.length > 0;
@@ -3327,7 +3327,7 @@ function create_combo_data_branch(combo, id_branch) {
 
 async function add_combo_branch(comboData) {
     //we will watching if this combo exist in this branch 
-    if (!await this_combo_exist_branch(comboData.idDishesAndCombos)) {
+    if (!await this_combo_exist_branch(comboData.idBranch,comboData.idDishesAndCombos)) {
         //if the combo not exist in the branch so we will add this new combo to the database 
         return await addDatabase.add_combo_branch(comboData);
     }
@@ -3344,10 +3344,10 @@ async function get_all_combos_company(idCompany) {
     return result.rows;
 }
 
-async function this_combo_exist_branch(idCombo) {
+async function this_combo_exist_branch(idBranch,idCombo) {
     //we will search the combo in this branch 
-    var queryText = 'SELECT * FROM "Inventory".dish_and_combo_features WHERE id_dishes_and_combos= $1';
-    var values = [idCombo];
+    var queryText = 'SELECT * FROM "Inventory".dish_and_combo_features WHERE id_dishes_and_combos= $1 and id_branches=$2';
+    var values = [idCombo,idBranch];
     const result = await database.query(queryText, values);
 
     return result.rows.length > 0;
