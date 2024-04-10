@@ -654,7 +654,7 @@ async function validate_subscription(req,res){
     if(!await this_subscription_is_activate(dataSubscription)){
         //if the subscription not is activate or not exist show a message of subscription renewal
         req.flash('message', 'Esta sucursal no cuenta con una suscripción activa. Por favor, renueva o asígnale una suscripción ya existente 🙅‍♂️')
-        res.redirect('/fud/home');
+        res.redirect('/fud/subscription');
     }
 
     return true; //if this subscription is activate return true
@@ -1536,11 +1536,12 @@ async function delete_customer(idCustomer) {
     }
 }
 
-router.get('/:idCustomer/edit-customer', isLoggedIn, async (req, res) => {
+router.get('/:id/:idCustomer/edit-customer', isLoggedIn, async (req, res) => {
     const { idCustomer } = req.params;
+    const company = await check_company(req);
     const country = await get_country()
     const customer = await searc_customers(idCustomer)
-    res.render("links/manager/customers/editCustomer", { customer, country });
+    res.render("links/manager/customers/editCustomer", { customer, country, company });
 })
 
 //----------------------------------------------------------------branches

@@ -27,6 +27,7 @@
                                 {{/if}}
                             {{/if}}
                             <ul class="scroll-navbar">
+                                <li rolUser="{{user.rol_user}}" id="roleUser"><a href="/fud/subscription"><i class="fi-icon fi-sr-credit-card"> Licencias</i></a></li>
                                 {{#each company}}
                                     <li><a href="company-home"><i class="fi-icon fi-sr-apps"> Dashboard</i></a></li>
                                     <li><a href="/fud/{{id}}/branches"><i class="fi-icon fi-sr-store-alt"> Branches</i></a></li>
@@ -37,7 +38,6 @@
                                     <li><a href="/fud/{{id}}/combos"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
                                     <li><a href="/fud/{{id}}/providers"><i class="fi-icon fi-ss-truck-side"> Providers</i></a></li>
                                     <li><a href="/fud/{{id}}/reports"><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>
-                                    <li><a href="/fud/subscription"><i class="fi-icon fi-sr-credit-card">Subscription</i></a></li>
                                     <!---<li><a href="/fud/{{id}}/options"><i class="fi-icon fi-sr-settings"> Options</i></a></li>-->
                                     <li><a href="/fud/home"><i class="fi-icon fi-sr-undo">  Exit</i></a></li>
                                 {{/each}}
@@ -97,6 +97,20 @@
 {{else}}
     {{>web/navbar}}
 {{/if}}
+<!--this script is for delete the tag de prices when the user be a employee-->
+<script>
+    function delete_role(){
+        const labelRol=document.getElementById('roleUser')
+        console.log('labelRol')
+        console.log(labelRol)
+        const roleUser=labelRol.getAttribute('rolUser')
+        console.log(roleUser)
+        if(roleUser>=1){
+            labelRol.remove();
+        }
+    }
+    delete_role()
+</script>
 <!--this script will be that the description of the web choose depending in where is the user-->
 <script>
     var url = window.location.href;
