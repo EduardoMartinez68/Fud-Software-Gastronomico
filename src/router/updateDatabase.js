@@ -439,6 +439,28 @@ async function update_combo_branch(combo){
     }
 }
 
+async function update_subscription_branch(idSubscription,idBranch){
+    const queryText = `
+    UPDATE "User".subscription
+    SET 
+        id_branches=$1
+    WHERE 
+        id=$2
+    `;
+    
+    //create the array for update the subscription
+    var values = [idBranch,idSubscription];
+
+    //update the subscription data in the database
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating provider:', error);
+        return false;
+    }
+}
+
 
 module.exports = {
     update_company,
@@ -451,5 +473,6 @@ module.exports = {
     update_employee,
     update_provider_company,
     update_supplies_branch,
-    update_combo_branch
+    update_combo_branch,
+    update_subscription_branch
 };

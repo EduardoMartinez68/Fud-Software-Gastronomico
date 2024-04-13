@@ -39,18 +39,18 @@ passport.use('local.add_company', new LocalStrategy({
         if(!await compare_company_with_name(req,name)){
             const newCompany=get_new_company(req);
             if (await addDatabase.add_company(newCompany)){
-                done(null,false,req.flash('success','the company was add with success ❤️'));
+                done(null,false,req.flash('success','La empresa fue añadida con éxito ❤️'));
             }
             else{
-                done(null,false,req.flash('message','Could not add to database 😰'));
+                done(null,false,req.flash('message','La empresa no se pudo agregar a la base de datos 😰'));
             }
         }
         else{
-            done(null,false,req.flash('message','This name already exists 😅'));
+            done(null,false,req.flash('message','Este nombre ya existe 😅'));
         }
     }
     else{
-        done(null,false,req.flash('message','You must fill in all the required information 👉👈'));
+        done(null,false,req.flash('message','Debes completar toda la información requerida 👉👈'));
     }
 }));
 
@@ -117,14 +117,14 @@ passport.use('local.add_department', new LocalStrategy({
     if(!await this_department_exists(req,name)){
         const newDepartment=get_new_department(req);
         if(await addDatabase.add_product_department(newDepartment)){
-            done(null,false,req.flash('success','the department was add with success! 😊'));
+            done(null,false,req.flash('success','El departamento fue agregado con éxito! 😊'));
         }
         else{
-            done(null,false,req.flash('message','Could not add to database 😰'));
+            done(null,false,req.flash('message','No se pudo agregar a la base de datos 😰'));
         }
     }
     else{
-        done(null,false,req.flash('message','This department already exists 😅'));
+        done(null,false,req.flash('message','Este departamento ya existe 😅'));
     }
 }));
 
@@ -165,14 +165,14 @@ passport.use('local.add_category', new LocalStrategy({
     if(!await this_category_exists(req,name)){
         const newDepartment=get_new_category(req);
         if(await addDatabase.add_product_category(newDepartment)){
-            done(null,false,req.flash('success','the department was add with success! 😄'));
+            done(null,false,req.flash('success','El departamento fue agregado con éxito! 😄'));
         }
         else{
-            done(null,false,req.flash('message','Could not add to database 😰'));
+            done(null,false,req.flash('message','El departamento no fue agregado 😰'));
         }
     }
     else{
-        done(null,false,req.flash('message','This department already exists 👉👈'));
+        done(null,false,req.flash('message','Este departamento ya existe en tu empresa 👉👈'));
     }
 }));
 
@@ -210,7 +210,7 @@ passport.use('local.add_supplies', new LocalStrategy({
     passReqToCallback: true
 }, async (req ,name, password, done) => {
     var path_image=create_a_new_image(req);
-    done(null,false,req.flash('success','the department was add with success! 😄'));
+    done(null,false,req.flash('success','El departamento fue agregado con éxito! 😄'));
 }));
 
 //add supplies
@@ -218,10 +218,10 @@ router.post('/fud/:id/add-company-supplies',async (req,res)=>{
     const {id}=req.params;
     const newSupplies=get_supplies_or_product_company(req,true);
     if(await addDatabase.add_supplies_company(newSupplies)){
-        req.flash('success','the supplies was add with success! 👍')
+        req.flash('success','El insumo fue actualizado con éxito! 👍')
     }
     else{
-        req.flash('message','the supplies not was add with success 👉👈')
+        req.flash('message','El insumo no fue actualizado con éxito 👉👈')
     }
     
     res.redirect('/fud/'+id+'/company-supplies');
@@ -231,10 +231,10 @@ router.post('/fud/:id/add-company-products',async (req,res)=>{
     const {id}=req.params;
     const newSupplies=get_supplies_or_product_company(req,false);
     if(await addDatabase.add_supplies_company(newSupplies)){
-        req.flash('success','the product was add with success 👍')
+        req.flash('success','El producto fue actualizado con éxito 👍')
     }
     else{
-        req.flash('message','the product not was add with success 😅')
+        req.flash('message','El producto no fue actualizado 😅')
     }
     
     res.redirect('/fud/'+id+'/company-products');
@@ -275,10 +275,10 @@ router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
 
         //we will see if can add the combo to the database
         if(await addDatabase.add_combo_company(combo)){
-            req.flash('success','the combo was add with success ❤️')
+            req.flash('success','El combo fue agregado con éxito ❤️')
         }
         else{
-            req.flash('message','the combo not was add 😳')
+            req.flash('message','El combo no fue agregado con éxito 😳')
         }
 
         res.redirect('/fud/'+id_company+'/combos');
@@ -354,10 +354,10 @@ router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req
             //we will delate all the supplies of the combo for to save it later
             await delete_all_supplies_combo(id_combo) //id
             await addDatabase.save_all_supplies_combo_company(id_combo,combo.supplies) //We will save all the supplies again
-            req.flash('success','the combo was update with success ❤️')
+            req.flash('success','El combo fue actualizado con éxito ❤️')
         }
         else{
-            req.flash('message','the combo not was add 😳')
+            req.flash('message','El combo no fue actualizado con éxito 😳')
         }
     }
 
@@ -398,7 +398,7 @@ router.post('/fud/:id_company/add-providers',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const provider=create_new_provider(req);
     if(await this_provider_exists(provider)){
-        req.flash('message','This provider already exists in this branch 😅')
+        req.flash('message','Este proveedor ya existe en esta sucursal 😅')
     }else{
         await add_provider_to_database(provider,req);
     }
@@ -466,7 +466,7 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers',isLoggedIn
     //we will changing the id branch for knkow
     provider.branch=id_branch;
     if(await this_provider_exists(id_provider)){
-        req.flash('message','This provider already exists in this branch 😅')
+        req.flash('message','Este proveedor ya existe en esta sucursal 😅')
     }else{
         await update_provider_to_database(id_provider,provider,req);
     }
@@ -476,10 +476,10 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers',isLoggedIn
 
 async function update_provider_to_database(id_provider,provider,req){
     if(await update.update_provider_company(id_provider,provider)){
-        req.flash('success','the provider was update with supplies 😁')
+        req.flash('success','El proveedor fue actualizado con éxito 😁')
     }
     else{
-        req.flash('message','the provider not was update 👉👈')
+        req.flash('message','El proveedor no fue actualizado con éxito 👉👈')
     }
 }
 
@@ -498,12 +498,11 @@ router.post('/fud/:id_company/add-new-branch',isLoggedIn,async(req,res)=>{
         const idBranch=await addDatabase.add_branch(newBranch); //get the ID branch that save in the database
         //console.log(idBranch)
         if(idBranch!=false){
-            console.log(idBranch)
             await save_the_id_branch_with_the_id_subscription(idSubscription,idBranch);
-            req.flash('success','the branch was add with supplies ❤️')
+            req.flash('success','La sucursal fue actualizada con exito ❤️')
         }
         else{
-            req.flash('message','the branch not was add 👉👈')
+            req.flash('message','La sucursal no fue agregada 👉👈')
         }
     }
 
@@ -538,15 +537,48 @@ async function this_subscription_exist(idSubscription){
 
 router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
-    const newBranch=create_new_branch(req);
-    if(await update.update_branch(id_branch,newBranch)){
-        req.flash('success','the branch was upload with supplies 😊')
+    //we will watching if this subscription exist in my database 
+    const {idSubscription}=req.body;
+    if(await this_subscription_exist_with_my_branch(idSubscription,id_branch)){
+        //if this subscription was used, show a message of error 
+        req.flash('message','Esta suscripción ya fue utilizada 😮');
     }
     else{
-        req.flash('message','the branch not was upload 😰')
+        //we will watching if can update the subscription
+        if(await update.update_subscription_branch(idSubscription,id_branch)){
+            const newBranch=create_new_branch(req);
+            if(await update.update_branch(id_branch,newBranch)){
+                req.flash('success','La sucursal fue actualizada con exito 😊')
+            }
+            else{
+                req.flash('message','La sucursal no fue actualizada 😰')
+            }
+        }else{
+            req.flash('message','Ocurrio un error con el servidor, vuelve a intentarlo 👉👈')
+        }
     }
     res.redirect('/fud/'+id_company+'/branches');
 })
+
+async function this_subscription_exist_with_my_branch(idSubscription,id_branch){
+    try {
+        //we going to know if this subscription is save in the database 
+        const queryText = 'SELECT * FROM "User".subscription WHERE id = $1';
+        const values = [idSubscription];
+        const result = await database.query(queryText, values);
+
+        //we will watching if exist most data save the ID 
+        if(result.rows.length > 1 ){
+            return true;
+        }else{
+            return result.rows[0].id_branches!=null || result.rows[0].id_branches==id_branch;
+        }
+
+    } catch (error) {
+        console.error('Error for know if exist the subscription:', error);
+        return false;
+    }
+}
 
 function create_new_branch(req){
     const {id_company}=req.params;

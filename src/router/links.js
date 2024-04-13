@@ -166,15 +166,15 @@ router.get('/main', isNotLoggedIn, (req, res) => {
     res.render(companyName + '/web/main'); //this web is for return your user
 })
 
-router.get('/partners', async (req, res) => {
+router.get('/partners', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/partners')
 });
 
-router.get('/our-company', async (req, res) => {
+router.get('/our-company', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/aboutUs')
 });
 
-router.get('/download', async (req, res) => {
+router.get('/download', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/download')
 });
 
@@ -186,15 +186,15 @@ router.get('/privacy', async (req, res) => {
     res.render(companyName + '/web/privacy')
 });
 
-router.get('/contact-us', async (req, res) => {
+router.get('/contact-us', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/contactUs')
 });
 
-router.get('/restart-password', async (req, res) => {
+router.get('/restart-password', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/restartPasswordEmail')
 });
 
-router.post('/restart-password', async (req, res) => {
+router.post('/restart-password', isNotLoggedIn, async (req, res) => {
     const {email}=req.body; //get the email of the user 
     const token = await create_token(); // create a token
     const idUser=await get_id_user_for_email(email);
@@ -251,11 +251,11 @@ async function save_token_database(idUser,token){
     }
 }
 
-router.get('/confirm-restart-password', async (req, res) => {
+router.get('/confirm-restart-password', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/restartPassword')
 });
 
-router.post('/confirm-restart-password', async (req, res) => {
+router.post('/confirm-restart-password', isNotLoggedIn, async (req, res) => {
     const {password1,password2,token}=req.body;
     //we will getting the id of the user with the token 
     const idUser=await get_id_user_for_token(token);
@@ -454,7 +454,7 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 })
 
 //-----------------------------------------------------------------subscription
-router.post('/create-suscription-cloude', async (req, res) => {
+router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
     try {
       const prices = await stripe.prices.list({
         lookup_keys: [req.body.lookup_key],
@@ -486,7 +486,7 @@ router.post('/create-suscription-cloude', async (req, res) => {
     }
 });
 
-router.post('/create-suscription-studio', async (req, res) => {
+router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
     try {
       const prices = await stripe.prices.list({
         lookup_keys: [req.body.lookup_key],
@@ -518,7 +518,7 @@ router.post('/create-suscription-studio', async (req, res) => {
     }
 });
 
-router.post('/create-suscription-free', async (req, res) => {
+router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
     try {
         const prices = await stripe.prices.list({
           lookup_keys: [req.body.lookup_key],
@@ -552,17 +552,17 @@ router.post('/create-suscription-free', async (req, res) => {
       }
 });
 
-router.get('/:session_id/welcome-free',async (req, res) => {
+router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
     await create_subscription(req,13); //this is for save the subscription in the database with the pack that buy the user 
     res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
 })
 
-router.get('/:session_id/welcome-subscription',async (req, res) => {
+router.get('/:session_id/welcome-subscription',isLoggedIn,async (req, res) => {
     await create_subscription(req,11); //this is for save the subscription in the database with the pack that buy the user 
     res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
 })
 
-router.get('/:session_id/welcome-studio',async (req, res) => {
+router.get('/:session_id/welcome-studio', isLoggedIn, async (req, res) => {
     await create_subscription(req,12); //this is for save the subscription in the database with the pack that buy the user 
     res.render(companyName + '/web/welcomeSuscription'); //this web is for return your user
 })
@@ -1099,10 +1099,10 @@ router.get('/:id_company/:id/delate-supplies-company', isLoggedIn, async (req, r
     const thisIsASupplies = await this_is_a_supplies_or_a_products(id)
 
     if (await delate_supplies_company(id, pathOmg)) {
-        req.flash('success', 'the object was delate with success')
+        req.flash('success', 'Los suministros fueron actualizados con éxito 😁')
     }
     else {
-        req.flash('message', 'the object not was delate')
+        req.flash('message', 'Los suministros NO fueron actualizados 👉👈')
     }
 
     if (thisIsASupplies) {
@@ -1131,10 +1131,10 @@ router.get('/:id_company/:id/:barcode/:name/:description/:useInventory/company-s
     const thisIsASupplies = await this_is_a_supplies_or_a_products(id)
 
     if (await update_supplies_company(newSupplies)) {
-        req.flash('success', 'the object was upload with success')
+        req.flash('success', 'Los suministros fueron actualizados con éxito 😁')
     }
     else {
-        req.flash('message', 'the object not was upload with success')
+        req.flash('message', 'Los suministros NO fueron actualizados 👉👈')
     }
 
     if (thisIsASupplies) {
@@ -1260,10 +1260,10 @@ router.get('/:id_company/:id/delate-combo-company', isLoggedIn, async (req, res)
     const { id, id_company } = req.params;
     const pathImg = await get_path_img('Kitchen', 'dishes_and_combos', id)
     if (await delate_combo_company(id, pathImg)) {
-        req.flash('success', 'the combo was delate with success')
+        req.flash('success', 'El combo fue eliminado con éxito 😄')
     }
     else {
-        req.flash('message', 'the combo not was delate')
+        req.flash('message', 'El combo NO fue eliminado con éxito 😳')
     }
 
     res.redirect('/fud/' + id_company + '/combos');
@@ -1452,10 +1452,10 @@ router.get('/:id_company/:id_provider/delete-provider', isLoggedIn, async (req, 
     if (company != null) {
         const { id_provider, id_company } = req.params;
         if (await delete_provider(id_provider)) {
-            req.flash('success', 'the combo was delate with success')
+            req.flash('success', 'El proveedor fue eliminado con éxito 😉')
         }
         else {
-            req.flash('message', 'the provider not was delate')
+            req.flash('message', 'El proveedor no fue eliminado 😮')
         }
 
         res.redirect('/fud/' + id_company + '/providers');
@@ -1512,9 +1512,9 @@ router.get('/:id/:idCustomer/delete-customer', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     if (company.length > 0) {
         if (await delete_customer(idCustomer)) {
-            req.flash('success', 'the customer was delate with success')
+            req.flash('success', 'El cliente fue eliminado con éxito 😉')
         } else {
-            req.flash('message', 'the customer not was delate')
+            req.flash('message', 'El cliente no fue eliminado 😰')
         }
     }
     else {
@@ -1603,10 +1603,10 @@ router.get('/:idBranch/:idCompany/delete-branch', isLoggedIn, async (req, res) =
         //get the data that the link have 
         const { idBranch, idCompany } = req.params;
         if (delete_branch_company(idBranch)) {
-            req.flash('success', 'the branch was delate with success');
+            req.flash('success', 'La sucursal fue eliminada con éxito 👍');
         }
         else {
-            req.flash('message', 'the branch not was delate');
+            req.flash('message', 'La sucursal no fue eliminada 👁️');
         }
 
         res.redirect('/fud/' + idCompany + '/branches');
@@ -1651,9 +1651,9 @@ router.get('/:id/:idTypeEmployee/delete-role-user', isLoggedIn, async (req, res)
     if (company.length > 0) {
         const { id, idTypeEmployee } = req.params;
         if (await delete_type_employee(idTypeEmployee)) {
-            req.flash('success', 'the role was delate with success')
+            req.flash('success', 'El rol fue eliminado con éxito 🗑️')
         } else {
-            req.flash('message', 'the role not was delate')
+            req.flash('message', 'El rol no fue eliminado con éxito 😮')
         }
         res.redirect('/fud/' + id + '/type-user');
     }
@@ -1721,10 +1721,10 @@ router.get('/:id/:idDepartament/delete_departament', isLoggedIn, async (req, res
 
     if (company.length > 0) {
         if (await delete_departament_employee(idDepartament)) {
-            req.flash('success', 'the department was delete with success')
+            req.flash('success', '"El departamento fue eliminado con éxito 😊')
         }
         else {
-            req.flash('message', 'the department not was delete')
+            req.flash('message', 'El departamento no fue eliminado 😮')
         }
     }
     else {
@@ -1753,10 +1753,10 @@ router.get('/:id/:idDepartament/:name/:description/edit-department-employee', is
     if (company.length > 0) {
         const { idDepartament, name, description } = req.params;
         if (await update_department_employe(idDepartament, name, description)) {
-            req.flash('success', 'the department was update with success')
+            req.flash('success', 'El departamento fue actualizado con éxito 🚀')
         }
         else {
-            req.flash('message', 'the department not was update')
+            req.flash('message', 'El departamento no fue actualizado 😅')
         }
     }
     else {
@@ -1906,10 +1906,10 @@ router.get('/:id_company/:idUser/delete-employee', isLoggedIn, async (req, res) 
         if (await delete_employee(idUser)) {
             //if the user is not deleted it doesn't really matter
             await delete_user(idUser);
-            req.flash('success', 'the employee was delete');
+            req.flash('success', 'El empleado fue eliminado 👍');
         }
         else {
-            req.flash('message', 'the employee not was delete');
+            req.flash('message', 'El empleado no fue eliminado 👉👈');
         }
 
         res.redirect('/fud/' + id_company + '/employees');
@@ -3164,9 +3164,9 @@ async function update_supplies_branch(req, res, type) {
     //we will seeing if all the products was add 
     const text = type ? 'supplies' : 'products';
     if (suppliesNotSaved == '') {
-        req.flash('success', `All the ${text} was update with success! 😄`)
+        req.flash('success', `Todo el ${text} fue actualizado con éxito! 😄`)
     } else {
-        req.flash('message', `⚠️ These ${text} have not been updated! ⚠️\n` + suppliesNotSaved)
+        req.flash('message', `⚠️ El ${text} no fue actualizado con éxito! ⚠️\n` + suppliesNotSaved)
     }
 }
 
@@ -3213,9 +3213,9 @@ router.get('/:id_company/:id_branch/:id_supplies/:existence/update-products-bran
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_supplies, existence } = req.params;
         if (await update_inventory_supplies_branch(id_supplies, existence)) {
-            req.flash('success', 'The product was update with exist ⭐')
+            req.flash('success', 'El producto fue actualizado con éxito ⭐')
         } else {
-            req.flash('message', 'This product not was 😅')
+            req.flash('message', 'Este producto no fue actualizado 😅')
         }
         res.redirect('/fud/' + id_company + '/' + id_branch + '/products');
     }
@@ -3225,9 +3225,9 @@ router.get('/:id_company/:id_branch/:id_supplies/:existence/update-supplies-bran
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_supplies, existence } = req.params;
         if (await update_inventory_supplies_branch(id_supplies, existence)) {
-            req.flash('success', 'The supplies was update with exist ⭐')
+            req.flash('success', 'Los suministros fueron actualizados con éxito ⭐')
         } else {
-            req.flash('message', 'This supplies not was 😅')
+            req.flash('message', 'Los suministros no fueron actualizados 😅')
         }
         res.redirect('/fud/' + id_company + '/' + id_branch + '/supplies');
     }
@@ -3306,9 +3306,9 @@ async function update_combo_branch(req, res) {
 
     //we will seeing if all the products was add 
     if (comboNotSaved == '') {
-        req.flash('success', `All the combos was update with success! 😄`)
+        req.flash('success', `Todos los combos fueron actualizados con éxito! 😄`)
     } else {
-        req.flash('message', `⚠️ These combos have not been updated! ⚠️\n` + comboNotSaved)
+        req.flash('message', `⚠️ Estos combos no han sido actualizados! ⚠️\n` + comboNotSaved)
     }
 }
 
@@ -3670,9 +3670,9 @@ router.get('/:id_company/:id_branch/:id_box/:new_number/:new_ipPrinter/edit-box'
 
         //we will watching if caned update the box
         if (await update_box_branch(id_box, new_number, new_ipPrinter)) {
-            req.flash('success', 'the box was update with supplies 🤩')
+            req.flash('success', 'La caja fue actualizada con suministros 🤩')
         } else {
-            req.flash('messagge', 'the box not was update with supplies 😰')
+            req.flash('messagge', 'La caja no fue actualizada 😰')
         }
 
         res.redirect('/fud/' + id_company + '/' + id_branch + '/box');
@@ -3701,9 +3701,9 @@ router.get('/:id_company/:id_branch/:id_box/delete-box', isLoggedIn, async (req,
         const { id_branch, id_company, id_box } = req.params;
         //we will watching if caned delete the box
         if (await delete_box_branch(parseInt(id_box))) {
-            req.flash('success', 'the box was delete with supplies 👍')
+            req.flash('success', 'La caja fue eliminada con los suministros 👍')
         } else {
-            req.flash('messagge', 'the box not was delete 🗑️')
+            req.flash('messagge', 'La caja no fue eliminada 🗑️')
         }
 
         res.redirect('/fud/' + id_company + '/' + id_branch + '/box');
@@ -3778,7 +3778,7 @@ router.get('/:id_company/:id_branch/:id_ad/delete-ad', isLoggedIn, async (req, r
         if (await delete_ad(id_ad)) {
             req.flash('success', 'El anuncio fue eliminado con exito 👍')
         } else {
-            req.flash('messagge', 'El anuncio no se pudo eliminar🗑️')
+            req.flash('messagge', 'El anuncio no se pudo eliminar 🗑️')
         }
 
         res.redirect('/fud/' + id_company + '/' + id_branch + '/ad');
