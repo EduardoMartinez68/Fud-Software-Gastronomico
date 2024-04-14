@@ -19,6 +19,25 @@ async function edit_cant(button) {
     }
 }
 
+async function edit_food_waste(button) {
+    // get the row
+    var row = button.closest('tr');
+    
+    // get the value of the cant
+    var currentCant = row.cells[3].innerText;
+
+    //get the new cant
+    var newCant = await edit_cant_car('Edit quantity',currentCant);
+    newCant = parseFloat(newCant);
+
+    // Validate if the user entered a value and update the quantity if valid
+    if (!isNaN(newCant) && newCant >= 0) {
+        row.cells[3].innerHTML = '<button class="btn" onclick="edit_food_waste(this)">' + newCant + '</button>';
+    }else{
+        infoMessage('Error al actualizar','La cantidad de merma debe ser mayor o igual a 0')
+    }
+}
+
 async function delate_row(button){
     // get the row
     var row = button.closest('tr');

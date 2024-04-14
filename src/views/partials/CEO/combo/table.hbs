@@ -12,9 +12,10 @@
         <thead>
         <tr>
             <th><label>Barcode</label></th>
-            <th><label>Name</label></th>
+            <th><label>Nombre</label></th>
             <th><label>Cant.</label></th>
-            <th><label>Sell for</label></th>
+            <th><label>Merma.</label></th>
+            <th><label>Unidad</label></th>
             <th><label></label></th>
         </tr>
         </thead>
@@ -24,6 +25,7 @@
                     <td><label>{{product_barcode}}</label></td>
                     <td><label>{{product_name}}</label></td>
                     <td><button class="btn" onclick="edit_cant(this)">{{amount}}</button></td>
+                    <td><button class="btn" onclick="edit_food_waste(this)">{{food_waste}}</button></td>
                     <td>
                         <select class="form-control" value="{{unity}}">
                             {{>unity/unitOfMeasure}}

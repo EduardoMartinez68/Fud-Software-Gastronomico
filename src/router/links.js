@@ -118,18 +118,19 @@ async function get_data_company(req, nameTable) {
 }
 
 const companyName = 'links'
+
 //
 async function this_company_is_of_this_user(req, res) {
     //get the id of the company
     const { id_company } = req.params;
     const company = await check_company_user(id_company, req); //search all the company of the user 
-
+    console.log(id_company)
     //we will see if exist this company in the list of the user
     if (company.length > 0) {
         return company;
     } else {
         //if not exist we will to show a invasion message 
-        req.flash('message', '⚠️This company not is your⚠️');
+        req.flash('message', '⚠️Esta empresa no es tuya⚠️');
         res.redirect('/fud/home');
     }
 }
@@ -1597,11 +1598,11 @@ async function get_branch(req) {
     return data;
 }
 
-router.get('/:idBranch/:idCompany/delete-branch', isLoggedIn, async (req, res) => {
+router.get('/:idBranch/:id_company/delete-branch', isLoggedIn, async (req, res) => {
     //we will see if this company is of the user 
-    if (this_company_is_of_this_user(req, res) != null) {
+    if (await this_company_is_of_this_user(req, res) != null) {
         //get the data that the link have 
-        const { idBranch, idCompany } = req.params;
+        const { idBranch, id_company } = req.params;
         if (delete_branch_company(idBranch)) {
             req.flash('success', 'La sucursal fue eliminada con éxito 👍');
         }
@@ -1609,7 +1610,7 @@ router.get('/:idBranch/:idCompany/delete-branch', isLoggedIn, async (req, res) =
             req.flash('message', 'La sucursal no fue eliminada 👁️');
         }
 
-        res.redirect('/fud/' + idCompany + '/branches');
+        res.redirect('/fud/' + id_company + '/branches');
     }
 })
 

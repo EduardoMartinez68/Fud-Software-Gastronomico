@@ -539,7 +539,7 @@ router.post('/fud/:id_branch/:id_company/edit-branch',isLoggedIn,async(req,res)=
     const {id_company,id_branch}=req.params;
     //we will watching if this subscription exist in my database 
     const {idSubscription}=req.body;
-    if(await this_subscription_exist_with_my_branch(idSubscription,id_branch)){
+    if(!await this_subscription_exist_with_my_branch(idSubscription,id_branch)){
         //if this subscription was used, show a message of error 
         req.flash('message','Esta suscripción ya fue utilizada 😮');
     }
@@ -566,12 +566,11 @@ async function this_subscription_exist_with_my_branch(idSubscription,id_branch){
         const queryText = 'SELECT * FROM "User".subscription WHERE id = $1';
         const values = [idSubscription];
         const result = await database.query(queryText, values);
-
         //we will watching if exist most data save the ID 
         if(result.rows.length > 1 ){
             return true;
         }else{
-            return result.rows[0].id_branches!=null || result.rows[0].id_branches==id_branch;
+            return result.rows[0].id_branches==null || result.rows[0].id_branches==id_branch;
         }
 
     } catch (error) {

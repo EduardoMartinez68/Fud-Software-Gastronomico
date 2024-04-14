@@ -81,6 +81,7 @@
                             <td><label>{{municipality}}, {{city}}, {{cologne}}, {{address}}, {{num_int}}, {{num_ext}}</label></td>
                             <td><label>{{cell_phone}}</label></td>
                             <td>
+                                <button class="btn btn-danger" id="{{id}}" onclick="delete_branch({{id}},{{id_companies}},'{{name_branch}}')"><i class="fi-department fi-sr-trash"></i></button>
                                 <button class="btn btn-danger" id="{{id}}" onclick="edit_branch({{id}},{{id_companies}})"><i class="fi-department fi-sr-pencil"></i></button>
                                 <button class="btn btn-danger" id="{{id}}" onclick="visit_branch({{id}},{{id_companies}})"><i class="fi-department fi-ss-store-alt"></i></button>
                             </td>
@@ -99,5 +100,11 @@
 
     function visit_branch(idBranch,idCompany){
         window.location.href = `/fud/${idCompany}/${idBranch}/visit-branch`;
+    }
+
+    async function delete_branch(idBranch,idCompany,nameBranch){
+        if(await questionMessage('⚠️ Eliminar sucursal ⚠️','👁️ ¿Deseas eliminar la sucursal '+nameBranch+'? Se borraran todos los empleados, ventas, platillos, provedores y todos los datos relacionados con esta sucursal.👁️')){
+            window.location.href = `/fud/${idBranch}/${idCompany}/delete-branch`;
+        }
     }
 </script>
