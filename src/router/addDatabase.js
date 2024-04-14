@@ -222,10 +222,10 @@ async function save_all_supplies_combo_company(id_combo,supplies){
 }
 
 async function save_supplies_combo_company(id_dishes_and_combos,supplies){
-    var queryText = 'INSERT INTO "Kitchen".table_supplies_combo (id_dishes_and_combos, id_products_and_supplies, amount, unity)'
-        +'VALUES ($1, $2, $3, $4)';
+    var queryText = 'INSERT INTO "Kitchen".table_supplies_combo (id_dishes_and_combos, id_products_and_supplies, amount, food_waste, unity)'
+        +'VALUES ($1, $2, $3, $4, $5)';
 
-    var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,supplies.unity] 
+    var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,supplies.foodWaste,supplies.unity] 
     console.log(values)
     try{
         await database.query(queryText, values);

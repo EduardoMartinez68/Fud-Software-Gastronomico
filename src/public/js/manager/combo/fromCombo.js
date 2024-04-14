@@ -15,7 +15,7 @@ async function edit_cant(button) {
         row.cells[2].innerHTML = '<button class="btn" onclick="edit_cant(this)">' + newCant + '</button>';
     }
     else{
-        delate_row(button);
+        delete_row(button);
     }
 }
 
@@ -38,11 +38,11 @@ async function edit_food_waste(button) {
     }
 }
 
-async function delate_row(button){
+async function delete_row(button){
     // get the row
     var row = button.closest('tr');
 
-    if(await questionMessage('Delate object','Do you want to delete this object?')){
+    if(await questionMessage('Eliminar insumo 🗑️','¿Deseas eliminar este insumo?')){
         row.remove();
     }
 }
@@ -106,15 +106,17 @@ function addRowToTable(idProduct,barcodeProduct,nameProduct){
     var cellBarcode = row.insertCell(0); // Cell for the product
     var cellName = row.insertCell(1); // Cell for product data
     var cellCant= row.insertCell(2); // Cell for the supply
-    var cellForSell= row.insertCell(3); // Cell for supply data
-    var cellBtn= row.insertCell(4); // Cell for supply data
+    var foodWaste= row.insertCell(3); // Cell for the supply
+    var cellForSell= row.insertCell(4); // Cell for supply data
+    var cellBtn= row.insertCell(5); // Cell for supply data
 
     // Assign data to cells
     cellBarcode.innerHTML = barcodeProduct;
     cellName.innerHTML = nameProduct;
-    cellCant.innerHTML = '<button class="btn" onclick="edit_cant(this)">' + 1 + '</button>';
-    cellForSell.innerHTML='<select class="form-control"><option value="unity">Pza</option><option value="kg">kg</option><option value="l">L</option></select>';
-    cellBtn.innerHTML = '<button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button>';
+    cellCant.innerHTML = '<button class="btn" onclick="edit_cant(this)" type="button">' + 1 + '</button>';
+    foodWaste.innerHTML = '<button class="btn" onclick="edit_food_waste(this)" type="button">' + 0 + '</button>';
+    cellForSell.innerHTML='<select class="form-control" value=1><option value="unity">Pza</option><option value="kg">kg</option><option value="l">L</option></select>';
+    cellBtn.innerHTML = '<button class="btn btn-danger" onclick="delete_row(this)"><i class="fi-icon fi-sr-trash"></i></button>';
 }
 
 function get_id_products_and_supplies(){
@@ -128,12 +130,22 @@ function get_id_products_and_supplies(){
         if(i>0){
             var cells = rows[i].getElementsByTagName('td');
             var amount = cells[2].innerText;
-            var selectElement = cells[3].querySelector('select');
-            var unity = selectElement.options[selectElement.selectedIndex].value;
-            text+=`[${idProduct},${amount},${unity} ],`;
+            var foodWaste = cells[3].innerText;
+
+            //var selectElement = cells[4].querySelector('select');
+            //var unity = selectElement.options[selectElement.selectedIndex].value;
+            var unity=''
+            var selectElement = cells[4].querySelector('select');
+            if (selectElement.selectedIndex === -1) {
+                alert("No se ha seleccionado ninguna opción.");
+              } else {
+                // Se ha seleccionado una opción
+                var unity = selectElement.value;
+              }
+            text+=`[${idProduct},${amount},${foodWaste}, ${unity}],`;
         }
     }
-
+    text+='[,,Type Unity, Unity],'
     inputBarcodeProducts=document.getElementById('barcodeProducts');
     inputBarcodeProducts.value=text;
 }

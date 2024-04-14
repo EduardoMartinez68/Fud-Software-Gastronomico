@@ -8,10 +8,10 @@
     </colgroup>
     <thead>
         <tr>
-            <td><label>Select a product</label></td>
+            <td><label>selecciona un producto</label></td>
             <td></td>
             <td>
-                <label>Select a supplies</label>
+                <label> selecciona un insumo</label>
             </td>
             <td></td>
         </tr>
@@ -23,7 +23,7 @@
                     {{/each}}
                 </select>
             </td>
-            <td><button class="btn btn-danger" onclick="addButtonClick(event, 'Product')">+</button></td>
+            <td><button class="btn btn-danger" onclick="addButtonClick(event, 'Product')" type="button">+</button></td>
             <td>
                 <select class="form-control">
                     {{#each supplies}}
@@ -31,7 +31,7 @@
                     {{/each}}
                 </select>
             </td>
-            <td><button class="btn btn-danger" onclick="addButtonClick(event, 'Supply')">+</button></td>
+            <td><button class="btn btn-danger" onclick="addButtonClick(event, 'Supply')" type="button">+</button></td>
         </tr>
     </thead>
     <tbody>

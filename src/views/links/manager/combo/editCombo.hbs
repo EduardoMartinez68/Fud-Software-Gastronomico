@@ -14,7 +14,7 @@
                         <hr>
                         {{>CEO/combo/table}}
                         <div class="form-group">
-                            <button class="btn btn-success btn-block" id="btn-send">Save</button>
+                            <button class="btn btn-success btn-block" id="btn-send" type="submit">Save</button>
                         </div>
                     </form>
                 </div>
@@ -27,10 +27,8 @@
 <script>
     //this script is for not send the from when the user do make on button
     document.getElementById("comboForm").addEventListener("submit", function (event){
-        if (event.submitter && event.submitter.id === "btn-send"){
-            get_id_products_and_supplies();
-        } else {
-            event.preventDefault();
-        }
+        get_id_products_and_supplies();
+        //event.preventDefault();
     });
 </script>
+{{>updateSelects}}

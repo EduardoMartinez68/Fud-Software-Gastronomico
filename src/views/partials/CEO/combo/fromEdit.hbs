@@ -20,15 +20,15 @@
         <input type="text" class="form-control" placeholder="Barcode" name="barcode" required value="{{barcode}}">
     </div>
     <div class="col">
-        <label for="">Name</label>
-        <input type="text" class="form-control" placeholder="Name" name="name" required value="{{name}}">
+        <label for="">Nombre</label>
+        <input type="text" class="form-control" placeholder="Nombre" name="name" required value="{{name}}">
     </div>
 </div>
 {{/each}}
 <br>
 <div class="row">
     <div class="col">
-        <label for="">Category</label>
+        <label for="">Categoria</label>
         <select class="form-control" name="category">
             {{#each category}}
                 <option value="{{id}}">{{name}}</option>
@@ -36,7 +36,7 @@
         </select>
     </div>
     <div class="col">
-        <label for="">Department</label>
+        <label for="">Departamento</label>
         <select class="form-control"  name="department">
             {{#each departments}}
                 <option value="{{id}}">{{name}}</option>

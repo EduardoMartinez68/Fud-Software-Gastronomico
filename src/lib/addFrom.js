@@ -290,6 +290,7 @@ function create_a_new_combo(req){
     const {id_company}=req.params;
 
     const supplies=parse_barcode_products(barcodeProducts)
+    console.log(supplies)
     var path_image=create_a_new_image(req);
     const combo={
         id_company: id_company,
@@ -324,11 +325,12 @@ function parse_barcode_products(barcodeProducts) {
         var values = objectData.split(',');
         var idProduct = parseFloat(values[0]);
         var amount = parseFloat(values[1]);
-        var unity = values[2].trim();
+        var foodWaste = parseFloat(values[2].trim());
+        var unity = values[3].trim();
         unity=unity.replace("]", "");
         // Check if the values are valid before adding them to the result
         if (!isNaN(idProduct) && !isNaN(amount) && unity) {
-            result.push({ idProduct: idProduct, amount: amount, unity: unity });
+            result.push({ idProduct: idProduct, amount: amount,foodWaste: foodWaste, unity: unity });
         }
     }
     console.log(result)
@@ -339,16 +341,16 @@ function parse_barcode_products(barcodeProducts) {
 router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req,res)=>{
     const {id_company,id_combo}=req.params;
     const {barcodeProducts}=req.body;
-
+    console.log(req.body)
     //we will see if the user add a product or supplies 
     if(barcodeProducts==''){
-        req.flash('message','the combo need have a product or some supplies 😅')
-        res.redirect('/fud/'+id_company+'/'+id+'/edit-combo-company');
+        req.flash('message','El combo necesita tener un producto o algunos suministros 😅')
+        res.redirect('/fud/'+id_company+'/'+id_combo+'/edit-combo-company');
     }
     else{
+        
         //get the new combo
         const combo=create_a_new_combo(req)
-
         //we will see if can add the combo to the database
         if(await update.update_combo(id_combo,combo)){
             //we will delate all the supplies of the combo for to save it later
@@ -359,9 +361,9 @@ router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req
         else{
             req.flash('message','El combo no fue actualizado con éxito 😳')
         }
-    }
 
-    res.redirect('/fud/'+id_company+'/combos');
+        res.redirect('/fud/'+id_company+'/combos');
+    }
 })
 
 async function delete_all_supplies_combo(id) {

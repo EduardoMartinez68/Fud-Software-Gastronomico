@@ -14,14 +14,14 @@
         <input type="text" class="form-control" placeholder="Barcode" name="barcode" required>
     </div>
     <div class="col">
-        <label for="">Name</label>
-        <input type="text" class="form-control" placeholder="Name" name="name" required>
+        <label for="">Nombre</label>
+        <input type="text" class="form-control" placeholder="Nombre" name="name" required>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col">
-        <label for="">Category</label>
+        <label for="">Categoria</label>
         <select class="form-control" name="category">
             {{#each category}}
                 <option value="{{id}}">{{name}}</option>
@@ -29,7 +29,7 @@
         </select>
     </div>
     <div class="col">
-        <label for="">Department</label>
+        <label for="">Departamento</label>
         <select class="form-control"  name="department">
             {{#each departments}}
                 <option value="{{id}}">{{name}}</option>
@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label>Description</label><br>
+    <label>Descripcion</label><br>
     <textarea type="tex" class="form-control" name="description"  placeholder="Description"></textarea>
 </div>
 

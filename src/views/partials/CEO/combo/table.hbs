@@ -1,5 +1,5 @@
 <div class="form-group">
-    <h6>Supplies and products</h6><br>
+    <h6>Insumos y productos</h6><br>
     {{>CEO/combo/browser}}
     <table class="table table-hover" id="table-supplies-products" name="table-combo"> <!--table-bordered-->
         <colgroup>
@@ -24,29 +24,31 @@
                 <tr id="{{id_products_and_supplies}}">
                     <td><label>{{product_barcode}}</label></td>
                     <td><label>{{product_name}}</label></td>
-                    <td><button class="btn" onclick="edit_cant(this)">{{amount}}</button></td>
-                    <td><button class="btn" onclick="edit_food_waste(this)">{{food_waste}}</button></td>
+                    <td><button class="btn" onclick="edit_cant(this)" type="button">{{amount}}</button></td>
+                    <td><button class="btn" onclick="edit_food_waste(this)" type="button">{{food_waste}}</button></td>
                     <td>
                         <select class="form-control" value="{{unity}}">
                             {{>unity/unitOfMeasure}}
                         </select>
                     </td>
-                    <td><button class="btn btn-danger" onclick="delate_row(this)"><i class="fi-icon fi-sr-trash"></i></button></td>
+                    <td><button class="btn btn-danger" onclick="delete_row(this)" type="button"><i class="fi-icon fi-sr-trash"></i></button></td>
                 </tr>
             {{/each}}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><label>Type Unity</label></td>
-                    <td>
-                        <select class="form-control" value="1">
-                            {{>unity/unitOfMeasure}}
-                        </select>
-                    </td>
-                    <td></td>
-                </tr>
+            <!--
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>Type Unity</label></td>
+                <td>
+                    <select class="form-control" value="1">
+                        {{>unity/unitOfMeasure}}
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            -->
         </tbody>
     </table>
     <input type="text" name="barcodeProducts" id="barcodeProducts">
 </div>
-{{>updateSelects}}
