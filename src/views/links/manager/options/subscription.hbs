@@ -6,14 +6,14 @@
         <hr>
         <div class="row">
             <div class="col">
-                <button class="btn btn-button" style="width: 240px;" onclick="nextWeb('prices')" style="font-size: 1rem;">Add new subscription 🍽️</button>
+                <button class="btn btn-button" style="width: 240px;" onclick="nextWeb('prices')" style="font-size: 1rem;">Nueva suscripcion 🍽️</button>
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col-3">
                 <div class="card" style="padding-left: 1rem;padding-right: 4rem;">
-                    <label for="" id="numberSubscriptions">number of subscriptions: 1</label>
+                    <label for="" id="numberSubscriptions">Numero de suscripciones: 1</label>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
         var rowCount = document.querySelectorAll('.table tr').length - 1; // We subtract 1 to exclude the header row
 
         // update the container of the label with id  "numberSubscriptions"
-        document.getElementById('numberSubscriptions').textContent = "number of subscriptions: " + rowCount;
+        document.getElementById('numberSubscriptions').textContent = "Numero de suscripciones: " + rowCount;
     };
 </script>
 

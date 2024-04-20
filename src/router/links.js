@@ -603,12 +603,19 @@ async function create_subscription_free(req,pack){
 
 async function save_subscription_in_database(id_subscription,id_user,id_packs_fud){
     const queryText = `
-      INSERT INTO "User".subscription (id, id_users, id_packs_fud)
-      VALUES ($1, $2, $3)
+      INSERT INTO "User".subscription (id, id_users, id_packs_fud, initial_date, final_date)
+      VALUES ($1, $2, $3, $4, $5)
       ON CONFLICT (id) DO NOTHING
     `;
-  
-    const values = [id_subscription,id_user, id_packs_fud];
+    //get the date buy
+    var initialDate = new Date();
+
+    // we will calculating the date final (30 days next)
+    var finalDate = initialDate;
+    finalDate.setDate(finalDate.getDate() + 30);
+
+
+    const values = [id_subscription,id_user, id_packs_fud,initialDate,finalDate];
   
     try {
       await database.query(queryText, values);
@@ -650,16 +657,61 @@ async function update_subscription(id_subscription,id_branch){
 async function validate_subscription(req,res){
     const { id_branch } = req.params;
     const dataSubscription=await get_subscription_by_branch_id(id_branch); //get the data of the subscription from my database
+    //we going to wacht if exist a branch with this id 
+    if(dataSubscription.length>0){
+        //we will watching if the subscription expire
+        const currentDay=new Date(); //get the current day
+        if(dataSubscription.final_date<currentDay){ 
+            //we will getting the data subscrtiption of stripe 
+            const idSubscription=dataSubscription[0].id;
+            const stripe_subscription=get_subscription_stripe_with_id(idSubscription)
 
-    //we going to wacht if this subscription not is activate in this branch
-    if(!await this_subscription_is_activate(dataSubscription)){
-        //if the subscription not is activate or not exist show a message of subscription renewal
-        req.flash('message', 'Esta sucursal no cuenta con una suscripción activa. Por favor, renueva o asígnale una suscripción ya existente 🙅‍♂️')
-        res.redirect('/fud/subscription');
+            //we going to wacht if this subscription not is activate in this branch
+            if(!await this_subscription_is_activate(stripe_subscription)){
+                //if the subscription not is activate or not exist show a message of subscription renewal
+                req.flash('message', 'Esta sucursal no cuenta con una suscripción activa. Por favor, renueva o asígnale una suscripción ya existente 🙅‍♂️')
+                res.redirect('/fud/subscription');
+                return false;
+            }else{
+                //if the subscription is activate, update the expiration date of the subscription
+                await update_subscription_date(idSubscription,stripe_subscription);
+            }
+        }
+
+        return true; //if this subscription is activate return true
     }
 
-    return true; //if this subscription is activate return true
+    //if the subscription not is activate or not exist show a message of subscription renewal
+    req.flash('message', 'Esta sucursal no cuenta con una suscripción activa. Por favor, renueva o asígnale una suscripción ya existente 🙅‍♂️')
+    res.redirect('/fud/subscription');
+
+    return false; //if not exist a branch with this subscription return false
 }
+async function update_subscription_date(idSubscription,subscription){
+    try {
+        const day_delete=new Date(subscription.current_period_end * 1000) //get the day of expire of the subscription of stripe 
+        //we will update the subscription
+        const queryText = 'UPDATE "Fud".subscription SET final_date = $1 WHERE id = $2';
+        const values = [day_delete, idSubscription];
+        await database.query(queryText, values); //update the status
+        return true;
+      } catch (error) {
+        console.error('Error al actualizar id_packs_fud:', error);
+        return false;
+      }
+}
+
+async function this_subscription_is_activate(subscription){
+    const status = subscription.status; //get the status of the suscription (active,canceled)
+    return (status!='canceled')
+}
+
+async function get_subscription_stripe_with_id(idSubscription){
+    //we will waching if the subscription is activate 
+    const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription from stripe 
+    return subscription;
+}
+
 
 async function this_subscription_is_activate(dataSubscription){
     //we going to wacht if exist a branch with this id 
@@ -668,6 +720,8 @@ async function this_subscription_is_activate(dataSubscription){
 
         //we will waching if the subscription is activate 
         const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription from stripe 
+        const day_delete=new Date(subscription.current_period_end * 1000)
+        
         const status = subscription.status; //get the status of the suscription (active,canceled)
         return (status!='canceled')
     }
