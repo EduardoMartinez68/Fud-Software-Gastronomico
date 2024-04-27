@@ -147,6 +147,8 @@ async function check_company_user(id_company, req) {
 //suscriptions 
 
 ///links of the web
+
+
 router.get('/identify', isNotLoggedIn, (req, res) => {
     res.render(companyName + '/web/identify'); //this web is for return your user
 })
@@ -687,6 +689,7 @@ async function validate_subscription(req,res){
 
     return false; //if not exist a branch with this subscription return false
 }
+
 async function update_subscription_date(idSubscription,subscription){
     try {
         const day_delete=new Date(subscription.current_period_end * 1000) //get the day of expire of the subscription of stripe 
@@ -818,6 +821,20 @@ async function delete_subscription(id_subscription){
         // Manejar errores
         //res.status(500).json({ error: error.message });
       }
+}
+//-----------------------------------------------------------------login
+router.get('/:id_company/login', isNotLoggedIn, async (req, res) => {
+    const {id_company}=req.params;
+    const company = await get_data_company_with_id(id_company);
+    res.render('links/branch/login',{company}); //this web is for return your user
+})
+
+async function get_data_company_with_id(id_company) {
+    var queryText = 'SELECT * FROM "User".companies WHERE id= $1';
+    var values = [id_company];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
 }
 
 //-----------------------------------------------------------------dish
@@ -3103,7 +3120,14 @@ async function get_positive_moves_by_branch(idBranch) {
     }
 }
 
-
+//-----------------------------------------------------------options 
+router.get('/:id_company/options', isLoggedIn, async (req, res) => {
+    const company = await this_company_is_of_this_user(req, res);
+    const country=await get_country()
+    if (company != null) {
+        res.render('links/manager/options/options', { company,country });
+    }
+})
 //-----------------------------------------------------------visit branch
 
 ///links of the manager
