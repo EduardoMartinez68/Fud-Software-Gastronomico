@@ -4206,22 +4206,26 @@ async function home_company(req, res) {
 }
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
-   
-        if (await this_employee_works_here(req, res)) {
-            const { id_company, id_branch } = req.params;
+    //we will waching if exist this branch
+    if (await this_employee_works_here(req, res)) {
+        const { id_company, id_branch } = req.params;
+        if(id_branch!=null){
             const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
             const dataEmployee = await get_data_employee(req);
             const newCombos = await get_data_recent_combos(id_company);
             const mostSold = await get_all_data_combo_most_sold(id_branch);
-
+    
             //we going to get all the type of ad in the branch
             const offerAd = await get_all_ad(id_branch, 'offer');
             const newAd = await get_all_ad(id_branch, 'new');
             const combosAd = await get_all_ad(id_branch, 'combo');
             const specialsAd = await get_all_ad(id_branch, 'special');
-
+    
             res.render('links/store/home/home', { dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd });
+        }else{
+            res.render('links/store/branchLost')
         }
+    }
     
 });
 
@@ -4235,8 +4239,9 @@ async function this_employee_works_here(req, res) {
             return true;
         }
     }
-    req.flash('message', '⚠️ You are trying to access an account that does not belong to you! ⚠️')
-    res.redirect('/fud/home');
+    req.flash('message', '⚠️ ¡Estás intentando acceder a una cuenta que no te pertenece! ⚠️')
+    res.render('links/store/branchLost')
+    //res.redirect('/fud/home');
 }
 
 async function this_data_employee_is_user(req) {
