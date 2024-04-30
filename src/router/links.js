@@ -633,6 +633,7 @@ router.get('/subscription', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id_company } = req.params;
     const subscription=await get_subscription_for_id_user(req.user.id); //get all the suscription of the user for his id 
+    console.log(subscription)
     res.render(companyName + '/manager/options/subscription', { company , subscription});
 });
 
@@ -747,7 +748,21 @@ async function get_subscription_by_branch_id(id_branch){
 
 async function get_subscription_for_id_user(idUser) {
     try {
-        var queryText = 'SELECT * FROM "User".subscription WHERE id_users= $1';
+        var queryText = `
+            SELECT 
+                sub.*, 
+                branch.name_branch AS branch_name, 
+                company.name AS company_name
+            FROM 
+                "User".subscription AS sub
+            LEFT JOIN 
+                "Company".branches AS branch ON sub.id_branches = branch.id
+            LEFT JOIN 
+                "User".companies AS company ON branch.id_companies = company.id
+            WHERE 
+                sub.id_users = $1
+            ORDER BY 
+                company.name DESC`;
         var values = [idUser];
         const result = await database.query(queryText, values);
         const data = result.rows;
