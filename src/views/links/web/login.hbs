@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/css/session.css">
     <!--this is the style of the new navbar, not delete--->
     {{>web/filesOldWeb/styles}}
+    <style>
+        .fi-session{
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,13 +33,17 @@
                                     </lable>
                                 </div>
 
-                                <div class="form-group">
-                                    <lable>
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-11">
                                         <i class="fi-session fi-rr-lock">Passwoard *</i>
                                         <input type="password" id="password" name="password" placeholder="password"
-                                            class="form-control">
-                                    </lable>
+                                            class="form-control">                                    </div>
+                                    <div class="col-auto align-items-center" style="container: center;">
+                                        <br>
+                                        <button type="button" id="showPasswordBtn" onclick="togglePasswordVisibility()" class="btn"> <i class="fi-session fi-rr-eye"></i></button>
+                                    </div>
                                 </div>
+                                <br>
                                 <button class="btn btn-success btn-block">Login</button>
                                 <br><br>
                                 <center><a class="link-session" href="/fud/restart-password">Forgot your password?</a></center>
@@ -54,6 +63,19 @@
 </html>
 
 
-
+<script>
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var showPasswordBtn = document.getElementById("showPasswordBtn");
+        
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            showPasswordBtn.innerHTML = '<i class="fi-session fi-sr-eye-crossed "></i>'; // Cambia el ícono del botón
+        } else {
+            passwordInput.type = "password";
+            showPasswordBtn.innerHTML = '<i class="fi-session fi-sr-eye"></i>'; // Cambia el ícono del botón
+        }
+    }
+</script>
 <!--this is the js of the new navbar, not delete--->
 {{>web/filesOldWeb/js}}

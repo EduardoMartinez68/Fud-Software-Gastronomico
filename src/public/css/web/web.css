@@ -66,3 +66,46 @@
     color: white;
     font-size: 1.1rem;
 }
+
+.card-price{
+    position: relative;
+    max-width: 80%;
+    height: 195px;
+    background-color: var(--color-company);
+    color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    padding-left: 70px;
+    z-index: 1;
+}
+/*
+.card-price::before {
+    content: ""; 
+    position: absolute; 
+    top: 35px; 
+    left: 85%; 
+    width: 240px; 
+    height: 240px; 
+    border-radius: 50%; 
+    background-color: rgba(255,255,255,0.1); 
+    z-index: 1;
+}*/
+
+.btn-card-price {
+    border-radius: 1rem;
+    background-color: var(--color-company);
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 200px;
+    height: 50px;
+    z-index: 2;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.btn-card-price:hover {
+    background-color: white;
+    color: var(--color-company);
+}
