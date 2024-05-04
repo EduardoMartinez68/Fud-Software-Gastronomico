@@ -108,9 +108,24 @@ function create_a_new_image(req){
 }
 
 //edit company 
+async function get_image(id) {
+    var queryText = 'SELECT * FROM "User".companies Where  id= $1';
+    var values = [id];
+    const result = await database.query(queryText, values);
+    return result.rows[0].path_logo;
+}
+
 router.post('/fud/:id_company/edit-company', async (req, res) => {
     const {id_company}=req.params;
     const newCompany=get_new_company(req);
+
+    //we will waching if exist a new icon for the company 
+    if(newCompany.path_logo != ""){
+        const pathImg=await get_image(id_company)
+        await delete_image_upload(pathImg)
+    }
+
+
     if (await update.update_company(newCompany,id_company)){
         req.flash('success','La compañía fue actualizada con exito 💗')
         res.redirect('/fud/'+id_company+'/options');
