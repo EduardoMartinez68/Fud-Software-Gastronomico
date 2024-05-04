@@ -107,6 +107,20 @@ function create_a_new_image(req){
     return '';
 }
 
+//edit company 
+router.post('/fud/:id_company/edit-company', async (req, res) => {
+    const {id_company}=req.params;
+    const newCompany=get_new_company(req);
+    if (await update.update_company(newCompany,id_company)){
+        req.flash('success','La compañía fue actualizada con exito 💗')
+        res.redirect('/fud/'+id_company+'/options');
+    }else{
+        req.flash('message','La compañía no fue actualizada 🥺')
+        res.redirect('/fud/'+id_company+'/edit-company');
+    }
+});
+
+
 //add department
 passport.use('local.add_department', new LocalStrategy({
     usernameField: 'name',

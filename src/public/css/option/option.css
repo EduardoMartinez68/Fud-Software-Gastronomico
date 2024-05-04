@@ -1,0 +1,14 @@
+.btn-option{
+    background-color: rgb(31, 31, 31);
+    color: white;
+}
+
+.btn-option-success{
+    background-color: rgb(109, 223, 147);
+    color: black;
+}
+
+.btn-option-delete{
+    background-color: rgb(252, 87, 87);
+    color: white;
+}

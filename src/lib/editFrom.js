@@ -6,30 +6,6 @@ const helpers=require('../lib/helpers.js');
 const update=require('../router/updateDatabase');
 
 //edit company
-passport.use('local.edit_company', new LocalStrategy({
-    usernameField: 'name',
-    passwordField: 'alias',
-    passReqToCallback: true
-}, async (req ,name, password, done) => {
-    if(mandatory_company_data(req)){
-        if(!await compare_company_with_name_edit(req,name)){
-            const newCompany=get_new_company(req);
-            console.log(newCompany);
-            if (await update.update_company(newCompany)){
-                done(null,false,req.flash('success','the company was edit with success'));
-            }
-            else{
-                done(null,false,req.flash('message','Could not edit to database'));
-            }
-        }
-        else{
-            done(null,false,req.flash('message','This name already exists'));
-        }
-    }
-    else{
-        done(null,false,req.flash('message','You must fill in all the required information'));
-    }
-}));
 
 function mandatory_company_data(req){
     //we get the required data

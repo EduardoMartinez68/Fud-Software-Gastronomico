@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/option/option.css">
 <br>
 <div class="row">
 <div class="col-2" style="padding-left: 3rem;">
@@ -9,10 +10,58 @@
 <div class="col">
     <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="card">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <br>
+                            {{#each company}}
+                                <h5>{{name}}</h5>
+                                <hr>
+                                <div class="row">
+                                <div class="col">
+                                    {{#if path_logo}}
+                                        <img src="/img/uploads/{{path_logo}}" style="width: 100%; height:auto;" id="imgEmployee">
+                                    {{else}}
+                                        <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" style="width: 100%; height:auto;" id="imgEmployee">
+                                    {{/if}}
+                                </div>
+                                <div class="col">
+                                    <p>
+                                        <center>
+                                            {{description}}
+                                        </center><br>
+                                        Ceo: {{ceo}} <br>
+                                        Representante: {{representative}} <br>
+                                        email: {{email_company}} <br>
+                                        celular/telefono: {{cell_phone}} <br>
+                                        Direccion: {{states}} {{city}} {{cologne}} {{num_int}}/{{num_ext}} <br>
+                                        Cdogio postal: {{postal_code}}
+                                    </p>
+                                    <button class="btn btn-secondary" onclick="nextWeb('/{{id}}/edit-company')">✏️ Editar Empresa</button>
+                                    <button class="btn btn-danger" onclick="delete_company('{{id}}')">🗑️ Eliminar Empresa</button>
+                                </div>
+                                </div>
+                            {{/each}}
+                            <br><br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
             {{>manager/options/editCompany}}
+            -->
         </div>
     </div>
 </div>
 </div>
-
+<script>
+    async function delete_company(id_company){
+        if(await questionMessage('¡¡Eliminar compañía!! 😨','¿Estas seguro de eliminar esta compañía? Todos los datos guardados en esta compañía se borraran si lo haces')){
+            if(await questionMessage('👁️ Ultima opotunidad 👁️','Necesitamos estar seguros de que su desision no a cambiado. ¿Estas seguro de eliminar esta compañía?')){
+                window.location.href = "/fud/"+id_company+"/delete-company";
+            }
+        }
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
