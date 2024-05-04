@@ -26,8 +26,10 @@
                                 <div class="form-group">
                                     <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
                                 </div>  
+                                <hr>
+                                <label>Informacion de usuario</label>
                                 <div class="form-group">
-                                    <label>User Name *</label><br>
+                                    <label>Nombre de usuario *</label><br>
                                     <input type="tex" class="form-control" name="user_name" placeholder="User Name" required value="{{user_name}}">
                                 </div>
                                 <div class="form-group">
@@ -40,7 +42,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Role Employee</label><br>
+                                            <label>Rol del empleado</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="role_employee" value="{{id_roles_employees}}">
                                             {{/each}}
@@ -51,7 +53,7 @@
                                         </div>
 
                                         <div class="col">
-                                            <label>Departaments Employee</label><br>
+                                            <label>Departamento del empleado</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="departament_employee" value="{{id_departments_employees}}">
                                             {{/each}}
@@ -66,7 +68,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-10">
-                                            <label>Branche *</label><br>
+                                            <label>Sucursal de trabajo *</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="branch" value="{{id_branches}}">
                                             {{/each}}
@@ -85,42 +87,56 @@
                                         </div>
                                     </div>        
                                 </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <label>Vista de interface *</label><br>
+                                            {{#each employee}}
+                                            <select class="form-select" aria-label="Default select example" name="rol_user" value="{{rol_user}}">
+                                                <option value="2">Empleado</option>
+                                                <option value="1">Gerente</option>
+                                            </select>
+                                            {{/each}}
+                                        </div>
+                                    </div>        
+                                </div>
+
                                 <hr>
                                 {{#each employee}}
-                                <label>Personal Information</label>
+                                <label>Informacion Personal</label>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Name *</label><br>
-                                            <input type="text" class="form-control" name="first_name" placeholder="First Name" autofocus required value="{{first_name}}">
+                                            <label>Nombre *</label><br>
+                                            <input type="text" class="form-control" name="first_name" placeholder="Primer Nombre" autofocus required value="{{first_name}}">
                                         </div>
                                         <div class="col">
-                                            <label>Second name</label><br>
-                                            <input type="text" class="form-control" name="second_name" placeholder="Second Name" value="{{second_name}}">
+                                            <label>Segundo Nombre</label><br>
+                                            <input type="text" class="form-control" name="second_name" placeholder="Segundo Nombre" value="{{second_name}}">
                                         </div>
                                     </div>        
                                 </div>
                                 <div class="form-group">
-                                    <label>Last Name *</label><br>
-                                    <input type="tex" class="form-control" name="last_name" placeholder="Last Name" required value="{{last_name}}">
+                                    <label>Apellido *</label><br>
+                                    <input type="tex" class="form-control" name="last_name" placeholder="Apellido" required value="{{last_name}}">
                                 </div>
                                 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Phone</label><br>
-                                            <input type="tex" class="form-control" name="phone" placeholder="Phone" value="{{phone}}">
+                                            <label>Telefono</label><br>
+                                            <input type="tex" class="form-control" name="phone" placeholder="Telefono" value="{{phone}}">
                                         </div>
                                         <div class="col">
-                                            <label>Cell Phone</label><br>
-                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone" value="{{cell_phone}}">
+                                            <label>Celular</label><br>
+                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Celular" value="{{cell_phone}}">
                                         </div>
                                     </div>        
                                 </div>
                                 {{/each}}
 
                                 <div class="form-group">
-                                    <label>Country *</label><br>
+                                    <label>País *</label><br>
                                     {{#each employee}}
                                     <select class="form-select" aria-label="Default select example" name="country" value="{{id_country}}">
                                     {{/each}}
@@ -134,12 +150,12 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label for="city">City</label>
-                                            <input type="text" id="city" name="city" class="form-control" placeholder="City" value="{{city}}">
+                                            <label for="city">Ciudad</label>
+                                            <input type="text" id="city" name="city" class="form-control" placeholder="Ciudad" value="{{city}}">
                                         </div>
                                         <div class="col">
-                                            <label>Street</label><br>
-                                            <input type="tex" class="form-control" name="street" placeholder="Street" value="{{street}}">
+                                            <label>Calle</label><br>
+                                            <input type="tex" class="form-control" name="street" placeholder="Calle" value="{{street}}">
                                         </div>
                                     </div>        
                                 </div>
@@ -158,7 +174,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-block" type="submit">Save</button>
+                                    <button class="btn btn-success btn-block" type="submit">Actualizar</button>
                                 </div>
                             </form>
                         {{/each}}

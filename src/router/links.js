@@ -4193,11 +4193,28 @@ async function home_render(req, res) {
         await home_company(req, res)
     }
     else if (req.user.rol_user == 1) { //Manager
-        await home_employees(req, res)
+        await home_manager(req, res)
     }
     else {
         await home_employees(req, res)
     }
+}
+
+
+async function get_data_branch_view_manager(id_branch) {
+    var queryText = 'SELECT * FROM "Company".branches WHERE id= $1';
+    var values = [id_branch];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
+}
+
+async function home_manager(req,res){
+    const employee=await get_data_employee(req)
+    const idBranch=employee[0].id_branches;
+    const branch = await get_data_branch_view_manager(idBranch)
+    console.log(idBranch)
+    res.render('links/branch/home', { branch });
 }
 
 async function home_employees(req, res) {

@@ -109,3 +109,22 @@
     background-color: white;
     color: var(--color-company);
 }
+
+
+@media screen and (max-width: 1300px){
+    .card-price{
+        max-width: 80%;
+        height: 210px;
+    }
+
+    .btn-card-price {
+        border-radius: 1rem;
+        width: 200px;
+        top: 75px;
+        position: absolute;
+    }
+
+    .title-main-2{
+        font-size: 2.1rem;
+    }
+}

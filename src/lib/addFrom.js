@@ -842,30 +842,30 @@ router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req
 
 //add employees
 router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
-    const {id_company}=req.params;
+    const {id_company, rol_user}=req.params;
     const {email,username,password1,password2}=req.body
-    //we will see if the email that the user would like to add exist 
+    //we will see if the email that the user would like to add exist  rol_user
     if(await this_email_exists(email)){
-        req.flash('message','the employee not was add because this username already exists')
+        req.flash('message','El empleado no fue agregado porque este e-mail ya existe 😅')
     }
     else{
         //we will see if the username that the user would like to add exist 
         if(await this_username_exists(username)){
-            req.flash('message','the employee not was add because this username already exists 😅')
+            req.flash('message','El empleado no fue agregado porque este username ya existe 😅')
         }
         else{
             //we will watching if the password is correct 
             if(compare_password(password1,password2)){
                 //we will to create a new user for next save in the database
                 const user=await create_new_user(req)
-                const idUser=await addDatabase.add_user(user,1) //add the new user and get the id of the employee
+                const idUser=await addDatabase.add_user(user,rol_user) //add the new user and get the id of the employee
                 
                 //we will see if the user was add with success
                 if(idUser!=null){
                     //we will to create the new employee and add to the database
                     const employee=create_new_employee(idUser,id_company,req)
                     if(await addDatabase.add_new_employees(employee)){
-                        req.flash('success','the employee was add with supplies 🥳')
+                        req.flash('success','El empleado fue agregado con exito 🥳')
                     }
                     else{
                         /*
@@ -873,14 +873,14 @@ router.post('/fud/:id_company/add-employees',isLoggedIn,async(req,res)=>{
                         for that the manager can edit the employee data in the screen of employees
                         */
                         await delete_user(idUser)
-                        req.flash('message','the employee data not was add. Please you can edit the data and update the data 😅')
+                        req.flash('message','Los datos del empleado no fueron agregado. Por favor tu puedes editar los datos del empleado y actualizarlo 😅')
                     }
                 }
                 else{
-                    req.flash('message','the employee not was add 😳')
+                    req.flash('message','El empleado no fue agregado 😳')
                 }
             }else{
-                req.flash('message','the password was incorrect 😳')
+                req.flash('message','La password no coinside 😳')
             }
         }
     }
@@ -990,14 +990,14 @@ async function update_employee(req,res){
     
     if(await update.update_user(id_user,newDataUser)){
         if(await update.update_employee(id_user,newDataEmployee)){
-            req.flash('success','the employee was update 🥳')
+            req.flash('success','El empleado fue actualizado con exito 🥳')
         }
         else{
-            req.flash('message','the employee data not was update 😅')
+            req.flash('message','El empleado no fue actualizado con exito 😅')
         }
     }
     else{
-        req.flash('message','the user data not was update 😅')
+        req.flash('message','Los datos del usuario no fueron actualizado con exito 😅')
     }
 }
 
@@ -1014,7 +1014,7 @@ async function get_profile_picture(idUser){
 }
 
 function new_data_user(req){
-    const {user_name,email,first_name,second_name,last_name}=req.body;
+    const {user_name,email,first_name,second_name,last_name,rol_user}=req.body;
     const image=create_a_new_image(req)
     const new_user={
         image,
@@ -1023,7 +1023,7 @@ function new_data_user(req){
         first_name,
         second_name,
         last_name,
-        rol_user:1
+        rol_user
     }
 
     return new_user;
