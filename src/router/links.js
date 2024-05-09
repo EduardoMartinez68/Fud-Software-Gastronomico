@@ -2091,12 +2091,36 @@ router.get('/:id_company/sales', isLoggedIn, async (req, res) => {
     if (company != null) {
         const { id_company, id_user } = req.params;
         const sales = await get_sales_company(id_company);
-        console.log(sales)
         res.render('links/manager/sales/sales', { company, sales });
     }
 })
 
-async function get_sales_company(idCompany) {
+router.get('/:id_company/:number_page/sales-company', isLoggedIn, async (req, res) => {
+    const company = await this_company_is_of_this_user(req, res);
+    if (company != null) {
+        const { id_company,number_page} = req.params;
+
+        //we will convert the page number for that tha database can get all the data 
+        let  pageNumber =parseInt(number_page)
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber; //this is for limite the search of the sale 
+
+        //calculate the new data of the sale
+        const salesStart=(pageNumber -1)*100;
+        const salesEnd=pageNumber *100;
+
+        //create the data sale for create the button in the web 
+        const newNumberPage=pageNumber +1;
+        const oldNumberPage=pageNumber -1;
+
+        const dataSales=[{id_company,oldNumberPage,newNumberPage,pageNumber}]
+
+        //get the sale and render the web
+        const sales = await get_sales_company(id_company, salesStart,salesEnd);
+        res.render('links/manager/sales/sales', { company, sales,  dataSales});
+    }
+})
+
+async function get_sales_company(idCompany, start, end) {
     try {
         const query = `
             SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
@@ -2108,8 +2132,9 @@ async function get_sales_company(idCompany) {
             LEFT JOIN "Company".branches b ON sh.id_branches = b.id
             LEFT JOIN "Company".customers c ON sh.id_customers = c.id
             WHERE sh.id_companies = $1
+            LIMIT $2 OFFSET $3
         `;
-        const values = [idCompany];
+        const values = [idCompany, end - start, start];
         const result = await database.query(query, values);
 
         return result.rows;
@@ -2123,14 +2148,26 @@ async function get_sales_company(idCompany) {
 router.get('/:id_company/movements', isLoggedIn, async (req, res) => {
     const company = await this_company_is_of_this_user(req, res);
     if (company != null) {
-        const { id_company } = req.params;
-        const movements = await get_movements_company(5);
-        res.render('links/manager/movements/movements', { company, movements });
+        const { id_company,number_page } = req.params;
+        //we will convert the page number for that tha database can get all the data 
+        let  pageNumber =parseInt(number_page)// convert the number_page to integer
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber; //this is for limite the search of the sale 
+
+        const movementsStart = (pageNumber - 1) * 100;
+        const movementsEnd = pageNumber * 100;
+
+        //create the data sale for create the button in the web 
+        const newNumberPage=pageNumber +1;
+        const oldNumberPage=pageNumber -1;
+
+        const dataMovent=[{id_company,oldNumberPage,newNumberPage,pageNumber}]
+        const movements = await get_movements_company(id_company,movementsStart,movementsEnd);
+        res.render('links/manager/movements/movements', { company, movements , dataMovent});
     }
 })
 
 
-async function get_movements_company(idCompany) {
+async function get_movements_company(idCompany, start, end) {
     try {
         const query = `
             SELECT sh.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
@@ -2140,13 +2177,14 @@ async function get_movements_company(idCompany) {
             LEFT JOIN "Fud".users u ON e.id_users = u.id
             LEFT JOIN "Company".branches b ON sh.id_branches = b.id
             WHERE sh.id_branches = $1
+            LIMIT $2 OFFSET $3
         `;
-        const values = [idCompany];
+        const values = [idCompany, end - start, start];
         const result = await database.query(query, values);
 
         return result.rows;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
+        console.error("Error al obtener datos de movimientos:", error);
         throw error;
     }
 }
@@ -3718,16 +3756,31 @@ router.get('/:id_company/:id_branch/add-employee', isLoggedIn, async (req, res) 
 })
 
 
-router.get('/:id_company/:id_branch/sales', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id_branch/:number_page/sales', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
-        const { id_branch } = req.params;
-        const sales = await get_sales_branch(id_branch);
+        const { id_company,id_branch,number_page } = req.params;
+
+        //we will convert the page number for that tha database can get all the data 
+        let  pageNumber =parseInt(number_page)
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber; //this is for limite the search of the sale 
+
+        //calculate the new data of the sale
+        const salesStart=(pageNumber -1)*100;
+        const salesEnd=pageNumber *100;
+
+        //create the data sale for create the button in the web 
+        const newNumberPage=pageNumber +1;
+        const oldNumberPage=pageNumber -1;
+
+        const dataSales=[{id_company,id_branch,oldNumberPage,newNumberPage,pageNumber}]
+
+        const sales = await get_sales_branch(id_branch,salesStart,salesEnd);
         const branch = await get_data_branch(req);
-        res.render('links/manager/sales/sales', { branch, sales });
+        res.render('links/manager/sales/sales', { branch, sales ,dataSales});
     }
 })
 
-async function get_sales_branch(idBranch) {
+async function get_sales_branch(idBranch, start, end) {
     try {
         const query = `
             SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
@@ -3739,8 +3792,9 @@ async function get_sales_branch(idBranch) {
             LEFT JOIN "Company".branches b ON sh.id_branches = b.id
             LEFT JOIN "Company".customers c ON sh.id_customers = c.id
             WHERE sh.id_branches = $1
+            LIMIT $2 OFFSET $3
         `;
-        const values = [idBranch];
+        const values = [idBranch, end - start, start];
         const result = await database.query(query, values);
 
         return result.rows;
@@ -3750,12 +3804,24 @@ async function get_sales_branch(idBranch) {
     }
 }
 
-router.get('/:id_company/:id_branch/movements', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id_branch/:number_page/movements', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
-        const { id_branch } = req.params;
-        const movements = await get_movements_company(id_branch);
+        const { id_company, id_branch, number_page } = req.params;
+        //we will convert the page number for that tha database can get all the data 
+        let  pageNumber =parseInt(number_page)// convert the number_page to integer
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber; //this is for limite the search of the sale 
+
+        const movementsStart = (pageNumber - 1) * 100;
+        const movementsEnd = pageNumber * 100;
+
+        //create the data sale for create the button in the web 
+        const newNumberPage=pageNumber +1;
+        const oldNumberPage=pageNumber -1;
+
+        const dataMovent=[{id_company,id_branch,oldNumberPage,newNumberPage,pageNumber}]
+        const movements = await get_movements_company(id_company,movementsStart,movementsEnd);
         const branch = await get_data_branch(req);
-        res.render('links/manager/movements/movements', { branch, movements });
+        res.render('links/manager/movements/movements', { branch, movements , dataMovent});
     }
 })
 
