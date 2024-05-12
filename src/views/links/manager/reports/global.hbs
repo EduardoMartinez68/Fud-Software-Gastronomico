@@ -406,6 +406,7 @@
 
 <!--this is for get the PDF-->
 <script>
+    /*
 // Función para generar el PDF cuando se hace clic en el botón
 async function generate_PDF() {
   // Llama a la API de Puppeteer
@@ -432,6 +433,45 @@ async function generate_PDF() {
   } else {
     console.error('Error al generar el PDF');
   }
-}
+}*/
 </script>
 
+<!-- jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+<script>
+    async function generate_PDF(){
+        var documentDefinition = {
+        content: [
+            { text: 'Ejemplo de Reporte', style: 'header' },
+            { text: 'Esta es una tabla de ejemplo:', margin: [0, 10, 0, 10] }, // Espaciado
+            {
+            table: {
+                body: [
+                ['Nombre', 'Edad', 'País'], // Encabezados de la tabla
+                ['Juan', 30, 'España'], // Datos de la primera fila
+                ['María', 25, 'México'], // Datos de la segunda fila
+                ['Pedro', 40, 'Argentina'], // Datos de la tercera fila
+                ]
+            }
+            }
+        ],
+        styles: {
+            header: {
+            fontSize: 18,
+            bold: true
+            },
+            table: {
+            margin: [0, 5, 0, 15] // Margen superior, derecho, inferior e izquierdo respectivamente
+            }
+        }
+        };
+
+        // Compila el objeto de definición de documento en un archivo PDF
+        var pdfDocGenerator = pdfmake.createPdf(documentDefinition);
+        
+        // Descarga el PDF generado
+        pdfDocGenerator.download('reporte.pdf');
+    }
+</script>

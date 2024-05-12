@@ -1304,6 +1304,7 @@ router.get('/:id/combos', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     if (company.length > 0) {
         const combos = await get_all_combos(req)
+        console.log(combos)
         res.render('links/manager/combo/combos', { company, combos });
     }
     else {
@@ -1314,7 +1315,13 @@ router.get('/:id/combos', isLoggedIn, async (req, res) => {
 async function get_all_combos(req) {
     //we will search the company of the user 
     const { id } = req.params;
-    var queryText = 'SELECT * FROM "Kitchen".dishes_and_combos WHERE id_companies= $1';
+    const queryText = `
+    SELECT dc.*, pd.name AS department_name, pc.name AS category_name
+    FROM "Kitchen".dishes_and_combos dc
+    LEFT JOIN "Kitchen".product_department pd ON dc.id_product_department = pd.id
+    LEFT JOIN "Kitchen".product_category pc ON dc.id_product_category = pc.id
+    WHERE dc.id_companies = $1
+`;
     var values = [id];
     const result = await database.query(queryText, values);
 
