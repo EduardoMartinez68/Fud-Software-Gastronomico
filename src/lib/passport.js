@@ -15,14 +15,14 @@ passport.use('local.login', new LocalStrategy({
     if(user.rows.length>0){
         //we will watch if the password is correct
         if (await helpers.matchPassword(password,user.rows[0].password)){
-            done(null,user.rows[0],req.flash('success','Welcome '+user.rows[0].user_name));
+            done(null,user.rows[0],req.flash('success','Bienvenido '+user.rows[0].user_name+' ❤️'));
         }
         else{
-            done(null,false,req.flash('message','Your password is incorrect'));
+            done(null,false,req.flash('message','tu contraseña es incorrecta 😳'));
         }
     }
     else{
-        done(null,false,req.flash('message','invalid user'));
+        done(null,false,req.flash('message','Usuario Invalido 👁️'));
     }
 }));
 
@@ -40,44 +40,45 @@ passport.use('local.signup', new LocalStrategy({
     acceptTermsField:'acceptTerms',
     passReqToCallback: true
 }, async (req ,userName, password, done) => {
-    const {email,Name,confirmPassword,acceptTerms} = req.body;
-    
-    //we will watch if the user on the terms and conditions
-    if(acceptTerms==undefined){
-        done(null,false,req.flash('message','You must accept the terms and conditions to continue'));
-    }
-    else{
-        //we will see if all the data was registered
-        if(all_data_exists(req)){
-            //we will see if this user is new
-            if (!await this_user_exists(userName)){
-                    //we will see if this email is new
-                    if(!await this_email_exists(email)){
-                        //we will watch if the passwords are equal
-                        if (compare_password(password,confirmPassword)){
-                            //create a new user 
-                            const newUser=await create_a_new_user(req,userName,password);
-                            return done(null,newUser);
-                        }
-                        else{
-                            done(null,false,req.flash('message','Double check your passwords'));
-                        }
-                    }
-                    else{
-                        done(null,false,req.flash('message','This email already exists'));
-                    }
-            }
-            else{
-                done(null,false,req.flash('message','This user already exists'));
-            }
+    if (!req.recaptcha.error) {
+        const {email,Name,confirmPassword,acceptTerms} = req.body;
+        
+        //we will watch if the user on the terms and conditions
+        if(acceptTerms==undefined){
+            done(null,false,req.flash('message','Debe aceptar los términos y condiciones para continuar 👁️'));
         }
         else{
-            done(null,false,req.flash('message','You need to fill in all the required fields'));
+            //we will see if all the data was registered
+            if(all_data_exists(req)){
+                //we will see if this user is new
+                if (!await this_user_exists(userName)){
+                        //we will see if this email is new
+                        if(!await this_email_exists(email)){
+                            //we will watch if the passwords are equal
+                            if (compare_password(password,confirmPassword)){
+                                //create a new user 
+                                const newUser=await create_a_new_user(req,userName,password);
+                                return done(null,newUser);
+                            }
+                            else{
+                                done(null,false,req.flash('message','Tus contraseñas no coinciden 👁️'));
+                            }
+                        }
+                        else{
+                            done(null,false,req.flash('message','Este email ya existe 😅'));
+                        }
+                }
+                else{
+                    done(null,false,req.flash('message','Este usuario ya existe 😅'));
+                }
+            }
+            else{
+                done(null,false,req.flash('message','Necesitas completar todos los campos requeridos 🤨'));
+            }
         }
+    }else{
+        done(null,false,req.flash('message','Debes completar el recaptcha correctamente 🤨'));
     }
-
-
-    console.log(req.body);
 }));
 
 

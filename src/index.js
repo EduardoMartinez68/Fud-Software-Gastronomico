@@ -10,6 +10,9 @@ const { database } = require('./keys');
 const { v4: uuid } = require('uuid');
 const path=require('path');
 
+//ReCAPTCHA of Google
+const { RecaptchaV2 } = require('express-recaptcha');
+
 //initializations 
 const app=express();
 require('./lib/passport');
@@ -52,7 +55,9 @@ app.use(session({
     //store: new MySQLStore(pool)
 }));
 
-
+const {MY_SITE_KEYS,MY_SECRET_KEY}=process.env; //this code is for get the data of the database
+const recaptcha = new RecaptchaV2(MY_SITE_KEYS, MY_SECRET_KEY); //this is for load the Recaptcha in the web for delete to the bots
+app.use(recaptcha.middleware.verify);
 
 //activate the our library 
 app.use(flash());

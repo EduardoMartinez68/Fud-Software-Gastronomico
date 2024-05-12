@@ -21,6 +21,12 @@ const path = require('path');
 const {APP_PASSWORD_STRIPE} = process.env;
 const stripe = require('stripe')(APP_PASSWORD_STRIPE);
 
+//PDF
+const puppeteer = require('puppeteer');
+
+/////
+
+//////////////////////
 function create_a_new_image(req) {
     if (req.file != undefined) {
         return req.file.filename;
@@ -2139,8 +2145,8 @@ async function get_sales_company(idCompany, start, end) {
 
         return result.rows;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
-        throw error;
+        console.error("Error al obtener datos de ventas get_sales_company:", error);
+        return [];
     }
 }
 
@@ -2225,6 +2231,31 @@ router.get('/:id_company/reports3', isLoggedIn, async (req, res) => {
 
     res.render("links/manager/reports/sales", { days: days, months: months, years: years, chartData: JSON.stringify(chartData) });
 })
+
+async function create_PDF_page(url,name) {
+    // Launch the browser and open a new blank page
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    await page.goto(url); // URL of the page that we would like convert to PDF
+    // Set screen size
+    await page.setViewport({width: 1080, height: 1024});
+
+    // Type into search box
+    await page.type('.devsite-search-field', 'automate beyond recorder')
+
+    // Wait and click on first result
+    const searchResultSelector = '.devsite-result-item-link';
+    await page.waitForSelector(searchResultSelector);
+    await page.click(searchResultSelector);
+
+
+
+    await page.pdf({ path: name, format: 'A4',printBackground: true }); // PDF name and format
+
+    await browser.close();
+    console.log('PDF generado correctamente');
+}
 
 router.get('/:id_company/reports', isLoggedIn, async (req, res) => {
     const { id_company } = req.params;
@@ -2436,6 +2467,37 @@ router.get('/:id_company/reports', isLoggedIn, async (req, res) => {
     }
 })
 
+router.post('/create-pdf', async (req, res) => {
+    try {
+        // Obtiene la URL de la página del cuerpo de la solicitud
+        const { url } = req.body;
+        console.log('url')
+        console.log(url)
+        // Lanza una instancia de Puppeteer
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+    
+        // Navega a la URL especificada
+        await page.goto(url);
+    
+        // Genera el PDF
+        const pdfBuffer = await page.pdf({
+          format: 'A4',
+          printBackground: true
+        });
+    
+        // Cierra el navegador
+        await browser.close();
+    
+        // Envía el PDF como respuesta
+        res.setHeader('Content-Type', 'application/pdf');
+        res.send(pdfBuffer);
+      } catch (error) {
+        console.error('Error al generar el PDF:', error);
+        res.status(500).send('Error al generar el PDF');
+      }
+})
+
 //-----------------------------------------------------------this function is for get all the sale of today (day,month,reay)
 function get_sales_data(data) {
     const salesData = {};
@@ -2470,7 +2532,7 @@ async function get_sales_company_for_day(idCompany) {
 
         return result.rows;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
+        console.error("Error al obtener datos de ventas get_sales_company_for_day:", error);
         throw error;
     }
 }
@@ -2508,7 +2570,7 @@ async function get_sales_company_for_month(idCompany) {
 
         return result.rows;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
+        console.error("Error al obtener datos de ventas get_sales_company_for_month:", error);
         throw error;
     }
 }
@@ -2532,7 +2594,7 @@ async function get_sales_company_for_year(idCompany) {
 
         return result.rows;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
+        console.error("Error al obtener datos de ventas get_sales_company_for_year:", error);
         throw error;
     }
 }
@@ -3030,8 +3092,8 @@ async function get_total_sales_company(idCompany) {
 
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
-        throw error;
+        console.error("Error al obtener datos de ventas get_total_sales_company:", error);
+        return 0;
     }
 }
 
@@ -3048,8 +3110,8 @@ async function get_total_day_old(idCompany) {
 
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
-        throw error;
+        console.error("Error al obtener datos de ventas del dia pasado:", error);
+        return 0;
     }
 }
 
@@ -3066,8 +3128,8 @@ async function get_total_unity_company(idCompany) {
 
         return result.rows[0].total_items_sold;
     } catch (error) {
-        console.error("Error al obtener datos de ventas:", error);
-        throw error;
+        console.error("Error al obtener datos de ventas get_total_unity_company:", error);
+        return 0;
     }
 }
 
@@ -3083,8 +3145,8 @@ async function get_total_year(idCompany) {
         const result = await database.query(query, values);
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener la suma de ventas:", error);
-        throw error;
+        console.error("Error al obtener la suma de ventas get_total_year:", error);
+        return 0;
     }
 }
 
@@ -3100,8 +3162,8 @@ async function get_total_year_old(idCompany) {
         const result = await database.query(query, values);
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener la suma de ventas:", error);
-        throw error;
+        console.error("Error al obtener la suma de ventas get_total_year_old:", error);
+        return 0;
     }
 }
 
@@ -3117,8 +3179,8 @@ async function get_total_month(idCompany) {
         const result = await database.query(query, values);
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener la suma de ventas:", error);
-        throw error;
+        console.error("Error al obtener la suma de ventas get_total_month:", error);
+        return 0;
     }
 }
 
@@ -3134,8 +3196,8 @@ async function get_total_month_old(idCompany) {
         const result = await database.query(query, values);
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener la suma de ventas:", error);
-        throw error;
+        console.error("Error al obtener la suma de ventas get_total_month_old:", error);
+        return 0;
     }
 }
 
@@ -3150,8 +3212,8 @@ async function get_total_company(idCompany) {
         const result = await database.query(query, values);
         return result.rows[0].total_sales;
     } catch (error) {
-        console.error("Error al obtener la suma de ventas:", error);
-        throw error;
+        console.error("Error al obtener la suma de ventas get_total_company:", error);
+        return 0;
     }
 }
 
@@ -3194,8 +3256,8 @@ async function get_positive_moves_by_branch(idBranch) {
         const result = await database.query(query, values);
         return result.rows[0].total_negative_moves;
     } catch (error) {
-        console.error("Error al obtener los movimientos en negativo:", error);
-        throw error;
+        console.error("Error al obtener los movimientos en negativo get_positive_moves_by_branch:", error);
+        return 0;
     }
 }
 

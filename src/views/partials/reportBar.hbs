@@ -4,18 +4,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
-                    <h1 class="font-weight-bold mb-0">Hi, Welcome {{user.user_name}}!</h1>
+                    <h1 class="font-weight-bold mb-0">Hola bienvenido {{user.user_name}}!</h1>
                     {{#each company}}
-                        <p class="lead text-muted">Check the latest reports of your businesses {{alias}}</p>
+                        <p class="lead text-muted">Consulta los últimos informes de tus negocios {{alias}}</p>
                     {{/each}}
                     {{#each branch}}
-                        <p class="lead text-muted">Check the latest reports of your businesses {{name}}</p>
+                        <p class="lead text-muted">Consulta los últimos informes de tus negocios {{name}}</p>
                     {{/each}}
                 </div>
                 <div class="col-lg-3 d-flex">
-                    <button class="btn btn-primary w-100 align-self-center">
+                    <button class="btn btn-primary w-100 align-self-center" id="downloadButton" onclick="generate_PDF()">
                         <i class="fi-download fi-sr-down-to-line"></i>
-                        Download report
+                        Descargar reporte
                     </button>
                 </div>
             </div>

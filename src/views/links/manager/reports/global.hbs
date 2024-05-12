@@ -400,3 +400,38 @@
         graphicsAll.classList.remove('div-disabled');
     });
 </script>
+
+
+
+
+<!--this is for get the PDF-->
+<script>
+// Función para generar el PDF cuando se hace clic en el botón
+async function generate_PDF() {
+  // Llama a la API de Puppeteer
+  const response = await fetch('/fud/create-pdf', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ url: window.location.href })
+  });
+
+  if (response.ok) {
+    // Descarga el archivo PDF generado
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'reporte.pdf'); // Nombre sugerido para el archivo
+    link.innerHTML = 'Descargar PDF'; // Texto del enlace
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url); // Libera la memoria
+  } else {
+    console.error('Error al generar el PDF');
+  }
+}
+</script>
+
