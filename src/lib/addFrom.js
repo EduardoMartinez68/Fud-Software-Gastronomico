@@ -370,7 +370,7 @@ function parse_barcode_products(barcodeProducts) {
 router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req,res)=>{
     const {id_company,id_combo}=req.params;
     const {barcodeProducts}=req.body;
-    console.log(req.body)
+
     //we will see if the user add a product or supplies 
     if(barcodeProducts==''){
         req.flash('message','El combo necesita tener un producto o algunos suministros 😅')

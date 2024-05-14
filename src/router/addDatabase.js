@@ -213,7 +213,6 @@ async function save_all_supplies_combo_company(id_combo,supplies){
             var data=supplies[i]
             await save_supplies_combo_company(id_combo,data); //save the data
         }
-
         return true;
     } catch (error) {
         console.error('Error al insertar en la base de datos combo:', error);
@@ -226,6 +225,7 @@ async function save_supplies_combo_company(id_dishes_and_combos,supplies){
         +'VALUES ($1, $2, $3, $4, $5)';
 
     var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,supplies.foodWaste,supplies.unity] 
+    console.log('values')
     console.log(values)
     try{
         await database.query(queryText, values);

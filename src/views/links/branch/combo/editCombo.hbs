@@ -47,6 +47,12 @@
     .hidden {
         display: none;
     }
+
+    .icon-combo{
+        width: 500px;
+        height: 500px;
+        border-radius: 1rem;
+    }
 </style>
 
 <br>
@@ -60,9 +66,9 @@
                     <hr>
                     <center>
                         {{#if dish_img}}
-                            <img src="/img/uploads/{{dish_img}}" alt="" class="logo">
+                            <img src="/img/uploads/{{dish_img}}" alt="" class="icon-combo">
                         {{else}}
-                            <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="logo">
+                            <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="icon-combo">
                         {{/if}}
                         <h5>{{dish_name}}</h5>
                         <h6>{{dish_barcode}}</h6>
@@ -126,9 +132,9 @@
 
 <script>
     function read_check_box() {
-        const title = 'Favorites'
+        const title = 'Favoritos'
         var checkBox = document.getElementById("invalidCheck");
-        var text = checkBox.checked ? 'This product was add to favorites ⭐' : 'This product was removed from favorites 👍';
+        var text = checkBox.checked ? 'Este Combo fue agregado a favoritos ⭐' : 'Este Combo fue removido de favoritos 👍';
         notificationMessage(title, text)
     }
 </script>

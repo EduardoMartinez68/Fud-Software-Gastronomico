@@ -1304,7 +1304,6 @@ router.get('/:id/combos', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     if (company.length > 0) {
         const combos = await get_all_combos(req)
-        console.log(combos)
         res.render('links/manager/combo/combos', { company, combos });
     }
     else {
@@ -3517,15 +3516,16 @@ async function update_combo_branch(req, res) {
     const { id_company, id_branch } = req.params;
     var comboNotSaved = ''
 
-    //we will geting all the supplies of the company 
+    //we will geting all the combos of the company 
     const combos = await get_all_combos_company(id_company);
 
     //we will reading all the combo of the company for after add to the branch
     await Promise.all(combos.map(async combo => {
-        //get the data combo
+        //get the data combo in the branch
         const comboData = create_combo_data_branch(combo, id_branch);
+
         // save the combo in the branch
-        if (!await add_combo_branch(comboData)) {
+        if (!await add_combo_branch(comboData)){
             // if the combo not was add with succes, we save the name of the combo
             comboNotSaved += combo.name + '\n';
         }
@@ -3586,6 +3586,7 @@ router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch', isLog
         const { id_combo_features, id_branch } = req.params;
         const comboFeactures = await get_data_combo_factures(id_combo_features);
         const suppliesCombo = await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos, id_branch)
+        console.log(comboFeactures[0].id_dishes_and_combos)
         const branch = await get_data_branch(req);
         res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
     }
@@ -3594,15 +3595,27 @@ router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch', isLog
 async function get_all_price_supplies_branch(idCombo, idBranch) {
     try {
         // Consulta para obtener los suministros de un combo específico
-        const comboQuery = `
+        const comboQuery1 = `
             SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale
             FROM "Kitchen".table_supplies_combo tsc
             INNER JOIN "Inventory".product_and_suppiles_features psf
             ON tsc.id_products_and_supplies = psf.id_products_and_supplies
             WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
         `;
+
+        const comboQuery = `SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale
+        FROM "Kitchen".table_supplies_combo tsc
+        INNER JOIN (
+            SELECT DISTINCT ON (id_products_and_supplies) id_products_and_supplies, currency_sale
+            FROM "Inventory".product_and_suppiles_features
+            ORDER BY id_products_and_supplies
+        ) psf
+        ON tsc.id_products_and_supplies = psf.id_products_and_supplies
+        WHERE tsc.id_dishes_and_combos = $1
+        ORDER BY tsc.id_products_and_supplies DESC
+        `;
         const comboValues = [idCombo];
-        const comboResult = await database.query(comboQuery, comboValues);
+        const comboResult = await database.query(comboQuery, comboValues)
 
         // Consulta para obtener el precio de los suministros en la sucursal específica
         const priceQuery = `

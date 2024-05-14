@@ -17,49 +17,51 @@
 </div>
 <br>
 <div class="container">
-    <table class="table table-hover" id="table-container"> <!--table-bordered-->
-        <colgroup>
-            <col style="width: 10%;">
-            <col style="width: 10%;">
-            <col style="width: 15%;">
-            <col style="width: 30%;">
-            <col style="width: 10%;">
-            <col style="width: 10%;">
-            <col style="width: 15%;">
-        </colgroup>
-        <thead>
-        <tr>
-            <th></th>
-            <th>Barcode</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Department</th>
-            <th>Category</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each combos}}
-            <tr id="{{barcode}}">
-                {{#if img}}
-                    <td><img src="/img/uploads/{{img}}" class="img-s-p"></td>
-                {{else}}
-                    <td><img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" class="img-s-p"></td>
-                {{/if}}
-
-                <td>{{barcode}}</td>
-                <td>{{name}}</td>
-                <td>{{description}}</td>
-                <td>{{department_name}}</td>
-                <td>{{category_name}}</td>
-                <td>
-                    <button class="btn btn-danger" id="{{id}}" onclick="delete_combo(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-                    <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
-                </td>           
+    <div style="height: 700px; overflow-y: scroll;">
+        <table class="table table-hover" id="table-container"> <!--table-bordered-->
+            <colgroup>
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 15%;">
+                <col style="width: 30%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 15%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Barcode</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Department</th>
+                <th>Category</th>
+                <th></th>
             </tr>
-        {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {{#each combos}}
+                <tr id="{{barcode}}">
+                    {{#if img}}
+                        <td><img src="/img/uploads/{{img}}" class="img-s-p"></td>
+                    {{else}}
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" class="img-s-p"></td>
+                    {{/if}}
+
+                    <td>{{barcode}}</td>
+                    <td>{{name}}</td>
+                    <td>{{description}}</td>
+                    <td>{{department_name}}</td>
+                    <td>{{category_name}}</td>
+                    <td>
+                        <button class="btn btn-danger" id="{{id}}" onclick="delete_combo(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
+                        <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                    </td>           
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
