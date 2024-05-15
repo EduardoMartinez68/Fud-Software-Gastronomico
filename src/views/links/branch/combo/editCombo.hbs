@@ -47,12 +47,6 @@
     .hidden {
         display: none;
     }
-
-    .icon-combo{
-        width: 500px;
-        height: 500px;
-        border-radius: 1rem;
-    }
 </style>
 
 <br>
@@ -62,18 +56,24 @@
             <div class="card-body">
                 {{#each comboFeactures}}
                 <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-combo-branch" method="POST" id="myForm">
-                    <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Edit Features combo</label>
+                    <label for=""><i class="fi-icon fi-ss-hamburger-soda"></i>Informacion del Combo</label>
                     <hr>
-                    <center>
-                        {{#if dish_img}}
-                            <img src="/img/uploads/{{dish_img}}" alt="" class="icon-combo">
-                        {{else}}
-                            <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="icon-combo">
-                        {{/if}}
-                        <h5>{{dish_name}}</h5>
-                        <h6>{{dish_barcode}}</h6>
-                        <label for="">{{dish_description}}</label>
-                    </center>
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            {{#if dish_img}}
+                                <img src="/img/uploads/{{dish_img}}" alt="" class="icon-combo">
+                            {{else}}
+                                <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="icon-combo">
+                            {{/if}}
+                        </div>
+                        <div class="col">
+                            <h4>Nombre: {{dish_name}}</h4>
+                            <h5>Codigo de Barras: {{dish_barcode}}</h5>
+                            <label for="">Description:</label>
+                            <label for="">{{dish_description}}</label>
+                        </div>
+                    </div>
 
                     <!---this is the start favorites--->
                     <div class="container-start">

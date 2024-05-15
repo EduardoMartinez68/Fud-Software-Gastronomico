@@ -1144,9 +1144,9 @@ router.post('/fud/:id_company/:id_branch/:id_combo/update-combo-branch',isLogged
     const {id_company,id_combo,id_branch}=req.params;
     const combo=create_new_combo_branch(req,id_combo);
     if(await update.update_combo_branch(combo)){
-        req.flash('success','The combo was update with success 😄');
+        req.flash('success','El combo se actualizó con éxito 😄');
     }else{
-        req.flash('message','The combo not was update 😳');
+        req.flash('message','El combo no actualizó 😳');
     }
 
     res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
@@ -1180,12 +1180,12 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
     const {email,username,password1,password2}=req.body
     //we will see if the email that the user would like to add exist 
     if(await this_email_exists(email)){
-        req.flash('message','the employee not was add because this username already exists')
+        req.flash('message','El empleado no fue agregado porque este nombre de usuario ya existe 😅')
     }
     else{
         //we will see if the username that the user would like to add exist 
         if(await this_username_exists(username)){
-            req.flash('message','the employee not was add because this username already exists 😅')
+            req.flash('message','El empleado no fue añadido porque este nombre de usuario ya existe 😅')
         }
         else{
             //we will watching if the password is correct 
@@ -1199,7 +1199,7 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
                     //we will to create the new employee and add to the database
                     const employee=create_new_employee(idUser,id_company,req)
                     if(await addDatabase.add_new_employees(employee)){
-                        req.flash('success','the employee was add with supplies 🥳')
+                        req.flash('success','El empleado fue añadido con exito 🥳')
                     }
                     else{
                         /*
@@ -1207,14 +1207,14 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
                         for that the manager can edit the employee data in the screen of employees
                         */
                         await delete_user(idUser)
-                        req.flash('message','the employee data not was add. Please you can edit the data and update the data 😅')
+                        req.flash('message','Los datos del empleado no fueron añadidos. Por favor, edita los datos y actualízalos 😅')
                     }
                 }
                 else{
-                    req.flash('message','the employee not was add 😳')
+                    req.flash('message','El empleado no fue añadido 😳')
                 }
             }else{
-                req.flash('message','the password was incorrect 😳')
+                req.flash('message','La contraseña era incorrecta 😳')
             }
         }
     }
@@ -1229,13 +1229,13 @@ router.post('/fud/:id_company/:id_branch/add-box',isLoggedIn,async(req,res)=>{
 
     //we will watching if this number of box exist in the branch 
     if(await this_box_exist_in_this_branch(id_branch,number)){
-        req.flash('message','this box exist in the branch 👉👈')
+        req.flash('message','Esta caja existe en la sucursal 👉👈')
     }else{
         //we will watching if can add the box to the database
         if(await addDatabase.add_box(id_branch,number,ipPrinter,ipBox)){
-            req.flash('success','the box was add with supplies 🥳')
+            req.flash('success','La caja fue añadida con exito 🥳')
         }else{
-            req.flash('message','the box not was add 😳')
+            req.flash('message','La caja no fue agregada 😳')
         }
     }
 

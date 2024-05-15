@@ -1,31 +1,43 @@
 {{#each combo}}
 <div class="form-group">
-    <center>
-        {{#if img}}
-            <img src="/img/uploads/{{img}}"
-                class="logoCompany" id="imgEmployee">
-        {{else}}
-            <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"
-                class="logoCompany" id="imgEmployee">
-        {{/if}}
-    </center>
-</div>
-<div class="form-group">
-    <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+    <div class="container">
+        <label><i class="fi-icon fi-ss-hamburger-soda"></i> Informacion del Combo</label>
+        <hr>
+        <div class="row">
+            <div class="col-5">
+                {{#if img}}
+                    <img src="/img/uploads/{{img}}"
+                        class="icon-combo" id="imgEmployee">
+                {{else}}
+                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"
+                        class="icon-combo" id="imgEmployee">
+                {{/if}}
+                <div class="form-group">
+                    <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
+                </div>
+            </div>
+            <div class="col">
+                <div class="col">
+                    <label for="">Barcode</label>
+                    <input type="text" class="form-control" placeholder="Barcode" name="barcode" required value="{{barcode}}">
+                </div>
+                <div class="col">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" placeholder="Nombre" name="name" required value="{{name}}">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label><br>
+                    <textarea type="tex" class="form-control" name="description"  placeholder="Description">{{description}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <label for="">Barcode</label>
-        <input type="text" class="form-control" placeholder="Barcode" name="barcode" required value="{{barcode}}">
-    </div>
-    <div class="col">
-        <label for="">Nombre</label>
-        <input type="text" class="form-control" placeholder="Nombre" name="name" required value="{{name}}">
-    </div>
-</div>
+
 {{/each}}
-<br>
+<br><br>
 <div class="row">
     <div class="col">
         <label for="">Categoria</label>
@@ -44,13 +56,8 @@
         </select>
     </div>
 </div>
-{{#each combo}}
-<div class="form-group">
-    <label>Description</label><br>
-    <textarea type="tex" class="form-control" name="description"  placeholder="Description">{{description}}</textarea>
-</div>
-{{/each}}
-
+<br>
+<label><i class="fi-icon fi-ss-pot "></i> Receta</label>
 
 
 <script src="/js/manager/addEmployee.js"></script>

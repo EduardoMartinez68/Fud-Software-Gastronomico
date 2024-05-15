@@ -7,7 +7,7 @@
     <div class="row mt-5">
         <div class="col-md-12">
           {{#each branch}}
-            <button class="btn btn-danger" onclick="nextWeb('/{{id_companies}}/{{id}}/combo-refresh')"><i class="fi-department fi-br-refresh"></i></button>  Recharge all the supllies of the company
+            <button class="btn btn-danger" onclick="nextWeb('/{{id_companies}}/{{id}}/combo-refresh')"><i class="fi-department fi-br-refresh"></i></button>  Recargar todos los combos de la empresa
           {{/each}}
         </div>
     </div>
@@ -46,10 +46,10 @@
             <tr>
                 <th></th>
                 <th>Barcode</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Department/Category</th>
-                <th>Price</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Departamento/Categoría</th>
+                <th>Precio</th>
                 <th></th>
             </tr>
             </thead>
@@ -65,8 +65,8 @@
                     <td>{{barcode}}</td>
                     <td>{{name}}</td>
                     <td>{{description}}</td>
-                    <td>Department/Category</td>
-                    <td>Price</td>
+                    <td>{{department_name}}/{{category_name}}</td>
+                    <td>{{price_1}}</td>
                     <td>
                         <button class="btn btn-danger" id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id}}/edit-combo-branch')"><i class="fi-department fi-sr-pencil"></i></button>
                     </td>           

@@ -3480,6 +3480,7 @@ router.get('/:id_company/:id_branch/combos', isLoggedIn, async (req, res) => {
         const { id_company, id_branch } = req.params;
         const branch = await get_data_branch(req);
         const combos = await get_combo_features(id_branch);
+        console.log(combos)
         res.render('links/branch/combo/combos', { branch, combos });
     }
 })
@@ -3487,16 +3488,23 @@ router.get('/:id_company/:id_branch/combos', isLoggedIn, async (req, res) => {
 async function get_combo_features(idBranche) {
     var queryText = `
     SELECT 
-    f.*,
-    d.img,
-    d.barcode,
-    d.name,
-    d.description
+        f.*,
+        d.img,
+        d.barcode,
+        d.name,
+        d.description,
+        pc_cat.name as category_name,
+        pd_dept.name as department_name
     FROM 
         "Inventory".dish_and_combo_features f
     INNER JOIN 
         "Kitchen".dishes_and_combos d ON f.id_dishes_and_combos = d.id
-        WHERE f.id_branches = $1
+    LEFT JOIN
+        "Kitchen".product_category pc_cat ON d.id_product_category = pc_cat.id
+    LEFT JOIN
+        "Kitchen".product_department pd_dept ON d.id_product_department = pd_dept.id
+    WHERE 
+        f.id_branches = $1
     `;
     var values = [idBranche];
     const result = await database.query(queryText, values);
