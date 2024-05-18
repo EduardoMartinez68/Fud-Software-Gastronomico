@@ -977,7 +977,7 @@ async function update_employee(req,res){
     const {email,username}=req.body
     const newDataUser=new_data_user(req)
     const newDataEmployee=new_data_employee(req)
-    console.log(id_user)
+    
     //we will see if exist a new perfil photo 
     if(newDataUser.image!=""){
         //get the old direction of the imagen 
@@ -1177,7 +1177,8 @@ router.post('/fud/:id_user/:id_company/:id_branch/:id_employee/edit-employees',i
 
 router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
-    const {email,username,password1,password2}=req.body
+    const {email,username,password1,password2}=req.body;
+    const rol_user=req.body.rol_user;
     //we will see if the email that the user would like to add exist 
     if(await this_email_exists(email)){
         req.flash('message','El empleado no fue agregado porque este nombre de usuario ya existe 😅')
@@ -1192,7 +1193,7 @@ router.post('/fud/:id_company/:id_branch/add-employees',isLoggedIn,async(req,res
             if(compare_password(password1,password2)){
                 //we will to create a new user for next save in the database
                 const user=await create_new_user(req)
-                const idUser=await addDatabase.add_user(user,1) //add the new user and get the id of the employee
+                const idUser=await addDatabase.add_user(user,rol_user) //add the new user and get the id of the employee
                 
                 //we will see if the user was add with success
                 if(idUser!=null){

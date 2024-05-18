@@ -259,8 +259,6 @@ async function update_role_employee(idRoleEmployee, newRole){
     }
 }
 
-
-
 function get_query_edit_user(dataUser){
     var queryText = `
     UPDATE "Fud".users
@@ -293,7 +291,6 @@ function get_query_edit_user(dataUser){
 
     return queryText;
 }
-
 
 async function update_user(idUser,dataUser){
     var queryText = get_query_edit_user(dataUser)
