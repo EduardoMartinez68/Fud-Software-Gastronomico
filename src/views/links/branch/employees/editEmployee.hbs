@@ -7,7 +7,7 @@
     <div class="container p-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <label><i class="fi-icon fi-sr-hat-chef"></i> Add a new employee</label>
+                <label><i class="fi-icon fi-sr-hat-chef"></i> Añadir un nuevo empleado</label>
                 <hr>
                 <div class="card">
                     <div class="card-body">
@@ -26,8 +26,8 @@
                                     <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
                                 </div>  
                                 <div class="form-group">
-                                    <label>User Name *</label><br>
-                                    <input type="tex" class="form-control" name="user_name" placeholder="User Name" required value="{{user_name}}">
+                                    <label>Nombre de usuario *</label><br>
+                                    <input type="tex" class="form-control" name="user_name" placeholder="Nombre de usuario" required value="{{user_name}}">
                                 </div>
                                 <div class="form-group">
                                     <label>E-mail *</label><br>
@@ -39,7 +39,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Role Employee</label><br>
+                                            <label>Rol de empleado</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="role_employee" value="{{id_roles_employees}}">
                                             {{/each}}
@@ -50,7 +50,7 @@
                                         </div>
 
                                         <div class="col">
-                                            <label>Departaments Employee</label><br>
+                                            <label>Departamentos de empleados</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="departament_employee" value="{{id_departments_employees}}">
                                             {{/each}}
@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-10">
-                                            <label>Branche *</label><br>
+                                            <label>Sucursal *</label><br>
                                             {{#each employee}}
                                             <select class="form-select" aria-label="Default select example" name="branch" value="{{id_branches}}">
                                             {{/each}}
@@ -84,42 +84,55 @@
                                         </div>
                                     </div>        
                                 </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <label>Vista de interface *</label><br>
+                                            {{#each employee}}
+                                            <select class="form-select" aria-label="Default select example" name="rol_user" value="{{rol_user}}">
+                                                <option value="2">Empleado</option>
+                                                <option value="1">Gerente</option>
+                                            </select>
+                                            {{/each}}
+                                        </div>
+                                    </div>        
+                                </div>
                                 <hr>
                                 {{#each employee}}
-                                <label>Personal Information</label>
+                                <label>Información personal</label>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Name *</label><br>
-                                            <input type="text" class="form-control" name="first_name" placeholder="First Name" autofocus required value="{{first_name}}">
+                                            <label>Nombre *</label><br>
+                                            <input type="text" class="form-control" name="first_name" placeholder="Nombre" autofocus required value="{{first_name}}">
                                         </div>
                                         <div class="col">
-                                            <label>Second name</label><br>
-                                            <input type="text" class="form-control" name="second_name" placeholder="Second Name" value="{{second_name}}">
+                                            <label>Segundo Nombre</label><br>
+                                            <input type="text" class="form-control" name="second_name" placeholder="Segundo nombre" value="{{second_name}}">
                                         </div>
                                     </div>        
                                 </div>
                                 <div class="form-group">
-                                    <label>Last Name *</label><br>
-                                    <input type="tex" class="form-control" name="last_name" placeholder="Last Name" required value="{{last_name}}">
+                                    <label>Apellido *</label><br>
+                                    <input type="tex" class="form-control" name="last_name" placeholder="Apellido" required value="{{last_name}}">
                                 </div>
                                 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Phone</label><br>
-                                            <input type="tex" class="form-control" name="phone" placeholder="Phone" value="{{phone}}">
+                                            <label>Teléfono</label><br>
+                                            <input type="tex" class="form-control" name="phone" placeholder="Teléfono" value="{{phone}}">
                                         </div>
                                         <div class="col">
-                                            <label>Cell Phone</label><br>
-                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone" value="{{cell_phone}}">
+                                            <label>Teléfono celular</label><br>
+                                            <input type="tex" class="form-control" name="cell_phone" placeholder="Teléfono celular" value="{{cell_phone}}">
                                         </div>
                                     </div>        
                                 </div>
                                 {{/each}}
 
                                 <div class="form-group">
-                                    <label>Country *</label><br>
+                                    <label>País *</label><br>
                                     {{#each employee}}
                                     <select class="form-select" aria-label="Default select example" name="country" value="{{id_country}}">
                                     {{/each}}
@@ -133,11 +146,11 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label for="city">City</label>
+                                            <label for="city">Ciudad</label>
                                             <input type="text" id="city" name="city" class="form-control" placeholder="City" value="{{city}}">
                                         </div>
                                         <div class="col">
-                                            <label>Street</label><br>
+                                            <label>Calle</label><br>
                                             <input type="tex" class="form-control" name="street" placeholder="Street" value="{{street}}">
                                         </div>
                                     </div>        
@@ -157,7 +170,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-block">Save</button>
+                                    <button class="btn btn-success btn-block">Actualizar</button>
                                 </div>
                             </form>
                         {{/each}}

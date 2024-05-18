@@ -3826,6 +3826,24 @@ router.get('/:id_company/:id_branch/:id_employee/edit-employees', isLoggedIn, as
     }
 })
 
+router.get('/:id_company/:id_branch/:id_user/delete-employee', isLoggedIn, async (req, res) => {
+    const { id_company,id_branch,id_user } = req.params;
+    //first delete the image for not save trash in the our server
+    await delete_profile_picture(id_user);
+
+    //we going to delete the employee 
+    if (await delete_employee(id_user)) {
+        //if the user is not deleted it doesn't really matter
+        await delete_user(id_user);
+        req.flash('success', 'El empleado fue eliminado 👍');
+    }
+    else {
+        req.flash('message', 'El empleado no fue eliminado 👉👈');
+    }
+
+    res.redirect('/fud/' + id_company +'/'+id_branch+'/employees-branch');
+})
+
 async function search_employee_branch(idBranch) {
     var queryText = 'SELECT * FROM "Company".employees WHERE id_branches = $1';
     var values = [idBranch];

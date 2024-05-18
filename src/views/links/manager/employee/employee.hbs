@@ -12,7 +12,7 @@
 
     <script>
         async function delete_employee(idCompany,idUser){
-            if(await questionMessage('Delete employee','Do you delete this employee?')){
+            if(await questionMessage('Eliminar empleado 😬','¿Te gustaría eliminar a este empleado?')){
                 window.location.href = "/fud/"+idCompany+'/'+idUser+"/delete-employee";
             }
         }

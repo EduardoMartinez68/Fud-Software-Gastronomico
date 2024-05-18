@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <link rel="stylesheet" href="/css/addUser/addUser.css">
 </head>
@@ -7,7 +7,7 @@
     <div class="container p-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <label><i class="fi-icon fi-sr-hat-chef"></i> Add a new employee</label>
+                <label><i class="fi-icon fi-sr-hat-chef"></i> Añadir un nuevo empleado</label>
                 <hr>
                 <div class="card">
                     <div class="card-body">
@@ -23,23 +23,23 @@
                                 <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
                             </div>  
                             <div class="form-group">
-                                <label>User Name *</label><br>
-                                <input type="tex" class="form-control" name="user_name" placeholder="User Name" required>
+                                <label>Nombre de usuario *</label><br>
+                                <input type="text" class="form-control" name="user_name" placeholder="Nombre de usuario" required>
                             </div>
                             <div class="form-group">
-                                <label>E-mail *</label><br>
-                                <input type="email" class="form-control" name="email" placeholder="E-mail" required>
+                                <label>Correo electrónico *</label><br>
+                                <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
                             </div>
 
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label>Password *</label><br>
-                                        <input type="password" class="form-control" name="password1" placeholder="Password" required>
+                                        <label>Contraseña *</label><br>
+                                        <input type="password" class="form-control" name="password1" placeholder="Contraseña" required>
                                     </div>
                                     <div class="col">
-                                        <label>Confirm Password *</label><br>
-                                        <input type="password" class="form-control" name="password2" placeholder="Password" required>
+                                        <label>Confirmar contraseña *</label><br>
+                                        <input type="password" class="form-control" name="password2" placeholder="Contraseña" required>
                                     </div>
                                 </div>        
                             </div>
@@ -48,16 +48,16 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label>Role Employee</label><br>
-                                        <select class="form-select" aria-label="Default select example" name="role_employee">
+                                        <label>Rol de empleado</label><br>
+                                        <select class="form-select" aria-label="Rol de empleado" name="role_employee">
                                             {{#each roles}}
                                                 <option value="{{id}}">{{name_role}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label>Departaments Employee</label><br>
-                                        <select class="form-select" aria-label="Default select example" name="departament_employee">
+                                        <label>Departamento del empleado</label><br>
+                                        <select class="form-select" aria-label="Departamento del empleado" name="departament_employee">
                                             {{#each departments}}
                                                 <option value="{{id}}">{{name_departaments}}</option>
                                             {{/each}}
@@ -69,8 +69,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-10">
-                                        <label>Branche *</label><br>
-                                        <select class="form-select" aria-label="Default select example" name="branch">
+                                        <label>Sucursal *</label><br>
+                                        <select class="form-select" aria-label="Sucursal" name="branch">
                                             {{#each branches}}
                                                 <option value="{{id}}">{{name_branch}}</option>
                                             {{/each}}
@@ -86,41 +86,54 @@
                                     </div>
                                 </div>        
                             </div>
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <label>Vista de interface *</label><br>
+                                        <select class="form-select" aria-label="Default select example" name="rol_user">
+                                            <option value="2">Empleado</option>
+                                            <option value="1">Gerente</option>
+                                        </select>
+                                    </div>
+                                </div>        
+                            </div>
+
                             <hr>
-                            <label>Personal Information</label>
+                            <label>Información personal</label>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label>Name *</label><br>
-                                        <input type="text" class="form-control" name="first_name" placeholder="First Name" autofocus required>
+                                        <label>Nombre *</label><br>
+                                        <input type="text" class="form-control" name="first_name" placeholder="Nombre" autofocus required>
                                     </div>
                                     <div class="col">
-                                        <label>Second name</label><br>
-                                        <input type="text" class="form-control" name="second_name" placeholder="Second Name">
+                                        <label>Segundo nombre</label><br>
+                                        <input type="text" class="form-control" name="second_name" placeholder="Segundo nombre">
                                     </div>
                                 </div>        
                             </div>
                             <div class="form-group">
-                                <label>Last Name *</label><br>
-                                <input type="tex" class="form-control" name="last_name" placeholder="Last Name" required>
+                                <label>Apellido *</label><br>
+                                <input type="text" class="form-control" name="last_name" placeholder="Apellido" required>
                             </div>
                             
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label>Phone</label><br>
-                                        <input type="tex" class="form-control" name="phone" placeholder="Phone">
+                                        <label>Teléfono</label><br>
+                                        <input type="text" class="form-control" name="phone" placeholder="Teléfono">
                                     </div>
                                     <div class="col">
-                                        <label>Cell Phone</label><br>
-                                        <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone">
+                                        <label>Teléfono celular</label><br>
+                                        <input type="text" class="form-control" name="cell_phone" placeholder="Teléfono celular">
                                     </div>
                                 </div>        
                             </div>
 
                             <div class="form-group">
-                                <label>Country *</label><br>
-                                <select class="form-select" aria-label="Default select example" name="country">
+                                <label>País *</label><br>
+                                <select class="form-select" aria-label="País" name="country">
                                     {{#each country}}
                                         <option value="{{id}}">{{name}}</option>
                                     {{/each}}
@@ -130,12 +143,12 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="city">City</label>
-                                        <input type="text" id="city" name="city" class="form-control" placeholder="City">
+                                        <label for="city">Ciudad</label>
+                                        <input type="text" id="city" name="city" class="form-control" placeholder="Ciudad">
                                     </div>
                                     <div class="col">
-                                        <label>Street</label><br>
-                                        <input type="tex" class="form-control" name="street" placeholder="Street">
+                                        <label>Calle</label><br>
+                                        <input type="text" class="form-control" name="street" placeholder="Calle">
                                     </div>
                                 </div>        
                             </div>
@@ -144,17 +157,17 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>No. Ext</label><br>
-                                        <input type="tex" class="form-control" name="num_ext" placeholder="No. Ext">
+                                        <input type="text" class="form-control" name="num_ext" placeholder="No. Ext">
                                     </div>
                                     <div class="col">
                                         <label>No. Int</label><br>
-                                        <input type="tex" class="form-control" name="num_int" placeholder="No. Int">
+                                        <input type="text" class="form-control" name="num_int" placeholder="No. Int">
                                     </div>
                                 </div>        
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-success btn-block">Save</button>
+                                <button class="btn btn-success btn-block">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -166,4 +179,3 @@
     <script src="/js/manager/addEmployee.js"></script>
 </body>
 </html>
-
