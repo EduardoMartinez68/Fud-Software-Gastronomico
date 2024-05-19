@@ -3863,7 +3863,6 @@ router.get('/:id_company/:id_branch/add-employee', isLoggedIn, async (req, res) 
     }
 })
 
-
 router.get('/:id_company/:id_branch/:number_page/sales', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company,id_branch,number_page } = req.params;

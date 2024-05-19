@@ -1,4 +1,4 @@
-# Usa una imagen base de Node.js que también tenga Python
+# Use una imagen base de Node.js que también tenga Python instalado
 FROM node:14-buster
 
 # Instalar Python y pip
