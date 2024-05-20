@@ -13,13 +13,13 @@ const path=require('path');
 //ReCAPTCHA of Google
 const { RecaptchaV2 } = require('express-recaptcha');
 
-//initializations 
+//------------------initializations 
 const app=express();
 require('./lib/passport');
 //require('./lib/addFrom');
 require('./lib/editFrom');
 
-//settings
+//------------------settings
 app.set('port',process.env.PORT || 8080);
 app.set('views',path.join(__dirname,'views'))
 app.engine('.hbs',engine({ //we will create the engine for the web
@@ -32,7 +32,7 @@ app.engine('.hbs',engine({ //we will create the engine for the web
 app.set('view engine','.hbs');
 
 
-//middlewares
+//------------------middlewares
 require('dotenv').config();
 const {APP_PG_USER,APP_PG_HOST,APP_PG_DATABASE,APP_PG_PASSWORD,APP_PG_PORT}=process.env; //this code is for get the data of the database
 
@@ -62,7 +62,8 @@ const {MY_SITE_KEYS,MY_SECRET_KEY}=process.env; //this code is for get the data 
 const recaptcha = new RecaptchaV2(MY_SITE_KEYS, MY_SECRET_KEY); //this is for load the Recaptcha in the web for delete to the bots
 app.use(recaptcha.middleware.verify);
 
-//activate the our library 
+
+//------------------activate the our library 
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
@@ -76,10 +77,11 @@ const storage=multer.diskStorage({ //this function is for load a image in the fo
         cb(null,uuid()+path.extname(file.originalname));
     }
 });
+
 app.use(multer({storage: storage}).single('image'));
 
 
-//global variables
+//------------------global variables
 app.use((req,res,next)=>{
     app.locals.success=req.flash('success');
     app.locals.message=req.flash('message');
@@ -88,7 +90,7 @@ app.use((req,res,next)=>{
     next();
 });
 
-//routes
+//------------------routes
 const companyName='/fud' //Füd
 app.use(require('./router'))
 app.use(require('./router/authentication'))

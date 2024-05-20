@@ -17,15 +17,65 @@ const path = require('path');
 
 const printer=require('../lib/printer');
 
+//config the connection with digitalocean
+const AWS= require('aws-sdk'); 
+const {APP_NYCE,APP_ACCESS_KEY_ID,SECRET_ACCESS_KEY}=process.env; //Get our nyce3 for connection with digitalocean
+const spacesEndpoint=new AWS.Endpoint(APP_NYCE)
+
+const s3=new AWS.S3({
+    endpoint:spacesEndpoint,
+    accessKeyId: APP_ACCESS_KEY_ID,
+    secretAccessKey: SECRET_ACCESS_KEY
+});
+
+const bucketName = APP_NYCE;
+
+async function upload_image_to_space(filePath, objectName){
+    const fileContent = fs.readFileSync(filePath);
+  
+    const params = {
+      Bucket: bucketName,
+      Key: objectName,
+      Body: fileContent,
+      ACL: 'public-read' // O 'private' si deseas que no sea público
+    };
+  
+    try {
+      const data = await s3.upload(params).promise();
+      console.log('Image upload with success digitalocean:', data.Location);
+      fs.unlinkSync(filePath); // delete file temporary
+      return data.Location;
+    } catch (err) {
+      console.error('Error to upload the image to digitalocean:', err);
+      return '';
+    }
+};
+
+
+
 async function delete_image_upload(pathImg){
-    var pathImage=path.join(__dirname, '../public/img/uploads', pathImg);
+    const params = {
+        Bucket: bucketName,
+        Key: pathImg
+      };
+    
+      try {
+        await s3.deleteObject(params).promise();
+        console.log(`Image ${objectName} delete with success`);
+        return true;
+      } catch (err) {
+        console.error('Error to delete the image:', err);
+        return false;
+    }
+    /*
+    var pathImage = path.join(__dirname, '../public/img/uploads', pathImg);
     fs.unlink(pathImage, (error) => {
         if (error) {
-          console.error('Error to delate image:', error);
+            console.error('Error to delate image:', error);
         } else {
-          console.log('Image delate success');
+            console.log('Image delate success');
         }
-      });
+    });*/
 }
 
 //add company
@@ -99,9 +149,13 @@ function get_new_company(req){
     return company;
 }
 
-function create_a_new_image(req){
-    if (req.file!=undefined){
-        return req.file.filename;
+async function create_a_new_image(req){
+    if(req.file){
+        const filePath = req.file.path;
+        const objectName = req.file.filename;
+        const imageUrl = await upload_image_to_space(filePath, objectName);
+
+        return imageUrl;
     }
 
     return '';
