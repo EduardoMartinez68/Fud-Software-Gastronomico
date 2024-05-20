@@ -15,7 +15,7 @@ const client = new Client({
   port: APP_PG_PORT,
   ssl: {
     rejectUnauthorized: false,
-  },
+  }
 });
 
 client.connect()
