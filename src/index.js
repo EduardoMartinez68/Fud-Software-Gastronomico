@@ -104,6 +104,7 @@ app.listen(app.get('port'),()=>{
 });
 
 //python
+/*
 const {spawn}=require('child_process');
 //const { database } = require('./keys');
 const pythonPath='src/dataScine/script.py';
@@ -120,4 +121,4 @@ pythonProcess.stderr.on('data',(data)=>{
 pythonProcess.on('close',(code)=>{
     const output=code.toString();
     console.log('python a cerrado ',output);
-});
+});*/

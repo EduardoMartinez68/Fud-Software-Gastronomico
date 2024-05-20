@@ -2203,7 +2203,7 @@ async function get_movements_company(idCompany, start, end) {
 
 //-------------------------------------------------------------reports 
 //this is for use python and that we can do datascine
-const { spawn } = require('child_process');
+//const { spawn } = require('child_process');
 
 router.get('/:id_company/reports2', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/report");
@@ -2866,8 +2866,34 @@ async function get_sales_total_by_combo_month(idCompany) {
 //---------------------------------------------------------this function is for get the combo most sale (day,month,reay,all)
 //for know which products is most sale. This not means that that combos be the that most money generate in the business 
 async function get_data_distribute_company(id_company) {
+    /*
     // This function is for converting the string returned by the Python script into an array for web reading 
     var distribute = await get_data_report_distribute(id_company);
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
+    }
+    */
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute(id_company);
+
+    // Convert distribute to string if it's not already
+    if (typeof distribute !== 'string') {
+        distribute = String(distribute);
+    }
+
     distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
     const matches = distribute.match(/\[.*?\]/g);
 
@@ -2887,6 +2913,7 @@ async function get_data_distribute_company(id_company) {
 }
 
 async function get_data_report_distribute(id_company) {
+    /*
     //this function is for read a script of python for calculate the distribute of the bussiner 
     return new Promise((resolve, reject) => {
         //we going to call the script python, send the id company
@@ -2918,9 +2945,42 @@ async function get_data_report_distribute(id_company) {
             }
         });
     });
+    */
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                    u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+        `;
+        const res = await database.query(query, [id_company]);
+        const rows = res.rows;
+
+        let names = [];
+        for (let i = 0; i < rows.length; i++) {
+            const amount = rows[i].cant;
+            for (let j = 0; j < amount; j++) {
+                names.push(rows[i].name);
+            }
+        }
+
+        const combos = Array.from(new Set(names));
+        const answer = combos.map(combo => [combo, names.filter(name => name === combo).length]);
+
+        return answer;
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        return [];
+    } 
 }
 
 async function get_data_distribute_company_day(id_company) {
+    /*
     // This function is for converting the string returned by the Python script into an array for web reading 
     var distribute = await get_data_report_distribute_day(id_company);
     distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
@@ -2939,9 +2999,35 @@ async function get_data_distribute_company_day(id_company) {
         // If no matches were found, return an empty array or null as preferred
         return []; // Or you can return null if you prefer
     }
+    */
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute_day(id_company);
+
+    // Convert distribute to string if it's not already
+    if (typeof distribute !== 'string') {
+        distribute = String(distribute);
+    }
+
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
+    }
 }
 
 async function get_data_report_distribute_day(id_company) {
+    /*
     //this function is for read a script of python for calculate the distribute of the bussiner 
     return new Promise((resolve, reject) => {
         //we going to call the script python, send the id company
@@ -2972,10 +3058,43 @@ async function get_data_report_distribute_day(id_company) {
                 reject(new Error(`El proceso de Python terminó con un código de error: ${code}`));
             }
         });
-    });
+    });*/
+    try {
+        const query = `
+        SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+               u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+        FROM "Box".sales_history sh
+        LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+        LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+        LEFT JOIN "Fud".users u ON e.id_users = u.id
+        LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+        LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+        WHERE sh.id_companies = $1
+        AND DATE(sh.sale_day) = $2
+        `;
+        const res = await database.query(query, [id_company]);
+        const rows = res.rows;
+
+        let names = [];
+        for (let i = 0; i < rows.length; i++) {
+            const amount = rows[i].cant;
+            for (let j = 0; j < amount; j++) {
+                names.push(rows[i].name);
+            }
+        }
+
+        const combos = Array.from(new Set(names));
+        const answer = combos.map(combo => [combo, names.filter(name => name === combo).length]);
+
+        return answer;
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        return [];
+    } 
 }
 
 async function get_data_distribute_company_month(id_company) {
+    /*
     // This function is for converting the string returned by the Python script into an array for web reading
     var distribute = await get_data_report_distribute_month(id_company);
     distribute = distribute.slice(1, -3); // Remove the [ ] from the corners
@@ -2993,10 +3112,35 @@ async function get_data_distribute_company_month(id_company) {
     } else {
         // If no matches were found, return an empty array or null as preferred
         return []; // Or you can return null if you prefer
+    }*/
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute_month(id_company);
+
+    // Convert distribute to string if it's not already
+    if (typeof distribute !== 'string') {
+        distribute = String(distribute);
+    }
+
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
     }
 }
 
 async function get_data_report_distribute_month(id_company) {
+    /*
     //this function is for read a script of python for calculate the distribute of the bussiner 
     return new Promise((resolve, reject) => {
         //we going to call the script python, send the id company
@@ -3028,9 +3172,68 @@ async function get_data_report_distribute_month(id_company) {
             }
         });
     });
+    */
+    try {
+        const query = `
+            SELECT sh.*, dc.*, u.first_name AS employee_first_name, u.second_name AS employee_second_name, 
+                   u.last_name AS employee_last_name, c.email AS customer_email, b.name_branch
+            FROM "Box".sales_history sh
+            LEFT JOIN "Kitchen".dishes_and_combos dc ON sh.id_dishes_and_combos = dc.id
+            LEFT JOIN "Company".employees e ON sh.id_employees = e.id
+            LEFT JOIN "Fud".users u ON e.id_users = u.id
+            LEFT JOIN "Company".branches b ON sh.id_branches = b.id
+            LEFT JOIN "Company".customers c ON sh.id_customers = c.id
+            WHERE sh.id_companies = $1
+            AND EXTRACT(MONTH FROM sh.sale_day) = EXTRACT(MONTH FROM CURRENT_DATE)
+            AND EXTRACT(YEAR FROM sh.sale_day) = EXTRACT(YEAR FROM CURRENT_DATE)
+        `;
+        const res = await database.query(query, [id_company]);
+        const rows = res.rows;
+
+        let names = [];
+        for (let i = 0; i < rows.length; i++) {
+            const amount = rows[i].cant;
+            for (let j = 0; j < amount; j++) {
+                names.push(rows[i].name);
+            }
+        }
+
+        const combos = Array.from(new Set(names));
+        const answer = combos.map(combo => [combo, names.filter(name => name === combo).length]);
+
+        return answer;
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        return [];
+    } 
 }
 
 async function get_data_distribute_company_year(id_company) {
+    // This function is for converting the string returned by the Python script into an array for web reading 
+    var distribute = await get_data_report_distribute_month(id_company);
+
+    // Convert distribute to string if it's not already
+    if (typeof distribute !== 'string') {
+        distribute = String(distribute);
+    }
+
+    distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
+    const matches = distribute.match(/\[.*?\]/g);
+
+    // Check if matches is not null
+    if (matches) {
+        // Iterate over the sets of brackets found
+        const arrayData = matches.map(match => {
+            // Remove the brackets and quotes and split by comma
+            return match.slice(1, -1).split(", ");
+        });
+
+        return arrayData;
+    } else {
+        // If no matches were found, return an empty array
+        return [];
+    }
+    /*
     // This function is for converting the string returned by the Python script into an array for web reading 
     var distribute = await get_data_report_distribute_month(id_company);
     distribute = distribute.slice(1, -3); // Delete the [ ] from the corners
@@ -3048,7 +3251,7 @@ async function get_data_distribute_company_year(id_company) {
     } else {
         // If no matches were found, return an empty array
         return [];
-    }
+    }*/
 }
 
 async function get_data_report_distribute_year(id_company) {
