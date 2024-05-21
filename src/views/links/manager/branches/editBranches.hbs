@@ -12,48 +12,48 @@
                         {{#each branch}} 
                         <form action="/fud/{{id}}/{{id_companies}}/edit-branch" method="POST" enctype="multipart/form-data">      
                                 <br>
-                                <center><label><i class="fi-icon fi-sr-store-alt"></i>Edit the branch '{{name_branch}}'</label></center>      
+                                <center><label><i class="fi-icon fi-sr-store-alt"></i>Editar la sucursal '{{name_branch}}'</label></center>      
                                 <hr>
                                 <div class="form-group">
-                                    <label>ID subscription *</label><br>
-                                    <input type="tex" class="form-control" name="idSubscription" placeholder="ID subscription"  maxlength="60" autofocus required>
+                                    <label>ID suscripción *</label><br>
+                                    <input type="text" class="form-control" name="idSubscription" placeholder="ID suscripción"  maxlength="60" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Name Branch *</label><br>
-                                    <input type="tex" class="form-control" name="name" placeholder="Name Branch"  maxlength="60" value="{{name_branch}}" required>
+                                    <label>Nombre de la sucursal *</label><br>
+                                    <input type="text" class="form-control" name="name" placeholder="Nombre de la sucursal"  maxlength="60" value="{{name_branch}}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Alias *</label><br>
-                                    <input type="tex" class="form-control" name="alias" placeholder="Alias"  maxlength="50" value="{{alias}}"  required>
+                                    <input type="text" class="form-control" name="alias" placeholder="Alias"  maxlength="50" value="{{alias}}"  required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Representative *</label><br>
-                                    <input type="tex" class="form-control" name="representative" placeholder="Representative"  value="{{representative}}" maxlength="100" required>
+                                    <label>Representante *</label><br>
+                                    <input type="text" class="form-control" name="representative" placeholder="Representante"  value="{{representative}}" maxlength="100" required>
                                 </div>
                                 <table>
                                     <th>
                                         <td>
                                             <div class="form-group">
-                                                <label>Phone</label><br>
-                                                <input type="tex" class="form-control" name="phone" placeholder="Phone"  value="{{phone}}" maxlength="16">
+                                                <label>Teléfono</label><br>
+                                                <input type="text" class="form-control" name="phone" placeholder="Teléfono"  value="{{phone}}" maxlength="16">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <label>Cell Phone</label><br>
-                                                <input type="tex" class="form-control" name="cell_phone" placeholder="Cell Phone"  value="{{cell_phone}}" maxlength="16">
+                                                <label>Celular</label><br>
+                                                <input type="text" class="form-control" name="cell_phone" placeholder="Celular"  value="{{cell_phone}}" maxlength="16">
                                             </div>
                                         </td>
                                     </th>
                                 </table>
                                 <div class="form-group">
-                                    <label>E-mail *</label><br>
-                                    <input type="email" class="form-control" name="email" placeholder="E-mail"  maxlength="100" value="{{email_branch}}" required>
+                                    <label>Correo electrónico *</label><br>
+                                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico"  maxlength="100" value="{{email_branch}}" required>
                                 </div>
                             {{/each}} 
 
                             <div class="form-group">
-                                <label>Country *</label><br>
+                                <label>País *</label><br>
                                 {{#each branch}} 
                                 <select id="country" class="form-control" name="country" value="{{id_country}}">
                                 {{/each}}
@@ -65,37 +65,37 @@
 
                             {{#each branch}} 
                                 <div class="form-group">
-                                    <label>Municipality *</label><br>
-                                    <input type="tex" class="form-control" name="municipality"  placeholder="Municipality" value="{{municipality}}" required>
+                                    <label>Municipio *</label><br>
+                                    <input type="text" class="form-control" name="municipality"  placeholder="Municipio" value="{{municipality}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>City *</label><br>
-                                    <input type="tex" class="form-control" name="city" placeholder="City" value="{{city}}" required>
+                                    <label>Ciudad *</label><br>
+                                    <input type="text" class="form-control" name="city" placeholder="Ciudad" value="{{city}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Cologne *</label><br>
-                                    <input type="tex" class="form-control" name="cologne" placeholder="Cologne" value="{{cologne}}" required>
+                                    <label>Colonia *</label><br>
+                                    <input type="text" class="form-control" name="cologne" placeholder="Colonia" value="{{cologne}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Address *</label><br>
-                                    <input type="tex" class="form-control" name="street" placeholder="Address"  maxlength="30" value="{{address}}" required>
+                                    <label>Dirección *</label><br>
+                                    <input type="text" class="form-control" name="street" placeholder="Dirección"  maxlength="30" value="{{address}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Outer Numbers</label><br>
-                                    <input type="tex" class="form-control" name="num_o" placeholder="Outer Number"  maxlength="5" value="{{num_ext}}">
+                                    <label>Números exteriores</label><br>
+                                    <input type="text" class="form-control" name="num_o" placeholder="Número exterior"  maxlength="5" value="{{num_ext}}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Interior Number</label><br>
-                                    <input type="tex" class="form-control" name="num_i" placeholder="Interior Number"  maxlength="5" value="{{num_int}}">
+                                    <label>Número interior</label><br>
+                                    <input type="text" class="form-control" name="num_i" placeholder="Número interior"  maxlength="5" value="{{num_int}}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Postal Code *</label><br>
-                                    <input type="tex" class="form-control" name="postal_code" placeholder="Interior Number"  pattern="[0-9]{5}" value="{{postal_code}}" required>
+                                    <label>Código Postal *</label><br>
+                                    <input type="text" class="form-control" name="postal_code" placeholder="Código Postal"  pattern="[0-9]{5}" value="{{postal_code}}" required>
                                 </div>
                             {{/each}} 
 
                             <div class="form-group">
-                                <button class="btn btn-success btn-block">Save</button>
+                                <button class="btn btn-success btn-block">Guardar</button>
                             </div>
                         </form>
                     </div>

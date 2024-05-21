@@ -14,13 +14,13 @@
             <div class="card">
                 <div class="card-body">
                     {{#each supplies}}
-                        <label><i class="fi-icon fi-ss-truck-loading"></i>Edit supplies {{name}}</label>
+                        <label><i class="fi-icon fi-ss-truck-loading"></i>Editar insumo {{name}}</label>
                         <hr>
                         <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-supplies-branch" method="POST" id="myForm">
                             <div class="form-group" >
                                 <center>
                                     {{#if img}}
-                                        <img src="/img/uploads/{{img}}" id="imgEmployee" class="userImg">
+                                        <img src="{{img}}" id="imgEmployee" class="userImg">
                                     {{else}}
                                         <img src="https://static.vecteezy.com/system/resources/previews/000/441/941/non_2x/vector-apple-icon.jpg" id="imgEmployee" class="userImg">
                                     {{/if}}
@@ -32,7 +32,7 @@
                             <!--bar navigation
                             <div class="tab_box">
                                 <button class="tab_btn active"><i class="fi-container fi-sr-truck-loading"></i>Data Product</button>
-                                <button class="tab_btn"><i class="fi-container fi-sr-sack-dollar"></i>Providers</button>
+                                <button class="tab_btn"><i class="fi-container fi-sr-sack-dollar"></i>Proveedores</button>
                                 <div class="line"></div>
                             </div>--> 
                             <!--bar navigation--> 
@@ -41,21 +41,21 @@
                             <div class="content-sales active">
                                 <div class="row">
                                    <div class="col">
-                                        <label>Purchase Amount *</label><br>
-                                        <input type="tex" class="form-control" name="purchase_amount" placeholder="Purchase Amount" autofocus required value="{{purchase_amount}}">
+                                        <label>Monto de Compra *</label><br>
+                                        <input type="tex" class="form-control" name="purchase_amount" placeholder="Monto de Compra" autofocus required value="{{purchase_amount}}">
                                     </div>
                                     <div class="col">
-                                    <label>Purchase Unity</label>
+                                    <label>Unidad de Compra</label>
                                         <select value="{{purchase_unity}}" name="purchase_unity" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label>Purchase Price *</label><br>
-                                        <input type="tex" class="form-control" name="purchase_price" placeholder="Purchase Price" required value="{{purchase_price}}">
+                                        <label>Precio de Compra *</label><br>
+                                        <input type="tex" class="form-control" name="purchase_price" placeholder="Precio de Compra" required value="{{purchase_price}}">
                                     </div>
                                     <div class="col">
-                                    <label>Currency</label>
+                                    <label>Moneda</label>
                                         <select value="{{currency_purchase}}" name="currency_purchase" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
@@ -64,21 +64,21 @@
                                 <br>
                                 <div class="row">
                                     <div class="col">
-                                        <label>Sale Amount *</label><br>
-                                        <input type="tex" class="form-control" name="sale_amount" placeholder="Sale Amount" required value="{{purchase_price}}">
+                                        <label>Monto de Venta *</label><br>
+                                        <input type="tex" class="form-control" name="sale_amount" placeholder="Monto de Venta" required value="{{purchase_price}}">
                                     </div>
                                     <div class="col">
-                                        <label>Sale Unity</label>
+                                        <label>Unidad de Venta</label>
                                         <select value="{{sale_unity}}" name="sale_unity" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label>Sale Price *</label><br>
-                                        <input type="tex" class="form-control" name="sale_price" placeholder="Price" required value="{{sale_price}}">
+                                        <label>Precio de Venta *</label><br>
+                                        <input type="tex" class="form-control" name="sale_price" placeholder="Precio de Venta" required value="{{sale_price}}">
                                     </div>
                                     <div class="col">
-                                    <label>Currency</label>
+                                    <label>Moneda</label>
                                         <select value="{{currency_sale}}" name="currency_sale" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
@@ -87,15 +87,15 @@
                                 <br>
                                 <div class="row">
                                     <div class="col">
-                                        <label>Max Inventary</label><br>
-                                        <input type="tex" class="form-control" name="max_inventory" placeholder="Max Inventary" value="{{max_inventary}}">
+                                        <label>Inventario Máximo</label><br>
+                                        <input type="tex" class="form-control" name="max_inventory" placeholder="Inventario Máximo" value="{{max_inventary}}">
                                     </div>
                                     <div class="col">
-                                        <label>Minimum Inventory</label><br>
-                                        <input type="tex" class="form-control" name="minimum_inventory" placeholder="Minimum Inventory" value="{{minimum_inventory}}">
+                                        <label>Inventario Mínimo</label><br>
+                                        <input type="tex" class="form-control" name="minimum_inventory" placeholder="Inventario Mínimo" value="{{minimum_inventory}}">
                                     </div>
                                     <div class="col">
-                                        <label>Unit of Measurement *</label><br>
+                                        <label>Unidad de Medida *</label><br>
                                         <select value="{{unit_inventory}}" name="unit_inventory" class="form-select">
                                             {{>unity/unitOfMeasure}}
                                         </select>
@@ -103,17 +103,17 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <label>Existence</label><br>
-                                        <input type="tex" class="form-control" name="existence" placeholder="Existence" required value="{{existence}}">
+                                        <label>Existencia</label><br>
+                                        <input type="tex" class="form-control" name="existence" placeholder="Existencia" required value="{{existence}}">
                                     </div>
                                 </div>
                             </div>
                             <div class="content-sales">
-                                <h1>Hi</h1>
+                                <h1>Hola</h1>
                             </div>
                         <br>
                         <div class="form-group">
-                            <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Save</button>
+                            <button class="btn btn-success btn-block" id="my-btn-from" type="submit">Guardar</button>
                         </div>
                         </form>
                     {{/each}}
@@ -124,7 +124,7 @@
 </div>
 
 
-    <!--add a new category or add a new department-->
+    <!--añadir una nueva categoría o agregar un nuevo departamento-->
     <script src="/js/manager/addDish/addDepartmentMessage.js"></script>
     <script src="/js/manager/addDish/calculatePrice.js"></script>
 

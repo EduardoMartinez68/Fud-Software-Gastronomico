@@ -57,7 +57,7 @@
             {{#each combos}}
                 <tr id="{{barcode}}">
                     {{#if img}}
-                        <td><img src="/img/uploads/{{img}}" class="img-s-p"></td>
+                        <td><img src="{{img}}" class="img-s-p"></td>
                     {{else}}
                         <td><img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" class="img-s-p"></td>
                     {{/if}}
@@ -79,7 +79,7 @@
 <br><br>
 <script>
     async function delate_combo(id,id_company){
-        if(await questionMessage('Delate combo','Do you want to delete this combo?')){
+        if(await questionMessage('Eliminar Combo','¿Quieres eliminar este combo?')){
             window.location.href = "/fud/"+id_company+"/"+id+"/delate-combo-company";
         }
     }

@@ -4,12 +4,12 @@
             <div class="card text-center">
                 <div class="card-body">
                     {{#if user.photo}}
-                        <img src="/img/uploads/{{user.photo}}" class="img-profile">
+                        <img src="{{user.photo}}" class="img-profile">
                     {{else}}
                         <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-profile">
                     {{/if}}
 
-                    <h3>Welcome {{user.user_name}}</h3>
+                    <h3>Bienvenido {{user.user_name}}</h3>
                     <h4>{{user.name}}</h4>
                     <label>{{user.email}}</label>
                     <br>

@@ -16,7 +16,7 @@
         <form action="/fud/{{id_companies}}/{{id_branches}}/{{id}}/update-ad-offer" method="POST" enctype="multipart/form-data">
             <div class="col">
                 {{#if img}}
-                    <img src="/img/uploads/{{img}}" alt="" class="img-carousel" id="previewImage{{id}}">
+                    <img src="{{img}}" alt="" class="img-carousel" id="previewImage{{id}}">
                 {{else}}
                     <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage{{id}}">
                 {{/if}}
