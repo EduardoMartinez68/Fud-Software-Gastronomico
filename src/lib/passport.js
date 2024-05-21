@@ -32,6 +32,61 @@ async function search_user(email){
     return await database.query(queryText, values);
 }
 
+const axios = require('axios'); //this is for manage the captcha
+const {MY_SECRET_KEY}=process.env; //this code is for get the data of the database
+passport.use('local.signup', new LocalStrategy({
+    usernameField: 'userName',
+    passwordField: 'password',
+    emailField: 'email',
+    acceptTermsField: 'acceptTerms',
+    passReqToCallback: true
+}, async (req, userName, password, done) => {
+    const RECAPTCHA_SECRET_KEY = MY_SECRET_KEY;
+
+    const recaptchaResponse = req.body['g-recaptcha-response'];
+    const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`;
+
+    try {
+        const response = await axios.post(verificationURL);
+        const data = response.data;
+
+        if (data.success) {
+            const { email, Name, confirmPassword, acceptTerms } = req.body;
+
+            if (!acceptTerms) {
+                return done(null, false, req.flash('message', 'Debe aceptar los términos y condiciones para continuar 👁️'));
+            }
+
+            if (!all_data_exists(req)) {
+                return done(null, false, req.flash('message', 'Necesitas completar todos los campos requeridos 🤨'));
+            }
+            
+            /*
+            if (await this_user_exists(userName)) {
+                return done(null, false, req.flash('message', 'Este usuario ya existe 😅'));
+            }*/
+
+            if (await this_email_exists(email)) {
+                return done(null, false, req.flash('message', 'Este email ya existe 😅'));
+            }
+
+            if (!compare_password(password, confirmPassword)) {
+                return done(null, false, req.flash('message', 'Tus contraseñas no coinciden 👁️'));
+            }
+
+            // Create a new user
+            const newUser = await create_a_new_user(req, userName, password);
+            return done(null, newUser);
+        } else {
+            return done(null, false, req.flash('message', 'Debes completar el recaptcha correctamente 🤨'));
+        }
+    } catch (error) {
+        console.error(error);
+        return done(null, false, req.flash('message', 'Error al verificar reCAPTCHA.'));
+    }
+}));
+/*
+
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'userName',
     passwordField: 'password',
@@ -79,7 +134,7 @@ passport.use('local.signup', new LocalStrategy({
     }else{
         done(null,false,req.flash('message','Debes completar el recaptcha correctamente 🤨'));
     }
-}));
+}));*/
 
 
 async function create_a_new_user(req,userName,password){
