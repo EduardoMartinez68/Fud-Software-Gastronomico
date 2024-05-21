@@ -354,7 +354,7 @@ router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
     }
     else{
         //get the new combo
-        const combo=create_a_new_combo(req)
+        const combo=await create_a_new_combo(req)
 
         //we will see if can add the combo to the database
         if(await addDatabase.add_combo_company(combo)){
@@ -368,13 +368,12 @@ router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
     }
 });
 
-function create_a_new_combo(req){
+async function create_a_new_combo(req){
     const {barcode,name,description,barcodeProducts}=req.body;
     const {id_company}=req.params;
 
     const supplies=parse_barcode_products(barcodeProducts)
-    console.log(supplies)
-    var path_image=create_a_new_image(req);
+    var path_image=await create_a_new_image(req);
     const combo={
         id_company: id_company,
         path_image,
@@ -433,7 +432,7 @@ router.post('/fud/:id_company/:id_combo/edit-combo-company',isLoggedIn,async(req
     else{
         
         //get the new combo
-        const combo=create_a_new_combo(req)
+        const combo=await create_a_new_combo(req)
         //we will see if can add the combo to the database
         if(await update.update_combo(id_combo,combo)){
             //we will delate all the supplies of the combo for to save it later
@@ -765,15 +764,15 @@ router.post('/fud/:id_company/add-type-employees',isLoggedIn,async(req,res)=>{
     const {id_company}=req.params;
     const {name}=req.body
     if(await this_type_employee_exist(id_company,name)){
-        req.flash('message','the type employee not was add because this name already exists 😅')
+        req.flash('message','El tipo de empleado no se agregó porque este nombre ya existe 😅')
     }
     else{
         const typeEmployees=create_type_employee(id_company,req)
         if(await addDatabase.add_type_employees(typeEmployees)){
-            req.flash('success','the type employee was add with supplies 😄')
+            req.flash('success','El tipo de empleado fue agregado con exito 😄')
         }
         else{
-            req.flash('message','the type employee not was add 😰')
+            req.flash('message','El tipo de empleado no fue agregado 😰')
         }
     }
     res.redirect('/fud/'+id_company+'/type-user');
@@ -885,10 +884,10 @@ router.post('/fud/:id_company/:id_role/edit-role-employees',isLoggedIn,async(req
     //get the new data role of the employee and update the old role
     const typeEmployees=create_type_employee(id_company,req)
     if(await update.update_role_employee(id_role,typeEmployees)){
-        req.flash('success','the role employee was update with supplies 😄')
+        req.flash('success','El rol de empleado se actualizó con éxito 😄')
     }
     else{
-        req.flash('message','the role employee not was update 😅')
+        req.flash('message','El rol de empleado no fue actualizado 😅')
     }
     //refresh the web with the new role update
     res.redirect('/fud/'+id_company+'/type-user');
@@ -981,7 +980,7 @@ async function this_username_exists(username){
 
 async function create_new_user(req){
     const {user_name,email,first_name,second_name,last_name,password1}=req.body;
-    const image=create_a_new_image(req)
+    const image=await create_a_new_image(req)
     const new_user={
         image,
         user_name,
@@ -1029,7 +1028,7 @@ router.post('/fud/:id_user/:id_company/:id_employee/edit-employees',isLoggedIn,a
 async function update_employee(req,res){
     const {id_company,id_employee,id_user}=req.params;
     const {email,username}=req.body
-    const newDataUser=new_data_user(req)
+    const newDataUser=await new_data_user(req)
     const newDataEmployee=new_data_employee(req)
     
     //we will see if exist a new perfil photo 
@@ -1067,9 +1066,9 @@ async function get_profile_picture(idUser){
     }
 }
 
-function new_data_user(req){
+async function new_data_user(req){
     const {user_name,email,first_name,second_name,last_name,rol_user}=req.body;
-    const image=create_a_new_image(req)
+    const image=await create_a_new_image(req)
     const new_user={
         image,
         user_name,
@@ -1115,10 +1114,10 @@ router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',is
 
     //we will watching if the supplies can update 
     if(await update.update_supplies_branch(supplies)){
-        req.flash('success','the supplies was update with success 👍');
+        req.flash('success','Los insumos se actualizaron con éxito. 👍');
     }
     else{
-        req.flash('message','the supplies not was update 👉👈');
+        req.flash('message','Los insumos no se actualizaron 👉👈');
     }
 
     res.redirect(`/fud/${id_company}/${id_branch}/supplies`);
@@ -1155,12 +1154,13 @@ router.post('/fud/:id_company/:id_branch/add-providers',isLoggedIn,async(req,res
     const {id_company,id_branch}=req.params;
     const provider=create_new_provider(req);
     if(await this_provider_exists(provider)){
-        req.flash('message','This provider already exists in this branch 😅')
+        req.flash('message','Este proveedor ya existe en esta sucursal 😅')
     }else{
         await add_provider_to_database(provider,req);
     }
     res.redirect('/fud/'+id_company+'/'+id_branch+'/providers');
 })
+
 //edit products branch 
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-products-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
@@ -1170,10 +1170,10 @@ router.post('/fud/:id_company/:id_branch/:id_supplies/update-products-branch',is
 
     //we will watching if the product can update 
     if(await update.update_supplies_branch(product)){
-        req.flash('success','the product was update with success 👍');
+        req.flash('success','El producto se actualizó con éxito 👍');
     }
     else{
-        req.flash('message','the product not was update 👉👈');
+        req.flash('message','El no producto se actualizó 👉👈');
     }
 
     res.redirect(`/fud/${id_company}/${id_branch}/product`);
@@ -1186,7 +1186,7 @@ router.post('/fud/:id_company/:id_branch/:id_provider/edit-providers-branch',isL
     //we will changing the id branch for knkow
     provider.branch=id_branch;
     if(await this_provider_exists(provider)){
-        req.flash('message','This provider already exists in this branch 😅')
+        req.flash('message','Este proveedor ya existe en esta sucursal 😅')
     }else{
         await update_provider_to_database(id_provider,provider,req);
     }
@@ -1308,7 +1308,7 @@ async function this_box_exist_in_this_branch(idBranch,numer){
 router.post('/fud/:id_company/:id_branch/ad-offer',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     //we will to create the ad and save the image in the server
-    const newAd=create_ad(req,id_branch,'offer'); 
+    const newAd=await create_ad(req,id_branch,'offer'); 
 
     //we will watching if can save the ad in the database
     if(await addDatabase.add_ad(newAd)){
@@ -1323,7 +1323,7 @@ router.post('/fud/:id_company/:id_branch/ad-offer',isLoggedIn,async(req,res)=>{
 router.post('/fud/:id_company/:id_branch/ad-new',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch}=req.params;
     //we will to create the ad and save the image in the server
-    const newAd=create_ad(req,id_branch,'new'); 
+    const newAd=await create_ad(req,id_branch,'new'); 
 
     //we will watching if can save the ad in the database
     if(await addDatabase.add_ad(newAd)){
@@ -1339,7 +1339,7 @@ router.post('/fud/:id_company/:id_branch/ad-comboAd',isLoggedIn,async(req,res)=>
     const {id_company,id_branch}=req.params;
 
     //we will to create the ad and save the image in the server
-    const newAd=create_ad(req,id_branch,'combo'); 
+    const newAd=await create_ad(req,id_branch,'combo'); 
     
     //we will watching if can save the ad in the database
     if(await addDatabase.add_ad(newAd)){
@@ -1355,7 +1355,7 @@ router.post('/fud/:id_company/:id_branch/ad-specialAd',isLoggedIn,async(req,res)
     const {id_company,id_branch}=req.params;
 
     //we will to create the ad and save the image in the server
-    const newAd=create_ad(req,id_branch,'special'); 
+    const newAd=await create_ad(req,id_branch,'special'); 
 
     //we will watching if can save the ad in the database
     if(await addDatabase.add_ad(newAd)){
@@ -1368,8 +1368,8 @@ router.post('/fud/:id_company/:id_branch/ad-specialAd',isLoggedIn,async(req,res)
 })
 
 
-function create_ad(req,id_branch,type){
-    const image=create_a_new_image(req);
+async function create_ad(req,id_branch,type){
+    const image=await create_a_new_image(req);
     const {name}=req.body; //get the name of the image 
 
     //we will watching if the user is creating an ad of combo or spacial
