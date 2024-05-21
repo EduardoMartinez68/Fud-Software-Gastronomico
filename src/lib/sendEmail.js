@@ -148,7 +148,7 @@ async function welcome_email(email,name) {
                     <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. 🤗</p>
                     <p>¡Gracias por unirte a Füd y esperamos que tengas una experiencia increíble con nosotros! ❤️</p>
                     <br><br>
-                    <a class="button" href="http://localhost:4000/fud/partners">Explora Ahora 🚀</a>
+                    <a class="button" href="https://fud-tech.cloud">Explora Ahora 🚀</a>
                 </div>
                 <div class="footer">
                     <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
