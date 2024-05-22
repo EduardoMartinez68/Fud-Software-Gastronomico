@@ -567,8 +567,8 @@ router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
-        cancel_url: `http://localhost:4000/fud/prices`,
+        success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+        cancel_url: `https://fud-tech.cloud/fud/prices`,
       });
 
       res.redirect(303, session.url);
@@ -599,8 +599,8 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
-        cancel_url: `http://localhost:4000/fud/prices`,
+        success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
+        cancel_url: `https://fud-tech.cloud/fud/prices`,
       });
 
       res.redirect(303, session.url);
@@ -630,8 +630,8 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
               },
             ],
             mode: 'subscription',
-            success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
-            cancel_url: `http://localhost:4000/fud/prices`,
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
             subscription_data:{
                 trial_period_days:15
             }
