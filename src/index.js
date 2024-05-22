@@ -62,7 +62,6 @@ const {MY_SITE_KEYS,MY_SECRET_KEY}=process.env; //this code is for get the data 
 const recaptcha = new RecaptchaV2(MY_SITE_KEYS, MY_SECRET_KEY); //this is for load the Recaptcha in the web for delete to the bots
 app.use(recaptcha.middleware.verify);
 
-
 //------------------activate the our library 
 app.use(flash());
 app.use(morgan('dev'));

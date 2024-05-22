@@ -51,8 +51,6 @@ async function upload_image_to_space(filePath, objectName){
     }
 };
 
-
-
 async function delete_image_upload(pathImg){
     const params = {
         Bucket: bucketName,

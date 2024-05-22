@@ -85,56 +85,6 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('message', 'Error al verificar reCAPTCHA.'));
     }
 }));
-/*
-
-passport.use('local.signup', new LocalStrategy({
-    usernameField: 'userName',
-    passwordField: 'password',
-    emailField:'email',
-    passwordField: 'password',
-    acceptTermsField:'acceptTerms',
-    passReqToCallback: true
-}, async (req ,userName, password, done) => {
-    if (!req.recaptcha.error) {
-        const {email,Name,confirmPassword,acceptTerms} = req.body;
-        
-        //we will watch if the user on the terms and conditions
-        if(acceptTerms==undefined){
-            done(null,false,req.flash('message','Debe aceptar los términos y condiciones para continuar 👁️'));
-        }
-        else{
-            //we will see if all the data was registered
-            if(all_data_exists(req)){
-                //we will see if this user is new
-                if (!await this_user_exists(userName)){
-                        //we will see if this email is new
-                        if(!await this_email_exists(email)){
-                            //we will watch if the passwords are equal
-                            if (compare_password(password,confirmPassword)){
-                                //create a new user 
-                                const newUser=await create_a_new_user(req,userName,password);
-                                return done(null,newUser);
-                            }
-                            else{
-                                done(null,false,req.flash('message','Tus contraseñas no coinciden 👁️'));
-                            }
-                        }
-                        else{
-                            done(null,false,req.flash('message','Este email ya existe 😅'));
-                        }
-                }
-                else{
-                    done(null,false,req.flash('message','Este usuario ya existe 😅'));
-                }
-            }
-            else{
-                done(null,false,req.flash('message','Necesitas completar todos los campos requeridos 🤨'));
-            }
-        }
-    }else{
-        done(null,false,req.flash('message','Debes completar el recaptcha correctamente 🤨'));
-    }
-}));*/
 
 
 async function create_a_new_user(req,userName,password){
