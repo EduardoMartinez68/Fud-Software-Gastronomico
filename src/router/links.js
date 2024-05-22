@@ -546,6 +546,7 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 })
 
 //-----------------------------------------------------------------subscription
+/*
 router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
     try {
       const prices = await stripe.prices.list({
@@ -577,8 +578,63 @@ router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
       res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
 });
+*/
+router.post('/create-suscription-cloude', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
+
 
 router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+    /*
     try {
       const prices = await stripe.prices.list({
         lookup_keys: [req.body.lookup_key],
@@ -608,9 +664,39 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
       console.error('Error al crear la suscripción:', error);
       res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
+    */
 });
 
 router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+            subscription_data:{
+                trial_period_days:15
+            }
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+    /*
     try {
         const prices = await stripe.prices.list({
           lookup_keys: [req.body.lookup_key],
@@ -642,6 +728,7 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
       }
+      */
 });
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
