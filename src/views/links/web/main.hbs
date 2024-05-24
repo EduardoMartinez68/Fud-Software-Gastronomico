@@ -1,8 +1,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="/css/web/web.css">
+<!--this is for effect Animate On Scroll-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
 {{>web/main}}
 <br>
-<div class="container">
+<div class="container" data-aos="fade-right">
     <center>
         <div class="card-price">
             <div class="row">
@@ -22,7 +25,7 @@
     </center>
 </div>
 <br><br>
-<div class="container">
+<div class="container" data-aos="fade-up">
     <center><h3 class="title-main-2">Somos el software que los negocios <br> eligen</h3></center>
     <hr>
     <br>
@@ -56,3 +59,8 @@
     </div>
     <br>
 </div>
+<!--this is for effect Animate On Scroll-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init();
+</script>
