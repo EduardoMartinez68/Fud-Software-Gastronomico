@@ -344,34 +344,49 @@
                     <label>🚀 Forma parte del mejor software para franquicias del mercado! 🚀</label>
                     <h1 class="title-main-2">Contacta con</h1>
                     <h2 class="title-main-1 h2">el equipo de Füd</h2>
-                    <form id="contactForm">
+                    <form action="/fud/send_email_contact" method="post">
+                        <!-- Campo oculto Asunto -->
+                        <input type="hidden" name="msg_subject" id="msg_subject" class="form-control" value="parthner" />
+
                         <div class="row">
-                            <div class="col-lg-12 col-sm-12">
+                            <!-- Campo oculto Nombre -->
+                            <div class="col-lg-12 col-sm-12" style="display: none;">
                                 <div class="form-group">
-                                    <label for="">Nombre *</label>
-                                    <input type="text" name="name" id="name" class="form-control" required
-                                        data-error="Please enter your name" placeholder="Nombre" />
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="">email *</label>
-                                    <input type="email" name="email" id="email" class="form-control" required
-                                        data-error="Please enter your email" placeholder="Correo electronico" />
+                                    <input type="text" name="name" id="name" class="form-control" value="*" />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-12">
+                            <!-- Campo visible Email -->
+                            <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="">Asunto</label>
-                                    <textarea name="message" class="form-control" id="message" cols="30" rows="5"
-                                        required data-error="Write your message"
-                                        placeholder="Escribe un mensaje..."></textarea>
+                                    <label for="">Email *</label>
+                                    <input type="email" name="email" id="email" class="form-control" required
+                                        data-error="Please enter your email" placeholder="Correo electrónico" />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+
+                            <!-- Campo visible Número de celular -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="">Número de celular</label>
+                                    <input type="text" name="phone" id="phone_number" class="form-control"
+                                        data-error="Please enter your number" placeholder="Número de celular" />
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <!-- Campo visible Mensaje -->
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="">Escribe tu mensaje *</label>
+                                    <textarea name="message" class="form-control" id="message" cols="30" rows="5"
+                                        required data-error="Write your message" placeholder="Escribe un mensaje..."></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
                             <div class="col-lg-12 col-md-12">
                                 <button type="submit" class="default-btn page-btn box-btn">
                                     Enviar <i class="fi-icon fi-ss-paper-plane"></i>
@@ -384,7 +399,7 @@
                 </div>
             </div>
             <div class="col">
-                <img src="https://www.salesforce.com/mx/blog/wp-content/uploads/sites/11/2023/09/blog-servicio-al-cliente.png" alt="">
+                <img src="/web/assets/images/service/young-woman-enjoying-work.webp" alt="">
             </div>
         </div>
     </div>

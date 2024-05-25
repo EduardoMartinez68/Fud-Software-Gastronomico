@@ -553,7 +553,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="content">
-                        <form id="contactForm">
+                        <form id="contactForm" action="/fud/send_email_contact" method="post">
                             <div class="row">
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="form-group">
@@ -571,7 +571,7 @@
                                 </div>
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="form-group">
-                                        <input type="text" name="phone_number" id="phone_number" required
+                                        <input type="text" name="phone" id="phone_number"
                                             data-error="Please enter your number" class="form-control"
                                             placeholder="Numero de celular" />
                                         <div class="help-block with-errors"></div>

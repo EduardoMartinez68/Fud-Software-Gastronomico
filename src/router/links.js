@@ -282,6 +282,17 @@ router.get('/contact-us', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/contactUs')
 });
 
+router.post('/send_email_contact', isNotLoggedIn, (req, res) => {
+    const {name,email,phone,msg_subject,message} = req.body;
+    const emailMessage='Name: '+name+'<br>'+'email: '+email+'<br>'+'phone: '+phone+'<br>'+'message: '+message;
+    sendEmail.send_email('eduardoa4848@Outlook.es',msg_subject,emailMessage);
+    res.redirect('/fud/send-email');
+})
+
+router.get('/send-email', isNotLoggedIn, (req, res) => {
+    res.render(companyName + '/web/sendEmail');
+})
+
 router.get('/restart-password', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/restartPasswordEmail')
 });
