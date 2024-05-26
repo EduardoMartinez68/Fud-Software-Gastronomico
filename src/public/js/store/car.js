@@ -123,7 +123,7 @@ function addFish(idProduct, product, price, price2, price3) {
     }
 
     //show a message of that we add the product to the car
-    notificationMessage(product + ' add', 'The product was add with success');
+    notificationMessage('❤️ '+product+' ❤️', 'El producto fue agregado con éxito 😁');
     update_total();
 }
 
@@ -272,11 +272,11 @@ function upload_cant_total_for_price(button) {
 }
 
 async function delate_fish_car(button) {
-    if (await questionMessage('Delate fish', 'Are you sure you want to remove this dish from the cart?')) {
+    if (await questionMessage('Eliminar Producto 🤔', '¿Estás seguro de querer eliminar este producto?')) {
         var row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
         update_total();
-        notificationMessage('Delate Fish', 'The fish was delate')
+        notificationMessage('Producto eliminado 👍', 'El Producto fue eliminado correctamente')
     }
 }
 

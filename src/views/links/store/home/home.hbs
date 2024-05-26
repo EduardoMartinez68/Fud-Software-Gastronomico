@@ -32,3 +32,97 @@
 <!--restaurant-->
 {{>store/carHouse}}
 {{>store/navigationStore}}
+
+
+
+<script>
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        console.log(`Cookie set: ${name}=${value}; Expires in ${days} days`);
+    }
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function off_all_the_menu() {
+        // get all the item with the class 'navbar-menu'
+        const navbars = document.querySelectorAll('.navbar-menu');
+
+        // read all the item and delete the class 'active'
+        navbars.forEach(navbar => {
+            navbar.classList.remove('active');
+        });
+
+        // get all the item with the class 'navbar-menu'
+        const icon = document.querySelectorAll('.list');
+
+        // read all the item and delete the class 'active'
+        icon.forEach(navbar => {
+            navbar.classList.remove('active');
+        });
+    }
+
+    function on_navbar_with_the_cookie(number) {
+        var id = "navbar-" + number; // create the id of the navbar
+        const navbar = document.getElementById(id); // get the navbar of the menu that will be activated
+        if (navbar) {
+            navbar.classList.add('active'); // add the class
+        } else {
+            console.log(`Navbar with id ${id} not found`);
+        }
+
+        // get all the item with the class 'navbar-menu'
+        const icon = document.querySelectorAll('.list');
+        icon[number-1].classList.add('active');
+    }
+
+    function update_menu_with_the_cookie() {
+        console.log('Getting positionMenu cookie...');
+        // get the cookie of the menu
+        const positionMenu = getCookie('positionMenu');
+        console.log('positionMenu:', positionMenu);
+        // check if the cookie exists and if it does, update the menu
+        if (positionMenu) {
+            off_all_the_menu();
+            on_navbar_with_the_cookie(positionMenu);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        update_menu_with_the_cookie();
+
+        const list = document.querySelectorAll('.list');
+        const menuNavBar = document.querySelectorAll('.navbar-menu');
+
+        function activeLink() {
+            list.forEach((item, index) => {
+                item.classList.remove('active');
+                menuNavBar[index].classList.remove('active'); // Remove 'active' from menuNavBar as well
+                if (item === this) {
+                    item.classList.add('active');
+                    menuNavBar[index].classList.add('active'); // Add 'active' to menuNavBar as well
+                    setCookie('positionMenu', index + 1, 1); // create a cookie with the value of the new position of the user that expires in one day
+                    console.log(`Activated item number ${index + 1}`);
+                }
+            });
+        }
+
+        list.forEach((item) => {
+            item.addEventListener('click', activeLink);
+        });
+    });
+</script>
