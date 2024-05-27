@@ -34,6 +34,27 @@
             font-size: 1.5rem;
         }
     }
+
+
+    @media (max-width: 720px) {
+        .content{
+            width: 120%;
+        }
+
+        .cellphone-not-container{
+            display: none;
+        }
+
+        .cellphone-container{
+            display: block;
+        }
+    }
+
+    @media (min-width: 721px) {
+        .cellphone-container{
+            display: none;
+        }
+    }
 </style>
 <!--this is for effect Animate On Scroll-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
@@ -232,9 +253,13 @@
                     </table>
                 </div>
             </div>
-            <div class="col">
+            <div class="col cellphone-not-container">
                 La etiqueta de Partner oficial de Füd solo la tienen las empresas que ofrecen nuestros servicios de más alta calidad.
             </div>
+        </div>
+        <br>
+        <div class="row cellphone-container">
+            La etiqueta de Partner oficial de Füd solo la tienen las empresas que ofrecen nuestros servicios de más alta calidad.
         </div>
     </div>
 </section>
@@ -398,7 +423,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col">
+            <div class="col cellphone-not-container">
                 <img src="/web/assets/images/service/young-woman-enjoying-work.webp" alt="">
             </div>
         </div>

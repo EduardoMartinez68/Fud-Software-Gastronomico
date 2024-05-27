@@ -5,11 +5,31 @@
         transform: translateY(-20px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
     }
+
+    .page-title-area{
+        height: 200px;
+        background-color:#FF002A;
+    }
+
+    @media (max-width: 720px) {
+        .page-title-content{
+            font-size: 2rem;
+        }
+
+        .page-title-area{
+            height: 100px;
+        }
+
+        .icon-fud-employee{
+            width: 250px;
+            height: auto;
+        }
+    }
 </style>
 <!--this is for effect Animate On Scroll-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
-<div class="page-title-area" style="height: 200px; background-color:#FF002A;">
+<div class="page-title-area">
     <div class="container">
         <div class="page-title-content">
             <h2>El software es arte y nosotros somos los artistas</h2>
