@@ -6,38 +6,7 @@
 
 
     <style>
-        /*this is for create the subtitle with the subrayado*/
-        .subTitleText {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            /* Centra horizontalmente el contenido */
-            align-items: center;
-            /* Centra verticalmente el contenido */
-            height: 200px;
-            /* Altura de la imagen de fondo */
-            background-image: url('/web/assets/images/wallpaperText.png');
-            /* Establece la imagen de fondo */
-            background-size: cover;
-            /* Ajusta el tamaño de la imagen de fondo */
-            color: white;
-            /* Color del texto */
-        }
 
-        .subTitleText h2 {
-            margin: 0;
-            /* Elimina el margen por defecto del h2 */
-        }
-
-        @media (max-width: 1100px) {
-            .subTitleText {
-                height: 145px;
-            }
-
-            .subTitleText h2 {
-                font-size: 1.5rem;
-            }
-        }
     </style>
 
 
@@ -48,7 +17,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="banner-content">
-                                <h1 class="h1">Todo tu negocio en una sola plataforma.</h1>
+                                <h1 class="h1 title-home">Todo tu negocio en una sola plataforma.</h1>
                                 <div class="subTitleText">
                                     <h2 class="h-subtitle">¡Sencillo, eficiente y a buen precio!</h2>
                                 </div>
@@ -104,8 +73,34 @@
         </div>
     </section>
 
+    <div class="container cellphone-container" data-aos="fade-up">
+        <br>
+        <div class="row">
+            <div class="col">
+                <label>Tienda online</label>
+                <h1 class="title-main-2">Adapta tu <br> negocio a la</h1>
+                <h1 class="title-main">nueva normalidad</h1>
+                <img src="/web/assets/images/adapta1.png" alt="" class="img-info">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Optimiza la gestión de tu negocio centralizando el control de sucursales y accediendo a información
+                    clave en cualquier momento. Registra tus almacenes y realiza ajustes, traspasos y movimientos de
+                    mercancía con facilidad. Evita faltantes y excesos, mejorando tu productividad.
+                </p>
+                <ul>
+                    ⭐ <b><label style="color: var(--color-company);">Sincroniza: </label></b>Comparte inventario, reportes, traspasos y muchas cosas más entre tus sucursales. <br>
+                    ⭐ <b><label style="color: var(--color-company);">Conéctate: </label></b>Con unos cuantos clics conéctate con tus almacenes y sucursales. <br>
+                    ⭐ <b><label style="color: var(--color-company);">Accede Fácilmente: </label></b>Podrán acceder desde cualquier dispositivo con conexión a internet. <br>
+                </ul>
+                <i class="fi-icon fi-sr-right"></i><button class="btn-company" onclick="nextWeb('prices')">Leer más</button>
+            </div>
+        </div>
+        <br>
+    </div>
 
-    <div class="container" data-aos="fade-up">
+    <div class="container cellphone-not-container" data-aos="fade-up">
         <br>
         <div class="row">
             <div class="col-6">

@@ -377,6 +377,10 @@ body {
 
 
 /*navbar*/
+.menu-toggle {
+    cursor: pointer;
+}
+
 .sidebar{
     position: fixed;
     left: -250px;

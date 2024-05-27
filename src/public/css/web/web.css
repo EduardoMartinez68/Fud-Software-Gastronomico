@@ -110,6 +110,39 @@
     color: var(--color-company);
 }
 
+/*this is for create the subtitle with the subrayado*/
+.subTitleText {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente el contenido */
+    align-items: center;
+    /* Centra verticalmente el contenido */
+    height: 200px;
+    /* Altura de la imagen de fondo */
+    background-image: url('/web/assets/images/wallpaperText.png');
+    /* Establece la imagen de fondo */
+    background-size: cover;
+    /* Ajusta el tamaño de la imagen de fondo */
+    color: white;
+    /* Color del texto */
+}
+
+.subTitleText h2 {
+    margin: 0;
+    /* Elimina el margen por defecto del h2 */
+}
+
+@media (max-width: 1100px) {
+    .subTitleText {
+        height: 145px;
+    }
+
+    .subTitleText h2 {
+        font-size: 1.5rem;
+    }
+}
+
 
 @media screen and (max-width: 1300px){
     .card-price{
@@ -127,4 +160,92 @@
     .title-main-2{
         font-size: 2.1rem;
     }
+}
+
+@media (max-width: 720px) {
+    .card-price{
+        max-width: 80%;
+        height: 105px;
+        display: none;
+    }
+
+    .btn-card-price {
+        border-radius: .25rem;
+        width: 100px;
+        top: 35px;
+        position: absolute;
+    }
+
+    .title-main-2, .btn-card-price{
+        font-size: .8rem;
+    }
+    
+    p{
+        font-size: .9rem;
+    }
+
+    .title-main{
+        font-size: 1.4rem;
+    }
+
+    .subTitleText, .title-home, .h-subtitle, .cellphone-not-container, .card-price{
+        display: none;
+    }
+
+    .cellphone-container{
+        display: block;
+    }
+
+    .banner-img{
+        top: -30px;
+        width: 110%;
+        position: relative;
+        padding: 0px;
+    }
+
+
+
+    /* Estilos para el botón de hamburguesa */
+    .hamburger-btn {
+        display: none; /* Ocultar por defecto en pantallas grandes */
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 10px;
+    }
+
+    /* Estilos para las barras del botón de hamburguesa */
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Estilos para el menú desplegable */
+    .navbar-menu {
+        display: none; /* Ocultar por defecto en pantallas grandes */
+    }
+
+    /* Mostrar el menú desplegable cuando el botón de hamburguesa es clickeado */
+    .navbar-menu.active {
+        display: block;
+    }
+
+    .banner-area{
+        height: 800px;
+    }
+}
+
+@media (min-width: 721px) {
+    .cellphone-container{
+        display: none;
+    } 
+    /*
+
+    .banner-img, .subTitleText, .title-home, .h-subtitle, .cellphone-not-container, .card-price{
+        display: block;
+    }*/
 }
