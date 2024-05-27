@@ -299,11 +299,12 @@ router.get('/restart-password', isNotLoggedIn, async (req, res) => {
 
 router.post('/restart-password', isNotLoggedIn, async (req, res) => {
     const {email}=req.body; //get the email of the user 
-    const token = await create_token(); // create a token
-    const idUser=await get_id_user_for_email(email);
+    const idUser=await get_id_user_for_email(email); //search the id of the user
 
     //we will watching if exist a user with this email 
     if(idUser){
+        const token = await create_token(); // create a token
+
         //we going to save the token in the database 
         if(await save_token_database(idUser,token)){
             //if we can save the token in the database, send the token for email 
@@ -323,11 +324,15 @@ router.post('/restart-password', isNotLoggedIn, async (req, res) => {
 });
 
 async function get_id_user_for_email(email){
-    var queryText = 'SELECT * FROM "Fud".users WHERE email = $1';
-    var values = [email];
-    const result = await database.query(queryText, values);
-    const data = result.rows;
-    return data[0].id;
+    try{
+        var queryText = 'SELECT * FROM "Fud".users WHERE email = $1';
+        var values = [email];
+        const result = await database.query(queryText, values);
+        const data = result.rows;
+        return data[0].id;
+    }catch(error){
+        return null;
+    }
 }
 
 async function save_token_database(idUser,token){
