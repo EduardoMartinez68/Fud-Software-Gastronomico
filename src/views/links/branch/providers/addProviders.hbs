@@ -8,23 +8,20 @@
     <link rel="stylesheet" href="/css/report/sales.css">
     </link>
 </head>
-
 <body>
     <div class="container p-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <center>
-                    <h5 class="form-group sub-title">Provider Data</h5>
+                    <h5 class="form-group sub-title">Datos del proveedor</h5>
                     <hr>
                 </center>
                 <div class="card">
                     <div class="card-body">
                         <!---dashboard--->
                         <div class="tab_box">
-                            <button class="tab_btn active"><i class="fi-container fi-sr-truck-loading"></i>Basic
-                                Data</button>
-                            <button class="tab_btn"><i class="fi-container fi-ss-truck-moving"></i>Billing
-                                Information</button>
+                            <button class="tab_btn active"><i class="fi-container fi-sr-truck-loading"></i>Datos Básicos</button>
+                            <button class="tab_btn"><i class="fi-container fi-ss-truck-moving"></i>Información de Facturación</button>
                             <div class="line"></div>
                         </div>
                         <div class="content_box">
@@ -35,7 +32,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-6">
-                                                <label>Branch *</label><br>
+                                                <label>Sucursal *</label><br>
                                                 <select class="form-select" aria-label="Default select example" name="branch">
                                                         <option value="{{id}}">{{name_branch}}</option>
                                                 </select>
@@ -47,34 +44,34 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Name *</label><br>
-                                                    <input type="tex" class="form-control" name="name" placeholder="Name"
+                                                    <label>Nombre *</label><br>
+                                                    <input type="tex" class="form-control" name="name" placeholder="Nombre"
                                                         autofocus required>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Name representative *</label><br>
-                                                    <input type="tex" class="form-control" name="representative" placeholder="Representative" required>
+                                                    <label>Nombre del representante *</label><br>
+                                                    <input type="tex" class="form-control" name="representative" placeholder="Representante" required>
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
                                     
                                     <div class="form-group">
-                                        <label>E-mail</label><br>
-                                        <input type="email" class="form-control" name="email" placeholder="E-mail">
+                                        <label>Correo electrónico</label><br>
+                                        <input type="email" class="form-control" name="email" placeholder="Correo electrónico">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Website</label><br>
-                                        <input type="text"  class="form-control" name="website" placeholder="website">
+                                        <label>Sitio web</label><br>
+                                        <input type="text"  class="form-control" name="website" placeholder="Sitio web">
                                     </div>
                                     <table width="100%">
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Number of taxpayers</label><br>
+                                                    <label>Número de contribuyentes</label><br>
                                                     <input type="tex" class="form-control" name="rfc"
                                                         placeholder="RFC,RUT,CUIT">
                                                 </div>
@@ -90,16 +87,16 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Phone</label><br>
+                                                    <label>Teléfono</label><br>
                                                     <input type="tex" class="form-control" name="phone"
-                                                        placeholder="Phone">
+                                                        placeholder="Teléfono">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Cell Phone</label><br>
+                                                    <label>Teléfono móvil</label><br>
                                                     <input type="tex" class="form-control" name="cell_phone"
-                                                        placeholder="Cell Phone">
+                                                        placeholder="Teléfono móvil">
                                                 </div>
                                             </td>
                                         </tr>
@@ -109,64 +106,64 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Credit Limit</label><br>
+                                                    <label>Límite de crédito</label><br>
                                                     <input type="tex" class="form-control" name="creditLimit"
-                                                        placeholder="Credit Limit">
+                                                        placeholder="Límite de crédito">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Day Credit</label><br>
+                                                    <label>Días de crédito</label><br>
                                                     <input type="tex" class="form-control" name="dayCredit"
-                                                        placeholder="Day Credit">
+                                                        placeholder="Días de crédito">
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Category</label><br>
-                                                    <input type="text"  class="form-control" name="category" placeholder="Category">
+                                                    <label>Categoría</label><br>
+                                                    <input type="text"  class="form-control" name="category" placeholder="Categoría">
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
                                     <div class="form-group">
-                                        <label>Comment</label><br>
+                                        <label>Comentario</label><br>
                                         <textarea type="tex" class="form-control" name="comment"
-                                            placeholder="Comment..."></textarea>
+                                            placeholder="Comentario..."></textarea>
                                     </div>
 
                                     <div class="form-group">
-                                        <button class="btn btn-success btn-block">Save</button>
+                                        <button class="btn btn-success btn-block">Guardar</button>
                                     </div>
                             </div>
                             <div class="content-sales">
                                     <div class="form-group">
-                                        <label>Type provider </label>
+                                        <label>Tipo de proveedor </label>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="type" id="inlineRadio1" value="individual">
                                             <label class="form-check-label" for="inlineRadio1">Individual</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="type" id="inlineRadio2" value="company" checked>
-                                            <label class="form-check-label" for="inlineRadio2">Company</label>
+                                            <label class="form-check-label" for="inlineRadio2">Empresa</label>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Business Name</label><br>
-                                        <input type="tex" class="form-control" name="businessName" placeholder="Business Name">
+                                        <label>Nombre del negocio</label><br>
+                                        <input type="tex" class="form-control" name="businessName" placeholder="Nombre del negocio">
                                     </div>
                                     <div class="form-group">
-                                        <label>Representative</label><br>
-                                        <input type="tex" class="form-control" name="businessRepresentative" placeholder="Business Representative">
+                                        <label>Representante</label><br>
+                                        <input type="tex" class="form-control" name="businessRepresentative" placeholder="Representante">
                                     </div>
                                     <table width="100%">
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Number of taxpayers</label><br>
+                                                    <label>Número de contribuyentes</label><br>
                                                     <input type="tex" class="form-control" name="businessCurp"
                                                         placeholder="RFC,RUT,CUIT">
                                                 </div>
@@ -182,16 +179,16 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Phone</label><br>
+                                                    <label>Teléfono</label><br>
                                                     <input type="tex" class="form-control" name="businessPhone"
-                                                        placeholder="Phone">
+                                                        placeholder="Teléfono">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Cell Phone</label><br>
+                                                    <label>Teléfono móvil</label><br>
                                                     <input type="tex" class="form-control" name="businessCell_phone"
-                                                        placeholder="Cell Phone">
+                                                        placeholder="Teléfono móvil">
                                                 </div>
                                             </td>
                                         </tr>
@@ -201,22 +198,22 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Address</label><br>
+                                                    <label>Dirección</label><br>
                                                     <input type="tex" class="form-control" name="address"
-                                                        placeholder="Cologne">
+                                                        placeholder="Colonia">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <label>Postal Code</label><br>
+                                                    <label>Código Postal</label><br>
                                                     <input type="tex" class="form-control" name="postalCode"
-                                                        placeholder="Postal Code">
+                                                        placeholder="Código Postal">
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
                                     <div class="form-group">
-                                        <button class="btn btn-success btn-block">Save</button>
+                                        <button class="btn btn-success btn-block">Guardar</button>
                                     </div>
                                 </form>
                             </div>
@@ -226,6 +223,7 @@
             </div>
         </div>
     </div>
+</body>
 
 
 

@@ -12,8 +12,8 @@
     <tr>
         <th></th>
         <th>Barcode</th>
-        <th>Name</th>
-        <th>Description</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
         <th><i class="fi-icon fi-ss-inventory-alt"></i></th>
         <th></th>
     </tr>
@@ -43,13 +43,22 @@
     </tbody>
 </table>
 </div>
+<script>
+    function previewImage2(event) {
+        const imgElement = document.getElementById('imgId');
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
+        reader.onload = function() {
+            imgElement.src = reader.result;
+        }
 
-
-
+        reader.readAsDataURL(file);
+    }
+</script>
 <script>
     async function delate_supplies(id,id_company){
-        if(await questionMessage('Delate supplies','Do you want to delete this supplies?')){
+        if(await questionMessage('🗑️ Eliminar insumo','¿Quieres eliminar este suministro?')){
             window.location.href = "/fud/"+id_company+"/"+id+"/delate-supplies-company";
         }
     }
@@ -61,7 +70,7 @@
         }
 
         //we will to get the data of the new department
-        const data=await edit_supplies_company('Edit supplies',img,barcode,nameDepartment,descriptionDepartment,use_inventory);
+        const data=await edit_supplies_company('✏️ Editar insumo',id,id_company,img,barcode,nameDepartment,descriptionDepartment,use_inventory);
         if(data){
             //get the data of the from 
             var newImg = data[0];
@@ -69,6 +78,7 @@
             var name = data[2];
             var description = data[3];
             var useInventory = data[4];
+            console.log(newImg)
 
             //we will to see if be a name
             if(newBarcode!=""){
@@ -76,14 +86,14 @@
                     if(description==""){
                         description="-";
                     }            
-                    window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${description}/${useInventory}/company-supplies`;
+                    //window.location.href = `/fud/${id_company}/${id}/${newBarcode}/${name}/${description}/${useInventory}/company-supplies`;
                 }
                 else{
-                    warningMessage('Error','You need add a name to your supplies');
+                    warningMessage('Error','👁️ Necesitas agregar un nombre a tus suministros');
                 }
             }
             else{
-                warningMessage('Error','You need add a barcode to your supplies');
+                warningMessage('Error','👁️ Necesitas agregar un código de barras a tus suministros');
             }
         }
     }

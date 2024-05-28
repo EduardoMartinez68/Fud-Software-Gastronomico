@@ -118,10 +118,10 @@ async function compare_company_with_name(req,name){
 }
 
 
-function get_new_company(req){
+async function get_new_company(req){
     //we get all the data of the company
     const {image,name,pathImage,alias,tradename,description,representative,phone,cell_phone,email,country,municipality,city,cologne,street,num_o,num_i,postal_code} = req.body;
-    var path_image=create_a_new_image(req);
+    var path_image=await create_a_new_image(req);
 
     const company={
         id_user:parseInt(req.user.id),
@@ -169,7 +169,7 @@ async function get_image(id) {
 
 router.post('/fud/:id_company/edit-company', async (req, res) => {
     const {id_company}=req.params;
-    const newCompany=get_new_company(req);
+    const newCompany=await get_new_company(req);
 
     //we will waching if exist a new icon for the company 
     if(newCompany.path_logo != ""){
@@ -458,6 +458,131 @@ async function delete_all_supplies_combo(id) {
     }
 }
 
+//edit supplies 
+router.post('/fud/:id_company/:id/edit-supplies-form',isLoggedIn,async(req,res)=>{
+    const {id_company,id}=req.params;
+    const {image,barcode,name,description}=req.body;
+
+    //we know if this object is a supplies or a product 
+    const dataSuppliesProcut = await get_data_supplies_product(id)
+    const thisIsASupplies=dataSuppliesProcut.supplies
+    //we will to see if be a name
+    if(barcode==""){
+        req.flash('message','👁️ Necesitas agregar un código de barras a tus suministros');
+    }
+    if(name==""){        
+        req.flash('message','👁️ Necesitas agregar un nombre a tus suministros');
+    }
+
+    //we will see if can edit the supplies
+    if(barcode!="" && name!=""){
+        if(description==""){
+            description="-";
+        }    
+        const newSupplies = await get_new_data_supplies_img_company(req);
+        //we will waching if the user change the image 
+        if(newSupplies.path_image!=""){
+            //get the old direction of the imagen 
+            const path_photo=dataSuppliesProcut.img
+
+            //we will watching if the user haved a photo for delete
+            if(path_photo!=null){
+                await delete_image_upload(path_photo);
+            }
+
+            //we will creating the new supplies 
+            if (await update_supplies_company_img(newSupplies)) {
+                req.flash('success', 'El suministro fueron actualizados con éxito 😁')
+            }
+            else {
+                req.flash('message', 'El suministro NO fue actualizados 👉👈')
+            }
+        }else{
+            //if the user not change the image 
+            if (await update_supplies_company(newSupplies)) {
+                req.flash('success', 'El suministro fueron actualizados con éxito 😁')
+            }
+            else {
+                req.flash('message', 'El suministro NO fue actualizados 👉👈')
+            }
+        }
+    }
+
+
+    //rederict the object for the that be 
+    if (thisIsASupplies) {
+        res.redirect('/fud/' + id_company + '/company-supplies');
+    }
+    else {
+        res.redirect('/fud/' + id_company + '/company-products');
+    }
+})
+
+async function get_data_supplies_product(id) {
+    //we will search the company of the user 
+    var queryText = 'SELECT * FROM "Kitchen".products_and_supplies WHERE id= $1';
+    const result = await database.query(queryText, [id]);
+
+    return result.rows[0];
+}
+
+async function get_new_data_supplies_company(req) {
+    const { id, id_company} = req.params;
+    const {image,barcode,name,inventory,description}=req.body;
+    const newSupplies = {
+        id,
+        id_company,
+        barcode,
+        name,
+        description,
+        use_inventory: (inventory == 'on')
+    }
+    return newSupplies;
+}
+
+async function update_supplies_company(newSupplies) {
+    try {
+        var queryText = `UPDATE "Kitchen".products_and_supplies SET barcode = $1, name = $2, description = $3, 
+        use_inventory = $4 WHERE id = $5`;
+        var values = [newSupplies.barcode, newSupplies.name, newSupplies.description, newSupplies.use_inventory, newSupplies.id];
+        await database.query(queryText, values); // update supplies
+        return true;
+    } catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
+
+async function get_new_data_supplies_img_company(req) {
+    const { id, id_company} = req.params;
+    const {image,barcode,name,inventory,description}=req.body;
+    var path_image=await create_a_new_image(req);
+    const newSupplies = {
+        id,
+        id_company,
+        path_image,
+        barcode,
+        name,
+        description,
+        use_inventory: (inventory == 'on')
+    }
+    return newSupplies;
+}
+
+
+async function update_supplies_company_img(newSupplies) {
+    try {
+        var queryText = `UPDATE "Kitchen".products_and_supplies SET barcode = $1, name = $2, description = $3, 
+        use_inventory = $4, img=$5 WHERE id = $6`;
+        var values = [newSupplies.barcode, newSupplies.name, newSupplies.description, newSupplies.use_inventory,newSupplies.path_image, newSupplies.id];
+        await database.query(queryText, values); // update supplies
+        return true;
+    } catch (error) {
+        console.log(error)
+        return false;
+    }
+}
 //add providers
 async function this_provider_exists(provider){
     //we will search the department employees of the user 

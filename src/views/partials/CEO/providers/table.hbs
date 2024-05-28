@@ -11,10 +11,10 @@
         <table width="100%" border="1" class="table-information" id="table-container">
             <thead>
                 <tr>
-                    <th><label>Name/representative</label></th>
+                    <th><label>Nombre/Representante</label></th>
                     <th><label>E-mail</label></th>
-                    <th><label>Cellphone/Phone</label></th>
-                    <th><label>Address</label></th>
+                    <th><label>Celular/Telefono</label></th>
+                    <th><label>Dirección</label></th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,7 +40,7 @@
 
 <script>
   async function delete_provider(idCompany,idProvider,name){
-      if(await questionMessage(`Delete to ${name}`,'Do you want to delete to this customer?')){
+      if(await questionMessage(`Eliminar a ${name} 😳`,'¿Quieres eliminar a este provedor?')){
         window.location.href = "/fud/"+idCompany+'/'+idProvider+"/delete-provider";
       }
   }

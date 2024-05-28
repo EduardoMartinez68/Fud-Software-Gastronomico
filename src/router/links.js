@@ -1436,10 +1436,10 @@ router.get('/:id_company/:id/:barcode/:name/:description/:useInventory/company-s
     const thisIsASupplies = await this_is_a_supplies_or_a_products(id)
 
     if (await update_supplies_company(newSupplies)) {
-        req.flash('success', 'Los suministros fueron actualizados con éxito 😁')
+        req.flash('success', 'El suministro fueron actualizados con éxito 😁')
     }
     else {
-        req.flash('message', 'Los suministros NO fueron actualizados 👉👈')
+        req.flash('message', 'El suministro NO fueron actualizados 👉👈')
     }
 
     if (thisIsASupplies) {

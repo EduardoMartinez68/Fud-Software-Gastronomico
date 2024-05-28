@@ -181,28 +181,63 @@ async function edit_cant_combo(title,cant) {
 }
 
 /////////////////////////////////supplies//////////////////////////////////////////////
-async function edit_supplies_company(title,img,barcode,name,description,use_inventory) {
+async function edit_supplies_company(title,id,id_company,img,barcode,name,description,use_inventory) {
     var containerHtml = `
-        <div class="form-group">
-            <center>
-                <img src="/img/uploads/${img}" class="img-from-supplies_products" id="imgEmployee">
-            </center>
-        </div>
-        <div class="form-group">
-            <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
-        </div>        
+        <style>
+            .save-button {
+                background-color: rgb(25, 135, 84); /* Color de fondo */
+                color: white; /* Color del texto */
+                padding: 10px 20px; /* Espaciado interno */
+                border: none; /* Sin borde */
+                border-radius: 5px; /* Bordes redondeados */
+                cursor: pointer; /* Cursor al pasar */
+                transition: background-color 0.3s; /* Transición suave */
+            }
+            
+            .save-button:hover {
+                background-color: #45a049; /* Color de fondo al pasar */
+            }
+        </style>
+        <form action="/fud/${id_company}/${id}/edit-supplies-form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <center>
+                    <img src="${img}" class="img-from-supplies_products" id="imgId">
+                </center>
+            </div>
+            <div class="form-group">
+                <label for="inputImg2" class="custom-file-upload">
+                    <input type="file" name="image" accept="image/*" id="inputImg2" style="display: none;" onchange="previewImage2(event)">
+                    <i class="fas fa-upload"></i> Subir imagen
+                </label>
+            </div>        
 
-        <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}"><br>
-        <input id="name" class="swal2-input" placeholder="Name" value="${name}"><br>
-        <input id="description" class="swal2-input" placeholder="Description" value="${description}"><br>
+            <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}" name="barcode"><br>
+            <input id="name" class="swal2-input" placeholder="Nombre" value="${name}" name="name"><br>
+            <input id="description" class="swal2-input" placeholder="Descripcion" value="${description}" name="description"><br>
 
-        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
-        <label class="form-check-label" for="invalidCheck2">
-            Use inventory
-        </label>
+            <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
+            <label class="form-check-label" for="invalidCheck2">
+            Usar inventario
+            </label>
+            <br><br>
+            <button class="save-button">Guardar</button>
+        </form>
     `;
-
-
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html: containerHtml,
+            focusConfirm: false,
+            confirmButtonText: 'Cancelar',
+            confirmButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const data = [''];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+    /*
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -213,7 +248,7 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
-                const image = Swal.getPopup().querySelector('#inputImg').value;
+                const image = Swal.getPopup().querySelector('#inputImg2').files[0];;
                 const barcode = Swal.getPopup().querySelector('#barcode').value;
                 const name = Swal.getPopup().querySelector('#name').value;
                 const description = Swal.getPopup().querySelector('#description').value;
@@ -224,16 +259,9 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             allowOutsideClick: () => !Swal.isLoading()
         });
     });
+    */
 }
-/*
-                <select id="unidad_medida" name="unidad_medida" class="form-select">
-                    <option value="g">Gramos (g)</option>
-                    <option value="kg">Kilogramos (kg)</option>
-                    <option value="l">Litros (l)</option>
-                    <option value="ml">Mililitros (ml)</option>
-                    <option value="u">Unidades (u)</option>
-                </select>
- */
+
 async function edit_supplies_branch(title,img,barcode,name,existence,purchase_amount) {
     var containerHtml = `
         <div class="form-group">
