@@ -476,9 +476,6 @@ router.post('/fud/:id_company/:id/edit-supplies-form',isLoggedIn,async(req,res)=
 
     //we will see if can edit the supplies
     if(barcode!="" && name!=""){
-        if(description==""){
-            description="-";
-        }    
         const newSupplies = await get_new_data_supplies_img_company(req);
         //we will waching if the user change the image 
         if(newSupplies.path_image!=""){
@@ -492,7 +489,7 @@ router.post('/fud/:id_company/:id/edit-supplies-form',isLoggedIn,async(req,res)=
 
             //we will creating the new supplies 
             if (await update_supplies_company_img(newSupplies)) {
-                req.flash('success', 'El suministro fueron actualizados con éxito 😁')
+                req.flash('success', 'El suministro fue actualizados con éxito 😁')
             }
             else {
                 req.flash('message', 'El suministro NO fue actualizados 👉👈')
@@ -500,7 +497,7 @@ router.post('/fud/:id_company/:id/edit-supplies-form',isLoggedIn,async(req,res)=
         }else{
             //if the user not change the image 
             if (await update_supplies_company(newSupplies)) {
-                req.flash('success', 'El suministro fueron actualizados con éxito 😁')
+                req.flash('success', 'El suministro fue actualizados con éxito 😁')
             }
             else {
                 req.flash('message', 'El suministro NO fue actualizados 👉👈')
