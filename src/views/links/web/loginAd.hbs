@@ -1,0 +1,106 @@
+{{>web/filesOldWeb/styles}}
+<style>
+    .img-login-ad{
+        width: 100%;
+        height: auto;
+    }
+    .login-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+        background-color: #45a049;
+    }
+
+
+    .form-group2 {
+        margin-bottom: 15px;
+    }
+    .form-group2 label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    .form-group2 input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+    .form-group2 input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+</style>
+<div class="container">
+    <br><br>
+    <div class="row">
+        <div class="col">
+            <h1 class="title-main-2"><i class="fi fi-sr-hat-chef title-main-2"></i>Füd Software Gastronómico Gratis</h1>
+            <h4>¡SOLO POR TIEMPO LIMITADO! 🔥🔥🔥</h4>
+            <p>Software punto de venta para <strong>todo</strong> tipo de negocio <strong>gastronomico</strong></p>
+            <img src="/web/assets/images/ad.webp" alt="" class="img-login-ad">
+            {{>web/chronometer}}
+            <br><br>
+            <h2 class="h-subtitle">Haz más con tu restaurante</h2>
+            <p>✅ Los precios están disponibles en la sección de <a href="/fud/prices">Ver planes y precios</a></p>
+            <p>✅ El soporte está incluido desde el día 0.</p>
+            <p>✅ No te pedimos los datos de tu tarjeta de crédito para crear tu cuenta.</p>
+            <p>✅ 15 días totalmente gratis</p>
+            <p>✅ CRM para restaurantes</p>
+            <p>✅ POS para restaurantes</p>
+            <p>✅ ERP para restaurantes</p>
+            <br><br>
+            <p>¿Necesitas ayuda?</p>
+            <p>Escríbenos a <strong class="h-subtitle">{{>web/email}}</strong></p>
+        </div>
+        <div class="col">
+            <div class="card p-3" style="box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5)">
+                <label for="">🚀 Ingresa tus datos para empezar 🚀</label>
+                <hr>
+                <form action="/fud/signup" method="POST">
+                    <br>
+                    <div class="form-group2">
+                        <label for="email"><i class="fi-session fi-rr-envelope"></i> Email *</label>
+                        <input type="email" id="email" name="email" placeholder="Ingresa tu email" required>
+                    </div>
+                    <div class="form-group2">
+                        <label for="business-name"><i class="fi-session fi-rr-store-alt"></i> Nombre del Negocio *</label>
+                        <input type="text" id="business-name" name="businessName" placeholder="Ingresa el nombre del negocio" required>
+                    </div>
+                    <div class="form-group2">
+                        <label for="phone"><i class="fi-session fi-rr-smartphone"></i>  Teléfono *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Ingresa tu teléfono" required>
+                    </div>
+                    <hr>
+
+                    <div class="form-group">
+                        <center><button class="login-button">Crea cuenta GRATIS ⭐</button></center>
+                        <br>
+                        <center>
+                            <label class="link-session" for="acceptTerms">Read our</label><a
+                                class="link-singUp" href="terms_conditions" target="_blank">terminition and
+                                conditions</a>
+                            <br>
+                            <input type="checkbox" id="acceptTerms" name="acceptTerms"><label
+                                class="link-session">Acepto las condiciones del Servicio y las Politicas de privacidad de Füd</label>
+                            <p style="color: red;">* Debes aceptar las Condiciones y Políticas.</p>
+                            <br><br>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+
+{{>web/filesOldWeb/js}}

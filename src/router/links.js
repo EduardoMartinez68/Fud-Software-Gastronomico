@@ -7,7 +7,7 @@ const databaseM = require('../mongodb');
 const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 const helpers=require('../lib/helpers.js');
 
-//const delateDatabase=require('delateDatabase');
+//const delateDatabase=require('delateDatabase'); sigup
 const nodemailer = require('nodemailer'); //this is for send emails 
 const crypto = require('crypto');
 
@@ -555,6 +555,10 @@ router.get('/reservation', isLoggedIn, (req, res) => {
 
 router.get('/other', isLoggedIn, (req, res) => {
     res.render(companyName + '/store/other');
+})
+
+router.get('/login-web', (req, res) => {
+    res.render(companyName + '/web/loginAd');
 })
 
 router.get('/recipes', isLoggedIn, (req, res) => {

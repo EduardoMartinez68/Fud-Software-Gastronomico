@@ -4,7 +4,8 @@ const passport=require('passport');
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 //---------------------------------------------------------------------web
 router.get('/fud/signup',isNotLoggedIn,(req,res)=>{
-    res.render('links/web/singup');
+    //res.render('links/web/singup');
+    res.render('links/web/loginAd');
 });
 
 router.get('/fud/login',isNotLoggedIn,(req,res)=>{
