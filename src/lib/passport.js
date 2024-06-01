@@ -191,7 +191,7 @@ passport.use('local.signup', new LocalStrategy({
         const userName='admin_'+businessName
     
         //create the password 
-        const password=businessName;
+        const password=create_password();
     
         // Create a new user
         const newUser = await create_a_new_user_ad(req, userName, password,email,businessName);
@@ -215,6 +215,16 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('message', 'Error en el formulario.'));
     }
 }));
+
+function create_password() {
+    var character = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var password = '';
+    for (var i = 0; i < 5; i++) {
+      var characterSelect = character.charAt(Math.floor(Math.random() * character.length));
+      password += characterSelect;
+    }
+    return password;
+}
 
 async function create_a_new_user_ad(req,userName,password,email,businessName){
     const {birthday} = req.body; //get the value of the from

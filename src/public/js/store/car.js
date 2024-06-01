@@ -110,6 +110,35 @@ async function select_customer(idCompany) {
     }
 }
 
+//----------------------
+function updateNumber(number){
+    var numeroMostrado = document.getElementById('money');
+    numeroMostrado.value = number;
+    update_pocket_money()        
+}
+
+function agregarNumero(numero) {
+var numeroMostrado = document.getElementById('money');
+numeroMostrado.value += numero;
+update_pocket_money()
+}
+
+function update_pocket_money(){
+var numeroMostrado = document.getElementById('money');
+var total = parseFloat(document.getElementById('total').innerText);
+var pocketMoney = document.getElementById('pocketMoney');
+pocketMoney.innerText = parseFloat(numeroMostrado.value)-total;
+}
+
+function borrarNumero() {
+var numeroMostrado = document.getElementById('money');
+numeroMostrado.value = numeroMostrado.value.slice(0, -1);
+if (numeroMostrado.value === '') {
+    document.getElementById('pocketMoney').innerText = '0.00';
+}else{
+    update_pocket_money()
+}
+}
 
 ///-------------------------------------------------------------this script is for add a combo to the car
 

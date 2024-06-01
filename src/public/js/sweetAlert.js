@@ -417,90 +417,151 @@ async function edit_price_car(title,price1,price2,price3){
 
 async function show_message_buy_car(title,customer,total,typeOfCurrency) {
     var containerHtml=`
-        <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                height:25px;
-            }
+      <style>
+        .container-buy{
+            background-color: white;
+        }
+    
+        .total-buy{
+            font-size: 4rem;
+        }
+    
+        .buy{
+            font-size: 2rem;
+        }
+    
+        .btn-store{
+            background-color: white;
+            color: #7E7E7F;
+            font-size: 2rem;
+            width: 25%;
+            height: 100%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .btn-delete{
+            font-size: 2rem;
+            width: 25%;
+            height: 100%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);      
+        }
+    
+        .btn-buy{
+            border-radius: 5%;
+            border-color: transparent;
+            background-color: #5AB75D;
+            color: white;
+            width: 23%;
+            height: 10%;
+            font-size: 1rem;
+        }
+    
+        .btn-cancel{
+            color: red;
+            border: 0;
+            border-color: transparent;
+            background-color: transparent;
+        }
+    
+        .card-buy{
+            background-color: #F1F4F5;
+        }
+    
+        .pocketMoney{
+            font-size: 1.5rem;
+        }
 
-            th, td {
-                padding: 5px;
-                text-align: left;
-            }
-
-            tr {
-                margin-bottom: .25rem;
-            }
-
-            .swal2-popup {
-                width: 38%;
-            }
-
-            .cash{
-                height:65px;
-                font-size:3rem;
-                text-align: center;
-                line-height: 65px;
-            }
-        </style>
-        
-        <br>
-        <label><i class="fi fi-sr-user"></i>${customer}</label><br>
-        <h5 class="title-company">${title}</h5>
-        <h1>$${total}<h1>
-        <hr>
-        <label>💵 Cash</label><br>
-        <input id="money" name="money" type="text" class="form-control cash" placeholder="$0.00">
-        <table border="1">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-                <label>💳 Credit Card</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="creditCard" id="creditCard">
+        .swal2-popup {
+            width: 80%; /* Ajusta el ancho del cuadro de contenido */
+            height: 100%; /* Ajusta la altura del cuadro de contenido */
+        }
+    
+      </style>
+    
+    <div class="container mt-5 container-buy">
+      <label><i class="fi fi-sr-user"></i>${customer}</label><br>
+      <h5 class="title-company">${title}</h5>
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <div class="card card-buy">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(100)">$ 100</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(200)">$ 200</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(500)">$ 500</button>
+                    </div>
                 </div>
-            </td>
-            <td>
-                <label>💳 Debit Card</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="debitCard" id="debitCard">
+              <div class="row mt-4">
+                <div class="col">
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(1)">1</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(2)">2</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(3)">3</button>
                 </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">💬 Comment</label>
-            <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comment"></textarea>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(4)">4</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(5)">5</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(6)">6</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                  <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(7)">7</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(8)">8</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(9)">9</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero('.')">.</button>
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero(0)">0</button>
+                    <button class="btn btn-danger btn-block  btn-delete" onclick="borrarNumero()"><i class="fi fi-rr-delete"></i></button>
+                </div>
+            </div>
+            </div>
+          </div>
         </div>
-    `
+        <div class="col">
+            <b><label for="" class="total">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
+            <br>
+            <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
+            <input type="text" class="form-control mb-3 buy" id="money" name="money" readonly >
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">💬 Comentario</label>
+                <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comentario..."></textarea>
+            </div>
+            <br><br>
+        </div>
+      </div>
+    </div>
+    `;
+    
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: '',
             html:containerHtml,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonText: '❤️ Buy',
+            confirmButtonText: '❤️ Pagar',
             cancelButtonText: 'Exit',
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
                 const cash = Swal.getPopup().querySelector('#money').value;
-                const debitCard=Swal.getPopup().querySelector('#debitCard').value;
-                const creditCard=Swal.getPopup().querySelector('#creditCard').value;
+                const debitCard=0//Swal.getPopup().querySelector('#debitCard').value;
+                const creditCard=0//Swal.getPopup().querySelector('#creditCard').value;
                 const comment = Swal.getPopup().querySelector('#comment').value;
                 const data = [cash,debitCard,creditCard,comment];
                 resolve(data);
             },
-            allowOutsideClick: () => !Swal.isLoading()
+            allowOutsideClick: () => !Swal.isLoading(),
+            customClass: {
+                content: 'my-content-class'
+            }
         });
     });
 }
