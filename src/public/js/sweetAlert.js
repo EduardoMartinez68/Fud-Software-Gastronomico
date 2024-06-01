@@ -526,7 +526,7 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
           </div>
         </div>
         <div class="col">
-            <b><label for="" class="total">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
+            <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
             <br>
             <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
             <input type="text" class="form-control mb-3 buy" id="money" name="money" readonly >
