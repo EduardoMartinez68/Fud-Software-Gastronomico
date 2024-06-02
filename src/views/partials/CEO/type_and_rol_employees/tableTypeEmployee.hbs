@@ -9,10 +9,10 @@
     </colgroup>
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Salary</th>
-        <th>% Commissions</th>
-        <th>% Discount for product</th>
+        <th>Nombre</th>
+        <th>Salario</th>
+        <th>% Comisiones</th>
+        <th>% Descuento por producto</th>
         <th></th>
     </tr>
     </thead>
@@ -38,7 +38,7 @@
 
 <script>
     async function delete_role_employee(id,id_company){
-        if(await questionMessage('Delate role employee','Do you want to delete this role employee?')){
+        if(await questionMessage('🗑️ Eliminar rol de empleado','¿Quieres eliminar este rol de empleado?')){
             window.location.href = "/fud/"+id_company+"/"+id+"/delete-role-user";
         }
     }

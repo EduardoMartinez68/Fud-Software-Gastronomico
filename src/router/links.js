@@ -7,7 +7,7 @@ const databaseM = require('../mongodb');
 const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 const helpers=require('../lib/helpers.js');
 
-//const delateDatabase=require('delateDatabase');
+//const delateDatabase=require('delateDatabase'); sigup
 const nodemailer = require('nodemailer'); //this is for send emails 
 const crypto = require('crypto');
 
@@ -282,17 +282,29 @@ router.get('/contact-us', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/contactUs')
 });
 
+router.post('/send_email_contact', isNotLoggedIn, (req, res) => {
+    const {name,email,phone,msg_subject,message} = req.body;
+    const emailMessage='Name: '+name+'<br>'+'email: '+email+'<br>'+'phone: '+phone+'<br>'+'message: '+message;
+    sendEmail.send_email('eduardoa4848@Outlook.es',msg_subject,emailMessage);
+    res.redirect('/fud/send-email');
+})
+
+router.get('/send-email', isNotLoggedIn, (req, res) => {
+    res.render(companyName + '/web/sendEmail');
+})
+
 router.get('/restart-password', isNotLoggedIn, async (req, res) => {
     res.render(companyName + '/web/restartPasswordEmail')
 });
 
 router.post('/restart-password', isNotLoggedIn, async (req, res) => {
     const {email}=req.body; //get the email of the user 
-    const token = await create_token(); // create a token
-    const idUser=await get_id_user_for_email(email);
+    const idUser=await get_id_user_for_email(email); //search the id of the user
 
     //we will watching if exist a user with this email 
     if(idUser){
+        const token = await create_token(); // create a token
+
         //we going to save the token in the database 
         if(await save_token_database(idUser,token)){
             //if we can save the token in the database, send the token for email 
@@ -312,11 +324,15 @@ router.post('/restart-password', isNotLoggedIn, async (req, res) => {
 });
 
 async function get_id_user_for_email(email){
-    var queryText = 'SELECT * FROM "Fud".users WHERE email = $1';
-    var values = [email];
-    const result = await database.query(queryText, values);
-    const data = result.rows;
-    return data[0].id;
+    try{
+        var queryText = 'SELECT * FROM "Fud".users WHERE email = $1';
+        var values = [email];
+        const result = await database.query(queryText, values);
+        const data = result.rows;
+        return data[0].id;
+    }catch(error){
+        return null;
+    }
 }
 
 async function save_token_database(idUser,token){
@@ -541,11 +557,16 @@ router.get('/other', isLoggedIn, (req, res) => {
     res.render(companyName + '/store/other');
 })
 
+router.get('/login-web', (req, res) => {
+    res.render(companyName + '/web/loginAd');
+})
+
 router.get('/recipes', isLoggedIn, (req, res) => {
     res.render(companyName + '/store/recipes');
 })
 
 //-----------------------------------------------------------------subscription
+/*
 router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
     try {
       const prices = await stripe.prices.list({
@@ -567,8 +588,8 @@ router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
-        cancel_url: `http://localhost:4000/fud/prices`,
+        success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+        cancel_url: `https://fud-tech.cloud/fud/prices`,
       });
 
       res.redirect(303, session.url);
@@ -577,8 +598,63 @@ router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
       res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
 });
+*/
+router.post('/create-suscription-cloude', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
+
 
 router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+    /*
     try {
       const prices = await stripe.prices.list({
         lookup_keys: [req.body.lookup_key],
@@ -599,8 +675,8 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
           },
         ],
         mode: 'subscription',
-        success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
-        cancel_url: `http://localhost:4000/fud/prices`,
+        success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-studio`,
+        cancel_url: `https://fud-tech.cloud/fud/prices`,
       });
 
       res.redirect(303, session.url);
@@ -608,9 +684,39 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
       console.error('Error al crear la suscripción:', error);
       res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
+    */
 });
 
 router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+            subscription_data:{
+                trial_period_days:15
+            }
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+    /*
     try {
         const prices = await stripe.prices.list({
           lookup_keys: [req.body.lookup_key],
@@ -630,8 +736,8 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
               },
             ],
             mode: 'subscription',
-            success_url: `http://localhost:4000/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
-            cancel_url: `http://localhost:4000/fud/prices`,
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
             subscription_data:{
                 trial_period_days:15
             }
@@ -642,6 +748,7 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
       }
+      */
 });
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
@@ -940,6 +1047,13 @@ async function get_data_company_with_id(id_company) {
     const data = result.rows;
     return data;
 }
+
+
+//
+router.get('/:id_company/:id_branch/marketplace', isLoggedIn, (req, res) => {
+    res.render(companyName + '/branch/marketplace/marketplace'); //this web is for return your user
+})
+
 
 //-----------------------------------------------------------------dish
 router.get('/:id/dish', isLoggedIn, async (req, res) => {
@@ -1333,10 +1447,10 @@ router.get('/:id_company/:id/:barcode/:name/:description/:useInventory/company-s
     const thisIsASupplies = await this_is_a_supplies_or_a_products(id)
 
     if (await update_supplies_company(newSupplies)) {
-        req.flash('success', 'Los suministros fueron actualizados con éxito 😁')
+        req.flash('success', 'El suministro fueron actualizados con éxito 😁')
     }
     else {
-        req.flash('message', 'Los suministros NO fueron actualizados 👉👈')
+        req.flash('message', 'El suministro NO fueron actualizados 👉👈')
     }
 
     if (thisIsASupplies) {

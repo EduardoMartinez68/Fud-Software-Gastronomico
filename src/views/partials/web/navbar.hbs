@@ -92,7 +92,9 @@
 
     </style>
 
-<header class="header-area">
+
+
+<header class="header-area cellphone-not-container">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-1 col-sm-0">
@@ -110,11 +112,8 @@
                             <button class="btn-navbar-login" onclick="nextWeb('/prices')" style="color: var(--color-company);">Price</button>
                         </li>
                         <li class="banner-btn">
-                            <a href="/fud/our-company">Our Company</a>
+                            <a href="/fud/our-company" style="text-decoration: none;">Our Company</a>
                         </li>
-                        <!--
-                        <li class="t-li"><a class="t-a" href="tel:+524443579030"><i class="fi fi-brands-whatsapp t-i"></i>+52 444 357 9030</a></li>
-                        -->
                         <li class="banner-btn">
                             <button class="btn-navbar-login" onclick="nextWeb('/home')" style="color: var(--color-company);">Log in</button>
                         </li>
@@ -122,6 +121,11 @@
                             <button class="box-btn" onclick="nextWeb('signup')">Try is free 🤩</button>
                         </li>
                     </ul>
+                    <button class="hamburger-btn" onclick="toggleNav()">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -129,3 +133,26 @@
 </header>
 
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="pos-f-t cellphone-container">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-light p-4">
+      <!-- Logo -->
+      <!-- Contenido del navbar -->
+      <button class="btn-navbar-login" onclick="nextWeb('/main')" style="color: var(--color-company);">Home</button>
+      <button class="btn-navbar-login" onclick="nextWeb('/prices')" style="color: var(--color-company);">Price</button>
+      <a href="/fud/our-company" style="color: var(--color-company);">Our Company</a>
+      <button class="btn-navbar-login" onclick="nextWeb('/home')" style="color: var(--color-company);">Log in</button>
+      <button class="box-btn" onclick="nextWeb('signup')">Try is free 🤩</button>
+    </div>
+  </div>
+  <!-- Botón de navbar -->
+  <nav class="navbar navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

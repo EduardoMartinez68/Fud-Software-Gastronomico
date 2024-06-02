@@ -5,6 +5,7 @@ const database=require('../database');
 const helpers=require('../lib/helpers.js');
 
 const sendEmail = require('../lib/sendEmail.js'); //this is for send emails 
+const addDatabase=require('../router/addDatabase');
 
 passport.use('local.login', new LocalStrategy({
     usernameField: 'userName',
@@ -34,7 +35,7 @@ async function search_user(email){
 
 const axios = require('axios'); //this is for manage the captcha
 const {MY_SECRET_KEY}=process.env; //this code is for get the data of the database
-passport.use('local.signup', new LocalStrategy({
+passport.use('local.signup-ad', new LocalStrategy({
     usernameField: 'userName',
     passwordField: 'password',
     emailField: 'email',
@@ -85,57 +86,6 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('message', 'Error al verificar reCAPTCHA.'));
     }
 }));
-/*
-
-passport.use('local.signup', new LocalStrategy({
-    usernameField: 'userName',
-    passwordField: 'password',
-    emailField:'email',
-    passwordField: 'password',
-    acceptTermsField:'acceptTerms',
-    passReqToCallback: true
-}, async (req ,userName, password, done) => {
-    if (!req.recaptcha.error) {
-        const {email,Name,confirmPassword,acceptTerms} = req.body;
-        
-        //we will watch if the user on the terms and conditions
-        if(acceptTerms==undefined){
-            done(null,false,req.flash('message','Debe aceptar los términos y condiciones para continuar 👁️'));
-        }
-        else{
-            //we will see if all the data was registered
-            if(all_data_exists(req)){
-                //we will see if this user is new
-                if (!await this_user_exists(userName)){
-                        //we will see if this email is new
-                        if(!await this_email_exists(email)){
-                            //we will watch if the passwords are equal
-                            if (compare_password(password,confirmPassword)){
-                                //create a new user 
-                                const newUser=await create_a_new_user(req,userName,password);
-                                return done(null,newUser);
-                            }
-                            else{
-                                done(null,false,req.flash('message','Tus contraseñas no coinciden 👁️'));
-                            }
-                        }
-                        else{
-                            done(null,false,req.flash('message','Este email ya existe 😅'));
-                        }
-                }
-                else{
-                    done(null,false,req.flash('message','Este usuario ya existe 😅'));
-                }
-            }
-            else{
-                done(null,false,req.flash('message','Necesitas completar todos los campos requeridos 🤨'));
-            }
-        }
-    }else{
-        done(null,false,req.flash('message','Debes completar el recaptcha correctamente 🤨'));
-    }
-}));*/
-
 
 async function create_a_new_user(req,userName,password){
     const {first_name,second_name,last_name,email,birthday} = req.body; //get the value of the from
@@ -185,8 +135,6 @@ function all_data_exists(req){
     return Name!='' && email!='' && birthday!=''
 }
 
-
-
 function compare_password(P1,P2){
     if (P1==''){
         return false;
@@ -217,7 +165,120 @@ async function add_user(user){
 
 
 
+//
+passport.use('local.signup', new LocalStrategy({
+    usernameField: 'businessName',
+    passwordField: 'phone',
+    emailField: 'email',
+    acceptTermsField: 'acceptTerms',
+    passReqToCallback: true
+}, async (req, userName, password, done) => {
+    try {
+        console.log(req.body)
+        const { email, phone, businessName, acceptTerms } = req.body;
 
+        //we know if this user accept the terms and condition 
+        if (!acceptTerms) {
+            return done(null, false, req.flash('message', 'Debe aceptar los términos y condiciones para continuar 👁️'));
+        }
+
+        //we know if this email exist in the database 
+        if (await this_email_exists(email)) {
+            return done(null, false, req.flash('message', 'Este email ya existe 😅'));
+        }
+    
+        //create the username 
+        const userName='admin_'+businessName
+    
+        //create the password 
+        const password=create_password();
+    
+        // Create a new user
+        const newUser = await create_a_new_user_ad(req, userName, password,email,businessName);
+
+        //we send the information of the new user 
+        const message=`
+            new user <br>
+            phone: ${phone} <br>
+            email: ${email}
+        `
+        await sendEmail.send_email('technologyfud@gmail.com','eduardoa4848@Outlook.es',message)
+        //create a company 
+        const newCompany=await get_new_company(newUser.id,email,businessName,phone);
+        if (await addDatabase.add_company(newCompany)){
+            console.log('La empresa fue añadida con éxito ❤️');
+        }
+
+        return done(null, newUser);
+    } catch (error) {
+        console.error(error);
+        return done(null, false, req.flash('message', 'Error en el formulario.'));
+    }
+}));
+
+function create_password() {
+    var character = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var password = '';
+    for (var i = 0; i < 5; i++) {
+      var characterSelect = character.charAt(Math.floor(Math.random() * character.length));
+      password += characterSelect;
+    }
+    return password;
+}
+
+async function create_a_new_user_ad(req,userName,password,email,businessName){
+    const {birthday} = req.body; //get the value of the from
+    //create a new user 
+    const newUser={
+        user_name:userName,
+        first_name: businessName,
+        second_name: businessName,
+        last_name: businessName,
+        email:email,
+        password:password,
+        birthday:birthday
+    };
+
+    newUser.password=await helpers.encryptPassword(password); //create a password encrypt
+
+    //add the user to the database
+    if(await add_user(newUser)){
+        //if the user was add with success, sen a email of welcome 
+        subjectEmail=''
+        const nameUser='tu negocio '+businessName+' esta listo!';
+        await sendEmail.welcome_email_ad(email,nameUser,password);
+    }
+
+    //add the id of the user 
+    newUser.id=await search_id(email);    
+
+    return newUser;
+}
+
+async function get_new_company(userId,email,businessName,phone){
+    const company={
+        id_user:parseInt(userId),
+        path_logo:null,
+        tradename:'',
+        name:businessName,
+        alias:businessName,
+        description:'',
+        representative:'',
+        phone:phone,
+        cell_phone:phone,
+        email:email,
+        id_country:1,
+        municipality:'',
+        city:'',
+        cologne:'',
+        streets:'',
+        num_o:'',
+        num_i:'',
+        postal_code:''
+    }  
+
+    return company;
+}
 
 //this function not mov
 passport.serializeUser((user,done)=>{

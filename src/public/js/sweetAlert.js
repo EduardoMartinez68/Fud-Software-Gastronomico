@@ -181,28 +181,63 @@ async function edit_cant_combo(title,cant) {
 }
 
 /////////////////////////////////supplies//////////////////////////////////////////////
-async function edit_supplies_company(title,img,barcode,name,description,use_inventory) {
+async function edit_supplies_company(title,id,id_company,img,barcode,name,description,use_inventory) {
     var containerHtml = `
-        <div class="form-group">
-            <center>
-                <img src="/img/uploads/${img}" class="img-from-supplies_products" id="imgEmployee">
-            </center>
-        </div>
-        <div class="form-group">
-            <input type="file" name="image" accept="image/*" class="form-control" id="inputImg">
-        </div>        
+        <style>
+            .save-button {
+                background-color: rgb(25, 135, 84); /* Color de fondo */
+                color: white; /* Color del texto */
+                padding: 10px 20px; /* Espaciado interno */
+                border: none; /* Sin borde */
+                border-radius: 5px; /* Bordes redondeados */
+                cursor: pointer; /* Cursor al pasar */
+                transition: background-color 0.3s; /* Transición suave */
+            }
+            
+            .save-button:hover {
+                background-color: #45a049; /* Color de fondo al pasar */
+            }
+        </style>
+        <form action="/fud/${id_company}/${id}/edit-supplies-form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <center>
+                    <img src="${img}" class="img-from-supplies_products" id="imgId">
+                </center>
+            </div>
+            <div class="form-group">
+                <label for="inputImg2" class="custom-file-upload">
+                    <input type="file" name="image" accept="image/*" id="inputImg2" style="display: none;" onchange="previewImage2(event)">
+                    <i class="fas fa-upload"></i> Subir imagen
+                </label>
+            </div>        
 
-        <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}"><br>
-        <input id="name" class="swal2-input" placeholder="Name" value="${name}"><br>
-        <input id="description" class="swal2-input" placeholder="Description" value="${description}"><br>
+            <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}" name="barcode"><br>
+            <input id="name" class="swal2-input" placeholder="Nombre" value="${name}" name="name"><br>
+            <input id="description" class="swal2-input" placeholder="Descripcion" value="${description}" name="description"><br>
 
-        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
-        <label class="form-check-label" for="invalidCheck2">
-            Use inventory
-        </label>
+            <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
+            <label class="form-check-label" for="invalidCheck2">
+            Usar inventario
+            </label>
+            <br><br>
+            <button class="save-button">Guardar</button>
+        </form>
     `;
-
-
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            html: containerHtml,
+            focusConfirm: false,
+            confirmButtonText: 'Cancelar',
+            confirmButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const data = [''];
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+    /*
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -213,7 +248,7 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
-                const image = Swal.getPopup().querySelector('#inputImg').value;
+                const image = Swal.getPopup().querySelector('#inputImg2').files[0];;
                 const barcode = Swal.getPopup().querySelector('#barcode').value;
                 const name = Swal.getPopup().querySelector('#name').value;
                 const description = Swal.getPopup().querySelector('#description').value;
@@ -224,16 +259,9 @@ async function edit_supplies_company(title,img,barcode,name,description,use_inve
             allowOutsideClick: () => !Swal.isLoading()
         });
     });
+    */
 }
-/*
-                <select id="unidad_medida" name="unidad_medida" class="form-select">
-                    <option value="g">Gramos (g)</option>
-                    <option value="kg">Kilogramos (kg)</option>
-                    <option value="l">Litros (l)</option>
-                    <option value="ml">Mililitros (ml)</option>
-                    <option value="u">Unidades (u)</option>
-                </select>
- */
+
 async function edit_supplies_branch(title,img,barcode,name,existence,purchase_amount) {
     var containerHtml = `
         <div class="form-group">
@@ -389,90 +417,151 @@ async function edit_price_car(title,price1,price2,price3){
 
 async function show_message_buy_car(title,customer,total,typeOfCurrency) {
     var containerHtml=`
-        <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                height:25px;
-            }
+      <style>
+        .container-buy{
+            background-color: white;
+        }
+    
+        .total-buy{
+            font-size: 4rem;
+        }
+    
+        .buy{
+            font-size: 2rem;
+        }
+    
+        .btn-store{
+            background-color: white;
+            color: #7E7E7F;
+            font-size: 2rem;
+            width: 25%;
+            height: 100%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .btn-delete{
+            font-size: 2rem;
+            width: 25%;
+            height: 100%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);      
+        }
+    
+        .btn-buy{
+            border-radius: 5%;
+            border-color: transparent;
+            background-color: #5AB75D;
+            color: white;
+            width: 23%;
+            height: 10%;
+            font-size: 1rem;
+        }
+    
+        .btn-cancel{
+            color: red;
+            border: 0;
+            border-color: transparent;
+            background-color: transparent;
+        }
+    
+        .card-buy{
+            background-color: #F1F4F5;
+        }
+    
+        .pocketMoney{
+            font-size: 1.5rem;
+        }
 
-            th, td {
-                padding: 5px;
-                text-align: left;
-            }
-
-            tr {
-                margin-bottom: .25rem;
-            }
-
-            .swal2-popup {
-                width: 38%;
-            }
-
-            .cash{
-                height:65px;
-                font-size:3rem;
-                text-align: center;
-                line-height: 65px;
-            }
-        </style>
-        
-        <br>
-        <label><i class="fi fi-sr-user"></i>${customer}</label><br>
-        <h5 class="title-company">${title}</h5>
-        <h1>$${total}<h1>
-        <hr>
-        <label>💵 Cash</label><br>
-        <input id="money" name="money" type="text" class="form-control cash" placeholder="$0.00">
-        <table border="1">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-                <label>💳 Credit Card</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="creditCard" id="creditCard">
+        .swal2-popup {
+            width: 80%; /* Ajusta el ancho del cuadro de contenido */
+            height: 100%; /* Ajusta la altura del cuadro de contenido */
+        }
+    
+      </style>
+    
+    <div class="container mt-5 container-buy">
+      <label><i class="fi fi-sr-user"></i>${customer}</label><br>
+      <h5 class="title-company">${title}</h5>
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <div class="card card-buy">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(100)">$ 100</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(200)">$ 200</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(500)">$ 500</button>
+                    </div>
                 </div>
-            </td>
-            <td>
-                <label>💳 Debit Card</label><br>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="$0.00" name="debitCard" id="debitCard">
+              <div class="row mt-4">
+                <div class="col">
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(1)">1</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(2)">2</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(3)">3</button>
                 </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">💬 Comment</label>
-            <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comment"></textarea>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(4)">4</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(5)">5</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(6)">6</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                  <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(7)">7</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(8)">8</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(9)">9</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero('.')">.</button>
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero(0)">0</button>
+                    <button class="btn btn-danger btn-block  btn-delete" onclick="borrarNumero()"><i class="fi fi-rr-delete"></i></button>
+                </div>
+            </div>
+            </div>
+          </div>
         </div>
-    `
+        <div class="col">
+            <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
+            <br>
+            <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
+            <input type="text" class="form-control mb-3 buy" id="money" name="money" readonly >
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">💬 Comentario</label>
+                <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comentario..."></textarea>
+            </div>
+            <br><br>
+        </div>
+      </div>
+    </div>
+    `;
+    
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: '',
             html:containerHtml,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonText: '❤️ Buy',
+            confirmButtonText: '❤️ Pagar',
             cancelButtonText: 'Exit',
             confirmButtonColor: 'rgb(25, 135, 84)',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
                 const cash = Swal.getPopup().querySelector('#money').value;
-                const debitCard=Swal.getPopup().querySelector('#debitCard').value;
-                const creditCard=Swal.getPopup().querySelector('#creditCard').value;
+                const debitCard=0//Swal.getPopup().querySelector('#debitCard').value;
+                const creditCard=0//Swal.getPopup().querySelector('#creditCard').value;
                 const comment = Swal.getPopup().querySelector('#comment').value;
                 const data = [cash,debitCard,creditCard,comment];
                 resolve(data);
             },
-            allowOutsideClick: () => !Swal.isLoading()
+            allowOutsideClick: () => !Swal.isLoading(),
+            customClass: {
+                content: 'my-content-class'
+            }
         });
     });
 }

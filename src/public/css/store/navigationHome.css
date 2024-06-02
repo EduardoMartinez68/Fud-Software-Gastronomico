@@ -13,6 +13,19 @@
     bottom: 0;
 }
 
+.navigation-back {
+    height: 105px; 
+    background-color: var(--color-body);
+    z-index: 9;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+}
+
 .navigation ul{
     display: flex;
     width: 350px;
@@ -97,7 +110,7 @@
     height: 20px;
     background-color: white;
     border-top-right-radius: 20px;
-    box-shadow: 1px -10px 0 0 var(--color-body); ;
+    box-shadow: 1px -10px 0 0 var(--color-body); 
 }
 
 .indicator::after{
@@ -150,6 +163,6 @@
         height: 20px;
         background-color: white;
         border-top-left-radius: 20px;
-        box-shadow: -1px -10px 0 0 var(--color-body); ;
+        box-shadow: -1px -10px 0 0 var(--color-body);
     }
 }

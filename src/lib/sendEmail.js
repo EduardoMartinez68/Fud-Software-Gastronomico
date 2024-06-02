@@ -162,6 +162,108 @@ async function welcome_email(email,name) {
     return await send_email(toEmail, subjectEmail, message);
 }
 
+async function welcome_email_ad(email,name,password) {
+    const toEmail = email;//'fud-technology@hotmail.com' //email
+    const subjectEmail = '🚀 ¡Bienvenido a Füd Technology! 🚀';
+    const message = `
+        <html>
+        <head>
+            <style>
+                /* Estilos CSS para el correo electrónico */
+                body {
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    background-color: #f9f9f9;
+                }
+                .header {
+                    background-color: #FF002A;
+                    color: #fff;
+                    text-align: center;
+                    padding: 10px;
+                    border-radius: 10px 10px 0 0;
+                }
+                .content {
+                    padding: 20px;
+                }
+                .footer {
+                    text-align: center;
+                    color: #777;
+                    font-size: 14px;
+                }
+                .button {
+                    display: inline-block;
+                    background-color: #FF002A;
+                    color: #fff;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    text-align: center;
+                }
+                .icon {
+                    display: block;
+                    margin: 0 auto 20px;
+                    width: 100px; /* ajusta el tamaño de la imagen según sea necesario */
+                }
+                .token-box {
+                    border: 2px solid #FF002A;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;
+                    margin: 0 auto; /* Centrar el cuadro */
+                    max-width: 400px; /* Establecer el ancho máximo */
+                }
+                .token{
+                    font-size: 25px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>¡Bienvenido a Füd Technology!</h1>
+                </div>
+                <div class="content">
+                    <img class="icon" src="https://cdn-icons-png.flaticon.com/256/2274/2274543.png" alt="Ícono de Füd Technology">
+                    <hr>
+                    <h2 style="color: #FF002A; text-align: center; font-size: 24px; margin-bottom: 20px;">¡Hola, ${name}! 👋</h2>
+                    <p>Te damos una cálida bienvenida a la mejor plataforma gastronomica de Mexico. 💪</p>
+                    <p>En Füd Technology, estamos comprometidos a proporcionarte la mejor experiencia posible y nos comprometemos a 
+                    ofrecerte las herramientas y recursos necesarios para alcanzar tus objetivos.</p>
+                    <br>
+                    <center>⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐</center>
+                    <br>
+                    <div class="token-box">
+                        <p>PASSWORD:</p>
+                        <strong class="token">${password}</strong>
+                    </div>
+                    <br>
+                    <p>Estamos aquí para ayudarte en cada paso del camino. 😉</p>
+                    <p>Para comenzar, te invitamos a explorar nuestra plataforma y descubrir todo lo que tenemos para ofrecerte.</p>
+
+                    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. 🤗</p>
+                    <p>¡Gracias por unirte a Füd y esperamos que tengas una experiencia increíble con nosotros! ❤️</p>
+                    <br><br>
+                    <a class="button" href="https://fud-tech.cloud/fud/login">Explora Ahora 🚀</a>
+                </div>
+                <div class="footer">
+                    <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+
+    //we will watching can sen a token to the email of the user 
+    return await send_email(toEmail, subjectEmail, message);
+}
+
 async function send_email(toEmail, subjectEmail, message) {
     //get the data of the email from the file .env
     const { APP_PASSWORD_EMAIL,APP_EMAIL_EMAIL } = process.env;
@@ -210,5 +312,6 @@ async function send_email(toEmail, subjectEmail, message) {
 module.exports={
     send_email,
     email_to_recover_password,
-    welcome_email
+    welcome_email,
+    welcome_email_ad
 };

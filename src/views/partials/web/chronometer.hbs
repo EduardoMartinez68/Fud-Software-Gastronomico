@@ -1,0 +1,116 @@
+<style>
+    .countdown-container {
+        text-align: center;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #countdown {
+        display: flex;
+        justify-content: space-around;
+        font-size: 2em;
+    }
+
+    #countdown div {
+        margin: 0 10px;
+    }
+
+    #countdown span {
+        font-weight: bold;
+    }
+
+
+    @media (max-width: 720px) {
+        #countdown {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.2em;
+        } 
+    }
+</style>
+<br><br>
+<div class="container">
+    <label for="">Termina en:</label>
+    <div class="countdown-container">
+        <div id="countdown">
+            <div><span id="days"></span>Días</div>
+            <div><span id="hours"></span>Horas</div>
+            <div><span id="minutes"></span>Minutos</div>
+            <div><span id="seconds"></span>Segundos</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Función para crear una cookie
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Función para obtener el valor de una cookie
+function getCookie(name) {
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookies = decodedCookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) == ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(name) == 0) {
+            return cookie.substring(name.length + 1, cookie.length);
+        }
+    }
+    return "";
+}
+
+// Función para eliminar una cookie
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+// Obtener la fecha límite de la cookie
+let countdownDate = getCookie("countdownDate");
+
+// Si la cookie no existe o está vacía, establecer una nueva fecha límite y crear la cookie
+if (!countdownDate) {
+    countdownDate = new Date().getTime() + (2 * 24 * 60 * 60 * 1000); // 2 días desde ahora
+    setCookie("countdownDate", countdownDate, 2); // Crear cookie que dure 2 días
+} else {
+    countdownDate = parseInt(countdownDate);
+}
+
+// Actualizar la cuenta regresiva cada 1 segundo
+const x = setInterval(function() {
+
+    // Obtener la fecha y hora actual
+    const now = new Date().getTime();
+
+    // Encontrar la distancia entre ahora y la fecha límite
+    const distance = countdownDate - now;
+
+    // Cálculos de tiempo para días, horas, minutos y segundos
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Mostrar el resultado en los elementos correspondientes
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+
+    // Si la cuenta regresiva ha terminado, mostrar un mensaje
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "La oferta ha terminado";
+        // Eliminar la cookie cuando la cuenta regresiva haya terminado
+        deleteCookie("countdownDate");
+    }
+}, 1000);
+</script>

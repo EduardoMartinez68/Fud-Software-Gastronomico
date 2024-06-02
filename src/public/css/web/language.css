@@ -1,0 +1,45 @@
+
+@media (max-width: 720px) {
+    .logo-footer{
+        max-width: 30%;
+        height: auto;
+        margin-top: auto;
+    }
+
+    .container-footer{
+        background-color: var(--color-footer);
+        color: white;
+        width: 100%;
+    }
+
+    .ul-footer{
+        list-style-type: none;
+    }
+    .ul-footer li {
+        content: "";
+    }
+    
+    .link-footer{
+        text-decoration: none;
+        color: rgba(255,255,255,0.5); 
+        font-family: 'Open Sans', sans-serif;
+        font-size: .4rem;
+    }
+    
+    .title-footer{
+        font-family: 'Open Sans', sans-serif;
+        font-size: .7rem;
+    }
+    
+    .title-footer-2{
+        font-family: 'Open Sans', sans-serif;
+        font-size: .5rem;
+    }
+
+    .text-footer{
+        color: rgba(255,255,255,0.5); 
+        font-family: 'Open Sans', sans-serif;
+        font-size: .5rem;
+    }
+  }
+  

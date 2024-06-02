@@ -110,6 +110,35 @@ async function select_customer(idCompany) {
     }
 }
 
+//----------------------
+function updateNumber(number){
+    var numeroMostrado = document.getElementById('money');
+    numeroMostrado.value = number;
+    update_pocket_money()        
+}
+
+function agregarNumero(numero) {
+var numeroMostrado = document.getElementById('money');
+numeroMostrado.value += numero;
+update_pocket_money()
+}
+
+function update_pocket_money(){
+var numeroMostrado = document.getElementById('money');
+var total = parseFloat(document.getElementById('total').innerText);
+var pocketMoney = document.getElementById('pocketMoney');
+pocketMoney.innerText = parseFloat(numeroMostrado.value)-total;
+}
+
+function borrarNumero() {
+var numeroMostrado = document.getElementById('money');
+numeroMostrado.value = numeroMostrado.value.slice(0, -1);
+if (numeroMostrado.value === '') {
+    document.getElementById('pocketMoney').innerText = '0.00';
+}else{
+    update_pocket_money()
+}
+}
 
 ///-------------------------------------------------------------this script is for add a combo to the car
 
@@ -123,7 +152,7 @@ function addFish(idProduct, product, price, price2, price3) {
     }
 
     //show a message of that we add the product to the car
-    notificationMessage(product + ' add', 'The product was add with success');
+    notificationMessage('❤️ '+product+' ❤️', 'El producto fue agregado con éxito 😁');
     update_total();
 }
 
@@ -272,11 +301,11 @@ function upload_cant_total_for_price(button) {
 }
 
 async function delate_fish_car(button) {
-    if (await questionMessage('Delate fish', 'Are you sure you want to remove this dish from the cart?')) {
+    if (await questionMessage('Eliminar Producto 🤔', '¿Estás seguro de querer eliminar este producto?')) {
         var row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
         update_total();
-        notificationMessage('Delate Fish', 'The fish was delate')
+        notificationMessage('Producto eliminado 👍', 'El Producto fue eliminado correctamente')
     }
 }
 

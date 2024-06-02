@@ -377,6 +377,10 @@ body {
 
 
 /*navbar*/
+.menu-toggle {
+    cursor: pointer;
+}
+
 .sidebar{
     position: fixed;
     left: -250px;
@@ -488,4 +492,24 @@ label #btn-navbar-cancel{
     max-width: 250px;
     max-height: 250px;
     border-radius: 2rem;
+}
+
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #45a049;
+}
+
+.custom-file-upload i {
+    margin-right: 5px;
 }

@@ -10,98 +10,213 @@
         <div class="slide-content">
             <div class="card-wrapper swiper-wrapper">
 
+                <!---
+                    we will waching if exist a sale in the branch
+                    if not exist a sale, we will use to <newCombos>
+                --->
+                {{#if mostSold}}
+                    <!---this is repeat three times for that tha carousel is fine--->
+                    {{#each mostSold}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                <!---this is repeat three times for that tha carousel is fine--->
-                {{#each mostSold}}
-                    <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay">
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
 
-                            </span>
-                            <div class="card-image">
-                                <img class="card-img" src="{{img}}" alt="">
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
+                    {{/each}}
+                    {{#each mostSold}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                        <div class="card-content">
-                            <h2 class="name">{{name}}</h2>
-                            <p class="description">${{price_1}}</p>
-                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                        </div>
-                    </div>
-                {{/each}}
-                {{#each mostSold}}
-                    <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay">
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
 
-                            </span>
-                            <div class="card-image">
-                                <img class="card-img" src="{{img}}" alt="">
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
+                    {{/each}}
+                    {{#each mostSold}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                        <div class="card-content">
-                            <h2 class="name">{{name}}</h2>
-                            <p class="description">${{price_1}}</p>
-                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                        </div>
-                    </div>
-                {{/each}}
-                {{#each mostSold}}
-                    <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay">
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
 
-                            </span>
-                            <div class="card-image">
-                                <img class="card-img" src="{{img}}" alt="">
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
+                    {{/each}}
+                    {{#each mostSold}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                        <div class="card-content">
-                            <h2 class="name">{{name}}</h2>
-                            <p class="description">${{price_1}}</p>
-                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                        </div>
-                    </div>
-                {{/each}}
-                {{#each mostSold}}
-                    <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay">
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
 
-                            </span>
-                            <div class="card-image">
-                                <img class="card-img" src="{{img}}" alt="">
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
+                    {{/each}}
+                    {{#each mostSold}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                        <div class="card-content">
-                            <h2 class="name">{{name}}</h2>
-                            <p class="description">${{price_1}}</p>
-                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
-                        </div>
-                    </div>
-                {{/each}}
-                {{#each mostSold}}
-                    <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay">
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
 
-                            </span>
-                            <div class="card-image">
-                                <img class="card-img" src="{{img}}" alt="">
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
                             </div>
                         </div>
+                    {{/each}}
+                {{else}}
+                    <!---if not exist a sale, we will to show the new combos--->
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
 
-                        <div class="card-content">
-                            <h2 class="name">{{name}}</h2>
-                            <p class="description">${{price_1}}</p>
-                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
                         </div>
-                    </div>
-                {{/each}}
+                    {{/each}}
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
+                        </div>
+                    {{/each}}
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
+                        </div>
+                    {{/each}}
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
+                        </div>
+                    {{/each}}
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
+                        </div>
+                    {{/each}}
+                    {{#each newCombos}}
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay">
+
+                                </span>
+                                <div class="card-image">
+                                    <img class="card-img" src="{{img}}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 class="name">{{name}}</h2>
+                                <p class="description">${{price_1}}</p>
+                                <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i class="fi-icon-card fi-ss-cart-arrow-down"></i></button>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{/if}}
             </div>
         </div>
 

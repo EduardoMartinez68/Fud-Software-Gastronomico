@@ -15,47 +15,71 @@
                     <label>🚀 Forma parte del mejor software para franquicias del mercado! 🚀</label>
                     <h1 class="title-main-2">Contacta con</h1>
                     <h2 class="title-main-1 h2">el equipo de Füd</h2>
-                    <form id="contactForm">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="">Email *</label>
-                                    <input type="email" name="email" id="email" class="form-control" required
-                                        data-error="Please enter your email" placeholder="Correo electronico" />
-                                    <div class="help-block with-errors"></div>
+                        <form action="/fud/send_email_contact" method="post">
+                            <div class="row">
+                                <!-- Campo oculto Nombre -->
+                                <div class="col-lg-12 col-sm-12" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="name" class="form-control" value="*" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo visible Email -->
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Email *</label>
+                                        <input type="email" name="email" id="email" class="form-control" required
+                                            data-error="Please enter your email" placeholder="Correo electrónico" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo visible Número de celular -->
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Número de celular</label>
+                                        <input type="text" name="phone" id="phone_number" required
+                                            data-error="Please enter your number" class="form-control"
+                                            placeholder="Número de celular" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo oculto Asunto -->
+                                <div class="col-lg-12 col-sm-12" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" name="msg_subject" id="msg_subject" class="form-control"
+                                            value="contactanos" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Campo visible Mensaje -->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Escribe tu mensaje *</label>
+                                        <textarea name="message" class="form-control" id="message" cols="30" rows="5"
+                                            required data-error="Write your message"
+                                            placeholder="Escribe un mensaje..."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <button type="submit" class="default-btn page-btn box-btn">
+                                        Enviar <i class="fi-icon fi-ss-paper-plane"></i>
+                                    </button>
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="">Numero de celular</label>
-                                    <input type="text" name="phone_number" id="phone_number" required
-                                        data-error="Please enter your number" class="form-control"
-                                        placeholder="Numero de celular" />
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="form-group">
-                                    <label for="">Escribe tu mensaje *</label>
-                                    <textarea name="message" class="form-control" id="message" cols="30" rows="5"
-                                        required data-error="Write your message"
-                                        placeholder="Escribe un mensaje..."></textarea>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <button type="submit" class="default-btn page-btn box-btn">
-                                    Enviar <i class="fi-icon fi-ss-paper-plane"></i>
-                                </button>
-                                <div id="msgSubmit" class="h3 text-center hidden"></div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="contact-img">
-                    <img src="https://www.salesforce.com/mx/blog/wp-content/uploads/sites/11/2023/09/blog-servicio-al-cliente.png" alt="contact">
+                    <img src="/web/assets/images/service/young-woman-enjoying-work.webp" alt="contact">
                 </div>
             </div>
         </div>

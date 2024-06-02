@@ -20,7 +20,7 @@ require('./lib/passport');
 require('./lib/editFrom');
 
 //------------------settings
-app.set('port',process.env.PORT || 8080);
+app.set('port',process.env.PORT || 4000);
 app.set('views',path.join(__dirname,'views'))
 app.engine('.hbs',engine({ //we will create the engine for the web
     defaultLayout:'main',
@@ -61,7 +61,6 @@ app.use(session({
 const {MY_SITE_KEYS,MY_SECRET_KEY}=process.env; //this code is for get the data of the database
 const recaptcha = new RecaptchaV2(MY_SITE_KEYS, MY_SECRET_KEY); //this is for load the Recaptcha in the web for delete to the bots
 app.use(recaptcha.middleware.verify);
-
 
 //------------------activate the our library 
 app.use(flash());
