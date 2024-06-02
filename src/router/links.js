@@ -1048,6 +1048,13 @@ async function get_data_company_with_id(id_company) {
     return data;
 }
 
+
+//
+router.get('/:id_company/:id_branch/marketplace', isLoggedIn, (req, res) => {
+    res.render(companyName + '/branch/marketplace/marketplace'); //this web is for return your user
+})
+
+
 //-----------------------------------------------------------------dish
 router.get('/:id/dish', isLoggedIn, async (req, res) => {
     const company = await check_company(req); //req.company.rows; //
