@@ -20,12 +20,6 @@
     border-color: transparent;
 }
 
-.img-marketplace{
-    border-radius: 5%;
-    width: 50%;
-    height: 50%;
-}
-
 .title-marketplace{
     color: #3179CE;
     font-size: 1.5rem;
@@ -76,8 +70,84 @@
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 /**/
+.fi-start{
+    color: rgb(247, 247, 118);
+}
+.container-marketplace{
+    border-radius: 20px;
+    background-color: white;
+    width: 100%;
+    margin: .5rem;
+    padding: 15px;
+}
+
+.img-marketplace{
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex; /* Establece el contenedor como un contenedor flex */
+    justify-content: center; /* Alinea los elementos horizontalmente en el centro */
+    align-items: center; /* Alinea los elementos verticalmente en el centro */
+}
+
+.img-marketplace img {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.title-marketplace{
+    font-size: 2rem;
+    color: black;
+}
+
+.price-marketplace{
+    color: #13D65C;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.install-marketplace{
+    color: rgba(0,0,0,.5);
+}
+
+.btn-marketplace-buy {
+    background-color: #13D65C;
+    border: none;
+    color: white;
+    height: 50px;
+    width: 225px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, height 0.3s, width 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-right: 2rem;
+}
+
+.btn-marketplace-buy:hover {
+    background-color: #11c253;
+    transform: translateY(-2px);
+    height: 53px;
+    width: 228px;
+}
+
+.btn-marketplace-buy:active {
+    background-color: #0fb04e;
+    transform: translateY(0);
+}
+
+.btn-marketplace-buy:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(19, 214, 92, 0.3);
+}
+/*
 .cards-list {
     z-index: 0;
     width: 100%;
@@ -114,7 +184,7 @@
 .card .card_title {
     position: absolute;
     top: 30%;
-    right: -175%; /* Ajusta este valor según sea necesario */
+    right: -175%;
     transform: translateY(-50%);
     border-radius: 20px;
     padding: 10px 20px;
@@ -140,39 +210,7 @@
     margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
-    color: #FF002A; /* Ejemplo de color de precio */
-}
-
-.btn-marketplace-buy {
-    background-color: #13D65C;
-    border: none;
-    color: white;
-    height: 50px;
-    width: 80%; /* Ajusta según sea necesario */
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s, height 0.3s, width 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-}
-
-.btn-marketplace-buy:hover {
-    background-color: #11c253;
-    transform: translateY(-2px);
-    height: 53px;
-    width: 72%;
-}
-
-.btn-marketplace-buy:active {
-    background-color: #0fb04e;
-    transform: translateY(0);
-}
-
-.btn-marketplace-buy:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(19, 214, 92, 0.3);
+    color: #FF002A; 
 }
 
 @media all and (max-width: 500px) {
@@ -187,4 +225,4 @@
         transform: translate(0, -50%);
     }
 }
-  
+*/
