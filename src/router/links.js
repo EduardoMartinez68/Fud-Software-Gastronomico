@@ -686,6 +686,34 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
     }
     */
 });
+
+router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
 /*
 router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
     try {
@@ -716,39 +744,8 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
-});*/
-router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
-    try {
-        // Crear la suscripción gratuita de por vida
-        const customer = await stripe.customers.create({
-            email: req.user.email,
-        });
-
-        const subscription = await stripe.subscriptions.create({
-            customer: customer.id,
-            items: [
-                {
-                    price_data: {
-                        currency: 'usd',
-                        product: 'prod_QDtzAJCfe439CH', // ID de tu producto gratuito
-                        recurring: {
-                            interval: 'month',
-                            interval_count: 1,
-                        },
-                        unit_amount: 0,
-                    },
-                },
-            ],
-            billing_cycle_anchor: 'now',
-            trial_period_days: 0,
-        });
-
-        res.redirect(303, `https://fud-tech.cloud/fud/${subscription.id}/welcome-free`);
-    } catch (error) {
-        console.error('Error al crear la suscripción:', error);
-        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
-    }
 });
+*/
 
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
