@@ -34,7 +34,13 @@
 {{>store/navigationStore}}
 
 
+<script type="text/javascript">
+    // La variable addition está disponible aquí como una cadena JSON
+    const addition = [{{addition}}]
 
+    // Parseamos la cadena JSON para convertirla en un objeto JavaScript
+    console.log(addition); 
+</script>
 <script>
     function setCookie(name, value, days) {
         let expires = "";

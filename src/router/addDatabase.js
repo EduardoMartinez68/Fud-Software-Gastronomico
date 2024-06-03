@@ -81,7 +81,7 @@ async function add_new_employees(employee){
         return false;
     }
 }
-
+/*
 async function add_company(company){
     var queryText = 'INSERT INTO "User".companies (id_users, path_logo, name, alias,description,representative,ceo,id_country,'
         +'phone,cell_phone,email_company,address,num_ext,num_int,postal_code,cologne,city,states,municipality)'
@@ -97,7 +97,31 @@ async function add_company(company){
         console.error('Error al insertar en la base de datos:', error);
         return false;
     }
+}*/
+
+async function add_company(company) {
+    var queryText = 'INSERT INTO "User".companies (id_users, path_logo, name, alias, description, representative, ceo, id_country, ' +
+        'phone, cell_phone, email_company, address, num_ext, num_int, postal_code, cologne, city, states, municipality) ' +
+        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id';
+
+    var values = [company.id_user, company.path_logo, company.name, company.alias, company.description, company.representative, company.ceo,
+                company.id_country, company.phone, company.cell_phone, company.email, company.street, company.num_o, company.num_i, company.postal_code,
+                company.cologne, company.city, company.street, company.municipality];
+
+    try {
+        const result = await database.query(queryText, values);
+        // Si la inserción fue exitosa y se devolvió el ID de la compañía, lo retornamos
+        if (result.rows.length > 0) {
+            return result.rows[0].id;
+        } else {
+            throw new Error('No se pudo obtener el ID de la compañía después de la inserción');
+        }
+    } catch (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return null;
+    }
 }
+
 
 async function add_product_department(department){
     var queryText = 'INSERT INTO "Kitchen".product_department (id_companies, name, description)'

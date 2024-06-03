@@ -174,7 +174,6 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 }, async (req, userName, password, done) => {
     try {
-        console.log(req.body)
         const { email, phone, businessName, acceptTerms } = req.body;
 
         //we know if this user accept the terms and condition 
@@ -203,10 +202,12 @@ passport.use('local.signup', new LocalStrategy({
             email: ${email}
         `
         await sendEmail.send_email('technologyfud@gmail.com','eduardoa4848@Outlook.es',message)
+        
         //create a company 
         const newCompany=await get_new_company(newUser.id,email,businessName,phone);
-        if (await addDatabase.add_company(newCompany)){
-            console.log('La empresa fue añadida con éxito ❤️');
+        const idCompany=await addDatabase.add_company(newCompany) //add the new company and get the id 
+        if (idCompany){ //if we can add the new company 
+            addDatabase.save_branch(idCompany,businessName,phone, userName);
         }
 
         return done(null, newUser);
@@ -215,6 +216,28 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('message', 'Error en el formulario.'));
     }
 }));
+
+function create_branch_free(id_companies,name_branch,phone,representative){
+    const branch={
+        id_companies,
+        name_branch,
+        alias: name_branch,
+        representative,
+        phone,
+        cell_phone:phone,
+        email_branch:email,
+        id_country:0,
+        municipality:'',
+        city:'',
+        cologne:'',
+        address:'',
+        num_ext:'',
+        num_int:'',
+        postal_code:''
+    }
+    return branch;
+}
+
 
 function create_password() {
     var character = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

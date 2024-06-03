@@ -309,6 +309,7 @@ router.post('/restart-password', isNotLoggedIn, async (req, res) => {
         if(await save_token_database(idUser,token)){
             //if we can save the token in the database, send the token for email 
             await sendEmail.email_to_recover_password(email,token)//await restart_password_send_token(email,token);
+            //await sendEmail.email_to_recover_password('eduardoa4848@Outlook.es',token)//await restart_password_send_token(email,token);
             req.flash('success', 'Se envio un token a tu correo electronico usalo para restablecer tu password 👁️');
             res.redirect('/fud/confirm-restart-password');
         }else{
@@ -4725,8 +4726,6 @@ async function add_schedule(idEmployee, idBranch, idSchedule, dateStart, dateFin
 router.get('/:id_company/:id_branch/:idScheduleEmployee/:idSchedule/edit-schedules-employees', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, idScheduleEmployee, idSchedule } = req.params;
-        console.log(idScheduleEmployee)
-        console.log(idSchedule)
         if (await update_history_schedule(idScheduleEmployee, idSchedule)) {
             req.flash('success', 'El horario fue actualizado con exito 😉')
         } else {
@@ -4770,15 +4769,17 @@ router.get('/home', isLoggedIn, async (req, res) => {
 });
 
 async function home_render(req, res) {
-    //CEO
-    if (req.user.rol_user == 0) {
+    if (req.user.rol_user == 0) { //Free
         await home_company(req, res)
     }
     else if (req.user.rol_user == 1) { //Manager
         await home_manager(req, res)
     }
-    else {
+    else if(req.user.rol_user == 2){ //Employee
         await home_employees(req, res)
+    }
+    else { //CEO
+        await home_free(req, res)
     }
 }
 
@@ -4830,6 +4831,19 @@ async function home_company(req, res) {
     res.render('links/manager/home', { companies });
 }
 
+
+async function get_id_branch(id_company){
+    var queryText = 'SELECT * FROM "Company".branches Where id_companies= $1';
+    var values = [parseInt(req.user.id)];
+    const result = await database.query(queryText, values);
+    const branches = result.rows;
+    if(branches.length>1){
+
+    }else{
+
+    }
+}
+
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     //we will waching if exist this branch
     if (await this_employee_works_here(req, res)) {
@@ -4845,14 +4859,17 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
             const newAd = await get_all_ad(id_branch, 'new');
             const combosAd = await get_all_ad(id_branch, 'combo');
             const specialsAd = await get_all_ad(id_branch, 'special');
-    
-            res.render('links/store/home/home', { dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd });
+
+            //const addition=await get_all_additions(dishAndCombo)
+            const addition='{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}';
+            res.render('links/store/home/home', { dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
         }else{
             res.render('links/store/branchLost')
         }
     }
     
 });
+
 
 async function this_employee_works_here(req, res) {
     const { id_user } = req.params;
@@ -4900,6 +4917,28 @@ async function get_all_dish_and_combo(idCompany, idBranch) {
     var values = [idBranch];
     const result = await database.query(queryText, values);
     return result.rows;
+}
+
+async function get_all_additions(dishAndCombo){
+    var additional=[]
+    for(var i = 0; i < dishAndCombo.length; i++){
+        try{
+            var queryText = `
+                SELECT id, id_dishes_and_combos, id_products_and_supplies FROM "Kitchen".table_supplies_combo 
+                WHERE id_dishes_and_combos = $1 and additional=true
+            `;
+            var values = [dishAndCombo[i].id_dishes_and_combos];
+            const result = await database.query(queryText, values);
+            if(result.rows.length>0){
+                additional.push(result.rows)
+            }
+        }catch (error) {
+            // Manejo de errores
+            console.error('Error al actualizar leer los addition de los combos:', error);
+        }
+    }
+
+    return additional;
 }
 
 async function get_all_data_combo_most_sold(id_branch) {
@@ -4991,8 +5030,37 @@ router.get('/store-home', isLoggedIn, async (req, res) => {
 
 
 
+//--------------------------------restaurant free
+async function get_free_company(id_user){
+    var queryText = 'SELECT id FROM "User".companies WHERE id_users = $1';
+    var values = [id_user];
+    const result = await database.query(queryText, values);
+    const companyId = result.rows[0].id;
+    return companyId;
+}
 
+async function home_free(req, res) {
+    const idUser = parseInt(req.user.id);
+    const idCompany = await get_free_company(idUser);
 
+    var queryText = 'SELECT * FROM "Company".branches WHERE id_companies = $1';
+    var values = [idCompany];
+    const result = await database.query(queryText, values);
+    const idBranch = result.rows[0].id;
+
+    var link = '/fud/' + idUser + '/' + idCompany + '/' + idBranch + '/my-store';
+    res.redirect(link);
+}
+
+router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, res) => {
+    const { id_company, id_branch } = req.params;
+    const branch = await get_data_branch(req);
+    if (branch != null) {
+        res.render('links/restaurant/home', { branch });
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
 
 
