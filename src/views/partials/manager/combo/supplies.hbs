@@ -3,16 +3,17 @@
   <thead>
     <tr>
       <th></th>
-      <th>Barcode</th>
-      <th>Name</th>
-      <th>Sale Amount/Sale Price</th>
+      <th>Codigo de Barras</th>
+      <th>Nombre</th>
+      <th>Monto de venta/Precio de Venta</th>
       <th>Cant.</th>
       <th>$ Total</th>
+      <th>Adicional</th>
     </tr>
   </thead>
   <tbody>
     {{#each suppliesCombo}}
-        <tr>
+        <tr additional='{{additional}}'>
             {{#if img}}
               <td><img src="{{img}}" alt="" class="img-s-p"></td>
             {{else}}
@@ -23,9 +24,17 @@
             <td amount_sale="1" unity_sale="unity" sale_price="{{sale_price}}" currency="{{currency}}" amount="{{amount}}" unity="{{unity}}">1 {{unity}}/ {{sale_price}}({{currency}})$</td>
             <td>{{amount}}/{{unity}}</td>
             <td price="0">0$</td>
+            <td>
+              {{#if additional}}
+                <i class="fi-icon fi-sr-circle-xmark"></i>
+              {{else}}
+                <i class="fi-icon fi-sr-check-circle"></i>
+              {{/if}}
+            </td>
         </tr>
     {{/each}}
     <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -48,13 +57,20 @@
         var row = rows[i];
         var cells = row.getElementsByTagName("td");
 
-        for (var j = 0; j < cells.length; j++) {
-            var cell = cells[j];
-            var price = cell.getAttribute("price");
+        //we will watch if can add this products. If the products no is addition
+        //we not can add becaus is it that the customer can add after
+        var additional=row.getAttribute("additional");
+        console.log(additional)
+        if(additional=='false'){ //if the product not is additional, we add the price the total
+        console.log('additional')
+          for (var j = 0; j < cells.length; j++) {
+              var cell = cells[j];
+                var price = cell.getAttribute("price"); //get the price of the product 
 
-            if (price !== null && !isNaN(parseFloat(price))) {
-                totalPrice += parseFloat(price);
-            }
+                if (price !== null && !isNaN(parseFloat(price))) {
+                    totalPrice += parseFloat(price);
+                }
+          }
         }
     }
 
@@ -110,7 +126,7 @@
             }
           
 
-            if(j==cells.length-1){
+            if(j==cells.length-2){
               cell.textContent = total +" "+currency+"$";
             }
         }

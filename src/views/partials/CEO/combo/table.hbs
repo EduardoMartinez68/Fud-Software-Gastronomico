@@ -1,12 +1,21 @@
+<style>
+    .circle-checkbox{
+        width: 100%;
+        height: 100%;
+    }
+    .card{
+        width: 100%;
+    }
+</style>
 <div class="form-group">
-    
     {{>CEO/combo/browser}}
     <table class="table table-hover" id="table-supplies-products" name="table-combo"> <!--table-bordered-->
         <colgroup>
             <col style="width: 30%;">
             <col style="width: 30%;">
-            <col style="width: 15%;">
-            <col style="width: 15%;">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
             <col style="width: 10%;">
         </colgroup>
         <thead>
@@ -16,6 +25,7 @@
             <th><label>Cant.</label></th>
             <th><label>Merma.</label></th>
             <th><label>Unidad</label></th>
+            <th><label>Adicional</label></th>
             <th><label></label></th>
         </tr>
         </thead>
@@ -31,24 +41,17 @@
                             {{>unity/unitOfMeasure}}
                         </select>
                     </td>
+                    <td>
+                        {{#if additional}}
+                            <input type="checkbox" id="circle-checkbox" class="circle-checkbox" checked>
+                        {{else}}
+                            <input type="checkbox" id="circle-checkbox" class="circle-checkbox">
+                        {{/if}}
+                    </td>
                     <td><button class="btn btn-danger" onclick="delete_row(this)" type="button"><i class="fi-icon fi-sr-trash"></i></button></td>
                 </tr>
             {{/each}}
-            <!--
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><label>Type Unity</label></td>
-                <td>
-                    <select class="form-control" value="1">
-                        {{>unity/unitOfMeasure}}
-                    </select>
-                </td>
-                <td></td>
-            </tr>
-            -->
         </tbody>
     </table>
-    <input type="text" name="barcodeProducts" id="barcodeProducts">
+    <input type="text" name="barcodeProducts" id="barcodeProducts" hidden>
 </div>

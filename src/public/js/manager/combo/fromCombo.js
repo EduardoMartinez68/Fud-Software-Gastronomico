@@ -12,7 +12,7 @@ async function edit_cant(button) {
 
     // Validate if the user entered a value and update the quantity if valid
     if (!isNaN(newCant) && newCant > 0) {
-        row.cells[2].innerHTML = '<button class="btn" onclick="edit_cant(this)">' + newCant + '</button>';
+        row.cells[2].innerHTML = '<button class="btn" onclick="edit_cant(this)" type="button">' + newCant + '</button>';
     }
     else{
         delete_row(button);
@@ -32,7 +32,7 @@ async function edit_food_waste(button) {
 
     // Validate if the user entered a value and update the quantity if valid
     if (!isNaN(newCant) && newCant >= 0) {
-        row.cells[3].innerHTML = '<button class="btn" onclick="edit_food_waste(this)">' + newCant + '</button>';
+        row.cells[3].innerHTML = '<button class="btn" onclick="edit_food_waste(this)" type="button">' + newCant + '</button>';
     }else{
         infoMessage('Error al actualizar','La cantidad de merma debe ser mayor o igual a 0')
     }
@@ -108,7 +108,8 @@ function addRowToTable(idProduct,barcodeProduct,nameProduct){
     var cellCant= row.insertCell(2); // Cell for the supply
     var foodWaste= row.insertCell(3); // Cell for the supply
     var cellForSell= row.insertCell(4); // Cell for supply data
-    var cellBtn= row.insertCell(5); // Cell for supply data
+    var cellForAditional= row.insertCell(5); // Cell for supply data
+    var cellBtn= row.insertCell(6); // Cell for supply data
 
     // Assign data to cells
     cellBarcode.innerHTML = barcodeProduct;
@@ -116,6 +117,7 @@ function addRowToTable(idProduct,barcodeProduct,nameProduct){
     cellCant.innerHTML = '<button class="btn" onclick="edit_cant(this)" type="button">' + 1 + '</button>';
     foodWaste.innerHTML = '<button class="btn" onclick="edit_food_waste(this)" type="button">' + 0 + '</button>';
     cellForSell.innerHTML='<select class="form-control" value=1><option value="unity">Pza</option><option value="kg">kg</option><option value="l">L</option></select>';
+    cellForAditional.innerHTML='<input type="checkbox" id="circle-checkbox" class="circle-checkbox">';
     cellBtn.innerHTML = '<button class="btn btn-danger" onclick="delete_row(this)"><i class="fi-icon fi-sr-trash"></i></button>';
 }
 
@@ -142,10 +144,13 @@ function get_id_products_and_supplies(){
                 // Se ha seleccionado una opción
                 var unity = selectElement.value;
               }
-            text+=`[${idProduct},${amount},${foodWaste}, ${unity}],`;
+
+            //know if this product is optional or mandatory
+            var additional=cells[5].querySelector('input').checked;
+            text+=`[${idProduct},${amount},${foodWaste}, ${unity},${additional}],`;
         }
     }
-    text+='[,,Type Unity, Unity],'
+    text+='[,,Type Unity, Unity ,additional]'
     inputBarcodeProducts=document.getElementById('barcodeProducts');
     inputBarcodeProducts.value=text;
 }

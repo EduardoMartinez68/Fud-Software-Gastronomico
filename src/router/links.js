@@ -4008,7 +4008,18 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
             WHERE tsc.id_dishes_and_combos = $1 ORDER BY id_products_and_supplies DESC
         `;
 
-        const comboQuery = `SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale
+        const comboQuery2 = `SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, psf.currency_sale, psf.additional
+        FROM "Kitchen".table_supplies_combo tsc
+        INNER JOIN (
+            SELECT DISTINCT ON (id_products_and_supplies) id_products_and_supplies, currency_sale
+            FROM "Inventory".product_and_suppiles_features
+            ORDER BY id_products_and_supplies
+        ) psf
+        ON tsc.id_products_and_supplies = psf.id_products_and_supplies
+        WHERE tsc.id_dishes_and_combos = $1
+        ORDER BY tsc.id_products_and_supplies DESC
+        `;
+        const comboQuery=`SELECT tsc.id_products_and_supplies, tsc.amount, tsc.unity, tsc.additional, psf.currency_sale
         FROM "Kitchen".table_supplies_combo tsc
         INNER JOIN (
             SELECT DISTINCT ON (id_products_and_supplies) id_products_and_supplies, currency_sale
@@ -4051,7 +4062,8 @@ async function get_all_price_supplies_branch(idCombo, idBranch) {
                 amount: row.amount,
                 unity: row.unity,
                 sale_price: supplyPrice,
-                currency: row.currency_sale
+                currency: row.currency_sale,
+                additional: row.additional
             });
         });
 

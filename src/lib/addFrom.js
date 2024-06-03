@@ -407,10 +407,14 @@ function parse_barcode_products(barcodeProducts) {
         var amount = parseFloat(values[1]);
         var foodWaste = parseFloat(values[2].trim());
         var unity = values[3].trim();
-        unity=unity.replace("]", "");
+
+        var additional = values[4].trim();
+        additional=additional.replace("]", "");
+        additional=(additional === 'true') //know if the value is true
+        
         // Check if the values are valid before adding them to the result
         if (!isNaN(idProduct) && !isNaN(amount) && unity) {
-            result.push({ idProduct: idProduct, amount: amount,foodWaste: foodWaste, unity: unity });
+            result.push({ idProduct: idProduct, amount: amount,foodWaste: foodWaste, unity: unity, additional:additional });
         }
     }
     console.log(result)
