@@ -686,7 +686,7 @@ router.post('/create-suscription-studio', isLoggedIn, async (req, res) => {
     }
     */
 });
-
+/*
 router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
     try {
         // get the price with the ID of the price
@@ -716,40 +716,40 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
-    /*
+});*/
+router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
     try {
-        const prices = await stripe.prices.list({
-          lookup_keys: [req.body.lookup_key],
-          expand: ['data.product'],
+        // Crear la suscripción gratuita de por vida
+        const customer = await stripe.customers.create({
+            email: req.user.email,
         });
-    
-        if (!prices.data || prices.data.length === 0) {
-          throw new Error('No se encontraron precios.');
-        }
-    
-        const session = await stripe.checkout.sessions.create({
-            billing_address_collection: 'auto',
-            line_items: [
-              {
-                price: 'price_1P2x77RofynVwfKYLWTwJB22',
-                quantity: 1,
-              },
+
+        const subscription = await stripe.subscriptions.create({
+            customer: customer.id,
+            items: [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        product: 'prod_QDtzAJCfe439CH', // ID de tu producto gratuito
+                        recurring: {
+                            interval: 'month',
+                            interval_count: 1,
+                        },
+                        unit_amount: 0,
+                    },
+                },
             ],
-            mode: 'subscription',
-            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-free`,
-            cancel_url: `https://fud-tech.cloud/fud/prices`,
-            subscription_data:{
-                trial_period_days:15
-            }
-          });
-  
-        res.redirect(303, session.url);
-      } catch (error) {
+            billing_cycle_anchor: 'now',
+            trial_period_days: 0,
+        });
+
+        res.redirect(303, `https://fud-tech.cloud/fud/${subscription.id}/welcome-free`);
+    } catch (error) {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
-      }
-      */
+    }
 });
+
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
     await create_subscription(req,13); //this is for save the subscription in the database with the pack that buy the user 
