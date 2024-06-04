@@ -4775,12 +4775,13 @@ async function home_render(req, res) {
     else if (req.user.rol_user == 1) { //Manager
         await home_manager(req, res)
     }
-    else if(req.user.rol_user == 2){ //Employee
+    else{ //Employee
         await home_employees(req, res)
     }
-    else { //CEO
-        await home_free(req, res)
-    }
+    //if(req.user.rol_user == 2)
+    //else { //CEO
+        //await home_free(req, res)
+    //}
 }
 
 
