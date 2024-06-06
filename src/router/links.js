@@ -4770,6 +4770,7 @@ router.get('/home', isLoggedIn, async (req, res) => {
 
 async function home_render(req, res) {
     if (req.user.rol_user == 0) { //Free
+        //await home_free(req, res)
         await home_company(req, res)
     }
     else if (req.user.rol_user == 1) { //Manager
@@ -4847,9 +4848,10 @@ async function get_id_branch(id_company){
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     //we will waching if exist this branch
-    if (await this_employee_works_here(req, res)) {
+    //if (await this_employee_works_here(req, res)) {
         const { id_company, id_branch } = req.params;
         if(id_branch!=null){
+            const branchFree = await get_data_branch(req);
             const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
             const dataEmployee = await get_data_employee(req);
             const newCombos = await get_data_recent_combos(id_company);
@@ -4863,11 +4865,11 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
 
             //const addition=await get_all_additions(dishAndCombo)
             const addition='{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}';
-            res.render('links/store/home/home', { dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
+            res.render('links/store/home/home', { branchFree,dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
         }else{
             res.render('links/store/branchLost')
         }
-    }
+    //}
     
 });
 
@@ -5048,23 +5050,40 @@ async function home_free(req, res) {
     var values = [idCompany];
     const result = await database.query(queryText, values);
     const idBranch = result.rows[0].id;
-
-    var link = '/fud/' + idUser + '/' + idCompany + '/' + idBranch + '/my-store';
+    var link = '/fud/' + idUser + '/' + idCompany +'/'  + idBranch + '/'+ idUser + '/'+ 0 + '/store-home';
     res.redirect(link);
 }
 
 router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, res) => {
     const { id_company, id_branch } = req.params;
-    const branch = await get_data_branch(req);
-    if (branch != null) {
-        res.render('links/restaurant/home', { branch });
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        res.render('links/restaurant/home', { branchFree });
     } else {
         res.render('links/store/branchLost');
     }
 });
 
+router.get('/:id_company/:id_branch/employees-free', isLoggedIn, async (req, res) => {
+    const { id_company, id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        res.render('links/free/employee/employee', { branchFree });
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
-
+router.get('/:id/:id_branch/supplies-free', isLoggedIn, async (req, res) => {
+    const {id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        const supplies_products = await search_company_supplies_or_products(req, true);
+        res.render('links/free/supplies/supplies', { branchFree, supplies_products});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
 
 

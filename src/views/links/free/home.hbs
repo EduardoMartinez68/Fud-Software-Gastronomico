@@ -11,8 +11,8 @@
     <div class="wrapper">
         <main>
             <div class="container bg-light rounded">
-                {{#each branch}}
-                    <div class="h4 font-weight-bold text-center py-3">Welcome Branch '{{name_branch}}'</div>
+                {{#each branchFree}}
+                    <div class="h4 font-weight-bold text-center py-3">Bienvenido a '{{name_branch}}'</div>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 my-lg-0 my-3">
                             <div class="box bg-white" onclick="nextWeb('{{id_companies}}/{{id}}/supplies')">
@@ -22,8 +22,8 @@
                                         <img src="/img/icons/supplies.png"
                                             alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>supplies</b> <a href="/fud/{{id_companies}}/{{id}}/supplies">
-                                            <p class="text-muted">Edit or search</p>
+                                    <div class="d-flex flex-column"> <b>Insumos</b> <a href="/fud/{{id_companies}}/{{id}}/supplies">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -37,8 +37,8 @@
                                         <img src="https://i.pinimg.com/originals/1d/ed/36/1ded366c71429ea33389328d2d4619a6.png"
                                             alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Products</b> <a href="/fud/{{id_companies}}/{{id}}/products">
-                                            <p class="text-muted">Edit or search</p>
+                                    <div class="d-flex flex-column"> <b>Productos</b> <a href="/fud/{{id_companies}}/{{id}}/products">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -50,8 +50,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/6269/6269329.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Combos/Dishes</b> <a href="/fud/{{id_companies}}/{{id}}/combos">
-                                            <p class="text-muted">Edit or search</p>
+                                    <div class="d-flex flex-column"> <b>Combos/Platillos</b> <a href="/fud/{{id_companies}}/{{id}}/combos">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -64,8 +64,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/2293/2293644.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Providers</b> <a href="/fud/{{id_companies}}/{{id}}/providers">
-                                            <p class="text-muted">Add, edit, search or delate</p>
+                                    <div class="d-flex flex-column"> <b>Proveedores</b> <a href="/fud/{{id_companies}}/{{id}}/providers">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -78,8 +78,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/5323/5323820.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Food Department</b> <a href="/fud/{{id_companies}}/{{id}}/food-department">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Departamento de Alimentos</b> <a href="/fud/{{id_companies}}/{{id}}/food-department">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -92,8 +92,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-orange">
                                         <img src="https://cdn-icons-png.flaticon.com/512/5323/5323820.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Food Category</b> <a href="/fud/{{id_companies}}/{{id}}/food-category">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Categoría de alimentos</b> <a href="/fud/{{id_companies}}/{{id}}/food-category">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -106,8 +106,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/526/526190.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"><b>Employees</b> <a href="/fud/{{id_companies}}/{{id}}/employees-branch">
-                                            <p class="text-muted">add, edit, search or delete</p>
+                                    <div class="d-flex flex-column"><b>Empleados</b> <a href="/fud/{{id_companies}}/{{id}}/employees-branch">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -120,8 +120,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/3985/3985090.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Roles employees</b> <a href="/fud/{{id_companies}}/{{id}}/roles-department">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Roles de empleados</b> <a href="/fud/{{id_companies}}/{{id}}/roles-department">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -135,8 +135,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pista">
                                         <img src="https://cdn-icons-png.flaticon.com/512/3985/3985090.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Types users</b> <a href="/fud/{{id_companies}}/{{id}}/type-employees">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Tipos de usuarios</b> <a href="/fud/{{id_companies}}/{{id}}/type-employees">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -149,8 +149,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
                                         <img src="https://cdn-icons-png.flaticon.com/512/7298/7298311.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Sales</b> <a href="/fud/{{id_companies}}/{{id}}/1/sales">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Ventas</b> <a href="/fud/{{id_companies}}/{{id}}/1/sales">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -163,8 +163,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
                                         <img src="https://cdn-icons-png.flaticon.com/512/3176/3176101.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Movements</b> <a href="/fud/{{id_companies}}/{{id}}/1/movements">
-                                            <p class="text-muted">search</p>
+                                    <div class="d-flex flex-column"> <b>Movimientos</b> <a href="/fud/{{id_companies}}/{{id}}/1/movements">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -177,8 +177,8 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
                                         <img src="https://cdn-icons-png.flaticon.com/512/4457/4457355.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Ad</b> <a href="/fud/{{id_companies}}/{{id}}/ad">
-                                            <p class="text-muted">add, edit or delete</p>
+                                    <div class="d-flex flex-column"> <b>Anuncio</b> <a href="/fud/{{id_companies}}/{{id}}/ad">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
@@ -191,28 +191,25 @@
                                         class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
                                         <img src="https://cdn-icons-png.flaticon.com/512/1198/1198290.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Box</b> <a href="/fud/{{id_companies}}/{{id}}/box">
-                                            <p class="text-muted">add, edit, search or delete</p>
+                                    <div class="d-flex flex-column"> <b>Cajas</b> <a href="/fud/{{id_companies}}/{{id}}/box">
+                                            <p class="text-muted">Agregar, Editar, Eliminar y Buscar</p>
                                         </a> </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!--
                         <div class="col-lg-4 col-md-6 my-lg-3 my-3">
                             <div class="box bg-white" onclick="nextWeb('/{{id_companies}}/{{id}}/marketplace')">
                                 <div class="d-flex align-items-center">
                                     <div
-                                        class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-purple">
+                                        class="rounded-circle mx-3 d-flex align-items-center justify-content-center pale-pink">
                                         <img src="https://cdn-icons-png.flaticon.com/512/8170/8170714.png" alt="">
                                     </div>
-                                    <div class="d-flex flex-column"> <b>Marketplace</b> <a href="/fud/{{id_companies}}/{{id}}/marketplace">
-                                            <p class="text-muted">add</p>
+                                    <div class="d-flex flex-column"> <b>⭐Marketplace⭐</b> <a href="/fud/{{id_companies}}/{{id}}/marketplace">
+                                            <p class="text-muted">Agregar</p>
                                         </a> </div>
                                 </div>
                             </div>
                         </div>
-                        -->
                     </div>
                 {{/each}}
             </div>
