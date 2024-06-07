@@ -9,6 +9,19 @@
         </div>
     </form>
 {{/each}}
+{{#each branchFree}}
+    <form action="/fud/{{id_companies}}/{{id}}/ad-offer" method="POST" enctype="multipart/form-data">
+        <div class="col">
+            <label>Image (2,000x400)</label><br>
+            <img src="/img/ad.png" alt="" class="img-carousel" id="previewImage-1">
+            <input type="file" accept="image/*" id="uploadInput-1" style="display: none;" onchange="previewFile(-1)" name="image">
+            <button type="button" class="btn" onclick="document.getElementById('uploadInput-1').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+            <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+        </div>
+    </form>
+{{/each}}
+
+
 <hr>
 <div class="row">
     <label>All the image of the carousel</label><br>

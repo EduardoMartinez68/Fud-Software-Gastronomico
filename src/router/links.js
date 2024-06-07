@@ -4447,7 +4447,7 @@ async function delete_box_branch(id) {
 
 //ad
 router.get('/:id_company/:id_branch/ad', isLoggedIn, async (req, res) => {
-    if(await validate_subscription(req,res)){
+    //if(await validate_subscription(req,res)){
         const { id_branch } = req.params;
 
         //we going to get all the type of ad in the branch
@@ -4463,7 +4463,7 @@ router.get('/:id_company/:id_branch/ad', isLoggedIn, async (req, res) => {
             const branch = await get_data_branch(req);
             res.render('links/branch/ad/ad', { branch, offerAd, newAd, combosAd, specialsAd });   
         }
-    }
+    //}
 })
 
 async function get_all_ad(idBranch, type) {
@@ -5063,22 +5063,34 @@ async function get_free_company(id_user){
 }
 
 async function home_free(req, res) {
+    /*
     const idUser = parseInt(req.user.id);
     const idCompany = await get_free_company(idUser);
 
     var queryText = 'SELECT * FROM "Company".branches WHERE id_companies = $1';
     var values = [idCompany];
     const result = await database.query(queryText, values);
-    const idBranch = result.rows[0].id;
-    var link = '/fud/' + idUser + '/' + idCompany +'/'  + idBranch + '/'+ idUser + '/'+ 0 + '/store-home';
+    const idBranch = result.rows[0].id;*/
+    //var link = '/fud/' + idUser + '/' + idCompany +'/'  + idBranch + '/'+ idUser + '/'+ 0 + '/store-home';
+
+    const employee = await get_data_employee(req);
+    const data = employee[0]
+    const id_user = data.id_users
+    const id_company = data.id_companies
+    const id_branch = data.id_branches
+    const id_employee = data.id
+    const id_role = data.id_roles_employees
+
+    const link = `/fud/${id_user}/${id_company}/${id_branch}/${id_employee}/${id_role}/store-home`;
     res.redirect(link);
 }
 
 router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, res) => {
     const { id_company, id_branch } = req.params;
     const branchFree = await get_data_branch(req);
+    const employee = await get_data_employee(req);
     if (branchFree != null) {
-        res.render('links/restaurant/home', { branchFree });
+        res.render('links/restaurant/home', { branchFree , employee});
     } else {
         res.render('links/store/branchLost');
     }

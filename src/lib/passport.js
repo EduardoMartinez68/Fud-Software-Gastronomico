@@ -208,7 +208,16 @@ passport.use('local.signup', new LocalStrategy({
         const idCompany=await addDatabase.add_company(newCompany) //add the new company and get the id 
         if (idCompany){ //if we can add the new company 
             const newBranch=create_branch_free(idCompany,businessName,phone, userName)
-            await addDatabase.save_branch(newBranch);
+            const idBranch=await addDatabase.save_branch(newBranch);
+
+            const departament=create_a_departments(idCompany)
+            const idDepartment=await addDatabase.save_department_employees(departament);
+
+            const rol=create_rol(idCompany)
+            const idRol=await addDatabase.add_type_employees(rol);
+
+            const employee=create_a_new_employe(idCompany,newUser.id,idBranch,idDepartment,idRol);
+            await addDatabase.add_new_employees(employee)
         }
 
         return done(null, newUser);
@@ -218,7 +227,108 @@ passport.use('local.signup', new LocalStrategy({
     }
 }));
 
+function create_rol(idCompanies){
+    const role = {
+        idCompanies,
+        name_role:'Admin',
+        salary:0,
+        currency: '',
+        type_of_salary: '',
+        commissions: 0,
+        discount_for_product: 0,
+        add_box: true,
+        edit_box: true,
+        delete_box: true,
+        create_reservation: true,
+        view_reservation: true,
+        view_reports: true,
+        add_customer: true,
+        edit_customer: true,
+        delete_customer: true,
+        cancel_debt: true,
+        offer_loan: true,
+        get_fertilizer: true,
+        view_customer_credits: true,
+        send_email: true,
+        add_employee: true,
+        edit_employee: true,
+        delete_employee: true,
+        create_schedule: true,
+        assign_schedule: true,
+        view_schedule: true,
+        create_type_user: true,
+        create_employee_department: true,
+        view_sale_history: true,
+        delete_sale_history: true,
+        view_movement_history: true,
+        delete_movement_history: true,
+        view_supplies: true,
+        add_supplies: true,
+        edit_supplies: true,
+        delete_supplies: true,
+        view_products: true,
+        edit_products: true,
+        delete_products: true,
+        view_combo: true,
+        add_combo: true,
+        edit_combo: true,
+        delete_combo: true,
+        view_food_departament: true,
+        add_food_departament: true,
+        edit_food_departament: true,
+        delete_food_departament: true,
+        view_food_category: true,
+        add_food_category: true,
+        edit_food_category: true,
+        delete_food_category: true,
+        waste_report: true,
+        add_provider: true,
+        edit_provider: true,
+        delete_provider: true,
+        view_provider: true,
+        sell: true,
+        apply_discount: true,
+        apply_returns: true,
+        add_offers: true,
+        edit_offers: true,
+        delete_offers: true,
+        change_coins: true,
+        modify_hardware: true,
+        modify_hardware_kitchen: true,
+        give_permissions: true
+    };
 
+    return role;
+}
+
+function create_a_departments(idCompanies){
+    const departament={
+        idCompanies,
+        name_departaments: 'Caja',
+        description:''
+    }
+
+    return departament
+}
+
+function create_a_new_employe(id_companies,id_users,id_branches,id_departments_employees,id_roles_employees){
+    const employee={
+         id_companies,
+         id_users, 
+         id_roles_employees, 
+         id_departments_employees, 
+         id_branches, 
+         id_country:1, 
+         city:'', 
+         street:'', 
+         num_int:'', 
+         num_ext:'',
+         phone:'',
+         cell_phone:''
+    }
+
+    return employee;
+}
 
 function create_branch_free(id_companies,name_branch,phone,representative){
     const branch={

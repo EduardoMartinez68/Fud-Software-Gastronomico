@@ -29,6 +29,38 @@
             </div>
         </div>  
 {{/each}}
+{{#each branchFree}}
+    <div class="form-group">
+        <div class="row">
+            <div class="col">
+                <h6>Our Combos</h6>
+                <hr>
+                <form action="/fud/{{id_companies}}/{{id}}/ad-comboAd" method="post" enctype="multipart/form-data">
+                    <label>Image of a new combo</label><br>
+                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage-3">
+                    <input type="file" accept="image/*" id="uploadInput-3" style="display: none;" onchange="previewFile(-3)" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput-3').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+                    <br><br>
+                    <div class="col-10"><input type="text" class="form-control" placeholder="Name..." name="name" maxlength="30" required></div>
+                </form>
+            </div>
+            <div class="col">
+                <h6>Special</h6>
+                <hr>
+                <form action="/fud/{{id_companies}}/{{id}}/ad-specialAd" method="post" enctype="multipart/form-data">
+                    <label>Image of a new special</label><br>
+                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" alt="" class="img-ad" id="previewImage-4">
+                    <input type="file" accept="image/*" id="uploadInput-4" style="display: none;" onchange="previewFile(-4)" name="image">
+                    <button type="button" class="btn" onclick="document.getElementById('uploadInput-4').click()"><i class="fi-icon fi-br-upload"></i> Upload</button>
+                    <button type="send" class="btn"><i class="fi-icon fi-sr-square-plus"></i> Add</button>
+                    <br><br>
+                    <div class="col-10"><input type="text" class="form-control" placeholder="Name..." name="name" maxlength="30" required></div>      
+                </form>
+            </div>
+        </div>  
+{{/each}}
+
 
 <div class="row">
     <div class="col">
