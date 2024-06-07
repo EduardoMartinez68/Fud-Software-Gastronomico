@@ -11,6 +11,7 @@ const express=require('express');
 const router=express.Router();
 const {isLoggedIn,isNotLoggedIn}=require('../lib/auth');
 
+const rolFree=0
 
 const fs = require('fs');
 const path = require('path');
@@ -321,11 +322,11 @@ router.post('/fud/:id/add-company-products',async (req,res)=>{
     res.redirect('/fud/'+id+'/company-products');
 });
 
-function get_supplies_or_product_company(req,this_is_a_supplies){
+async function get_supplies_or_product_company(req,this_is_a_supplies){
     const {id}=req.params;
     const use_inventory= (req.body.inventory == 'on')
     const {barcode,name,description}=req.body
-    const img=create_a_new_image(req)
+    const img=await create_a_new_image(req)
 
     const supplies={
         id_company:id,
@@ -343,7 +344,7 @@ function get_supplies_or_product_company(req,this_is_a_supplies){
 //add combo
 router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
     const {id_company}=req.params;
-    const {barcodeProducts}=req.body;
+    const {barcodeProducts,idBranch}=req.body;
 
     //we will see if the user add a product or supplies 
     if(barcodeProducts==''){
@@ -355,14 +356,26 @@ router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
         const combo=await create_a_new_combo(req)
 
         //we will see if can add the combo to the database
-        if(await addDatabase.add_combo_company(combo)){
-            req.flash('success','El combo fue agregado con éxito ❤️')
-        }
-        else{
-            req.flash('message','El combo no fue agregado con éxito 😳')
-        }
+        const idCombos=await addDatabase.add_combo_company(combo)
 
-        res.redirect('/fud/'+id_company+'/combos');
+        //we will wach if the user have a branch free or a franquicia
+        if(req.user.rol_user!=rolFree){
+            if(idCombos){
+                req.flash('success','El combo fue agregado con éxito ❤️')
+            }
+            else{
+                req.flash('message','El combo no fue agregado con éxito 😳')
+            }    
+
+            res.redirect('/fud/'+id_company+'/combos');
+        }else{
+            //get the data combo in the branch
+            const comboData = create_combo_data_branch(idCombos, id_company, idBranch);
+
+            // save the combo in the branch
+            const idComboFacture=await addDatabase.add_combo_branch(comboData);
+            res.redirect('/fud/'+id_company+'/'+idBranch+'/'+idComboFacture+'/edit-combo-free');
+        }
     }
 });
 
@@ -419,6 +432,20 @@ function parse_barcode_products(barcodeProducts) {
     }
     console.log(result)
     return result;
+}
+
+function create_combo_data_branch(idCombo, idCompany,id_branch) {
+    const comboData = {
+        idCompany: idCompany,
+        idBranch: id_branch,
+        idDishesAndCombos: idCombo,
+        price_1: 0,
+        amount: 0,
+        product_cost: 0,
+        revenue_1: 0,
+        purchase_unit: 'Pza'
+    };
+    return comboData;
 }
 
 //edit combo 
@@ -1229,6 +1256,35 @@ function new_data_employee(req){
     return new_employee;
 }
 //---------------------------------------------------------------------------------------------------------BRANCHES---------------------------------------------------------------
+router.post('/fud/:id/:id_branch/add-supplies-free',isLoggedIn,async(req,res)=>{
+    const {id,id_branch}=req.params;
+
+    //this is for create the new supplies and save the id of the supplies
+    const newSupplies=await get_supplies_or_product_company(req,true);
+    const idSupplies=await addDatabase.add_supplies_company(newSupplies); //get the id of the supplies that added
+    if(idSupplies){
+        //we will create the supplies in the branch
+        const idSuppliesFactures=await addDatabase.add_product_and_suppiles_features(id_branch, idSupplies) //add the supplies in the branch 
+
+        //we will creating the data of the supplies and we will saving with the id of the supplies that create
+        const supplies=create_supplies_branch(req,idSuppliesFactures);
+        
+        //update the data in the branch
+        if(await update.update_supplies_branch(supplies)){ 
+            req.flash('success','El insumo fue agregado con éxito! 👍')
+        }
+        else{
+            req.flash('message','El insumo no fue agregado 👉👈');
+        }
+    }
+    else{
+        req.flash('message','El insumo no fue agregado con éxito 👉👈')
+    }
+
+    res.redirect(`/fud/${id}/${id_branch}/supplies-free`);
+})
+
+
 //edit supplies branch 
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',isLoggedIn,async(req,res)=>{
     const {id_company,id_branch,id_supplies}=req.params;
@@ -1244,7 +1300,11 @@ router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',is
         req.flash('message','Los insumos no se actualizaron 👉👈');
     }
 
-    res.redirect(`/fud/${id_company}/${id_branch}/supplies`);
+    if(req.user.rol_user==rolFree){
+        res.redirect(`/fud/${id_company}/${id_branch}/supplies-free`);
+    }else{
+        res.redirect(`/fud/${id_company}/${id_branch}/supplies`);
+    }
 })
 
 function create_supplies_branch(req,id_supplies){
@@ -1327,7 +1387,11 @@ router.post('/fud/:id_company/:id_branch/:id_combo/update-combo-branch',isLogged
         req.flash('message','El combo no actualizó 😳');
     }
 
-    res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
+    if(req.user.rol_user==rolFree){
+        res.redirect('/fud/'+id_company+'/'+id_branch+'/combos-free');
+    }else{
+        res.redirect('/fud/'+id_company+'/'+id_branch+'/combos');
+    }
 })
 
 function create_new_combo_branch(req,id_combo){

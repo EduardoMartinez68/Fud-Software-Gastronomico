@@ -3,12 +3,12 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            {{#each supplies_products}}
-            {{/each}}
+            {{>manager/supplies/table}}
         </div>
+        {{#each branchFree}}
         <div class="col">
             <div class="card p-3">
-                <form action="">
+                <form action="/fud/{{id_companies}}/{{id}}/add-supplies-free" method="post" enctype="multipart/form-data">
                     <center><h5><i class="fi-icon fi-ss-apple-whole"></i>Agregar nuevos insumo</h5></center>
                     <hr>
 
@@ -31,20 +31,24 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Codigo de Barras</label>
-                                <input type="text" class="form-control" placeholder="Codigo de Barras">
+                                <label for="">Codigo de Barras *</label>
+                                <input type="text" placeholder="Codigo de Barras" name="barcode" class="form-control" required maxlength="60" style="width: 100%;">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nombre</label>
-                                <input type="text" class="form-control" placeholder="Nombre">
+                                <label for="">Nombre *</label>
+                                <input type="text" placeholder="Nombre" name="name" class="form-control" required maxlength="60" style="width: 100%;">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Descripcion</label>
-                                <textarea type="text" class="form-control" placeholder="Descripcion"></textarea>
+                                <label for="">Descripcion</label>
+                                <textarea type="text" placeholder="Descripcion" name="description" class="form-control" style="width: 100%;"></textarea>
                             </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Usa inventario</label>
+                            <div class="form-group">
+                                <div class="form-check" name="">
+                                    <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory">
+                                    <label class="form-check-label" for="invalidCheck2">
+                                        Usar inventario
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>    
@@ -72,7 +76,7 @@
                                         <input type="tex" class="form-control" name="purchase_price" placeholder="Precio de Compra" required value="{{purchase_price}}">
                                     </div>
                                     <div class="col">
-                                    <label>Moneda</label>
+                                    <label>Moneda de compra</label>
                                         <select value="{{currency_purchase}}" name="currency_purchase" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
@@ -92,11 +96,11 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label>Precio de Venta *</label><br>
+                                        <label>Precio de Venta</label><br>
                                         <input type="tex" class="form-control" name="sale_price" placeholder="Precio de Venta" required value="{{sale_price}}">
                                     </div>
                                     <div class="col">
-                                    <label>Moneda</label>
+                                    <label>Moneda de uso</label>
                                         <select value="{{currency_sale}}" name="currency_sale" class="form-select">
                                             {{>unity/unitOfMoney}}
                                         </select>
@@ -127,10 +131,48 @@
                                 </div>
                             </div>
                             <br>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        {{/each}}
     </div>
 </div>
+<br><br><br>
+<script>
+  async function show_message_edit(id_supplies,id_company,id_branch,img,barcode,nameDepartment,existence,purchaseAmount){
+      //we will to get the data of the new department
+      const data=await edit_supplies_branch('Edita '+nameDepartment,img,barcode,nameDepartment,existence,purchaseAmount);
+      if(data){
+          //get the data of the from 
+          var newExistence = parseFloat(data[0]);
+          if(newExistence>0){
+              window.location.href = `/fud/${id_company}/${id_branch}/${id_supplies}/${newExistence}/update-supplies-branch`;
+          }
+      }
+  }
+</script>
+<script src="/js/manager/addEmployee.js"></script>
+<script src="/js/store/other.js"></script>
+<script>
+    const tabs = document.querySelectorAll('.tab_btn');
+    const all_content = document.querySelectorAll('.content-sales');
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', (e) => {
+            tabs.forEach(tab => { tab.classList.remove('active') });
+            tab.classList.add('active');
+
+            var line = document.querySelector('.line');
+            line.style.width = e.target.offsetWidth + "px";
+            line.style.left = e.target.offsetLeft + "px";
+
+            all_content.forEach(content => {
+                content.classList.remove('active');
+            })
+            all_content[index].classList.add('active');
+        })
+    })
+</script>

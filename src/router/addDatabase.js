@@ -161,18 +161,18 @@ async function add_supplies_company(supplies){
     }
 }
 
-async function save_supplies_company(supplies){
-    var queryText = 'INSERT INTO "Kitchen".products_and_supplies (id_companies, img, barcode, name, description, supplies, use_inventory)'
-        +'VALUES ($1, $2, $3, $4, $5, $6, $7)';
+async function save_supplies_company(supplies) {
+    var queryText = 'INSERT INTO "Kitchen".products_and_supplies (id_companies, img, barcode, name, description, supplies, use_inventory)' +
+                    ' VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id';
 
-    var values = [supplies.id_company,supplies.img,supplies.barcode,supplies.name,supplies.description,supplies.this_is_a_supplies,supplies.use_inventory] 
+    var values = [supplies.id_company, supplies.img, supplies.barcode, supplies.name, supplies.description, supplies.this_is_a_supplies, supplies.use_inventory];
 
-    try{
-        await database.query(queryText, values);
-        return true;
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0].id;
     } catch (error) {
         console.error('Error al insertar en la base de datos:', error);
-        return false;
+        return null;
     }
 }
 
@@ -200,7 +200,8 @@ async function add_combo_company(combo){
         const idCombo=await save_combo_company(combo)
         if(idCombo!=null){
             //we going to save all the supplies and products of the combo
-            return await save_all_supplies_combo_company(idCombo,combo.supplies)
+            await save_all_supplies_combo_company(idCombo,combo.supplies)
+            return idCombo;
         }
 
         return false;
@@ -249,8 +250,7 @@ async function save_supplies_combo_company(id_dishes_and_combos,supplies){
         +'VALUES ($1, $2, $3, $4, $5,$6)';
 
     var values = [id_dishes_and_combos,supplies.idProduct,supplies.amount,supplies.foodWaste,supplies.unity,supplies.additional] 
-    console.log('values')
-    console.log(values)
+
     try{
         await database.query(queryText, values);
         return true;
@@ -446,35 +446,38 @@ async function add_provider_company(provider){
 }
 
 //add product_and_suppiles_features
-async function add_product_and_suppiles_features(id_branch,id_supplies){
-    var queryText = 'INSERT INTO "Inventory".product_and_suppiles_features(id_branches, id_products_and_supplies)'
-    + ' VALUES ($1, $2)';
+async function add_product_and_suppiles_features(id_branch, id_supplies) {
+    var queryText = 'INSERT INTO "Inventory".product_and_suppiles_features(id_branches, id_products_and_supplies)' +
+                    ' VALUES ($1, $2) RETURNING id';
 
-    var values = [id_branch,id_supplies]
-    try{
-        await database.query(queryText, values);
-        return true;
+    var values = [id_branch, id_supplies];
+
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0].id;
     } catch (error) {
         console.error('Error al insertar en la base de datos product_and_suppiles_features:', error);
-        return false;
+        return null;
     }
 }
+
 
 //add combo branch 
-async function add_combo_branch(combo){
-
-    var queryText = 'INSERT INTO "Inventory".dish_and_combo_features(id_companies, id_branches, id_dishes_and_combos, price_1,amount,product_cost,revenue_1,purchase_unit)'
-    + ' VALUES ($1, $2, $3, $4,$5,$6,$7,$8)';
+async function add_combo_branch(combo) {
+    var queryText = 'INSERT INTO "Inventory".dish_and_combo_features(id_companies, id_branches, id_dishes_and_combos, price_1, amount, product_cost, revenue_1, purchase_unit)' +
+                    ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id';
 
     var values = Object.values(combo);
-    try{
-        await database.query(queryText, values);
-        return true;
+    
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0].id;
     } catch (error) {
         console.error('Error al insertar en la base de datos dish_and_combo_features:', error);
-        return false;
+        return null;
     }
 }
+
 
 //add  box move branch 
 async function add_movement_history(data){

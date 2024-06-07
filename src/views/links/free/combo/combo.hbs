@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="/css/manager/supplies_products.css">
+<br>
+<br>
+<div class="container">
+  <label><i class="fi-icon fi-sr-burger-fries"></i> Combos</label>
+    <hr>
+    <div class="row mt-5">
+        <div class="col-md-12">
+          {{#each branch}}
+            <button class="btn btn-danger" onclick="nextWeb('/{{id_companies}}/{{id}}/combo-refresh')"><i class="fi-department fi-br-refresh"></i></button>  Recargar todos los combos de la empresa
+          {{/each}}
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    {{#each branchFree}}
+    <div class="row">
+        <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="Search for barcode..." id="search">
+        </div>
+        <div class="col-sm-1">
+            <button class="btn" id="{{id}}" onclick="search_combo()"><i class="fi-icon fi-rs-search"></i></button>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn-add" id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id}}/add-combos-free')">+<i class="fi-icon fi-ss-hamburger-soda"></i></button>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br>
+<div class="container">
+    <div style="height: 700px; overflow-y: scroll;">
+        <table class="table table-hover" id="table-container"> <!--table-bordered-->
+            <colgroup>
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 15%;">
+                <col style="width: 30%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 15%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Barcode</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Departamento/Categoría</th>
+                <th>Precio</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each combos}}
+                <tr id="{{barcode}}">
+                    {{#if img}}
+                        <td><img src="{{img}}" class="img-s-p"></td>
+                    {{else}}
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" class="img-s-p"></td>
+                    {{/if}}
+
+                    <td>{{barcode}}</td>
+                    <td>{{name}}</td>
+                    <td>{{description}}</td>
+                    <td>{{department_name}}/{{category_name}}</td>
+                    <td>{{price_1}}</td>
+                    <td>
+                        <button class="btn btn-danger" id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id}}/edit-combo-branch')"><i class="fi-department fi-sr-pencil"></i></button>
+                    </td>           
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br><br>
+<script>
+    async function delate_combo(id,id_company){
+        if(await questionMessage('Eliminar Combo','¿Quieres eliminar este combo?')){
+            window.location.href = "/fud/"+id_company+"/"+id+"/delate-combo-company";
+        }
+    }
+
+    function edit_supplies(id,id_company){
+        window.location.href = "/fud/"+id_company+"/"+id+"/edit-combo-company";
+    }
+</script>
+
+<script src="/js/search.js"></script>

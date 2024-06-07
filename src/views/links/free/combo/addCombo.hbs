@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/addUser/addUser.css">
-
+<link rel="stylesheet" href="/css/manager/supplies_products.css">
 <div class="container p-4">
     <div class="row">
         <div class="col-md-8 mx-auto">
@@ -7,14 +7,16 @@
             <hr>
             <div class="card">
                 <div class="card-body">
-                    {{#each company}}
-                    <form action="/fud/{{id}}/add-company-combo" method="POST" enctype="multipart/form-data" id="comboForm">
+                    {{#each branchFree}}
+                    <form action="/fud/{{id_companies}}/add-company-combo" method="POST" enctype="multipart/form-data" id="comboForm">
                     {{/each}}
-                        {{>CEO/combo/from}}
+                        {{>free/combo/form}}
                         <hr>
                         {{>CEO/combo/table}}
                         <div class="form-group">
-                            <button class="btn btn-success btn-block" id="btn-send" type="submit">Save</button>
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-primary ms-auto" id="btn-send">Siguiente</button>
+                            </div>
                         </div>
                     </form>
                 </div>

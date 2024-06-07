@@ -25,6 +25,7 @@ const stripe = require('stripe')(APP_PASSWORD_STRIPE);
 const puppeteer = require('puppeteer');
 
 /////
+const rolFree=0
 
 //////////////////////
 //config the connection with digitalocean
@@ -1048,8 +1049,9 @@ async function get_data_company_with_id(id_company) {
 
 
 //
-router.get('/:id_company/:id_branch/marketplace', isLoggedIn, (req, res) => {
-    res.render(companyName + '/branch/marketplace/marketplace'); //this web is for return your user
+router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) => {
+    const branchFree = await get_data_branch(req);
+    res.render(companyName + '/branch/marketplace/marketplace',{branchFree}); //this web is for return your user
 })
 
 
@@ -3853,7 +3855,12 @@ router.get('/:id_company/:id_branch/:id_supplies/:existence/update-supplies-bran
         } else {
             req.flash('message', 'Los suministros no fueron actualizados 😅')
         }
-        res.redirect('/fud/' + id_company + '/' + id_branch + '/supplies');
+
+        if(req.user.rol_user == rolFree){
+            res.redirect('/fud/' + id_company + '/' + id_branch + '/supplies-free');
+        }else{
+            res.redirect('/fud/' + id_company + '/' + id_branch + '/supplies');
+        }
     }
 })
 
@@ -3878,7 +3885,6 @@ router.get('/:id_company/:id_branch/combos', isLoggedIn, async (req, res) => {
         const { id_company, id_branch } = req.params;
         const branch = await get_data_branch(req);
         const combos = await get_combo_features(id_branch);
-        console.log(combos)
         res.render('links/branch/combo/combos', { branch, combos });
     }
 })
@@ -3996,6 +4002,17 @@ router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch', isLog
         const branch = await get_data_branch(req);
         res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
     }
+})
+
+router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-free', isLoggedIn, async (req, res) => {
+    //if(await validate_subscription(req,res)){
+        const { id_combo_features, id_branch } = req.params;
+        const comboFeactures = await get_data_combo_factures(id_combo_features);
+        const suppliesCombo = await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos, id_branch)
+        console.log(comboFeactures[0].id_dishes_and_combos)
+        const branch = await get_data_branch(req);
+        res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
+    //}
 })
 
 async function get_all_price_supplies_branch(idCombo, idBranch) {
@@ -4432,15 +4449,20 @@ async function delete_box_branch(id) {
 router.get('/:id_company/:id_branch/ad', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_branch } = req.params;
-        const branch = await get_data_branch(req);
 
         //we going to get all the type of ad in the branch
         const offerAd = await get_all_ad(id_branch, 'offer');
         const newAd = await get_all_ad(id_branch, 'new');
         const combosAd = await get_all_ad(id_branch, 'combo');
         const specialsAd = await get_all_ad(id_branch, 'special');
-
-        res.render('links/branch/ad/ad', { branch, offerAd, newAd, combosAd, specialsAd });
+        
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/branch/ad/ad', { branchFree, offerAd, newAd, combosAd, specialsAd });
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/branch/ad/ad', { branch, offerAd, newAd, combosAd, specialsAd });   
+        }
     }
 })
 
@@ -4556,7 +4578,7 @@ async function update_ad(adId, newImg) {
     }
 }
 
-//schelude 
+//schelude marketplace
 router.get('/:id_comopany/:id_branch/schedules', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_ad } = req.params;
@@ -4769,8 +4791,10 @@ router.get('/home', isLoggedIn, async (req, res) => {
 });
 
 async function home_render(req, res) {
-    if (req.user.rol_user == 0) { //Free
-        //await home_free(req, res)
+    if(req.user.rol_user == rolFree){  //Free
+        await home_free(req, res)
+    }
+    else if (req.user.rol_user == 0) { //CEO
         await home_company(req, res)
     }
     else if (req.user.rol_user == 1) { //Manager
@@ -4779,10 +4803,6 @@ async function home_render(req, res) {
     else{ //Employee
         await home_employees(req, res)
     }
-    //if(req.user.rol_user == 2)
-    //else { //CEO
-        //await home_free(req, res)
-    //}
 }
 
 
@@ -5078,21 +5098,42 @@ router.get('/:id/:id_branch/supplies-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;
     const branchFree = await get_data_branch(req);
     if (branchFree != null) {
-        const supplies_products = await search_company_supplies_or_products(req, true);
-        res.render('links/free/supplies/supplies', { branchFree, supplies_products});
+        //const supplies_products = await search_company_supplies_or_products(req, true);
+        const supplies = await get_supplies_or_features(id_branch, true)
+        res.render('links/free/supplies/supplies', { branchFree, supplies});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
+
+router.get('/:id/:id_branch/combos-free', isLoggedIn, async (req, res) => {
+    const {id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        //const supplies_products = await search_company_supplies_or_products(req, true);
+        const combos = await get_combo_features(id_branch);
+        res.render('links/free/combo/combo', { branchFree, combos});
     } else {
         res.render('links/store/branchLost');
     }
 });
 
 
-
-
-
-
-
-
-
+router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
+    const {id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        const { id } = req.params;
+        const departments = await get_department(id);
+        const category = await get_category(id);
+        const supplies = await search_company_supplies_or_products(req, true);
+        const products = await search_company_supplies_or_products(req, false);
+        const suppliesCombo = []
+        res.render('links/free/combo/addCombo', { branchFree,departments,category,supplies,products,suppliesCombo});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
 router.get('/:id/Dashboard', isLoggedIn, async (req, res) => {
     const { id } = req.params;

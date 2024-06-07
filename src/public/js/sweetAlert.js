@@ -266,7 +266,7 @@ async function edit_supplies_branch(title,img,barcode,name,existence,purchase_am
     var containerHtml = `
         <div class="form-group">
             <center>
-                <img src="/img/uploads/${img}" class="img-from-supplies_products" id="imgEmployee"><br>
+                <img src="${img}" class="img-from-supplies_products" id="imgEmployee"><br>
                 <label>${barcode}</label><br>
             </center>
         </div>  
