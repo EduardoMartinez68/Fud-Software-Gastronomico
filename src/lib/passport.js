@@ -208,7 +208,7 @@ passport.use('local.signup', new LocalStrategy({
         const idCompany=await addDatabase.add_company(newCompany) //add the new company and get the id 
         if (idCompany){ //if we can add the new company 
             const newBranch=create_branch_free(idCompany,businessName,phone, userName)
-            addDatabase.save_branch(newBranch);
+            await addDatabase.save_branch(newBranch);
         }
 
         return done(null, newUser);
