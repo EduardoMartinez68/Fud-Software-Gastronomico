@@ -207,7 +207,8 @@ passport.use('local.signup', new LocalStrategy({
         const newCompany=await get_new_company(newUser.id,email,businessName,phone);
         const idCompany=await addDatabase.add_company(newCompany) //add the new company and get the id 
         if (idCompany){ //if we can add the new company 
-            addDatabase.save_branch(idCompany,businessName,phone, userName);
+            const newBranch=create_branch_free(idCompany,businessName,phone, userName)
+            addDatabase.save_branch(newBranch);
         }
 
         return done(null, newUser);
@@ -216,6 +217,8 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('message', 'Error en el formulario.'));
     }
 }));
+
+
 
 function create_branch_free(id_companies,name_branch,phone,representative){
     const branch={

@@ -585,5 +585,6 @@ module.exports={
     add_commanders,
     add_box,
     add_ad,
-    add_schedule
+    add_schedule,
+    save_branch
 };
