@@ -198,6 +198,7 @@ passport.use('local.signup', new LocalStrategy({
         //we send the information of the new user 
         const message=`
             new user <br>
+            Negocio: ${businessName} <br>
             phone: ${phone} <br>
             email: ${email}
         `
