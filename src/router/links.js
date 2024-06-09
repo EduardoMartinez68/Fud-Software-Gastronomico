@@ -4872,6 +4872,7 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         const { id_company, id_branch } = req.params;
         if(id_branch!=null){
             const branchFree = await get_data_branch(req);
+            const branch=branchFree;
             const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
             const dataEmployee = await get_data_employee(req);
             const newCombos = await get_data_recent_combos(id_company);
@@ -4885,7 +4886,16 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
 
             //const addition=await get_all_additions(dishAndCombo)
             const addition='{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}';
-            res.render('links/store/home/home', { branchFree,dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
+            if(req.user.rol_user==rolFree){
+                res.render('links/store/home/home', { branchFree,dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
+            }
+            else{
+                if (await this_employee_works_here(req, res)) {
+                    res.render('links/store/home/home', { branch,dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
+                }else{
+                    res.render('links/store/branchLost')
+                }
+            }
         }else{
             res.render('links/store/branchLost')
         }
