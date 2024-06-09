@@ -4891,7 +4891,7 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
             }
             else{
                 if (await this_employee_works_here(req, res)) {
-                    res.render('links/store/home/home', { branch,dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
+                    res.render('links/store/home/home', { dishAndCombo, dataEmployee, mostSold, newCombos, offerAd, newAd, combosAd, specialsAd , addition: JSON.stringify(addition)});
                 }else{
                     res.render('links/store/branchLost')
                 }
