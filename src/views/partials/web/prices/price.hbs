@@ -1,7 +1,4 @@
 {{>web/filesOldWeb/styles}}
-
-
-<!--
 <style>
     .offert-price {
         text-decoration: line-through;
@@ -64,6 +61,7 @@
 
     .card {
         border-radius: 22px;
+        /*width: 24rem;*/
     }
 
     .info-label {
@@ -77,7 +75,7 @@
         text-decoration: none;
     }
 
-    .info-link:hover{
+    .info-link:hover {
         cursor: pointer;
         color: #036fe2;
     }
@@ -93,394 +91,110 @@
             centramos en administrar tus insumos, bebidas, reservaciones y empleados
         </p>
     </div>
-<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
-            aria-selected="true">
-            <i class="fi fi-ss-cash-register"></i> Punto de Venta
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
-            aria-selected="false">
-            <i class="fi fi-ss-database"></i> Base de datos
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
-            aria-selected="false">
-            <i class="fi fi-ss-building"></i> Sucursal
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
-            aria-selected="false">
-            <i class="fi fi-sr-shop"></i> Restaurante
-        </a>
-    </li>
-</ul>
 
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-        {{>web/prices/free}}
-    </div>
-    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-        {{>web/prices/database}}
-    </div>
-    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-        {{>web/prices/restaurant}}
-    </div>
-    <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
-        {{>web/prices/employee}}
-    </div>
+    {{#if user}}
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                    aria-selected="true">
+                    <i class="fi fi-ss-database"></i> Base de datos
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                    aria-selected="false">
+                    <i class="fi fi-sr-shop"></i> Restaurante
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                    aria-selected="false">
+                    <i class="fi fi-sr-apps"></i> Aplicaciones
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent" style="background-color: transparent;">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                {{>web/prices/database}}
+            </div>
+            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                {{>web/prices/restaurant}}
+            </div>
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <!--
+                {{>web/prices/employee}}
+                --->
+            </div>
+        </div>
+    {{else}}
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                    aria-selected="true">
+                    <i class="fi fi-sr-heart"></i> Gratis
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                    aria-selected="false">
+                    <i class="fi fi-ss-database"></i> Base de datos
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                    aria-selected="false">
+                    <i class="fi fi-sr-shop"></i> Restaurante
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+                    aria-selected="false">
+                    <i class="fi fi-sr-apps"></i> Aplicaciones
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                {{>web/prices/free}}
+            </div>
+            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                {{>web/prices/database}}
+            </div>
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                {{>web/prices/restaurant}}
+            </div>
+            <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                <!--
+                {{>web/prices/employee}}
+                -->
+            </div>
+        </div>
+
+        {{>web/filesOldWeb/js}}
+    {{/if}}
 </div>
+<br><br>
 
-</div>
 
-    <script>
-        document.querySelectorAll('.info-link').forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-                var infoLabel = this.previousElementSibling;
-                if (infoLabel.style.display === 'none' || infoLabel.style.display === '') {
-                    infoLabel.style.display = 'block';
-                    this.textContent = 'Mostrar menos información';
-                } else {
-                    infoLabel.style.display = 'none';
-                    this.textContent = 'Mostrar más información';
-                }
-            });
+
+<script>
+    document.querySelectorAll('.info-link').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+            var infoLabel = this.previousElementSibling;
+            if (infoLabel.style.display === 'none' || infoLabel.style.display === '') {
+                infoLabel.style.display = 'block';
+                this.textContent = 'Mostrar menos información';
+            } else {
+                infoLabel.style.display = 'none';
+                this.textContent = 'Mostrar más información';
+            }
         });
-    </script>
--->
+    });
+</script>
 
-<style>
-    .active {
-        background-color: var(--color-company);
-        color: white;
-    }
-</style>
-
-<div class="loader-content">
-    <div class="d-table">
-        <div class="d-table-cell">
-            <div class="sk-folding-cube">
-                <div class="sk-cube1 sk-cube"></div>
-                <div class="sk-cube2 sk-cube"></div>
-                <div class="sk-cube4 sk-cube"></div>
-                <div class="sk-cube3 sk-cube"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{#if user}}
-<section class="pricing-area pt-100 pb-70">
-    <div class="container">
-        <div class="section-title">
-            <span>La mejor opcion para tu negocio 😉</span>
-            <h1 class="title-main-2">Conoce nuestras ofertas</h1>
-            <p>
-                Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir el paquete que más se
-                adecue a tus necesidades de empresario. Vende comida y aumenta tus ingresos, mientras nosotros nos
-                centramos en administrar tus insumos, bebidas, reservaciones y empleados
-            </p>
-        </div>
-        <div class="tab quote-list-tab">
-            <div class="tab_content">
-                <div class="tabs_item" id="restaurant-prices" style="display: none;">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single-pricing">
-                                <div class="pricing-top-heading">
-                                    <h3>Free!! 😱</h3>
-                                    Tienes acceso gratuito a la plataforma Füd Technology para usar el sistema POS de Füd y comprobar que es lo que tu negocio necesita. 
-                                </div>
-                                <span>$0<sub></sub></span>
-                                <ul>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        100 platillos/combos y 200 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1 cliente
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <form action="/fud/create-suscription-free" method="POST">
-                                    <input type="hidden" name="price_id" value="price_1PNSBERofynVwfKYEmhYQvjI" />
-                                    <button id="checkout-and-portal-button" type="submit" class="box-btn"
-                                        status="{{user.id_packs_fud}}">Comprar ⭐</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single-pricing degradado">
-                                <div class="pricing-top-heading">
-                                    <h3>Füd Studio 👨‍🍳</h3>
-                                    Ideal para restaurantes y comida rapida
-                                    que quieran tener el control de todo su negocio y ayudarlo a crecer.
-                                </div>
-                                <span>$2,999<sub>/Y</sub></span>
-                                <ul>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1,500 platillos/combos y 3,000 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        3,000 clientes
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        6 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <br><br>
-                                <form action="/fud/create-suscription-studio" method="POST">
-                                    <input type="hidden" name="price_id" value="price_1PJNdNRofynVwfKYW4wLLoyv" />
-                                    <button id="checkout-and-portal-button" type="submit" class="box-btn">Hagámoslo!
-                                        💪</button>
-                                </form>
-                                <strong class="popular">Popular</strong>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
-                            <div class="single-pricing">
-                                <div class="pricing-top-heading">
-                                    <h3>Füd Cloud ☁️</h3>
-                                    Para pequeños negocios familiares, taquerias y cafeterias
-                                    que quieran tener el control de su inventario y más timepo libre con su familia.
-                                </div>
-                                <span>$299/<sub>/M</sub></span>
-                                <ul>
-                                     <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        200 platillos/combos y 400 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1,500 clientes
-                                    </li>
-                                      <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        3 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <form action="/fud/create-suscription-cloude" method="POST">
-                                    <input type="hidden" name="price_id" value="price_1P0bGoRofynVwfKYxXlwm62i" />
-                                    <button id="checkout-and-portal-button" type="submit" class="box-btn">Comprar
-                                        ⭐</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-
-
-
-
-
-{{else}}
-<section class="pricing-area pt-100 pb-70">
-    <div class="container">
-        <div class="section-title">
-            <span>La mejor opcion para tu negocio 😉</span>
-            <h1 class="title-main-2">Conoce nuestras ofertas</h1>
-            <p>
-                Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir el paquete que más se
-                adecue a tus necesidades de empresario. Vende comida y aumenta tus ingresos, mientras nosotros nos
-                centramos en administrar tus insumos, bebidas, reservaciones y empleados
-            </p>
-        </div>
-        <div class="tab quote-list-tab">
-            <div class="tab_content">
-                <div class="tabs_item" id="restaurant-prices" style="display: none;">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single-pricing">
-                                <div class="pricing-top-heading">
-                                    <h3>Free!! 😱</h3>
-                                    Tienes acceso gratuito a la plataforma Füd Technology para usar el sistema POS de Füd y comprobar que es lo que tu negocio necesita. 
-                                </div>
-                                <span>$0<sub></sub></span>
-                                <ul>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        100 platillos/combos y 200 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1 cliente
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <button class="box-btn" onclick="nextWeb('login')">Comprar ⭐</button>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single-pricing degradado">
-                                <div class="pricing-top-heading">
-                                    <h3>Füd Studio 👨‍🍳</h3>
-                                    Ideal para restaurantes y comida rapida
-                                    que quieran tener el control de todo su negocio y ayudarlo a crecer.
-                                </div>
-                                <span>$2,999<sub>/Y</sub></span>
-                                <ul>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1,500 platillos/combos y 3,000 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        3,000 clientes
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        6 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <br><br>
-                                <button class="box-btn" onclick="nextWeb('login')">Hagámoslo! 💪</button>
-                                <strong class="popular">Popular</strong>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
-                            <div class="single-pricing">
-                                <div class="pricing-top-heading">
-                                    <h3>Füd Cloud ☁️</h3>
-                                    Para pequeños negocios familiares, taquerias y cafeterias
-                                    que quieran tener el control de su inventario y más timepo libre con su familia.
-                                </div>
-                                <span>$299/<sub>/M</sub></span>
-                                <ul>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        200 platillos/combos y 400 insumos
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        1,500 clientes
-                                    </li>
-                                      <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Control de inventarios
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        ver reportes de ventas
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        Administracion de sucursales, stock, y empleados. 
-                                    </li>
-                                    <li>
-                                        <i class="fi fi-sr-star"></i>
-                                        3 GB en la base de datos
-                                    </li>
-                                </ul>
-                                <button class="box-btn" onclick="nextWeb('login')">Comprar ⭐</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{{/if}}
-<br>
-<center>
-    <label for="">👁️
-        Todas las suscripciones del software Füd Technology se venden por unica sucursal.
-        <br>
-        Cada sucursal de tu neogcio necesita una licencia individual de Füd Technology para poder operar y poder
-        conectarse con los servicios de la nube.
-        <br>
-        Suponiendo que tiene 5 restaurantes, deberas tener 5 licencias del software para poder conectar todas tus
-        sucursales bajo la misma empresa.
-    </label>
-</center>
-</section>
-
-
-
-{{>web/filesOldWeb/js}}
 <script>
     function showPrices(type) {
         if (type === 'restaurant') {
@@ -514,3 +228,7 @@
         button.remove();
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
