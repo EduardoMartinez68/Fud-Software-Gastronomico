@@ -251,6 +251,10 @@ router.get('/prices', (req, res) => {
     res.render(companyName + '/web/prices');
 })
 
+router.get('/prices2', (req, res) => {
+    res.render(companyName + '/web/prices2');
+})
+
 router.get('/prices-chraracter', (req, res) => {
     res.render(companyName + '/web/prices');
 })
