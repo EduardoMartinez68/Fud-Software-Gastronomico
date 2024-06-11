@@ -1,5 +1,159 @@
 {{>web/filesOldWeb/styles}}
 
+
+<!--
+<style>
+    .offert-price {
+        text-decoration: line-through;
+        /* Tachar el texto */
+    }
+
+    .btn-comprar {
+        background-color: #1473E6;
+        /* Color verde */
+        color: white;
+        /* Color del texto */
+        border-radius: 15px;
+        /* Bordes redondeados */
+        font-weight: bold;
+        /* Texto en negrita */
+        font-size: 0.8rem;
+        right: 30px;
+    }
+
+    .btn-comprar:hover {
+        background-color: #1267cf;
+        /* Color verde más oscuro al pasar el mouse */
+    }
+
+    .icon-product-price {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        margin: .5rem;
+    }
+</style>
+<style>
+    /* Personalización del estilo de las pestañas */
+    .nav-tabs .nav-link {
+        color: #495057c0;
+        border: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav-tabs .nav-link:hover {
+        color: #495057;
+        border: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--color-company);
+        background-color: #fff;
+        border: none;
+        border-bottom: 2px solid var(--color-company);
+        ;
+    }
+
+    .tab-content {
+        border: 1px solid #dee2e6;
+        border-top: none;
+        padding: 20px;
+        background: #F5F5F5;
+    }
+
+    .card {
+        border-radius: 22px;
+    }
+
+    .info-label {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .info-link {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .info-link:hover{
+        cursor: pointer;
+        color: #036fe2;
+    }
+</style>
+<br><br>
+<div class="container">
+    <div class="section-title">
+        <span>La mejor opcion para tu negocio 😉</span>
+        <h1 class="title-main-2">Conoce nuestras ofertas</h1>
+        <p>
+            Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir el paquete que más se
+            adecue a tus necesidades de empresario. Vende comida y aumenta tus ingresos, mientras nosotros nos
+            centramos en administrar tus insumos, bebidas, reservaciones y empleados
+        </p>
+    </div>
+<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+            aria-selected="true">
+            <i class="fi fi-ss-cash-register"></i> Punto de Venta
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+            aria-selected="false">
+            <i class="fi fi-ss-database"></i> Base de datos
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+            aria-selected="false">
+            <i class="fi fi-ss-building"></i> Sucursal
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+            aria-selected="false">
+            <i class="fi fi-sr-shop"></i> Restaurante
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        {{>web/prices/free}}
+    </div>
+    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        {{>web/prices/database}}
+    </div>
+    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+        {{>web/prices/restaurant}}
+    </div>
+    <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+        {{>web/prices/employee}}
+    </div>
+</div>
+
+</div>
+
+    <script>
+        document.querySelectorAll('.info-link').forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+                var infoLabel = this.previousElementSibling;
+                if (infoLabel.style.display === 'none' || infoLabel.style.display === '') {
+                    infoLabel.style.display = 'block';
+                    this.textContent = 'Mostrar menos información';
+                } else {
+                    infoLabel.style.display = 'none';
+                    this.textContent = 'Mostrar más información';
+                }
+            });
+        });
+    </script>
+-->
+
 <style>
     .active {
         background-color: var(--color-company);
@@ -310,6 +464,7 @@
     </div>
 </section>
 {{/if}}
+<br>
 <center>
     <label for="">👁️
         Todas las suscripciones del software Füd Technology se venden por unica sucursal.
@@ -323,285 +478,8 @@
 </center>
 </section>
 
-<!--
-    <section class="pricing-area pt-100 pb-70">
-        <div class="container">
-            <div class="section-title">
-                <span>La mejor opcion para tu negocio 😉</span>
-                <h1 class="title-main-2">Conoce nuestras ofertas</h1>
-                <p>
-                    Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir
-                    el paquete que más se adecue a tus necesidades de empresario.
-                    Vende comida y aumenta tus ingresos, mientras nosotrso nos centramos en administra tus comidas ,
-                     bebidas, reservaciones y empleados. 
-                </p>
-            </div>
-            <div class="tab quote-list-tab">
-                <ul class="tabs">
-                    <li>
-                        <a href="#" onclick="showPrices('restaurant')" class="active">Restaurante</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="showPrices('franchise')">Franquicia</a>
-                    </li>
-                </ul>
-                <div class="tab_content">
-                    <div class="tabs_item" id="restaurant-prices" style="display: none;">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Free!! 😱</h3>
-                                        El primer mes totalmente gratis para que compruebes que Füd es lo que necesita tu negocio.
-                                        Al siguiente mes pasaras a la suscripcion Standard.
-                                    </div>
-                                    <span>$0<sub></sub></span>
-                                    <ul>
-                                        <li>                                           
-						                    <i class="fi fi-sr-star"></i>			
-                                            Control de inventarios
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Contabilidad e impuestos básicos
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Analisis del negocio
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            ver reportes de ventas
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Controla las existencias en almacén y compras
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-rr-star"></i>
-                                            Registro de clientes y provedores para poder tener tu negocio en orden.
-                                        </li>
-                                    </ul>
-                                    1x<i class="fi fi-rr-store-alt"></i><br>   
-                                    1x<i class="fi fi-rr-computer"></i><br><br>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Standard 🛎️</h3>
-                                        Para pequeños negocios familiares, taquerias y cafeterias
-                                        que quieran tener el control de su inventario y más timepo libre con su familia.
-                                    </div>
-                                    <span>$299<sub>/M</sub></span>
-                                    <ul>
-                                        <li>                                           
-						                    <i class="fi fi-sr-star"></i>			
-                                            Todo lo que incluye el paquete basico 
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Cálculo automático del pago de tus empleados y sus horarios
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Conteos de inventario, finanzas, y analíticas
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Herramientas de reportes y marketing
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            1 año de suscripcion gratis a servicios a cliente 
-                                        </li>
-                                    </ul>
-                                    2x<i class="fi fi-rr-store-alt"></i><br>   
-                                    3x<i class="fi fi-rr-computer"></i>
-                                    <br><br>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                    <strong class="popular">Popular</strong>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Premium 🍽️</h3>
-                                        Ideal para restaurantes y comida rapida
-                                        que quieran tener el control de todo su negocio y ayudarlo a crecer.
-                                    </div>
-                                    <span>$499<sub>/M</sub></span>
-                                    <ul>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Todo lo que incluye el paquete estandar
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Perspectivas de desempeño laboral
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Análisis e informes avanzados
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Almacenamiento en la nube
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>	
-                                            Gestiona transacciones en tu sistema en cualquier lugar usando la app de administardor
-                                        </li>
-                                    </ul>
-                                    x5<i class="fi fi-rr-store-alt"></i><br>   
-                                    8x<i class="fi fi-rr-computer"></i>
-                                    <br>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tabs_item" id="franchise-prices" style="display: none;">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Free!! 😱</h3>
-                                        El primer mes totalmente gratis para que compruebes que Füd es lo que necesita tu negocio.
-                                        Al siguiente mes pasaras a la suscripcion Füd studios.
-                                    </div>
-                                    <span>$0<sub>/M</sub></span>
-                                    <ul>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Resolver duddas en cuestion de minutos
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Capacitacion gratis a tus empleados
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Seguimiento de funcionalidad del software
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Ayuda en gestion de tus negocios para un rapido crecimiento.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Tenemos a los mejores departamentos para solucionar tus problemas
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            200 puntos de lealtad 
-                                        </li>
-                                    </ul>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Füd studios 👨‍🍳</h3>					
-                                        Para pequeñas empresas que cuenten con 1 o más sucursales 
-                                        y busquen la manera de espandir su negocio sin la necesidad de 
-                                        estar presente.
-                                    </div>
-                                    <span>$699<sub>/M</sub></span>
-                                    <ul>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Administra tus insumos y productos.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Toma órdenes personalizadas
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Herramientas de reportes y marketing
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Crea comandas, reservaciones y combox de platillos.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Simplifica la capacitación de tus meseros y cocineros.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Reduce el tiempo de espera de las comandas.
-                                        </li>
-                                    </ul>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                    <strong class="popular">Popular</strong>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
-                                <div class="single-pricing">
-                                    <div class="pricing-top-heading">
-                                        <h3>Füd Cloud 🤵🏻</h3>
-                                        Para equipos, negocios y organizaciones que quieren maximizar el crecimiento y 
-                                        escalar rápido en el mundo de las franquicias de restaurantes.
-                                    </div>
-                                    <span>$1,200 <sub>/M</sub></span>
-                                    <ul>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Crea membresias facilmente.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Maneja los accesos de tus clientes y zonas restringidas de acuerdo a la membresia que haya adquirido tu cliente.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Ventas de servicios y renta de objetos.
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Herramienta de reporte y marketing 
-                                        </li>
-                                        <li>
-                                            <i class="fi fi-sr-star"></i>
-                                            Crea promociones y atrae a mas clientes a tu negocio. 
-                                        </li>
-                                    </ul>
-                                    <a class="box-btn" href="shared-hosting.html">
-                                        Comprar
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    <center>
-        <label for="">👁️ 
-            Todas las suscripciones del software Füd Technology se venden por unica sucursal. 
-            <br>
-            Cada sucursal de tu neogcio necesita una licencia individual de Füd Technology para poder operar y poder conectarse con los servicios de la nube.
-            <br>
-            Suponiendo que tiene 5 restaurantes, deberas tener 5 licencias del software para poder conectar todas tus sucursales bajo la misma empresa.
-        </label>
-    </center>
-    </section>
-    --->
+
 {{>web/filesOldWeb/js}}
 <script>
     function showPrices(type) {
