@@ -5155,16 +5155,27 @@ router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
     const branchFree = await get_data_branch(req);
     if (branchFree != null) {
         const { id } = req.params;
-        const departments = await get_department(id);
-        const category = await get_category(id);
-        const supplies = await search_company_supplies_or_products(req, true);
-        const products = await search_company_supplies_or_products(req, false);
-        const suppliesCombo = []
-        res.render('links/free/combo/addCombo', { branchFree,departments,category,supplies,products,suppliesCombo});
+        const combos = await get_combo_features(id_branch);
+        if(combos.length<25){
+            const departments = await get_department(id);
+            const category = await get_category(id);
+            const supplies = await search_company_supplies_or_products(req, true);
+            const products = await search_company_supplies_or_products(req, false);
+            const suppliesCombo = []
+            res.render('links/free/combo/addCombo', { branchFree,departments,category,supplies,products,suppliesCombo});
+        }
+        else{
+            res.redirect('fud/'+id+'/'+id_branch+'/combos-free');
+            req.flash('message','Ya alcanzaste el limite maximo para tu base de datos actual. Debes actualizar tu sucursal a la siguiente version 😅')
+        }
     } else {
         res.render('links/store/branchLost');
     }
 });
+
+async function the_user_can_add_most_combo(){
+
+}
 
 router.get('/:id/Dashboard', isLoggedIn, async (req, res) => {
     const { id } = req.params;

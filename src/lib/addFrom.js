@@ -1258,32 +1258,55 @@ function new_data_employee(req){
 //---------------------------------------------------------------------------------------------------------BRANCHES---------------------------------------------------------------
 router.post('/fud/:id/:id_branch/add-supplies-free',isLoggedIn,async(req,res)=>{
     const {id,id_branch}=req.params;
+    //we will see if the user can add most supplies 
+    const allSupplies=await get_all_the_supplies_of_this_company(id,true)
+    if(allSupplies<50){
+        //this is for create the new supplies and save the id of the supplies
+        const newSupplies=await get_supplies_or_product_company(req,true);
+        const idSupplies=await addDatabase.add_supplies_company(newSupplies); //get the id of the supplies that added
+        if(idSupplies){
+            //we will create the supplies in the branch
+            const idSuppliesFactures=await addDatabase.add_product_and_suppiles_features(id_branch, idSupplies) //add the supplies in the branch 
 
-    //this is for create the new supplies and save the id of the supplies
-    const newSupplies=await get_supplies_or_product_company(req,true);
-    const idSupplies=await addDatabase.add_supplies_company(newSupplies); //get the id of the supplies that added
-    if(idSupplies){
-        //we will create the supplies in the branch
-        const idSuppliesFactures=await addDatabase.add_product_and_suppiles_features(id_branch, idSupplies) //add the supplies in the branch 
-
-        //we will creating the data of the supplies and we will saving with the id of the supplies that create
-        const supplies=create_supplies_branch(req,idSuppliesFactures);
-        
-        //update the data in the branch
-        if(await update.update_supplies_branch(supplies)){ 
-            req.flash('success','El insumo fue agregado con éxito! 👍')
+            //we will creating the data of the supplies and we will saving with the id of the supplies that create
+            const supplies=create_supplies_branch(req,idSuppliesFactures);
+            
+            //update the data in the branch
+            if(await update.update_supplies_branch(supplies)){ 
+                req.flash('success','El insumo fue agregado con éxito! 👍')
+            }
+            else{
+                req.flash('message','El insumo no fue agregado 👉👈');
+            }
         }
         else{
-            req.flash('message','El insumo no fue agregado 👉👈');
+            req.flash('message','El insumo no fue agregado con éxito 👉👈')
         }
+    }else{
+        req.flash('message','El insumo no fue agregado porque necesitas actualizar tu version de base de datos 👉👈')
     }
-    else{
-        req.flash('message','El insumo no fue agregado con éxito 👉👈')
-    }
-
     res.redirect(`/fud/${id}/${id_branch}/supplies-free`);
 })
 
+async function get_all_the_supplies_of_this_company(id_branch, type){
+    var queryText = `
+        SELECT 
+            f.*,
+            p.id_companies,
+            p.img,
+            p.barcode,
+            p.name,
+            p.description,
+            p.use_inventory
+        FROM "Inventory".product_and_suppiles_features f
+        INNER JOIN "Kitchen".products_and_supplies p ON f.id_products_and_supplies = p.id
+        WHERE f.id_branches = $1 and p.supplies =$2
+    `;
+    var values = [id_branch, type];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
+}
 
 //edit supplies branch 
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch',isLoggedIn,async(req,res)=>{
