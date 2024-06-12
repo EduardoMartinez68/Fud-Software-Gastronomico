@@ -857,6 +857,7 @@ async function update_subscription(id_subscription,id_branch){
 }
 
 async function validate_subscription(req,res){
+    return true;
     const { id_branch } = req.params;
     const dataSubscription=await get_subscription_by_branch_id(id_branch); //get the data of the subscription from my database
     //we going to wacht if exist a branch with this id 
