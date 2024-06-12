@@ -1,4 +1,5 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+
 <div class="title-home-store">
     <br>
     <h5><b>EXPLORA NUESTRO MENÚ<i class="fi fi-ss-book-alt"></i></b></h5>
@@ -11,8 +12,10 @@
             <table class="" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th class="td1"><input type="text" placeholder="Escribe un código de barras..." class="form-control"
-                                name="usernameSearch" autofocus id="search"></th>
+                        <th class="td1">
+                            <input type="text" placeholder="Escribe un código de barras..." class="form-control"
+                                name="usernameSearch" autofocus id="search">
+                        </th>
                         <th class="td2">
                             <button class="btn" onclick="search_browser_div()">🔎</button>
                             {{#each dataEmployee}}
@@ -95,4 +98,22 @@
     // Llama a la función al cargar la página y cuando se redimensione la ventana
     window.onload = adjustDivClass;
     window.onresize = adjustDivClass;
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
+    const cards = document.querySelectorAll('.card.container-combo');
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        cards.forEach(card => {
+            const barcode = card.id.toLowerCase();
+            if (barcode.includes(query) || query === '') {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
 </script>
