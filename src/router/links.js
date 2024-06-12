@@ -3697,8 +3697,12 @@ async function get_data_branch(req) {
 
 router.get('/:id_company/:id_branch/visit-branch', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
-        const branch = await get_data_branch(req)
-        res.render('links/branch/home', { branch });
+        if(req.user.rol_user==rolFree){
+            res.redirect('/fud/home')
+        }else{
+            const branch = await get_data_branch(req)
+            res.render('links/branch/home', { branch });
+        }
     }
 })
 
