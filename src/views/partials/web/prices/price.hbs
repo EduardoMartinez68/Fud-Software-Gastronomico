@@ -92,7 +92,18 @@
         </p>
     </div>
 
+    {{>web/prices/individual}}
+
+    <hr>
+    <h1 class="title-main-2" style="font-size: 1.2rem;">Consulta lo que incluye</h1>
+    <p>Elige de nuestros planes Todas las Aplicaciones para que tu negocio obtengan lo que necesesite y más de 20 aplicaciones gastronomicos</p>
     {{#if user}}
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab5-tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5"
+                aria-selected="false">
+                <i class="fi fi-sr-shop"></i> Restaurante
+            </a>
+        </li>
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
@@ -144,7 +155,7 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
                     aria-selected="false">
-                    <i class="fi fi-sr-shop"></i> Restaurante
+                    <i class="fi fi-sr-store-alt"></i> Restaurante
                 </a>
             </li>
             <li class="nav-item" role="presentation">
