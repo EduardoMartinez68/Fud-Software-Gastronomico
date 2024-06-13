@@ -8,7 +8,11 @@
   <div class="carousel-inner box-carousel-promo">
     {{#each offerAd}}
       <div class="carousel-item active div-carousel-promo">
-        <img src="{{img}}" class="img-carousel-promo" alt="...">
+        {{#if img}}
+            <img src="{{img}}" class="img-carousel-promo" alt="...">
+        {{else}}
+            <img class="img-carousel-promo" alt="..." src="https://cdn-icons-png.flaticon.com/512/1695/1695572.png">
+        {{/if}}
       </div>
     {{/each}}
   </div>

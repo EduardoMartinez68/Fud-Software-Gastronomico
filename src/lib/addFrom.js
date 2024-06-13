@@ -77,6 +77,46 @@ async function delete_image_upload(pathImg){
     });*/
 }
 
+//packs 
+async function get_pack_database(id_company){
+    try {
+        const queryText = `
+            SELECT pack_database
+            FROM "User".companies
+            WHERE id = $1
+        `;
+        const { rows } = await database.query(queryText, [id_company]);
+        if (rows.length > 0) {
+            return rows[0].pack_database;
+        } else {
+            return null; 
+        }
+    } catch (error) {
+        console.error('Error al obtener pack_database:', error);
+        return 0;
+    }
+}
+
+async function get_pack_branch(id_branch){
+    try {
+        const queryText = `
+            SELECT pack_database
+            FROM "Company".branches
+            WHERE id = $1
+        `;
+        const { rows } = await database.query(queryText, [id_branch]);
+        if (rows.length > 0) {
+            return rows[0].pack_database;
+        } else {
+            return null; 
+        }
+    } catch (error) {
+        console.error('Error al obtener pack_database:', error);
+        return 0;
+    }
+}
+
+
 //add company
 passport.use('local.add_company', new LocalStrategy({
     usernameField: 'name',
@@ -352,6 +392,12 @@ router.post('/fud/:id_company/add-company-combo',async (req,res)=>{
         res.redirect('/fud/'+id+'/add-combos');
     }
     else{
+        const packCompany=await get_pack_database(id_company)
+        //we will see if the user can save image in the database 
+        if (packCompany==0){
+            req.file=null;
+        }
+
         //get the new combo
         const combo=await create_a_new_combo(req)
 
@@ -1258,9 +1304,19 @@ function new_data_employee(req){
 //---------------------------------------------------------------------------------------------------------BRANCHES---------------------------------------------------------------
 router.post('/fud/:id/:id_branch/add-supplies-free',isLoggedIn,async(req,res)=>{
     const {id,id_branch}=req.params;
+
+    //get the pack branch and database 
+    //const packBranc= await get_pack_branch(id_branch);
+    const packDatabase=await get_pack_database(id);
+
     //we will see if the user can add most supplies 
-    const allSupplies=await get_all_the_supplies_of_this_company(id,true)
-    if(allSupplies<50){
+    const allSupplies=await get_all_the_supplies_of_this_company(id,true);
+    if(allSupplies<get_supplies_max(packDatabase)){
+        //we will waching if the supplies can save the image 
+        if(packDatabase==0){
+            req.file=null;
+        }
+
         //this is for create the new supplies and save the id of the supplies
         const newSupplies=await get_supplies_or_product_company(req,true);
         const idSupplies=await addDatabase.add_supplies_company(newSupplies); //get the id of the supplies that added
@@ -1285,8 +1341,25 @@ router.post('/fud/:id/:id_branch/add-supplies-free',isLoggedIn,async(req,res)=>{
     }else{
         req.flash('message','El insumo no fue agregado porque necesitas actualizar tu version de base de datos 👉👈')
     }
+
+
     res.redirect(`/fud/${id}/${id_branch}/supplies-free`);
 })
+
+function get_supplies_max(packBranch){
+    switch (packBranch) {
+        case 0:
+            return 50
+        case 1:
+            return 600
+        case 2:
+            return 1200
+        case 3:
+            return 3000
+        default:
+            return 50
+    }
+}
 
 async function get_all_the_supplies_of_this_company(id_branch, type){
     var queryText = `
@@ -1748,13 +1821,13 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
                 commanderDish.push(dataComandera);
 
                 //save the buy in the database 
-                await addDatabase.add_buy_history(dataComboFeatures.id_companies, dataComboFeatures.id_branches, id_employee, id_customer, dataComboFeatures.id_dishes_and_combos,combo.price,combo.amount,combo.total,day);
+                //await addDatabase.add_buy_history(dataComboFeatures.id_companies, dataComboFeatures.id_branches, id_employee, id_customer, dataComboFeatures.id_dishes_and_combos,combo.price,combo.amount,combo.total,day);
             }
 
             //save the comander
             commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,combos[0].comment,day)
     
-            await addDatabase.add_commanders(commander);
+            //await addDatabase.add_commanders(commander);
         }
 
         //send an answer to the customer

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const databaseM = require('../mongodb');
@@ -116,6 +115,45 @@ async function delate_image(id) {
             console.log('Image delate success');
         }
     });*/
+}
+
+//packs 
+async function get_pack_database(id_company){
+    try {
+        const queryText = `
+            SELECT pack_database
+            FROM "User".companies
+            WHERE id = $1
+        `;
+        const { rows } = await database.query(queryText, [id_company]);
+        if (rows.length > 0) {
+            return rows[0].pack_database;
+        } else {
+            return null; 
+        }
+    } catch (error) {
+        console.error('Error al obtener pack_database:', error);
+        return 0;
+    }
+}
+
+async function get_pack_branch(id_branch){
+    try {
+        const queryText = `
+            SELECT pack_database
+            FROM "Company".branches
+            WHERE id = $1
+        `;
+        const { rows } = await database.query(queryText, [id_branch]);
+        if (rows.length > 0) {
+            return rows[0].pack_database;
+        } else {
+            return null; 
+        }
+    } catch (error) {
+        console.error('Error al obtener pack_database:', error);
+        return 0;
+    }
 }
 
 //this is a function for get the path of the image of a table
@@ -720,6 +758,108 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
 });
+
+
+router.post('/create-suscription-fud-pack', isLoggedIn, async (req, res) => {
+    try {
+        // get the price with the ID of the price
+        const price = await stripe.prices.retrieve(req.body.price_id);
+
+        if (!price) {
+            throw new Error('No se encontró el precio.');
+        }
+
+        //we will create the session of checkout with the ID of the price
+        const session = await stripe.checkout.sessions.create({
+            billing_address_collection: 'auto',
+            line_items: [{
+                price: req.body.price_id,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
+        });
+
+        //we will wachign if exist a buy 
+        if(session.url!='https://fud-tech.cloud/fud/prices'){
+            const {pack_database,pack_branch}=req.body;
+            const idUser=req.user.id;
+            const idCompany=await update_database_company_with_the_user_id(idUser,pack_database);
+            if (idCompany) {
+                if(!await update_pack_branch_with_the_company_id(idCompany,pack_branch)){
+                    req.flash('message', 'La sucursal no fue activada. Por favor, busca ayuda 🙅‍♂️')
+                }
+            }else{
+                req.flash('message', 'La base de datos no fue activada. Por favor, busca ayuda 🙅‍♂️')
+            }
+        }
+
+
+        res.redirect(303, session.url);
+    } catch (error) {
+        console.error('Error al crear la suscripción:', error);
+        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+    }
+});
+
+async function update_database_company_with_the_user_id(idUser, newPackDatabase){
+    const queryText = `
+        UPDATE "User".companies
+        SET pack_database = $1
+        WHERE id = (
+            SELECT id
+            FROM "User".companies
+            WHERE id_users = $2
+            LIMIT 1
+        )
+        RETURNING id
+    `;
+    
+    const values = [newPackDatabase, idUser];
+    
+    try {
+        const result = await database.query(queryText, values);
+        if (result.rows.length > 0) {
+            const companyId = result.rows[0].id;
+            console.log('Pack database updated for company ID:', companyId);
+            return companyId;
+        } else {
+            console.log('No company found for the given user ID.');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error updating pack database:', error);
+        throw error;
+    }
+}
+
+async function update_pack_branch_with_the_company_id(idCompany, newPackBranch){
+    const queryText = `
+        UPDATE "Company".branches
+        SET pack_branch = $1
+        WHERE id = (
+            SELECT id
+            FROM "Company".branches
+            WHERE id_companies = $2
+            LIMIT 1
+        )
+    `;
+    
+    const values = [newPackBranch, idCompany];
+    
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating pack branch:', error);
+        return false;
+    }
+}
+
+
+
+
 /*
 router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
     try {
@@ -4879,9 +5019,17 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
     //we will waching if exist this branch
     //if (await this_employee_works_here(req, res)) {
         const { id_company, id_branch } = req.params;
+        //const company=await get_data_company_with_id(id_company)
+
         if(id_branch!=null){
             const branchFree = await get_data_branch(req);
             const branch=branchFree;
+
+            //update the variable pack branch and pack database company
+            //req.pack_branch=branchFree[0].pack_branch;
+            //req.pack_company=company[0].pack_database;
+
+            //we get all the combo of the branch 
             const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
             const dataEmployee = await get_data_employee(req);
             const newCombos = await get_data_recent_combos(id_company);
@@ -5155,8 +5303,9 @@ router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
     const branchFree = await get_data_branch(req);
     if (branchFree != null) {
         const { id } = req.params;
+        const packCombo=await get_pack_database(id);
         const combos = await get_combo_features(id_branch);
-        if(combos.length<25){
+        if(the_user_can_add_most_combo(combos.length,packCombo)){
             const departments = await get_department(id);
             const category = await get_category(id);
             const supplies = await search_company_supplies_or_products(req, true);
@@ -5173,8 +5322,16 @@ router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
     }
 });
 
-async function the_user_can_add_most_combo(){
+async function the_user_can_add_most_combo(comboLength,packCombo){
+    const limits = {
+        1: 300,
+        2: 600,
+        3: 1500
+    };
 
+    const limit = limits[packCombo] || 25; // if packCombo no is in the limit en, we will use 25 how value
+
+    return comboLength < limit;
 }
 
 router.get('/:id/Dashboard', isLoggedIn, async (req, res) => {

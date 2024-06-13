@@ -86,8 +86,12 @@ app.use((req,res,next)=>{
     app.locals.message=req.flash('message');
     app.locals.user=req.user;
     app.locals.company=req.company;
+    app.locals.pack_company = 0;
+    app.locals.pack_branch = 0;
     next();
 });
+
+
 
 //------------------routes
 const companyName='/fud' //Füd
@@ -106,23 +110,3 @@ app.use(express.static(path.join(__dirname,'public')));
 app.listen(app.get('port'),()=>{
     console.log('server on port ',app.get('port'));
 });
-
-//python
-/*
-const {spawn}=require('child_process');
-//const { database } = require('./keys');
-const pythonPath='src/dataScine/script.py';
-const arg=['a','a'];
-const pythonProcess=spawn('python',[pythonPath,...arg]);
-pythonProcess.stdout.on('data',(data)=>{
-    const output=data.toString();
-    console.log('salida del script python: ', output);
-});
-pythonProcess.stderr.on('data',(data)=>{
-    const output=data.toString();
-    console.log('salida del script python: ${output}', output);
-});
-pythonProcess.on('close',(code)=>{
-    const output=code.toString();
-    console.log('python a cerrado ',output);
-});*/

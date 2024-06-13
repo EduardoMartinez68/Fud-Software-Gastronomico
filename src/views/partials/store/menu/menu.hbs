@@ -42,7 +42,11 @@
 
                                     </span>
                                     <div class="card-image" style="width: 80%;">
-                                        <img class="card-img" src="{{img}}" alt="">
+                                        {{#if img}}
+                                            <img class="card-img" src="{{img}}" alt="">
+                                        {{else}}
+                                            <img class="card-img" src="https://cdn-icons-png.flaticon.com/512/1695/1695572.png" alt="">
+                                        {{/if}}
                                     </div>
                                 </div>
 
