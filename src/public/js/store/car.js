@@ -28,15 +28,15 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
             var sound = new Audio('/effect/buy.mp3');
             sound.play();
 
-            var text = (exchange != 0) ? 'Your exchange is ' + exchange + '💲' : 'Come back soon 😄';
-            confirmationMessage(text, 'Thanks for his buy ❤️'); //we will watching if exist exchange in the buy
+            var text = (exchange != 0) ? 'Tu Cambio es de ' + exchange + '💲' : 'Vuelve pronto 😄';
+            confirmationMessage(text, 'Gracias por su compra ❤️'); //we will watching if exist exchange in the buy
         } else {
             //if the server not can complete the pay we going to send a message of error
             errorMessage('ERROR 👁️', answerServer.message + ' 👉👈');
         }
     } catch (error) {
         console.error('Error:', error);
-        errorMessage('ERROR 👁️', 'An error occurred while processing your request.');
+        errorMessage('ERROR 👁️', 'Se produjo un error al procesar su solicitud.');
     } finally {
         // Hide loading overlay regardless of success or failure
         loadingOverlay.style.display = "none";
@@ -144,13 +144,14 @@ if (numeroMostrado.value === '') {
 
 //get the table for his id
 const tabla = document.getElementById("table-car-home");
+
 function addFish(idProduct, product, price, price2, price3) {
     // get the body of the table
     var bodyTable = tabla.getElementsByTagName("tbody")[0];
     if (!this_product_exists_in_the_cart(bodyTable, product)) {
         add_new_product_to_the_car(bodyTable, idProduct, product, price, price, price2, price3);
     }
-
+    
     //show a message of that we add the product to the car
     notificationMessage('❤️ '+product+' ❤️', 'El producto fue agregado con éxito 😁');
     update_total();
@@ -255,6 +256,7 @@ function update_total() {
         var cantText = cantCell.textContent.trim();
         var totalText = totalCell.textContent.trim();
         total += parseFloat(totalText, 10);
+        total = parseFloat(total.toFixed(2));
     }
     btn.textContent = "Buy $" + total;
 }
@@ -314,7 +316,7 @@ async function edit_car(button) {
     var oldValue = button.innerText;
 
     //get the new value that the user need 
-    var newValue = parseFloat(await edit_cant_car('Edit Cant.', oldValue))
+    var newValue = parseFloat(await edit_cant_car('Editar Cant.', oldValue))
     if (removal_amount(newValue)) {
         button.innerText = newValue; //upload the cant
         upload_cant_total(button)
@@ -332,7 +334,7 @@ async function edit_price(button) {
     var price3 = button.getAttribute('price3');
 
     //get the new value that the user need
-    var newValue = parseFloat(await edit_price_car('Select a new Price 🏷️', price1, price2, price3));
+    var newValue = parseFloat(await edit_price_car('Selecciona un nuevo precio 🏷️', price1, price2, price3));
     if (removal_amount(newValue)) {
         button.innerText = newValue; //upload the cant
         upload_cant_total_for_price(button);
@@ -443,7 +445,7 @@ async function buy_my_car(button) {
         const emailClient = button.textContent;
 
         //we going to watch if the user input the pay
-        var dataBuy = await show_message_buy_car('Total to pay', emailClient, value, getLocation());
+        var dataBuy = await show_message_buy_car('Total a pagar', emailClient, value, getLocation());
         
         if (dataBuy) {
             //we will watching if the money input is equal or elderly to the car price
@@ -453,14 +455,13 @@ async function buy_my_car(button) {
 
             //we will calculating if all the money input in the box can buy the food
             const totalMoney=money+debitCard+creditCard;
-            console.log(money)
             if (totalMoney >= value) {
                 //we calculate the exchange 
                 exchange = totalMoney - value;
                 const comment=dataBuy[3];
                 delete_all_car(value,totalMoney,exchange,comment) //reset the car
             } else {
-                errorMessage('Error! the buy not was complete 👁️', 'The money not is enough')
+                errorMessage('¡Error! la compra no fue completa 👁️', 'El dinero no es suficiente.')
             }
         }
     }
