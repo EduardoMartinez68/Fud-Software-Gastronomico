@@ -570,7 +570,7 @@ main{
     }
 
     .button-spacing{
-        font-size: .8rem;
+        font-size: .6rem;
         margin-left: 2px;
     }
 
@@ -602,7 +602,31 @@ main{
     .table-menu{
  
     }
-    
+
+    /*new combos*/
+    .card-title{
+        font-size: .8rem;
+    }
+
+    .img-explore-combo{
+
+    }
+
+    .img-explore-combo{
+        width: 100px;
+        height: auto;
+    }
+
+    /*ads*/
+    .img-carousel-promo{
+        width: 100%;
+        height: auto;
+    }
+
+    .box-carousel-promo{
+        width: 100%;
+        height: auto;
+    }
 }
 
 @media screen and (max-width: 400px){

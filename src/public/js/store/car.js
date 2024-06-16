@@ -1,3 +1,34 @@
+let numeroMostrado;
+let totalId;
+let pocketMoney;
+let tabla;
+if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+    numeroMostrado = document.getElementById("money");
+    totalId = document.getElementById('total');
+    pocketMoney=document.getElementById('pocketMoney');
+    tabla = document.getElementById("table-car-home");
+} else {
+    numeroMostrado = document.getElementById("money-cellphone");
+    totalId = document.getElementById('total-cellphone');
+    pocketMoney=document.getElementById('pocketMoney-cellphone');
+    tabla = document.getElementById("table-car-home-cellphone");
+}
+
+
+function update_variable_car(){
+    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+        numeroMostrado = document.getElementById("money");
+        totalId = document.getElementById('total');
+        pocketMoney=document.getElementById('pocketMoney');
+        tabla = document.getElementById("table-car-home");
+    } else {
+        numeroMostrado = document.getElementById("money-cellphone");
+        totalId = document.getElementById('total-cellphone');
+        pocketMoney=document.getElementById('pocketMoney-cellphone');
+        tabla = document.getElementById("table-car-home-cellphone");
+    }    
+}
+
 //////--------------------------screen load
 const loadingOverlay = document.getElementById("loadingOverlay");
 
@@ -111,45 +142,81 @@ async function select_customer(idCompany) {
 }
 
 //----------------------
+document.addEventListener("DOMContentLoaded", function() {
+    var inputMoneyCellphone = document.getElementById("money-cellphone");
+
+    // Verifica si el elemento fue encontrado
+    if (inputMoneyCellphone) {
+        // Agrega el event listener al input
+        inputMoneyCellphone.addEventListener("input", function() {
+            update_pocket_money();
+        });
+    } else {
+        console.error("El elemento con id 'money-cellphone' no fue encontrado.");
+    }
+});
+
 function updateNumber(number){
-    var numeroMostrado = document.getElementById('money');
+    var numeroMostrado;
+    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+        numeroMostrado = document.getElementById("money");
+    } else {
+        numeroMostrado = document.getElementById("money-cellphone");
+    }
     numeroMostrado.value = number;
     update_pocket_money()        
 }
 
 function agregarNumero(numero) {
-var numeroMostrado = document.getElementById('money');
-numeroMostrado.value += numero;
-update_pocket_money()
+    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+        numeroMostrado = document.getElementById("money");
+        pocketMoney=document.getElementById('pocketMoney');
+    } else {
+        numeroMostrado = document.getElementById("money-cellphone");
+        pocketMoney=document.getElementById('pocketMoney-cellphone');
+    }  
+    numeroMostrado.value += numero;
+    update_pocket_money()
 }
 
 function update_pocket_money(){
-var numeroMostrado = document.getElementById('money');
-var total = parseFloat(document.getElementById('total').innerText);
-var pocketMoney = document.getElementById('pocketMoney');
-pocketMoney.innerText = parseFloat(numeroMostrado.value)-total;
+    var numeroMostrado;
+    var totalId;
+    var pocketMoney=document.getElementById('pocketMoney-cellphone');
+    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+        numeroMostrado = document.getElementById("money");
+        totalId = document.getElementById('total');
+        pocketMoney=document.getElementById('pocketMoney-cellphone');
+    } else {
+        numeroMostrado = document.getElementById("money-cellphone");
+        totalId = document.getElementById('total-cellphone');
+        pocketMoney=document.getElementById('pocketMoney-cellphone');
+    }
+    var total = parseFloat(totalId.innerText);
+    pocketMoney.innerText = parseFloat(numeroMostrado.value)-total;
 }
 
 function borrarNumero() {
-var numeroMostrado = document.getElementById('money');
-numeroMostrado.value = numeroMostrado.value.slice(0, -1);
-if (numeroMostrado.value === '') {
-    document.getElementById('pocketMoney').innerText = '0.00';
-}else{
-    update_pocket_money()
-}
+    var numeroMostrado;
+    var pocketMoney;
+    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+        numeroMostrado = document.getElementById("money");
+        pocketMoney=document.getElementById('pocketMoney');
+    } else {
+        numeroMostrado = document.getElementById("money-cellphone");
+        pocketMoney=document.getElementById('pocketMoney-cellphone');
+    }  
+    numeroMostrado.value = numeroMostrado.value.slice(0, -1);
+    if (numeroMostrado.value === '') {
+        pocketMoney.innerText = '0.00';
+    }else{
+        update_pocket_money()
+    }
 }
 
 ///-------------------------------------------------------------this script is for add a combo to the car
 
 //get the table for his id
-let tabla;
-if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
-    tabla = document.getElementById("table-car-home");
-} else {
-    tabla = document.getElementById("table-car-home-cellphone");
-}
-
 
 function addFish(idProduct, product, price, price2, price3) {
     // get the body of the table
@@ -464,8 +531,16 @@ async function buy_my_car(button) {
 
         //we going to watch if the user input the pay
         var dataBuy = await show_message_buy_car('Total a pagar', emailClient, value, getLocation());
-        
         if (dataBuy) {
+            //wwe will see if the user is in cellphone 
+            if (window.innerWidth <768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+                var newcash = dataBuy[3]
+                var newdebitCard = dataBuy[4]
+                var newcreditCard = dataBuy[5]
+                var newcomment = dataBuy[6];
+                dataBuy = [newcash, newdebitCard, newcreditCard, newcomment];
+            }
+
             //we will watching if the money input is equal or elderly to the car price
             const money = string_to_float(dataBuy[0])
             const debitCard=string_to_float(dataBuy[1])

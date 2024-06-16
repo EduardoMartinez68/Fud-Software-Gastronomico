@@ -1,28 +1,28 @@
 //const Swal = require('sweetalert');
-function regularMessage(title,text){
+function regularMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-        customClass:{
-            confirmButton:"btn-confirm-message",
-            cancelButton:"btn-cancel-message"
+        customClass: {
+            confirmButton: "btn-confirm-message",
+            cancelButton: "btn-cancel-message"
         }
     });
 }
 
-function confirmationMessage(title,text){
+function confirmationMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-        icon:'success'
+        icon: 'success'
     });
 }
 
-function errorMessage(title,text){
+function errorMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-        icon:'error'
+        icon: 'error'
     });
 }
 
@@ -39,7 +39,7 @@ async function questionMessage(title, text) {
             cancelButtonColor: 'rgb(220, 53, 69)',
             reverseButtons: true,
         }).then((result) => {
-            if (result.isConfirmed){
+            if (result.isConfirmed) {
                 // User clicked the "Confirm" button
                 resolve(true);
             } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -50,10 +50,10 @@ async function questionMessage(title, text) {
     });
 }
 
-async function informationMessage(){
+async function informationMessage() {
     Swal.bindClickHandler();
     Swal.mixin({
-      toast: true
+        toast: true
     }).bindClickHandler("data-swal-toast-template");
 }
 
@@ -80,7 +80,7 @@ async function new_data_departments(title) {
     });
 }
 
-async function edit_data_departments(title,name,description) {
+async function edit_data_departments(title, name, description) {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -103,63 +103,63 @@ async function edit_data_departments(title,name,description) {
     });
 }
 
-function warningMessage(title,text){
+function warningMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-        icon:'warning'
+        icon: 'warning'
     });
 }
 
-function infoMessage(title,text){
+function infoMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-        icon:'info'
+        icon: 'info'
     });
 }
 
-function notificationMessage(title,text){
+function notificationMessage(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
         position: 'top-end',
         timer: 1500,
         showConfirmButton: false,
         toast: true,
         timerProgressBar: true,
-        icon:'success'
+        icon: 'success'
     });
 }
 
-function notificationMessageError(title,text){
+function notificationMessageError(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
         position: 'top-end',
         timer: 1500,
         showConfirmButton: false,
         toast: true,
         timerProgressBar: true,
-        icon:'error'
+        icon: 'error'
     });
 }
 
-function discount_message(title,text){
+function discount_message(title, text) {
     Swal.fire({
-        title:title,
+        title: title,
         text: text,
-    
-        input:'text',
-        inputPlaceholder:'Discount',
-        inputValue:'',
+
+        input: 'text',
+        inputPlaceholder: 'Discount',
+        inputValue: '',
         confirmButtonColor: 'rgb(204,3,40)',
     })
 }
 
 /////////////////////////////////combo//////////////////////////////////////////////
 
-async function edit_cant_combo(title,cant) {
+async function edit_cant_combo(title, cant) {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -181,7 +181,7 @@ async function edit_cant_combo(title,cant) {
 }
 
 /////////////////////////////////supplies//////////////////////////////////////////////
-async function edit_supplies_company(title,id,id_company,img,barcode,name,description,use_inventory) {
+async function edit_supplies_company(title, id, id_company, img, barcode, name, description, use_inventory) {
     var containerHtml = `
         <style>
             .save-button {
@@ -215,7 +215,7 @@ async function edit_supplies_company(title,id,id_company,img,barcode,name,descri
             <input id="name" class="swal2-input" placeholder="Nombre" value="${name}" name="name"><br>
             <input id="description" class="swal2-input" placeholder="Descripcion" value="${description}" name="description"><br>
 
-            <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory=='true' ? 'checked' : ''}>
+            <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory" ${use_inventory == 'true' ? 'checked' : ''}>
             <label class="form-check-label" for="invalidCheck2">
             Usar inventario
             </label>
@@ -262,7 +262,7 @@ async function edit_supplies_company(title,id,id_company,img,barcode,name,descri
     */
 }
 
-async function edit_supplies_branch(title,img,barcode,name,existence,purchase_amount) {
+async function edit_supplies_branch(title, img, barcode, name, existence, purchase_amount) {
     var containerHtml = `
         <div class="form-group">
             <center>
@@ -308,12 +308,12 @@ async function edit_supplies_branch(title,img,barcode,name,existence,purchase_am
 
 
 ///////////////////////////////box//////////////////////////////////////////////////
-async function edit_box_message(number,ipPrinter){ 
-    return new Promise((resolve, reject) => { 
+async function edit_box_message(number, ipPrinter) {
+    return new Promise((resolve, reject) => {
         Swal.fire({
             title: 'Edit the box',
             html:
-            `
+                `
             <img src="https://cdn-icons-png.flaticon.com/512/1198/1198290.png" class="img-message"><br>
             <div class="row">
                 <div class="col-4">
@@ -335,7 +335,7 @@ async function edit_box_message(number,ipPrinter){
             preConfirm: () => {
                 const number = Swal.getPopup().querySelector('#number').value;
                 const ipPrinter = Swal.getPopup().querySelector('#ipPrinter').value;
-                const data = [number,ipPrinter];
+                const data = [number, ipPrinter];
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()
@@ -344,7 +344,7 @@ async function edit_box_message(number,ipPrinter){
 }
 /////////////////////////////////cart//////////////////////////////////////////////
 
-async function edit_cant_car(title,cant) {
+async function edit_cant_car(title, cant) {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -365,12 +365,12 @@ async function edit_cant_car(title,cant) {
     });
 }
 
-async function edit_client_car(email){
+async function edit_client_car(email) {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: 'Select the client for this buy',
             html:
-            `
+                `
             <img src="https://cdn-icons-png.flaticon.com/512/8339/8339939.png" class="img-message"><br>
             <label>Escribe el email de el usuario</label>
             <input id="email" type="text" class="swal2-input" placeholder="write the email of the client" value=${email}>
@@ -390,12 +390,12 @@ async function edit_client_car(email){
     });
 }
 
-async function edit_price_car(title,price1,price2,price3){
+async function edit_price_car(title, price1, price2, price3) {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
             html:
-            `<select id="price_select" class="form-select form-select-lg mb-3">'
+                `<select id="price_select" class="form-select form-select-lg mb-3">'
                 '<option value=${price1}>${price1}</option>'
                 '<option value=${price2}>${price2}</option>'
                 '<option value=${price3}>${price3}</option>'
@@ -415,8 +415,8 @@ async function edit_price_car(title,price1,price2,price3){
     });
 }
 
-async function show_message_buy_car(title,customer,total,typeOfCurrency) {
-    var containerHtml=`
+async function show_message_buy_car(title, customer, total, typeOfCurrency) {
+    var containerHtml = `
       <style>
         .container-buy{
             background-color: white;
@@ -479,62 +479,22 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
         }
 
 
-@media screen and (max-width: 600px){
+    @media screen and (max-width: 600px){
         .total-buy{
-            font-size: 1rem;
+            font-size: 1.7rem;
         }
-    
-        .buy{
-            font-size: .5rem;
-        }
-    
-        .btn-store{
-            background-color: white;
-            color: #7E7E7F;
-            font-size: 1rem;
-            width: 15%;
-            height: 50%;
-            border-color: transparent;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-        }
-    
-        .btn-delete{
-            font-size: 2rem;
-            width: 15%;
-            height: 50%;
-            border-color: transparent;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);      
-        }
-    
-        .btn-buy{
-            border-radius: 2.5%;
-            border-color: transparent;
-            background-color: #5AB75D;
-            color: white;
-            width: 13%;
-            height: 5%;
-            font-size: .25rem;
-        }
-    
-        .pocketMoney{
-            font-size: .5rem;
-        }
-
-        .btn-store{
-            width:100px;
-            height:25px;
-            margin-bottom: 10px;
-        }
-
         .swal2-popup {
-            width: 90%; /* Ajusta el ancho del cuadro de contenido */
-            height: 70%; /* Ajusta la altura del cuadro de contenido */
+            width: 80%; /* Ajusta el ancho del cuadro de contenido */
+            height: 50%; /* Ajusta la altura del cuadro de contenido */
         }
 
+        .btn-store{
+            font-size: 1rem;
+        }
     }
       </style>
     
-    <div class="container mt-5 container-buy">
+    <div class="container mt-5 container-buy pc">
       <label><i class="fi fi-sr-user"></i>${customer}</label><br>
       <h5 class="title-company">${title}</h5>
       <div class="row justify-content-center">
@@ -592,12 +552,70 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
         </div>
       </div>
     </div>
+
+
+
+
+    <div class="container mt-5 container-buy cellphone">
+      <label><i class="fi fi-sr-user"></i>${customer}</label><br>
+      <h5 class="title-company">${title}</h5>
+      <div class="row justify-content-center">
+        <div class="col">
+            <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total-cellphone">${total}</label></b>
+            <br>
+            <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney-cellphone">0.00</label>
+            <input type="text" class="form-control mb-3 buy" id="money-cellphone" name="money-cellphone" readonly>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">💬 Comentario</label>
+                <textarea class="form-control" rows="3" name="comment-cellphone" id="comment-cellphone" placeholder="Comentario..."></textarea>
+            </div>
+            <br>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(100)">$ 100</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(200)">$ 200</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(500)">$ 500</button>
+                    </div>
+                </div>
+              <div class="row mt-4">
+                <div class="col">
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(1)">1</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(2)">2</button>
+                  <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(3)">3</button>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(4)">4</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(5)">5</button>
+                    <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(6)">6</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                  <div class="col">
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(7)">7</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(8)">8</button>
+                      <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(9)">9</button>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero('.')">.</button>
+                    <button class="btn btn-primary btn-block  btn-store" onclick="agregarNumero(0)">0</button>
+                    <button class="btn btn-danger btn-block  btn-delete" onclick="borrarNumero()"><i class="fi fi-rr-delete"></i></button>
+                </div>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
     `;
-    
+
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: '',
-            html:containerHtml,
+            html: containerHtml,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonText: '❤️ Pagar',
@@ -606,10 +624,16 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
                 const cash = Swal.getPopup().querySelector('#money').value;
-                const debitCard=0//Swal.getPopup().querySelector('#debitCard').value;
-                const creditCard=0//Swal.getPopup().querySelector('#creditCard').value;
+                const debitCard = 0//Swal.getPopup().querySelector('#debitCard').value;
+                const creditCard = 0//Swal.getPopup().querySelector('#creditCard').value;
                 const comment = Swal.getPopup().querySelector('#comment').value;
-                const data = [cash,debitCard,creditCard,comment];
+
+                const cashCellphone = Swal.getPopup().querySelector('#money-cellphone').value;
+                const debitCardCellphone = 0//Swal.getPopup().querySelector('#debitCard').value;
+                const creditCardCellphone = 0//Swal.getPopup().querySelector('#creditCard').value;
+                const commentCellphone = Swal.getPopup().querySelector('#comment-cellphone').value;
+                data = [cash, debitCard, creditCard, comment,cashCellphone,debitCardCellphone,creditCardCellphone,commentCellphone];
+
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading(),
@@ -625,10 +649,10 @@ async function cash_movement_message() {
         Swal.fire({
             title: 'Movimiento de caja',
             html:
-                '<img src="https://cdn-icons-png.flaticon.com/512/6149/6149018.png" class="img-message">'+
-                '<br> <label>Dinero ingresado o retirado *</label>'+
+                '<img src="https://cdn-icons-png.flaticon.com/512/6149/6149018.png" class="img-message">' +
+                '<br> <label>Dinero ingresado o retirado *</label>' +
                 '<input id="money" class="swal2-input" placeholder="Dinero que movere">' +
-                '<br><br> <label>Motivo del movimiento de caja *</label>'+
+                '<br><br> <label>Motivo del movimiento de caja *</label>' +
                 '<br> <textarea class="form-control" id="comment" rows="3" placeholder="Comentario"></textarea>',
             focusConfirm: false,
             showCancelButton: true,
@@ -647,12 +671,12 @@ async function cash_movement_message() {
 }
 
 /////////////////////////////////suscription//////////////////////////////////////////////
-async function get_id_subscription(){
+async function get_id_subscription() {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: 'Delete, subscription 💔',
             html:
-            `
+                `
             <img src="https://cdn-icons-png.flaticon.com/512/7406/7406952.png" class="img-message"><br><br>
             <label>Lamentamos que cancele la suscripcion y esperamos que su negocio se recupere pronto 🙌</label>
             <label>Escribe el ID de la suscripcion que deseas cancelar</label>
@@ -673,12 +697,12 @@ async function get_id_subscription(){
     });
 }
 
-async function get_name_branch(){
+async function get_name_branch() {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: 'Link branch 🤩',
             html:
-            `
+                `
             <img src="https://cdn-icons-png.flaticon.com/512/2037/2037105.png" class="img-message"><br><br>
             <label>Escribe el nombre de la sucursal que deseas enlazar con esta suscripción</label>
             <input id="idSubscription" type="text" class="swal2-input" placeholder="Nombre sucursal">
