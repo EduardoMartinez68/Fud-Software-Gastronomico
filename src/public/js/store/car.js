@@ -143,7 +143,13 @@ if (numeroMostrado.value === '') {
 ///-------------------------------------------------------------this script is for add a combo to the car
 
 //get the table for his id
-const tabla = document.getElementById("table-car-home");
+let tabla;
+if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
+    tabla = document.getElementById("table-car-home");
+} else {
+    tabla = document.getElementById("table-car-home-cellphone");
+}
+
 
 function addFish(idProduct, product, price, price2, price3) {
     // get the body of the table
@@ -238,7 +244,14 @@ function update_total() {
 
     // get all the row of body of the tabla
     var rows = bodyTable.getElementsByTagName("tr");
+
+    // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
     var btn = document.getElementById("btn-total-home");
+    if (window.innerWidth >= 768) { 
+        btn = document.getElementById("btn-total-home");
+    } else {
+        btn = document.getElementById("btn-total-home-cellphone");
+    }
 
     var total = 0;
     // read all the row
@@ -383,6 +396,11 @@ function delete_all_fish() {
     // get all the row of body of the tabla
     var rows = bodyTable.getElementsByTagName("tr");
     var btn = document.getElementById("btn-total-home");
+    if (window.innerWidth >= 768) { 
+        btn = document.getElementById("btn-total-home");
+    } else {
+        btn = document.getElementById("btn-total-home-cellphone");
+    }
 
     //delate all the car data 
     tabla.removeChild(bodyTable);

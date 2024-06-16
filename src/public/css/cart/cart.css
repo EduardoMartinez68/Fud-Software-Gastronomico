@@ -1,4 +1,6 @@
+.pc{
 
+}
 
 .wrapper{
     display: grid;
@@ -235,7 +237,6 @@ main{
 
 .cart-accion-right{
     display: flex;
-
 }
 
 .cart-accion-total{
@@ -320,6 +321,68 @@ main{
     display: none;
 }
 
+
+
+
+/*new table*/
+.container-menu{
+    width: 100%;
+    height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.container-combo {
+    background-color: white;
+    padding: 20px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.table-container {
+    max-height: 60%;
+    overflow-y: auto; 
+}
+
+.table-menu{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.table-menu tr{
+    background-color: white;
+    border-radius: 25px;
+    height: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-menu td, .table-menu th {
+    padding: 10px;
+    text-align: left;
+}
+
+/*CELLPHONE*/
+.card-cellphone{
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    height: 100px;
+}
+
+.card-img-cellphone{
+    width: 100%;
+    height: auto;
+}
+
+.button-card-cellphone{
+    background-color: var(--color-company);
+}
+
+
 @media screen and (max-width: 1400px){
     .barCode{
         width: 80%;
@@ -354,6 +417,14 @@ main{
 
     .barCode{
         width: 50%;
+    }
+}
+
+@media (min-width: 768px) {
+
+
+    .cellphone{
+        display: none;
     }
 }
 
@@ -437,10 +508,112 @@ main{
         row-gap: 1rem;
     }
 
+    /*new table car*/
+    .button-spacing {
+        margin-left: 15px;
+    }
+
+    .card-menu{
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: auto;
+    }
+
+    .col-cart{
+    }
+
+    .container-car-home{
+        display: none;
+    }
+
+    .title-home-store{
+        
+    }
+
+
+    /*MENU*/
+    .pc{
+        display: none;
+    }
+
+    .cellphone{
+        display: block;
+        height: 100vh;
+        height: 100vh;
+    }
+
+    .container-menu-store{
+        width: 100%;
+        height: 100vh;
+    }
+
+    .container-menu{
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .card {
+        padding: 20px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 50%;
+        height: 500px;
+    }
+
+    .button-spacing{
+        font-size: .8rem;
+        margin-left: 2px;
+    }
+
+    .card{
+        height: 200px;
+    }
+    
+    .container-combo{
+        width: 100%;
+        height: 150px;
+    }
+
+
+    .character-cellphone, .name, .description{
+        text-align: left;
+        align-items: left;
+    }
+
+    /*car*/
+    .col-table-cellphone{
+        height: 100vh;
+    }
+
+    .table-container{
+        width: 100%;
+        height: 100%;
+    }
+
+    .table-menu{
+ 
+    }
+    
 }
 
 @media screen and (max-width: 400px){
     .conteiner-products{
         grid-template-columns: 1fr;
+    }
+}
+
+
+@media only screen and (max-width: 500px) {
+    .table-container {
+        max-height: 100px;
     }
 }

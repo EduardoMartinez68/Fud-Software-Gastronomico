@@ -477,7 +477,61 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
             width: 80%; /* Ajusta el ancho del cuadro de contenido */
             height: 100%; /* Ajusta la altura del cuadro de contenido */
         }
+
+
+@media screen and (max-width: 600px){
+        .total-buy{
+            font-size: 1rem;
+        }
     
+        .buy{
+            font-size: .5rem;
+        }
+    
+        .btn-store{
+            background-color: white;
+            color: #7E7E7F;
+            font-size: 1rem;
+            width: 15%;
+            height: 50%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .btn-delete{
+            font-size: 2rem;
+            width: 15%;
+            height: 50%;
+            border-color: transparent;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);      
+        }
+    
+        .btn-buy{
+            border-radius: 2.5%;
+            border-color: transparent;
+            background-color: #5AB75D;
+            color: white;
+            width: 13%;
+            height: 5%;
+            font-size: .25rem;
+        }
+    
+        .pocketMoney{
+            font-size: .5rem;
+        }
+
+        .btn-store{
+            width:100px;
+            height:25px;
+            margin-bottom: 10px;
+        }
+
+        .swal2-popup {
+            width: 90%; /* Ajusta el ancho del cuadro de contenido */
+            height: 70%; /* Ajusta la altura del cuadro de contenido */
+        }
+
+    }
       </style>
     
     <div class="container mt-5 container-buy">
@@ -525,7 +579,7 @@ async function show_message_buy_car(title,customer,total,typeOfCurrency) {
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-6">
             <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
             <br>
             <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
