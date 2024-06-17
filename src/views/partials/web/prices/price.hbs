@@ -79,108 +79,449 @@
         cursor: pointer;
         color: #036fe2;
     }
+
+    .title-fud-individual {
+        color: #1D1D1F;
+        font-size: 4rem;
+    }
+
+    .btn-fud-one {
+        width: 50%;
+        height: 50px;
+        color: white;
+        background-color: var(--color-company);
+        text-align: center;
+        border-radius: 25px;
+        font-size: 1rem;
+    }
+
+    .btn-fud-one:hover {
+        border-color: var(--color-company);
+    }
+
+    .backgournd-individual {
+        background-color: #F5F5F7;
+    }
+
+
+    @media (max-width: 767px) {
+        .title-fud-individual {
+            font-size: 2rem;
+            /* Reduce el tamaño de la fuente */
+        }
+
+        .btn-fud-one {
+            width: 50%;
+            /* Ajusta el ancho del botón al 100% */
+            height: 45px;
+            /* Ajusta la altura del botón */
+            font-size: 0.7rem;
+            /* Ajusta el tamaño de la fuente del botón */
+        }
+
+        .tab-content {
+            padding: 15px;
+            /* Reduce el padding del contenido de las pestañas */
+        }
+
+        .card {
+            border-radius: 15px;
+            /* Ajusta el radio de la esquina de la tarjeta */
+            /* width: 100%; */
+            /* Ajusta el ancho de la tarjeta al 100% */
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            /* Ajusta el tamaño de la fuente de las etiquetas de información */
+        }
+
+        .nav-tabs .nav-link {
+            font-size: 0.875rem;
+            /* Ajusta el tamaño de la fuente de los enlaces de las pestañas */
+        }
+
+        h4 {
+            font-size: 0.9rem;
+        }
+
+        .container-products {
+            display: none;
+        }
+    }
 </style>
 <br><br>
 <div class="container">
+    <br>
     <div class="section-title">
         <span>La mejor opcion para tu negocio 😉</span>
+        <h1 class="title-main-2 title-fud-individual">
+            Lo mejor de Füd <i class="fi fi-sr-hat-chef title-fud-individual"></i>
+            Todo en uno
+        </h1>
+        <h4>
+            Füd One agrupa hasta tres suscripciones de Füd por un precio mensual/semestral o anual más bajo e incluye
+            almacenamiento en Füd Cloud. Con Füd One, disfrutas más por menos 😉
+        </h4>
+        <br>
+        {{#if user}}
+        {{else}}
+        <button class="btn btn-fud-one" onclick="nextWeb('signup')"><b>Prueba Füd One gratis</b></button>
+        <br>
+        {{/if}}
+    </div>
+
+    <div class="container mt-5 container-products">
+        <div class="container mt-5">
+            <div class="row mt-6">
+                <div class="col mb-4">
+                    <img src="https://play-lh.googleusercontent.com/UsdD_NamOPn_cD9d0XXXvvyAaMZf1V74UMUH38x0WdLj8zJliNfahqZ6ijXT7n1a9w"
+                        alt="" class="icon-product-price">
+                    <h5><b>Füd Cloud</b></h5>
+                    <label for="">
+                        Füd Cloud es una solución de almacenamiento en la nube diseñada específicamente para
+                        restaurantes, permitiendo una gestión centralizada y conectada de todas tus sucursales. Este
+                        paquete ofrece una plataforma integrada donde todos tus restaurantes pueden compartir y acceder
+                        a datos en tiempo real, mejorando la coordinación y eficiencia operativa.
+                    </label>
+                </div>
+                <div class="col mb-4">
+                    <img src="https://sellexpos.com/static/img/icon512x512.png" alt="" class="icon-product-price">
+                    <h5><b>Füd Branch</b></h5>
+                    <label for="">
+                        Füd Branch es una solución integral diseñada para la gestión eficiente de cada sucursal de tu
+                        restaurante y sus empleados. Este paquete proporciona herramientas avanzadas para organizar las
+                        operaciones diarias, optimizar el rendimiento del personal y garantizar un servicio al cliente
+                        de alta calidad.
+                    </label>
+                </div>
+                <div class="col mb-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6404/6404201.png" alt=""
+                        class="icon-product-price">
+                    <h5><b>Füd Punto de venta</b></h5>
+                    <label for="">
+                        Füd POS es una solución avanzada y fácil de usar, diseñada específicamente para
+                        optimizar las transacciones y la gestión de ventas en restaurantes. Este sistema permite a los
+                        empleados procesar pedidos y pagos de manera eficiente, mejorando la experiencia del cliente y
+                        la productividad del negocio.
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br>
+
+<div class="backgournd-individual">
+    <br><br>
+    {{>web/prices/individual}}
+    <br><br><br>
+</div>
+<br><br>
+<div class="container">
+    <div class="section-title">
         <h1 class="title-main-2">Conoce nuestras ofertas</h1>
         <p>
             Contamos con los mejores paquetes para pequeños y grandes negocios. Puedes elegir el paquete que más se
             adecue a tus necesidades de empresario. Vende comida y aumenta tus ingresos, mientras nosotros nos
-            centramos en administrar tus insumos, bebidas, reservaciones y empleados
+            centramos en administrar tus insumos, bebidas, reservaciones y empleados. Elige de nuestros planes Todas las
+            Aplicaciones para que tu negocio obtengan lo que necesesite y más de 20
+            aplicaciones gastronomicos
         </p>
     </div>
-
-    {{>web/prices/individual}}
-
-    <hr>
-    <h1 class="title-main-2" style="font-size: 1.2rem;">Consulta lo que incluye</h1>
-    <p>Elige de nuestros planes Todas las Aplicaciones para que tu negocio obtengan lo que necesesite y más de 20 aplicaciones gastronomicos</p>
     {{#if user}}
-        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
-                    aria-selected="true">
-                    <i class="fi fi-ss-database"></i> Base de datos
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
-                    aria-selected="false">
-                    <i class="fi fi-sr-shop"></i> Restaurante
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
-                    aria-selected="false">
-                    <i class="fi fi-sr-apps"></i> Aplicaciones
-                </a>
-            </li>
-        </ul>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                aria-selected="true">
+                <i class="fi fi-ss-database"></i> Base de datos
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                aria-selected="false">
+                <i class="fi fi-sr-shop"></i> Restaurante
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                aria-selected="false">
+                <i class="fi fi-sr-apps"></i> Aplicaciones
+            </a>
+        </li>
+    </ul>
 
-        <div class="tab-content" id="myTabContent" style="background-color: transparent;">
-            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-                {{>web/prices/database}}
-            </div>
-            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-                {{>web/prices/restaurant}}
-            </div>
-            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                <!--
+    <div class="tab-content" id="myTabContent" style="background-color: transparent;">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            {{>web/prices/database}}
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            {{>web/prices/restaurant}}
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <!--
                 {{>web/prices/employee}}
                 --->
-            </div>
         </div>
+    </div>
     {{else}}
-        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
-                    aria-selected="true">
-                    <i class="fi fi-sr-heart"></i> Gratis
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
-                    aria-selected="false">
-                    <i class="fi fi-ss-database"></i> Base de datos
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
-                    aria-selected="false">
-                    <i class="fi fi-sr-store-alt"></i> Restaurante
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
-                    aria-selected="false">
-                    <i class="fi fi-sr-apps"></i> Aplicaciones
-                </a>
-            </li>
-        </ul>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                aria-selected="true">
+                <i class="fi fi-sr-heart"></i> Gratis
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                aria-selected="false">
+                <i class="fi fi-ss-database"></i> Base de datos
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                aria-selected="false">
+                <i class="fi fi-sr-store-alt"></i> Restaurante
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+                aria-selected="false">
+                <i class="fi fi-sr-apps"></i> Aplicaciones
+            </a>
+        </li>
+    </ul>
 
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-                {{>web/prices/free}}
-            </div>
-            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-                {{>web/prices/database}}
-            </div>
-            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                {{>web/prices/restaurant}}
-            </div>
-            <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
-                <!--
-                {{>web/prices/employee}}
-                -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            {{>web/prices/free}}
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            {{>web/prices/database}}
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            {{>web/prices/restaurant}}
+        </div>
+        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+            {{>web/prices/employee}}
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!--preguntas frecuentes--->
+    <style>
+        .faq-section {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-title {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            padding: 15px;
+            color: #007bff;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        .faq-question:hover {
+            background-color: #f1f1f1;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 15px 15px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        @media (max-width: 767px) {
+            .faq-title {
+                font-size: 2rem;
+            }
+
+            .faq-question {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .faq-answer {
+                font-size: 0.875rem;
+                padding: 0 10px 10px;
+            }
+        }
+    </style>
+
+    <br><br><br><br>
+    <section>
+        <h2 class="faq-title">Las respuestas a tus preguntas</h2>
+        <div class="faq-item">
+            <button class="faq-question">¿Cómo me suscribo a Füd One? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    Al crear una cuenta abre el menú > licencias > adquirir licencia.
+                    Cuando estés en la sección de los precios ahora podrás comprar el paquete que quieras.
+                    Si tienes problemas manda un mensaje de WhatsApp a {{>web/phone}}
+                </p>
             </div>
         </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Qué sucede si solo quiero mejorar mi base de datos o mi sucursal? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    Para eso dirígete a las licencias individuales. Cuando inicies sesión abre el
+                    menú > licencias > adquirir licencia.
+                    En la parte de las licencias puedes adquirir individualmente las mejoras que necesitas.
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Hay un periodo de prueba? ¿Qué incluye? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    Sí, al momento de crear tu cuenta cuentas con una versión de prueba gratuita. Por el momento la
+                    prueba gratuita es gratis, pero
+                    puede cambiar en el futuro a días de prueba. Actualmente la versión de prueba cuenta con tres
+                    aplicaciones las cuales son:
+                    <br>
+                    > punto de venta gratis
+                    <br>
+                    > base de datos gratis
+                    <br>
+                    > sucursales gratis
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Por qué comprar Füd? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    Podría pasar horas diciéndote los grandes beneficios de Füd, que pueden ayudarte a controlar tu
+                    negocio, que tenemos la mejor tecnología, que tenemos la mejor plataforma para que aprendas a
+                    utilizar nuestro software, pero lo que realmente importa es que la mayoría de nuestros clientes nos
+                    consideran una extensión de su negocio ❤️
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Qué pasa si no era lo que esperaba? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    No te preocupes, por eso tenemos en el mercado nuestro software de prueba llamado "Füd Free". Con
+                    Füd
+                    Free puedes comprobar si es lo que tu negocio necesita o no 😉
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Cómo puedo confiar en que servirá en mi negocio? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    Como empresa te podemos hacer una promesa que siempre vamos a cumplir. <b>Nunca te arrepentirás
+                        porque
+                        hacemos de las pequeñas cosas, grandes oportunidades</b>. Esto nos caracteriza y nos hace los
+                    mejores en lo
+                    que hacemos. Estamos muy contentos con este programa, está muy bien diseñado y con todo lo
+                    necesario,
+                    estamos muy satisfechos con el desempeño, funciona muy bien y es muy estable para tu negocio.
+                    <br><br>
+                    Al igual que cualquier empresa de éxito, Füd escucha a sus usuarios y leemos todos sus mensajes,
+                    trabajamos todos los días en mejorar nuestro software para la comodidad de todos nuestros clientes
+                    ❤️
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">¿Qué pasa si tengo un problema con el software? 🤔</button>
+            <div class="faq-answer">
+                <p>
+                    A pesar de que nuestro software es muy intuitivo, Füd incluye un manual de usuario por si lo
+                    necesitas.
+                    <br><br>
+                    Si tu duda es más grande siempre puedes contactar con el equipo de apoyo de Füd para una mejor
+                    solución. Con Füd puedes tener un servicio gratuito de por vida y siempre podrás estar recibiendo
+                    apoyo en lo que necesites 🙌
+                </p>
+            </div>
+        </div>
+    </section>
 
-        {{>web/filesOldWeb/js}}
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function () {
+                    const answer = this.nextElementSibling;
+                    const isActive = answer.style.display === 'block';
+
+                    document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
+
+                    if (!isActive) {
+                        answer.style.display = 'block';
+                    } else {
+                        answer.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+    </script>
+    <!--preguntas frecuentes--->
+    {{>web/filesOldWeb/js}}
     {{/if}}
 </div>
 <br><br>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
