@@ -82,6 +82,7 @@
 </style>
 <div class="title-home-store">
     <br>
+    <label for=""><button class="btn" onclick="showTutorial()">💡 <label for="">Repetir Tutorial</label></button></label>
     <h5><b>EXPLORA NUESTRO MENÚ<i class="fi fi-ss-book-alt"></i></b></h5>
     <hr>
 </div>
@@ -127,7 +128,7 @@
     -->
     <div class="row pc">
         <div class="col-8">
-            <div class="row container-menu" name="container-menu" id="container-div">
+            <div class="row container-menu" name="container-menu" id="container-div" step="menuStore">
                 {{#if dishAndCombo}}
                 {{#each dishAndCombo}}
                 <div class="card container-combo col-3"
@@ -216,7 +217,7 @@
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                 <div class="col">
                     <hr>
-                    <div class="row" name="container-menu" id="container-div">
+                    <div class="row" name="container-menu" id="container-div" step="menuStore-cellphone">
                         {{#if dishAndCombo}}
                         {{#each dishAndCombo}}
                         <div class="row card-cellphone card container-combo" id="{{barcode}}"

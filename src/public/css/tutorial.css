@@ -1,0 +1,44 @@
+    /* Añade tus estilos personalizados aquí o usa un archivo CSS externo */
+    .introjs-tooltip {
+        background-color: #282c34;
+        color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .introjs-arrow {
+        border-top-color: #282c34 !important;
+    }
+
+    .introjs-button,
+    .introjs-skipbutton,
+    .introjs-prevbutton,
+    .introjs-nextbutton {
+        background-color: #61dafb;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .introjs-button.introjs-nextbutton.introjs-donebutton {
+        background-color: #21a1f1;
+    }
+
+    .introjs-button:hover,
+    .introjs-skipbutton:hover,
+    .introjs-prevbutton:hover,
+    .introjs-nextbutton:hover {
+        background-color: #21a1f1;
+    }
+
+    .introjs-bullets li a {
+        background-color: #61dafb;
+    }
+
+    .introjs-bullets li a.active {
+        background-color: #21a1f1;
+    }

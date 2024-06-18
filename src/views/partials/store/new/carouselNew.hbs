@@ -1,19 +1,24 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" step="step-ad">
   <div class="carousel-indicators">
     {{#each newAd}}
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{index}}" class="active" aria-current="true" aria-label="Slide {{index}}"></button>
     {{/each}}
   </div>
   <div class="carousel-inner box-carousel-promo">
-    {{#each newAd}}
-      <div class="carousel-item active div-carousel-promo">
-        {{#if img}}
-            <img src="{{img}}" class="img-carousel-promo" alt="...">
-        {{else}}
-            <img class="img-carousel-promo" alt="..." src="https://cdn-icons-png.flaticon.com/512/1695/1695572.png">
-        {{/if}}
-      </div>
-    {{/each}}
+    {{#if newAd}}
+      {{#each newAd}}
+        <div class="carousel-item active div-carousel-promo">
+          {{#if img}}
+              <img src="{{img}}" class="img-carousel-promo" alt="...">
+          {{else}}
+              <img class="img-carousel-promo" alt="..." src="/img/offer-menu.webp">
+          {{/if}}
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="carousel-item active div-carousel-promo"><img class="img-carousel-promo" alt="..." src="/img/offer-menu.webp"></div>
+      <div class="carousel-item active div-carousel-promo"><img class="img-carousel-promo" alt="..." src="/img/offer-menu.webp"></div>
+    {{/if}}
   </div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

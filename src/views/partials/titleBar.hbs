@@ -9,7 +9,7 @@
                     {{#if user}}
                         <input type="checkbox" id="check" onchange="wallpaper_active()">
                         <label for="check" class="btn-menu-bar">
-                            <i class="fi-des fi-br-menu-burger" id="btn-navbar-open"></i>
+                            <i class="fi-des fi-br-menu-burger" id="btn-navbar-open" step="btnNavBar"></i>
                             <i class="fi-des fi-br-cross" id="btn-navbar-cancel"></i>
                         </label>
                         <div class="sidebar">
@@ -56,7 +56,7 @@
                                 {{/each}}
                                 {{#each branchFree}}
                                     <li><a href="/fud/home"><i class="fi-icon fi-sr-apps"> Menu</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/supplies-free"><i class="fi-icon fi-sr-apple-whole"> Insumos</i></a></li>
+                                    <li step="btn-navbar-supplies"><a href="/fud/{{id_companies}}/{{id}}/supplies-free"><i class="fi-icon fi-sr-apple-whole"> Insumos</i></a></li>
                                     <li><a href="/fud/{{id_companies}}/{{id}}/combos-free"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
                                     <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Anuncios</i></a></li>
                                     <!--

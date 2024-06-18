@@ -17,13 +17,10 @@
 <div class="container">
     {{#each branchFree}}
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-8">
             <input type="text" class="form-control" placeholder="Search for barcode..." id="search">
         </div>
-        <div class="col-sm-1">
-            <button class="btn" id="{{id}}" onclick="search_combo()"><i class="fi-icon fi-rs-search"></i></button>
-        </div>
-        <div class="col-sm-1">
+        <div class="col-3">
             <button class="btn-add" id="{{id}}" onclick="nextWeb('{{id_companies}}/{{id}}/add-combos-free')">+<i class="fi-icon fi-ss-hamburger-soda"></i></button>
         </div>
     </div>

@@ -5,14 +5,41 @@
 </div>
 <div class="container">
     <div class="row">
-        {{#each combosAd}}
+        {{#if combosAd}}
+            {{#each combosAd}}
+                <div class="card card-explore-our-combo col-4">
+                    <center><img class="card-img-top img-fluid img-explore-combo" src="{{img}}" alt="card image"></center>
+                    <div class="card-body">
+                        <center><h4 class="card-title"><b>{{description}}</b></h4></center>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
             <div class="card card-explore-our-combo col-4">
-                <center><img class="card-img-top img-fluid img-explore-combo" src="{{img}}" alt="card image"></center>
+                <center><img class="card-img-top img-fluid img-explore-combo" src="/img/ad-menu.webp" alt="card image"></center>
                 <div class="card-body">
-                    <center><h4 class="card-title"><b>{{description}}</b></h4></center>
+                    <center><h4 class="card-title"><b>Descripcion</b></h4></center>
                 </div>
             </div>
-        {{/each}}
+            <div class="card card-explore-our-combo col-4">
+                <center><img class="card-img-top img-fluid img-explore-combo" src="/img/ad-menu.webp" alt="card image"></center>
+                <div class="card-body">
+                    <center><h4 class="card-title"><b>Descripcion</b></h4></center>
+                </div>
+            </div>
+            <div class="card card-explore-our-combo col-4">
+                <center><img class="card-img-top img-fluid img-explore-combo" src="/img/ad-menu.webp" alt="card image"></center>
+                <div class="card-body">
+                    <center><h4 class="card-title"><b>Descripcion</b></h4></center>
+                </div>
+            </div>
+            <div class="card card-explore-our-combo col-4">
+                <center><img class="card-img-top img-fluid img-explore-combo" src="/img/ad-menu.webp" alt="card image"></center>
+                <div class="card-body">
+                    <center><h4 class="card-title"><b>Descripcion</b></h4></center>
+                </div>
+            </div>
+        {{/if}}
     </div>
 </div>
 <br><br><br><br>

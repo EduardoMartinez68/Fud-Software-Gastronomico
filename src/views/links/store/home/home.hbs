@@ -33,10 +33,141 @@
 {{>store/carHouse}}
 {{>store/navigationStore}}
 
+<!--tutorial-->
+<script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+<script>
+    // we will see if the user see the tutorial
+    if (!localStorage.getItem('tutorialHome')) {
+        showTutorial();
+        localStorage.setItem('tutorialHome', 'true');
+    }
+
+    function showTutorial() {
+        // Inicializar el tutorial
+        const intro = introJs();
+
+        
+        if(window.matchMedia("(max-width: 767px)").matches){
+            // Configurar los pasos del tutorial
+            intro.setOptions({
+                steps: [
+                    {
+                        intro: "Bienvenido al tutorial de Füd ❤️"
+                    },
+                    {
+                        element: document.querySelector('[step="menuStore-cellphone"]'),
+                        intro: "Este es el menú de tu restaurante. Muy pronto lo llenarás completamente.",
+                        position: 'right'
+                    },
+                    {
+                        element: document.querySelector('[step="step1"]'),
+                        intro: "Este es el sistema de navegación para el punto de venta. Tienes la interfaz de inicio, lo nuevo de tu restaurante, tu menú y la información de tu perfil.",
+                        position: 'bottom'
+                    },
+                    {
+                        element: document.querySelector('[step="step-ad"]'),
+                        intro: "Los anuncios de Füd te permiten tener actualizados a tus empleados de cualquier oferta",
+                        position: 'bottom'
+                    },
+                    {
+                        element: document.querySelector('[step="btnNavBar"]'),
+                        intro: "Puedes usar este botón para abrir el inventario y navegar por las diferentes herramientas de Füd."
+                    },
+                    {
+                        element: document.querySelector('[step="btnNavBar"]'),
+                        intro: "Podrás volver a cerrar el menú usando el mismo botón de cierre.",
+                        position: 'bottom'
+                    },
+                    {
+                        element: document.querySelector('[step="btn-navbar-supplies"]'),
+                        intro: "Navega al menú de insumos para empezar a crear tu cocina.",
+                        position: 'right'
+                    }
+                ],
+                showProgress: true, // Mostrar el progreso del tutorial
+                showBullets: false, // Ocultar los puntos de navegación
+                disableInteraction: true, // Desactivar la interacción mientras se muestra el tooltip
+                exitOnEsc: false,
+                exitOnOverlayClick: false
+            });
+
+        }
+        else{
+            // Configurar los pasos del tutorial
+            intro.setOptions({
+                steps: [
+                    {
+                        intro: "Bienvenido al tutorial de Füd ❤️"
+                    },
+                    { //1
+                        element: document.querySelector('[step="menuStore"]'),
+                        intro: "Este es el menú de tu restaurante. Muy pronto lo llenarás completamente.",
+                        position: 'right'
+                    },
+                    { //2
+                        element: document.querySelector('[step="step1"]'),
+                        intro: "Este es el sistema de navegación para el punto de venta. Tienes la interfaz de inicio, lo nuevo de tu restaurante, tu menú y la información de tu perfil.",
+                        position: 'bottom'
+                    },
+                    { //3
+                        element: document.querySelector('[step="step-ad"]'),
+                        intro: "Los anuncios de Füd te permiten tener actualizados a tus empleados de cualquier oferta",
+                        position: 'bottom'
+                    },
+                    { //4
+                        element: document.querySelector('[step="btnNavBar"]'),
+                        intro: "Puedes usar este botón para abrir el inventario y navegar por las diferentes herramientas de Füd.",
+                        position: 'right'
+                    },
+                    { //5
+                        element: document.querySelector('[step="btnNavBar"]'),
+                        intro: "Podrás volver a cerrar el menú usando el mismo botón de cierre.",
+                        position: 'bottom'
+                    },
+                    { //6
+                        element: document.querySelector('[step="btn-navbar-supplies"]'),
+                        intro: "Navega al menú de insumos para empezar a crear tu cocina.",
+                        position: 'right'
+                    }
+                ],
+                showProgress: true, // Mostrar el progreso del tutorial
+                showBullets: false, // Ocultar los puntos de navegación
+                disableInteraction: true, // Desactivar la interacción mientras se muestra el tooltip
+                exitOnEsc: false,
+                exitOnOverlayClick: false
+            });
+
+        }
+        // Agregar un evento para cuando se cambia de paso
+        intro.onbeforechange(function(targetElement) {
+            // Detectar si el paso actual es el del botón de navegación
+            if (this._currentStep === 3) {
+                // Simular un clic en el botón de navegación
+                document.querySelector('[step="btn-new"]').click();
+            }
+            else if (this._currentStep === 4) {
+                // Simular un clic en el botón de navegación
+                document.querySelector('[step="btnNavBar"]').click();
+            } else if (this._currentStep === 5) {
+                    // Esperar a que el usuario cierre el menú
+                    intro.pause();
+                    const btnNavBar = document.querySelector('[step="btnNavBar"]');
+                    btnNavBar.addEventListener('click', function handleClick() {
+                    btnNavBar.removeEventListener('click', handleClick);
+                    intro.nextStep(); // Continuar con el siguiente paso
+                    intro.resume(); // Reanudar el tutorial
+                });
+            }
+        });
+
+        // Iniciar el tutorial
+        intro.start();
+    }
+</script>
 
 <script type="text/javascript">
     // La variable addition está disponible aquí como una cadena JSON
-    const addition = [{{addition}}]
+    const addition = [{{ addition }}]
 
     // Parseamos la cadena JSON para convertirla en un objeto JavaScript
     console.log(addition); 
@@ -93,7 +224,7 @@
 
         // get all the item with the class 'navbar-menu'
         const icon = document.querySelectorAll('.list');
-        icon[number-1].classList.add('active');
+        icon[number - 1].classList.add('active');
     }
 
     function update_menu_with_the_cookie() {
