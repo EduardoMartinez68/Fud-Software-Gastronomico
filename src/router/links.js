@@ -5223,7 +5223,6 @@ router.get('/:id_company/:id_branch/order-free', isLoggedIn, async (req, res) =>
     const branchFree = await get_data_branch(req);
     if (branchFree != null) {
         const order=await get_all_order_by_id_branch(id_branch);
-        console.log(order)
         res.render('links/branch/order/order', {branchFree, order});
     } else {
         res.render('links/store/branchLost');
@@ -5301,6 +5300,55 @@ router.get('/:id_branch/get-new-order', async (req, res)=>{
   const nuevasTareas = await get_all_order_by_id_branch(id_branch)
   res.json(nuevasTareas);
 });
+
+router.get('/:id_branch/:id_order/edit-order', async (req, res)=>{
+    const {id_branch,id_order } = req.params;
+    const branchFree = await get_data_branch(req);
+    const dataOrder=await get_order_by_id(id_order);
+    const employees = await search_employees_branch(id_branch);
+    res.render('links/branch/order/editOrder', {branchFree,dataOrder,employees})
+});
+
+async function get_order_by_id(order_id) {
+    const queryText = `
+        SELECT
+            o.id AS order_id,
+            o.id_branches AS order_branch_id,
+            o.id_commanders,
+            o.id_employees AS order_employee_id,
+            o.phone AS order_phone,
+            o.address AS order_address,
+            o.comment AS order_comment,
+            o.status AS order_status,
+            o.name_customer AS customer_name,
+            o.cellphone AS customer_cellphone,
+            c.id AS commander_id,
+            c.id_employees AS commander_employee_id,
+            c.id_customers AS commander_customer_id,
+            c.order_details AS commander_order_details,
+            c.total AS commander_total,
+            c.money_received AS commander_money_received,
+            c.change AS commander_change,
+            c.status AS commander_status,
+            c.comentary AS commander_comment,
+            c.commander_date AS commander_date
+        FROM
+            "Branch".order o
+        LEFT JOIN
+            "Branch".commanders c ON c.id = o.id_commanders
+        WHERE
+            o.id = $1
+    `;
+    const values = [order_id];
+
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0]; // Devuelve la fila que coincide con order_id
+    } catch (error) {
+        console.error('Error al obtener la orden y el comandante:', error);
+        throw error;
+    }
+}
 //--------------------------------restaurant free
 async function get_free_company(id_user){
     var queryText = 'SELECT id FROM "User".companies WHERE id_users = $1';

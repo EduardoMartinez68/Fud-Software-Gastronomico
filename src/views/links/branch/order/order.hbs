@@ -26,6 +26,11 @@
         .task:hover {
             background-color: #f2f2f2;
         }
+
+        .btn {
+          top: 10px;
+          right: 50px;
+        }
     </style>
 </head>
 
@@ -33,7 +38,7 @@
     <br><br>
     <div class="container">
         {{#each branchFree}}
-        <input type="text" id="order_branch_id" value="{{id}}" style="display: none;">
+          <input type="text" id="order_branch_id" value="{{id}}" style="display: none;">
         {{/each}}
         <label>Lista de Tareas</label>
         <div class="list-container">
@@ -42,7 +47,10 @@
                     <h6>En Progreso</h6>
                     {{#each order}}
                     <div class="task" data-id="{{order_id}}" status="{{order_status}}">
-                        {{customer_name}}/{{order_address}}<p class="text-align: right;">${{commander_total}}</p>
+                        {{customer_name}}/{{order_address}}
+                        <p class="text-align: right;">${{commander_total}}</p>
+                        <label for="" class="col-10">{{timeago commander_date}}</label>
+                        <button class="btn btn-primary button-spacing" id="{{order_id}}" onclick="edit_order('{{order_id}}','{{order_branch_id}}')">✏️</button>
                     </div>
                     {{/each}}
                 </div>
@@ -168,6 +176,26 @@
 
 <!--this is for get the new homeworks-->
 <script>
+  function time_elapsed(timestamp) {
+    const now = new Date();
+    const past = new Date(timestamp);
+    const secondsPast = Math.floor((now - past) / 1000);
+
+    if (secondsPast < 60) {
+      return `${secondsPast} segundo${secondsPast !== 1 ? 's' : ''} atrás`;
+    } else if (secondsPast < 3600) {
+      const minutesPast = Math.floor(secondsPast / 60);
+      return `${minutesPast} minuto${minutesPast !== 1 ? 's' : ''} atrás`;
+    } else if (secondsPast < 86400) {
+      const hoursPast = Math.floor(secondsPast / 3600);
+      return `${hoursPast} hora${hoursPast !== 1 ? 's' : ''} atrás`;
+    } else {
+      const daysPast = Math.floor(secondsPast / 86400);
+      return `${daysPast} día${daysPast !== 1 ? 's' : ''} atrás`;
+    }
+  }
+
+
 document.addEventListener('DOMContentLoaded', function() {
   function agregarTitulos() {
     const inProgressList = document.getElementById('in-progress-list');
@@ -239,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Función para agregar una tarea al DOM
   function agregarTareaAlDOM(order) {
-    const { order_id, customer_name, order_address, order_status, commander_total } = order;
+    const { order_id, customer_name, order_address, order_status, commander_total, commander_date, order_id, order_branch_id } = order;
 
     // Crear elemento de tarea
     const taskElement = document.createElement('div');
@@ -256,6 +284,23 @@ document.addEventListener('DOMContentLoaded', function() {
     totalElement.setAttribute('class', 'text-align-right');
     totalElement.textContent = `$${commander_total}`;
     taskElement.appendChild(totalElement);
+
+    //parrafo de fecha 
+    const textFecha=time_elapsed(commander_date) 
+    const fechaElement = document.createElement('label');
+    fechaElement.setAttribute('class', 'col-10');
+    fechaElement.textContent = `${textFecha}`;
+    taskElement.appendChild(fechaElement);
+
+    //button de editar 
+    const button = document.createElement('button');
+    button.setAttribute('class', 'btn btn-primary button-spacing');
+    button.setAttribute('id', order_id);
+    button.textContent=✏️;
+    button.addEventListener('click', function() {
+        edit_order(order_id,order_branch_id);
+    });
+    taskElement.appendChild(button);
 
     // Determinar en qué lista agregar la tarea según su estado
     let targetList;
@@ -307,4 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Llamar a la función para obtener nuevas tareas cada cierto intervalo de tiempo (por ejemplo, cada 5 segundos)
   setInterval(obtenerNuevasTareas, 10000); // Intervalo en milisegundos (5000 ms = 5 segundos)
 });
+</script>
+
+<script>
+  function edit_order(id_order,id_branch){
+    window.location.href = `/fud/${id_branch}/${id_order}/edit-order`;
+  }
 </script>
