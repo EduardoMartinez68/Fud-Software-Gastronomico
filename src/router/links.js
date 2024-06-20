@@ -5218,8 +5218,89 @@ router.get('/store-home', isLoggedIn, async (req, res) => {
 })
 
 
+router.get('/:id_company/:id_branch/order-free', isLoggedIn, async (req, res) => {
+    const {id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        const order=await get_all_order_by_id_branch(id_branch);
+        console.log(order)
+        res.render('links/branch/order/order', {branchFree, order});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
+async function get_all_order_by_id_branch(idBranches) {
+    const queryText = `
+        SELECT
+            o.id AS order_id,
+            o.id_branches AS order_branch_id,
+            o.id_commanders,
+            o.id_employees AS order_employee_id,
+            o.phone AS order_phone,
+            o.address AS order_address,
+            o.comment AS order_comment,
+            o.status AS order_status,
+            o.name_customer AS customer_name,
+            o.cellphone AS customer_cellphone,
+            c.id AS commander_id,
+            c.id_employees AS commander_employee_id,
+            c.id_customers AS commander_customer_id,
+            c.order_details AS commander_order_details,
+            c.total AS commander_total,
+            c.money_received AS commander_money_received,
+            c.change AS commander_change,
+            c.status AS commander_status,
+            c.comentary AS commander_comment,
+            c.commander_date AS commander_date
+        FROM
+            "Branch".order o
+        LEFT JOIN
+            "Branch".commanders c ON c.id = o.id_commanders
+        WHERE
+            o.id_branches = $1
+    `;
+    const values = [idBranches];
 
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows; // Devuelve todas las filas que coinciden con idBranches
+    } catch (error) {
+        console.error('Error al obtener órdenes y comandantes:', error);
+        throw error;
+    }
+}
+
+router.post('/update-order', async (req, res)=>{
+    update_order_status_by_id(req.body.taskId,req.body.newStatus);
+    res.status(200).json({ message: 'true'});
+});
+
+async function update_order_status_by_id(orderId, newStatus) {
+    const queryText = `
+        UPDATE "Branch".order
+        SET
+            status = $2
+        WHERE
+            id = $1
+    `;
+    const values = [orderId, newStatus];
+
+    try {
+        const result = await database.query(queryText, values);
+        return result.rowCount; // Devuelve el número de filas actualizadas (debería ser 1)
+    } catch (error) {
+        console.error('Error al actualizar el estado de la orden:', error);
+        throw error;
+    }
+}
+
+router.get('/:id_branch/get-new-order', async (req, res)=>{
+    const {id_branch } = req.params;
+  // Aquí podrías obtener las nuevas tareas de tu base de datos o de donde las almacenes
+  const nuevasTareas = await get_all_order_by_id_branch(id_branch)
+  res.json(nuevasTareas);
+});
 //--------------------------------restaurant free
 async function get_free_company(id_user){
     var queryText = 'SELECT id FROM "User".companies WHERE id_users = $1';

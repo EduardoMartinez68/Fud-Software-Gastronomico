@@ -672,7 +672,7 @@ async function cash_movement_message() {
 
 
 ////////////////////////pedidos
-async function show_create_new_order() {
+async function show_create_new_order(oldDataOrder) {
     var containerHtml = `
         <div class="container mt-5">
             <h1 class="text-center">Realiza Pedido a Domicilio🚚</h1>
@@ -680,29 +680,29 @@ async function show_create_new_order() {
             <form>
                 <div class="form-group">
                     <label for="inputName">Nombre</label>
-                    <input type="text" class="form-control" id="name" placeholder="Nombre">
+                    <input type="text" class="form-control" id="name" placeholder="Nombre" value='${oldDataOrder.name}'>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="inputName">Celular</label>
-                            <input type="text" class="form-control" id="cellphone" placeholder="Celular">
+                            <input type="text" class="form-control" id="cellphone" placeholder="Celular" value=${oldDataOrder.cellphone}>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="inputPhone">Teléfono</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Teléfono">
+                            <input type="tel" class="form-control" id="phone" placeholder="Teléfono" value=${oldDataOrder.phone}>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Dirección</label>
-                    <input type="text" class="form-control" id="address" placeholder="Dirección" name="address">
+                    <input type="text" class="form-control" id="address" placeholder="Dirección" name="address" value=${oldDataOrder.address}>
                 </div>
                 <div class="form-group">
                     <label for="inputNotes">Notas adicionales</label>
-                    <textarea class="form-control" id="comment" rows="3" placeholder="Notas adicionales"></textarea>
+                    <textarea class="form-control" id="comment" rows="3" placeholder="Notas adicionales" value=${oldDataOrder.comment}></textarea>
                 </div>
             </form>
         </div>
@@ -714,8 +714,8 @@ async function show_create_new_order() {
             html: containerHtml,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonText: 'Guardar informacion',
-            cancelButtonText: 'Salir',
+            confirmButtonText: 'Guardar información',
+            cancelButtonText: 'Borrar información',
             confirmButtonColor: '#0D6EFD',
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
@@ -724,14 +724,20 @@ async function show_create_new_order() {
                 const phone = Swal.getPopup().querySelector('#phone').value;
                 const address = Swal.getPopup().querySelector('#address').value;
                 const comment = Swal.getPopup().querySelector('#comment').value;
-
-                data = [name, cellphone, phone, address, comment];
-
-                resolve(data);
+    
+                const data = [name, cellphone, phone, address, comment];
+    
+                return data; // Esto se enviará a resolve(data)
             },
             allowOutsideClick: () => !Swal.isLoading(),
             customClass: {
                 content: 'my-content-class'
+            }
+        }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                resolve(null); // Usuario canceló, devolvemos null
+            } else {
+                resolve(result.value); // Usuario confirmó, devolvemos los datos
             }
         });
     });

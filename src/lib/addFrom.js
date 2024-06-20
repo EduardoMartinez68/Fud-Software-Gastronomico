@@ -1826,8 +1826,7 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
 
             //save the comander
             commander=create_commander(idBranch,id_employee,id_customer,commanderDish,combos[0].totalCar,combos[0].moneyReceived,combos[0].exchange,combos[0].comment,day)
-    
-            //await addDatabase.add_commanders(commander);
+            text=await addDatabase.add_commanders(commander); //save the id commander
         }
 
         //send an answer to the customer
@@ -1843,7 +1842,6 @@ router.post('/fud/:id_customer/car-post',isLoggedIn,async(req,res)=>{
     }catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'No podemos imprimir el ticket' });
-
     }
 })
 
@@ -2176,6 +2174,18 @@ function create_move(req){
     return move;
 }
 
+
+router.post('/fud/add-order-post',isLoggedIn,async(req,res)=>{
+    try {
+        //we will to add the information to the database 
+        const answer=await addDatabase.add_order(req.body);
+        // send an answer to the customer
+        res.status(200).json({ message: answer});
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+})
 
 
 module.exports=router;

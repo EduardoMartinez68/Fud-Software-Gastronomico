@@ -506,19 +506,18 @@ async function add_movement_history(data){
     }
 }
 
-async function add_commanders(data){
-    var queryText = 'INSERT INTO "Branch".commanders(id_branches, id_employees, id_customers, order_details, total, money_received, change, status, comentary, commander_date)'
-    + ' VALUES ($1, $2, $3, $4,$5,$6,$7,$8,$9,$10)';
+async function add_commanders(data) {
+    var queryText = 'INSERT INTO "Branch".commanders(id_branches, id_employees, id_customers, order_details, total, money_received, change, status, comentary, commander_date)' +
+                    ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id';
     var values = Object.values(data);
-    try{
-        await database.query(queryText, values);
-        return true;
+    try {
+        const result = await database.query(queryText, values);
+        return result.rows[0].id; // return the ID that save in the database
     } catch (error) {
         console.error('Error to add in the database commanders:', error);
-        return false;
+        return null;
     }
 }
-
 async function add_box(idBranch,number,idPrinter,idBox){
     var queryText = 'INSERT INTO "Branch".boxes(id_branches, num_box, ip_printer)'
     + ' VALUES ($1, $2,$3)';
@@ -577,6 +576,20 @@ async function add_department(name,description){
 }
 
 
+async function add_order(dataOrder){
+    var queryText = 'INSERT INTO "Branch".order(id_branches, name_customer, cellphone, phone, address, comment, id_commanders)'
+    + ' VALUES ($1, $2, $3, $4, $5, $6, $7)';
+    var values = Object.values(dataOrder);
+
+    try{
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error to schedule in the database:', error);
+        return false;
+    }
+}
+
 module.exports={
     add_company,
     add_product_department,
@@ -600,5 +613,6 @@ module.exports={
     add_box,
     add_ad,
     add_schedule,
-    save_branch
+    save_branch,
+    add_order
 };

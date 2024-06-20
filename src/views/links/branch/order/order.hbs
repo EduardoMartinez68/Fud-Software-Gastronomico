@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        .task-list {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .task {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .task:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <br><br>
+    <div class="container">
+        {{#each branchFree}}
+        <input type="text" id="order_branch_id" value="{{id}}" style="display: none;">
+        {{/each}}
+        <label>Lista de Tareas</label>
+        <div class="list-container">
+            <div class="row">
+                <div id="in-progress-list" class="task-list col">
+                    <h6>En Progreso</h6>
+                    {{#each order}}
+                    <div class="task" data-id="{{order_id}}" status="{{order_status}}">
+                        {{customer_name}}/{{order_address}}<p class="text-align: right;">${{commander_total}}</p>
+                    </div>
+                    {{/each}}
+                </div>
+                <div id="sent-list" class="task-list col">
+                    <h6>Enviado</h6>
+                </div>
+                <div id="delivered-list" class="task-list col">
+                    <h6>Entregado</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inProgressList = document.getElementById('in-progress-list');
+        const sentList = document.getElementById('sent-list');
+        const deliveredList = document.getElementById('delivered-list');
+
+        // Configuración inicial de Sortable para cada lista de tareas
+        new Sortable(inProgressList, {
+            group: 'shared',
+            animation: 150,
+            onEnd: function (evt) {
+                actualizarPosicion(evt.item);
+            }
+        });
+
+        new Sortable(sentList, {
+            group: 'shared',
+            animation: 150,
+            onEnd: function (evt) {
+                actualizarPosicion(evt.item);
+            }
+        });
+
+        new Sortable(deliveredList, {
+            group: 'shared',
+            animation: 150,
+            onEnd: function (evt) {
+                actualizarPosicion(evt.item);
+            }
+        });
+
+        // Función para actualizar la posición de la tarea en el servidor
+        function actualizarPosicion(taskElement) {
+            const taskId = taskElement.getAttribute('data-id');
+            const statusList = taskElement.closest('.task-list').id;
+            var newStatus;
+
+            if (statusList == 'sent-list') {
+                newStatus = 'enviado';
+            }
+            else if (statusList == 'delivered-list') {
+                newStatus = 'entregado';
+            } else {
+                newStatus = 'en-progreso';
+            }
+            // Aquí debes enviar la información al servidor usando fetch o XMLHttpRequest
+            fetch('/fud/update-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    taskId: taskId,
+                    newStatus: newStatus
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        alert('Error al actualizar la posición de la tarea en el servidor');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtener todos los elementos con clase 'task'
+        const tasks = document.querySelectorAll('.task');
+
+        // Iterar sobre cada tarea
+        tasks.forEach(task => {
+            // Obtener el estado (status) de la tarea
+            const status = task.getAttribute('status');
+
+            // Obtener la tabla correspondiente según el estado
+            let targetTable;
+            switch (status) {
+                case 'en-progreso':
+                    targetTable = document.getElementById('in-progress-list');
+                    break;
+                case 'En preparacion':
+                    targetTable = document.getElementById('in-progress-list');
+                    break;
+                case 'enviado':
+                    targetTable = document.getElementById('sent-list');
+                    break;
+                case 'entregado':
+                    targetTable = document.getElementById('delivered-list');
+                    break;
+                default:
+                    // En caso de un estado no reconocido, se puede manejar o ignorar
+                    console.warn(`Estado no reconocido para la tarea con ID ${task.getAttribute('data-id')}`);
+                    return;
+            }
+
+            // Mover la tarea al contenedor de la tabla correspondiente
+            targetTable.appendChild(task);
+        });
+    });
+</script>
+
+<!--this is for get the new homeworks-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function agregarTitulos() {
+    const inProgressList = document.getElementById('in-progress-list');
+    const sentList = document.getElementById('sent-list');
+    const deliveredList = document.getElementById('delivered-list');
+
+    if (inProgressList.childElementCount === 0) {
+      const titleElement = document.createElement('h6');
+      titleElement.textContent = 'En Progreso';
+      inProgressList.appendChild(titleElement);
+    }
+
+    if (sentList.childElementCount === 0) {
+      const titleElement = document.createElement('h6');
+      titleElement.textContent = 'Enviado';
+      sentList.appendChild(titleElement);
+    }
+
+    if (deliveredList.childElementCount === 0) {
+      const titleElement = document.createElement('h6');
+      titleElement.textContent = 'Entregado';
+      deliveredList.appendChild(titleElement);
+    }
+  }
+
+
+  // Función para obtener las nuevas tareas desde el servidor
+  function obtenerNuevasTareas() {
+    // Realizar una solicitud GET al servidor para obtener las nuevas tareas
+    const id_branch = document.getElementById('order_branch_id').value; // Asumiendo que 'order_branch_id' es un input o select
+    fetch(`/fud/${id_branch}/get-new-order`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al obtener nuevas tareas desde el servidor');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Limpiar todas las tareas actuales antes de agregar las nuevas tareas
+        limpiarTareas();
+        agregarTitulos();
+        for(var i=0; i<data.length;i++){
+            agregarTareaAlDOM(data[i]);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Manejar errores de manera adecuada
+      });
+  }
+
+  // Función para limpiar todas las tareas actuales en el DOM
+  function limpiarTareas() {
+    const inProgressList = document.getElementById('in-progress-list');
+    const sentList = document.getElementById('sent-list');
+    const deliveredList = document.getElementById('delivered-list');
+
+    // Eliminar todos los hijos de cada lista de tareas
+    while (inProgressList.firstChild) {
+      inProgressList.removeChild(inProgressList.firstChild);
+    }
+    while (sentList.firstChild) {
+      sentList.removeChild(sentList.firstChild);
+    }
+    while (deliveredList.firstChild) {
+      deliveredList.removeChild(deliveredList.firstChild);
+    }
+  }
+
+  // Función para agregar una tarea al DOM
+  function agregarTareaAlDOM(order) {
+    const { order_id, customer_name, order_address, order_status, commander_total } = order;
+
+    // Crear elemento de tarea
+    const taskElement = document.createElement('div');
+    taskElement.setAttribute('class', 'task');
+    taskElement.setAttribute('data-id', order_id);
+    taskElement.setAttribute('status', order_status);
+
+    // Contenido de la tarea
+    const taskContent = document.createTextNode(`${customer_name}/${order_address}`);
+    taskElement.appendChild(taskContent);
+
+    // Párrafo para el total del comandante
+    const totalElement = document.createElement('p');
+    totalElement.setAttribute('class', 'text-align-right');
+    totalElement.textContent = `$${commander_total}`;
+    taskElement.appendChild(totalElement);
+
+    // Determinar en qué lista agregar la tarea según su estado
+    let targetList;
+    switch (order_status) {
+      case 'en-progreso':
+        targetList = document.getElementById('in-progress-list');
+        break;
+    case 'En preparacion':
+        targetList = document.getElementById('in-progress-list');
+        break;
+      case 'enviado':
+        targetList = document.getElementById('sent-list');
+        break;
+      case 'entregado':
+        targetList = document.getElementById('delivered-list');
+        break;
+      default:
+        console.warn(`Estado no reconocido para la tarea con ID ${order_id}`);
+        return; // Salir de la función si el estado no es reconocido
+    }
+
+    // Agregar el título si aún no está agregado
+    if (targetList.childElementCount === 0) {
+      const titleElement = document.createElement('h6');
+      switch (order_status) {
+        case 'en-progreso':
+          titleElement.textContent = 'En Progreso';
+          break;
+        case 'En preparacion':
+          titleElement.textContent = 'En Progreso';
+          break;
+        case 'enviado':
+          titleElement.textContent = 'Enviado';
+          break;
+        case 'entregado':
+          titleElement.textContent = 'Entregado';
+          break;
+        default:
+          console.warn(`Estado no reconocido para la tarea con ID ${order_id}`);
+          return; // Salir de la función si el estado no es reconocido
+      }
+      targetList.appendChild(titleElement);
+    }
+
+    // Agregar la tarea al contenedor correspondiente
+    targetList.appendChild(taskElement);
+  }
+
+  // Llamar a la función para obtener nuevas tareas cada cierto intervalo de tiempo (por ejemplo, cada 5 segundos)
+  setInterval(obtenerNuevasTareas, 10000); // Intervalo en milisegundos (5000 ms = 5 segundos)
+});
+</script>

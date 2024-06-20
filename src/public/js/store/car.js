@@ -47,7 +47,15 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
         const link = '/fud/' + idClient + '/car-post';
         const answerServer = await get_answer_server(combos,link);
 
-        if (answerServer.message == 'success') {
+        //we will see if save the commander 
+        if (answerServer.message != 'Hubo un error al procesar la solicitud') {
+            //we will see if the user would like do a send to his house 
+            var dataOrder = document.getElementById('customer-name').value;
+            if (dataOrder !== "" && dataOrder !== null){ //we will see if exist information about the order 
+                const idCommander=answerServer.message;
+                const answerServerOrder=await get_answer_server_for_add_order(idCommander);
+            }
+
             //if the server can do the pay we will to delete all the cart and send a message of success
             delete_all_fish();
 
@@ -85,6 +93,37 @@ async function get_answer_server(combos, link) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(combos)
+        };
+
+        // Realizar la solicitud y esperar la respuesta
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+
+        // Convertir la respuesta a JSON y devolverla
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+async function get_answer_server_for_add_order(idCommander) {
+    try {
+        const url = '/fud/add-order-post';
+        var dataOrder=get_data_order()
+        dataOrder.idCommander=idCommander;
+        
+        // Configurar la solicitud
+        const options = {
+            method: 'POST', // Puedes usar POST en lugar de GET si necesitas enviar muchos datos
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataOrder)
         };
 
         // Realizar la solicitud y esperar la respuesta
@@ -553,7 +592,8 @@ async function buy_my_car(button) {
                 //we calculate the exchange 
                 exchange = totalMoney - value;
                 const comment=dataBuy[3];
-                delete_all_car(value,totalMoney,exchange,comment) //reset the car
+                await delete_all_car(value,totalMoney,exchange,comment) //reset the car
+                reset_input_order() //this is for reset the data of the orden of send 
             } else {
                 errorMessage('¡Error! la compra no fue completa 👁️', 'El dinero no es suficiente.')
             }
