@@ -632,7 +632,7 @@ async function show_message_buy_car(title, customer, total, typeOfCurrency) {
                 const debitCardCellphone = 0//Swal.getPopup().querySelector('#debitCard').value;
                 const creditCardCellphone = 0//Swal.getPopup().querySelector('#creditCard').value;
                 const commentCellphone = Swal.getPopup().querySelector('#comment-cellphone').value;
-                data = [cash, debitCard, creditCard, comment,cashCellphone,debitCardCellphone,creditCardCellphone,commentCellphone];
+                data = [cash, debitCard, creditCard, comment, cashCellphone, debitCardCellphone, creditCardCellphone, commentCellphone];
 
                 resolve(data);
             },
@@ -666,6 +666,73 @@ async function cash_movement_message() {
                 resolve(data);
             },
             allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+}
+
+
+////////////////////////pedidos
+async function show_create_new_order() {
+    var containerHtml = `
+        <div class="container mt-5">
+            <h1 class="text-center">Realiza Pedido a Domicilio🚚</h1>
+            <hr>
+            <form>
+                <div class="form-group">
+                    <label for="inputName">Nombre</label>
+                    <input type="text" class="form-control" id="name" placeholder="Nombre">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputName">Celular</label>
+                            <input type="text" class="form-control" id="cellphone" placeholder="Celular">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputPhone">Teléfono</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Teléfono">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Dirección</label>
+                    <input type="text" class="form-control" id="address" placeholder="Dirección" name="address">
+                </div>
+                <div class="form-group">
+                    <label for="inputNotes">Notas adicionales</label>
+                    <textarea class="form-control" id="comment" rows="3" placeholder="Notas adicionales"></textarea>
+                </div>
+            </form>
+        </div>
+    `;
+
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: '',
+            html: containerHtml,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar informacion',
+            cancelButtonText: 'Salir',
+            confirmButtonColor: '#0D6EFD',
+            cancelButtonColor: 'rgb(220, 53, 69)',
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#name').value;
+                const cellphone = Swal.getPopup().querySelector('#cellphone').value;
+                const phone = Swal.getPopup().querySelector('#phone').value;
+                const address = Swal.getPopup().querySelector('#address').value;
+                const comment = Swal.getPopup().querySelector('#comment').value;
+
+                data = [name, cellphone, phone, address, comment];
+
+                resolve(data);
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+            customClass: {
+                content: 'my-content-class'
+            }
         });
     });
 }

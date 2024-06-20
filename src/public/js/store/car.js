@@ -183,10 +183,11 @@ function update_pocket_money(){
     var numeroMostrado;
     var totalId;
     var pocketMoney=document.getElementById('pocketMoney-cellphone');
+
     if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
         numeroMostrado = document.getElementById("money");
         totalId = document.getElementById('total');
-        pocketMoney=document.getElementById('pocketMoney-cellphone');
+        pocketMoney=document.getElementById('pocketMoney');
     } else {
         numeroMostrado = document.getElementById("money-cellphone");
         totalId = document.getElementById('total-cellphone');

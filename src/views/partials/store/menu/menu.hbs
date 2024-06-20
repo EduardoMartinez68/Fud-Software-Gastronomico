@@ -114,6 +114,7 @@
             {{#each dataEmployee}}
             <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
                 onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Client</button>
+                
             {{/each}}
         </div>
     </div>
@@ -282,6 +283,40 @@
     </div>
 </div>
 <br><br><br><br>
+
+
+<!---this is the information for orden of send--->
+<input type="text" name="customer-name" style="display: none;" id="customer-name">
+<input type="text" name="customer-cellphone" style="display: none;" id="customer-cellphone">
+<input type="text" name="customer-phone" style="display: none;" id="customer-phone">
+<input type="text" name="customer-address" style="display: none;" id="customer-address">
+<input type="text" name="customer-comment" style="display: none;" id="customer-comment">
+<script>
+    function update_input_order(dataOrder){
+        document.getElementById('customer-name').value = dataOrder[0];
+        document.getElementById('customer-cellphone').value = dataOrder[1];
+        document.getElementById('customer-phone').value = dataOrder[2];
+        document.getElementById('customer-address').value = dataOrder[3];
+        document.getElementById('customer-comment').value = dataOrder[4];
+    }
+
+    async function create_new_order(){
+        //we will get the data of the order
+        const dataOrder=await show_create_new_order();
+        update_input_order(dataOrder); //update the value of the inpus of the send 
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+<!---this is the information for orden of send--->
 <script src="/js/menu.js"></script>
 <script src="/js/store/search.js"></script>
 <script src="/js/search.js"></script>
@@ -328,6 +363,7 @@
         });
     });
 </script>
+
 
 
 
