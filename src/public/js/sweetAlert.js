@@ -743,6 +743,29 @@ async function show_create_new_order(oldDataOrder) {
     });
 }
 
+
+function show_description_dish(nombre, descripcion, precio, imagen) {
+    // Construir el mensaje con la información del platillo
+    const mensaje = `
+        <div>
+            <img src="${imagen}" alt="${nombre}" style="width: 100%; max-height: 300px;">
+            <h5>${nombre}</h5>
+            <p>${descripcion}</p>
+            <p>Precio: $${precio}</p>
+        </div>
+    `;
+
+    // Llamar a la función infoMessage con el título y el mensaje
+    infoDish('Información del Platillo', mensaje);
+}
+
+function infoDish(title, text) {
+    Swal.fire({
+        title: title,
+        html: text, // Usar 'html' para permitir contenido HTML en el mensaje
+    });
+}
+
 /////////////////////////////////suscription//////////////////////////////////////////////
 async function get_id_subscription() {
     return new Promise((resolve, reject) => {

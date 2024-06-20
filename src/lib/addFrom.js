@@ -1845,6 +1845,59 @@ router.post('/fud/:id_customer/car-post', isLoggedIn, async (req, res) => {
     }
 })
 
+router.post('/fud/car-customer-post', async (req, res) => {
+    var commander = ''
+    var text = ''
+    try {
+        //get the data of the server
+        const combos = req.body;
+
+        //we will seeing if can create all the combo of the car
+        text = await watch_if_can_create_all_the_combo(combos);
+       
+        //if can buy this combos, we going to add this buy to the database 
+        if (text == 'success') {
+            const id_customer  = null;
+            const id_employee = null;
+            const day = new Date();
+
+            //we will to save the data for create the commander
+            var commanderDish = []
+            var idBranch = 0;
+
+            //we will read all the combos and save in the database 
+            for (const combo of combos) {
+                const dataComboFeatures = await get_data_combo_features(combo.id); //get the data of the combo
+                idBranch = dataComboFeatures.id_branches; //change the id branch for save the commander
+                const dataComandera = create_data_commander(combo)
+                commanderDish.push(dataComandera);
+
+                //save the buy in the database 
+                //await addDatabase.add_buy_history(dataComboFeatures.id_companies, dataComboFeatures.id_branches, id_employee, id_customer, dataComboFeatures.id_dishes_and_combos,combo.price,combo.amount,combo.total,day);
+            }
+
+            //save the comander
+            commander = create_commander(idBranch, id_employee, id_customer, commanderDish, combos[0].totalCar, combos[0].moneyReceived, combos[0].exchange, combos[0].comment, day)
+            text = await addDatabase.add_commanders(commander); //save the id commander
+        }
+        //send an answer to the customer
+        //res.status(200).json({ message: text});
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+    }
+    console.log('texto')
+    console.log(text)
+    try {
+        await printer.print_ticket(commander); //this is for print the ticket 
+        res.status(200).json({ message: text });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'No podemos imprimir el ticket' });
+    }
+})
+
+
 function create_data_commander(combo) {
     const name = combo.name;
     const price = combo.price;
@@ -2175,7 +2228,9 @@ function create_move(req) {
 }
 
 
-router.post('/fud/add-order-post', isLoggedIn, async (req, res) => {
+router.post('/fud/add-order-post', async (req, res) => {
+    console.log('bodyyy')
+    console.log(req.body)
     try {
         //we will to add the information to the database 
         const answer = await addDatabase.add_order(req.body);
@@ -2183,7 +2238,7 @@ router.post('/fud/add-order-post', isLoggedIn, async (req, res) => {
         res.status(200).json({ message: answer });
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
+        res.status(500).json({ error: 'Hubo un error al procesar la solicitud de la orden' });
     }
 })
 

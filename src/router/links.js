@@ -5475,6 +5475,35 @@ router.get('/report', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/report");
 })
 
+/*store online*/
+
+router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
+    const { id_company, id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        const digitalMenu=[{menu:''}]
+        //we get all the combo of the branch 
+        const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
+        const newAd = await get_all_ad(id_branch, 'new');
+        /*
+        const newCombos = await get_data_recent_combos(id_company);
+        const mostSold = await get_all_data_combo_most_sold(id_branch);
+
+        //we going to get all the type of ad in the branch
+        const offerAd = await get_all_ad(id_branch, 'offer');
+        const newAd = await get_all_ad(id_branch, 'new');
+        const combosAd = await get_all_ad(id_branch, 'combo');
+        const specialsAd = await get_all_ad(id_branch, 'special');
+
+        res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newCombos,mostSold,offerAd,newAd,combosAd,specialsAd});
+        */
+        res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newAd});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
+
+
 
 /*reports*/
 

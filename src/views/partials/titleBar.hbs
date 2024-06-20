@@ -1,118 +1,142 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
 
 <!--this is the navbar-->
+{{#if digitalMenu}}
+{{else}}
 {{#if user}}
-    <section class="descriptionWindow">
-        <head class="headDescription">
-            <div class="navbar">
-                <ul class="ul-menu-bar">
-                    {{#if user}}
-                        <input type="checkbox" id="check" onchange="wallpaper_active()">
-                        <label for="check" class="btn-menu-bar">
-                            <i class="fi-des fi-br-menu-burger" id="btn-navbar-open" step="btnNavBar"></i>
-                            <i class="fi-des fi-br-cross" id="btn-navbar-cancel"></i>
-                        </label>
-                        <div class="sidebar">
-                            {{#if company}}
-                                {{#each company}}
-                                    <header>{{alias}}</header>
-                                {{/each}}
-                            {{else}}
-                                {{#if branch}}
-                                    {{#each branch}}
-                                        <header>{{name_branch}}</header>
-                                    {{/each}}
-                                {{else}}
-                                    <header>Füd</header>
-                                {{/if}}
-                            {{/if}}
-                            <ul class="scroll-navbar">
-                                <li rolUser="{{user.rol_user}}" id="roleUser"><a href="/fud/subscription"><i class="fi-icon fi-sr-credit-card"> Licencias</i></a></li>
-                                {{#each company}}
-                                    <li><a href="company-home"><i class="fi-icon fi-sr-apps"> Dashboard</i></a></li>
-                                    <li><a href="/fud/{{id}}/branches"><i class="fi-icon fi-sr-store-alt"> Branches</i></a></li>
-                                    <li><a href="/fud/{{id}}/employees"><i class="fi-icon fi-sr-hat-chef"> Employees</i></a></li>
-                                    <li><a href="/fud/{{id}}/customers-company"><i class="fi-icon fi-sr-user"> Customers</i></a></li>
-                                    <li><a href="/fud/{{id}}/company-supplies"><i class="fi-icon fi-sr-apple-whole"> Supplies</i></a></li>
-                                    <li><a href="/fud/{{id}}/company-products"><i class="fi-icon fi-ss-hamburger"> Products</i></a></li>
-                                    <li><a href="/fud/{{id}}/combos"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
-                                    <li><a href="/fud/{{id}}/providers"><i class="fi-icon fi-ss-truck-side"> Providers</i></a></li>
-                                    <li><a href="/fud/{{id}}/reports"><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>
-                                    <li><a href="/fud/{{id}}/options"><i class="fi-icon fi-sr-settings"> Options</i></a></li>
-                                    <li><a href="/fud/home"><i class="fi-icon fi-sr-undo">  Exit</i></a></li>
-                                {{/each}}
-                                {{#each branch}}
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/visit-branch"><i class="fi-icon fi-sr-apps"> Dashboard</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/employees-branch"><i class="fi-icon fi-sr-hat-chef"> Employees</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/schedules-employees"><i class="fi-icon fi-sr-clock-three"> Schedules</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/supplies"><i class="fi-icon fi-sr-apple-whole"> Supplies</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/products"><i class="fi-icon fi-ss-hamburger"> Products</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/combos"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/providers"><i class="fi-icon fi-ss-truck-side"> Providers</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Ad</i></a></li>
-                                    <!---<li><a href="report"><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>-->
-                                    <!---<li><a href="/fud/{{id_companies}}/{{id}}"><i class="fi-icon fi-sr-settings"> Options</i></a></li>-->
-                                    <li><a href="/fud/{{id_companies}}/company-home"><i class="fi-icon fi-sr-undo">  Exit</i></a></li>
-                                {{/each}}
-                                {{#each branchFree}}
-                                    <li><a href="/fud/home"><i class="fi-icon fi-sr-apps"> Menu</i></a></li>
-                                    <li step="btn-navbar-supplies"><a href="/fud/{{id_companies}}/{{id}}/supplies-free"><i class="fi-icon fi-sr-apple-whole"> Insumos</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/combos-free"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/order-free"><i class="fi-icon fi-ss-biking-mountain"> Repartidor</i></a></li>
-                                    <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Anuncios</i></a></li>
-                                    <!--
+<section class="descriptionWindow">
+
+    <head class="headDescription">
+        <div class="navbar">
+            <ul class="ul-menu-bar">
+                {{#if user}}
+                <input type="checkbox" id="check" onchange="wallpaper_active()">
+                <label for="check" class="btn-menu-bar">
+                    <i class="fi-des fi-br-menu-burger" id="btn-navbar-open" step="btnNavBar"></i>
+                    <i class="fi-des fi-br-cross" id="btn-navbar-cancel"></i>
+                </label>
+                <div class="sidebar">
+                    {{#if company}}
+                    {{#each company}}
+                    <header>{{alias}}</header>
+                    {{/each}}
+                    {{else}}
+                    {{#if branch}}
+                    {{#each branch}}
+                    <header>{{name_branch}}</header>
+                    {{/each}}
+                    {{else}}
+                    <header>Füd</header>
+                    {{/if}}
+                    {{/if}}
+                    <ul class="scroll-navbar">
+                        <li rolUser="{{user.rol_user}}" id="roleUser"><a href="/fud/subscription"><i
+                                    class="fi-icon fi-sr-credit-card"> Licencias</i></a></li>
+                        {{#each company}}
+                        <li><a href="company-home"><i class="fi-icon fi-sr-apps"> Dashboard</i></a></li>
+                        <li><a href="/fud/{{id}}/branches"><i class="fi-icon fi-sr-store-alt"> Branches</i></a></li>
+                        <li><a href="/fud/{{id}}/employees"><i class="fi-icon fi-sr-hat-chef"> Employees</i></a></li>
+                        <li><a href="/fud/{{id}}/customers-company"><i class="fi-icon fi-sr-user"> Customers</i></a>
+                        </li>
+                        <li><a href="/fud/{{id}}/company-supplies"><i class="fi-icon fi-sr-apple-whole">
+                                    Supplies</i></a></li>
+                        <li><a href="/fud/{{id}}/company-products"><i class="fi-icon fi-ss-hamburger"> Products</i></a>
+                        </li>
+                        <li><a href="/fud/{{id}}/combos"><i class="fi-icon fi-sr-restaurant"> Combos</i></a></li>
+                        <li><a href="/fud/{{id}}/providers"><i class="fi-icon fi-ss-truck-side"> Providers</i></a></li>
+                        <li><a href="/fud/{{id}}/reports"><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>
+                        <li><a href="/fud/{{id}}/options"><i class="fi-icon fi-sr-settings"> Options</i></a></li>
+                        <li><a href="/fud/home"><i class="fi-icon fi-sr-undo"> Exit</i></a></li>
+                        {{/each}}
+                        {{#each branch}}
+                        <li><a href="/fud/{{id_companies}}/{{id}}/visit-branch"><i class="fi-icon fi-sr-apps">
+                                    Dashboard</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/employees-branch"><i class="fi-icon fi-sr-hat-chef">
+                                    Employees</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/schedules-employees"><i
+                                    class="fi-icon fi-sr-clock-three"> Schedules</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/supplies"><i class="fi-icon fi-sr-apple-whole">
+                                    Supplies</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/products"><i class="fi-icon fi-ss-hamburger">
+                                    Products</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/combos"><i class="fi-icon fi-sr-restaurant">
+                                    Combos</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/providers"><i class="fi-icon fi-ss-truck-side">
+                                    Providers</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Ad</i></a></li>
+                        <!---<li><a href="report"><i class="fi-icon fi-ss-files-medical"> Reports</i></a></li>-->
+                        <!---<li><a href="/fud/{{id_companies}}/{{id}}"><i class="fi-icon fi-sr-settings"> Options</i></a></li>-->
+                        <li><a href="/fud/{{id_companies}}/company-home"><i class="fi-icon fi-sr-undo"> Exit</i></a>
+                        </li>
+                        {{/each}}
+                        {{#each branchFree}}
+                        <li><a href="/fud/home"><i class="fi-icon fi-sr-apps"> Menu</i></a></li>
+                        <li step="btn-navbar-supplies"><a href="/fud/{{id_companies}}/{{id}}/supplies-free"><i
+                                    class="fi-icon fi-sr-apple-whole"> Insumos</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/combos-free"><i class="fi-icon fi-sr-restaurant">
+                                    Combos</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/order-free"><i class="fi-icon fi-ss-biking-mountain">
+                                    Repartidor</i></a></li>
+                        <li><a href="/fud/myrestaurant/{{id_companies}}/{{id}}"><i class="fi-icon fi-sr-apps">
+                                    Menu Digital</i></a></li>
+                        <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Anuncios</i></a></li>
+                        <!--
                                     <li><a href="/fud/{{id_companies}}/{{id}}/marketplace"><i class="fi-icon fi-ss-store-alt"> Marketplace</i></a></li>
                                     -->
-                                {{/each}}
-                                <li><a href="/fud/logout"><i class="fi-icon fi-br-exit"> Logout</i></a></li>
-                            </ul>
-                        </div>
-                    {{else}}
-                        <ul class="ul-bar"><img src="/img/logo2.png" alt="" class="icon-bar" onclick="nextWeb('home')"></ul>
-                        <ul class="ul-bar-2"><a href="home" class="bar-link">Home</a> <a href="prices" class="bar-link">Pricing</a> <a href="" class="bar-link"> About us</a></ul>
-                    {{/if}}
+                        {{/each}}
+                        <li><a href="/fud/logout"><i class="fi-icon fi-br-exit"> Logout</i></a></li>
+                    </ul>
+                </div>
+                {{else}}
+                <ul class="ul-bar"><img src="/img/logo2.png" alt="" class="icon-bar" onclick="nextWeb('home')"></ul>
+                <ul class="ul-bar-2"><a href="home" class="bar-link">Home</a> <a href="prices"
+                        class="bar-link">Pricing</a> <a href="" class="bar-link"> About us</a></ul>
+                {{/if}}
 
-                </ul>
-                <ul class="titleDesciption">
-                    {{#if user}}
-                        {{#if company}}
-                            {{#each company}}
-                                <span><a href="/fud/{{id}}/company-home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
-                                <i class="fi-des fi-sr-hat-chef"></i>
-                            {{/each}}
-                        {{else}}
-                            {{#if branch}}
-                                {{#each branch}}
-                                    <span><a href="/fud/{{id_companies}}/{{id}}/visit-branch" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
-                                    <i class="fi-des fi-sr-hat-chef"></i>
-                                {{/each}}
-                            {{else}}
-                                <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
-                                <i class="fi-des fi-sr-hat-chef"></i>
-                            {{/if}}
-                        {{/if}}
-                    {{else}}
-                        <span><button class="btn-navbar-login" onclick="nextWeb('/home')">Log in</button></span>
-                        <span><button class="btn-navbar-singup" onclick="nextWeb('signup')">Pruébalo es gratis</button></span>
-                    {{/if}}
-                </ul>
-            </div>
-        </head>
-    </section>
-    <br><br>
-    <!--this is the wallpaper black that we create when the user activate the navbar-->
-    <div class="wallpaper-navbar" id="wallpaper-navbar">
+            </ul>
+            <ul class="titleDesciption">
+                {{#if user}}
+                {{#if company}}
+                {{#each company}}
+                <span><a href="/fud/{{id}}/company-home" class="des" id="des"
+                        style="text-decoration: none;">Company</i></a></span>
+                <i class="fi-des fi-sr-hat-chef"></i>
+                {{/each}}
+                {{else}}
+                {{#if branch}}
+                {{#each branch}}
+                <span><a href="/fud/{{id_companies}}/{{id}}/visit-branch" class="des" id="des"
+                        style="text-decoration: none;">Company</i></a></span>
+                <i class="fi-des fi-sr-hat-chef"></i>
+                {{/each}}
+                {{else}}
+                <span><a href="/fud/home" class="des" id="des" style="text-decoration: none;">Company</i></a></span>
+                <i class="fi-des fi-sr-hat-chef"></i>
+                {{/if}}
+                {{/if}}
+                {{else}}
+                <span><button class="btn-navbar-login" onclick="nextWeb('/home')">Log in</button></span>
+                <span><button class="btn-navbar-singup" onclick="nextWeb('signup')">Pruébalo es gratis</button></span>
+                {{/if}}
+            </ul>
+        </div>
+    </head>
+</section>
+<br><br>
+<!--this is the wallpaper black that we create when the user activate the navbar-->
+<div class="wallpaper-navbar" id="wallpaper-navbar">
 
-    </div>
+</div>
 {{else}}
-    {{>web/navbar}}
-    {{>web/icon-whatsapp}}
+{{>web/navbar}}
+{{>web/icon-whatsapp}}
+{{/if}}
 {{/if}}
 <!-- Google tag (gtag.js) this is for follow to the user with help of GOOGLE ADS-->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16577376827"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'AW-16577376827');
@@ -120,13 +144,13 @@
 
 <!--this script is for delete the tag de prices when the user be a employee-->
 <script>
-    function delete_role(){
-        const labelRol=document.getElementById('roleUser')
+    function delete_role() {
+        const labelRol = document.getElementById('roleUser')
         console.log('labelRol')
         console.log(labelRol)
-        const roleUser=labelRol.getAttribute('rolUser')
+        const roleUser = labelRol.getAttribute('rolUser')
         console.log(roleUser)
-        if(roleUser>=1){
+        if (roleUser >= 1) {
             labelRol.remove();
         }
     }
@@ -141,7 +165,7 @@
 
     function text_convert(title) {
         var textConvert = title.replace(/-/g, ' ');
-        if (textConvert==''){
+        if (textConvert == '') {
             return 'Füd'
         }
         return textConvert;
@@ -150,19 +174,19 @@
 
 <!--this script is for the wallpaper black-->
 <script>
-// Function to toggle the 'active' class based on checkbox state
-function wallpaper_active() {
-    // Get the checkbox element by its ID
-    var checkbox = document.getElementById("check");
-    
-    // Get the div element by its ID
-    var wallpaperNavbar = document.getElementById("wallpaper-navbar");
+    // Function to toggle the 'active' class based on checkbox state
+    function wallpaper_active() {
+        // Get the checkbox element by its ID
+        var checkbox = document.getElementById("check");
 
-    // Toggle the 'active' class based on checkbox state
-    if (checkbox.checked) {
-        wallpaperNavbar.classList.add("active");
-    } else {
-        wallpaperNavbar.classList.remove("active");
+        // Get the div element by its ID
+        var wallpaperNavbar = document.getElementById("wallpaper-navbar");
+
+        // Toggle the 'active' class based on checkbox state
+        if (checkbox.checked) {
+            wallpaperNavbar.classList.add("active");
+        } else {
+            wallpaperNavbar.classList.remove("active");
+        }
     }
-}
 </script>
