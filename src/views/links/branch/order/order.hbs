@@ -176,6 +176,7 @@
 
 <!--this is for get the new homeworks-->
 <script>
+document.addEventListener('DOMContentLoaded', function() {
   function time_elapsed(timestamp) {
     const now = new Date();
     const past = new Date(timestamp);
@@ -195,8 +196,6 @@
     }
   }
 
-
-document.addEventListener('DOMContentLoaded', function() {
   function agregarTitulos() {
     const inProgressList = document.getElementById('in-progress-list');
     const sentList = document.getElementById('sent-list');
@@ -221,11 +220,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-
-  // Función para obtener las nuevas tareas desde el servidor
   function obtenerNuevasTareas() {
-    // Realizar una solicitud GET al servidor para obtener las nuevas tareas
-    const id_branch = document.getElementById('order_branch_id').value; // Asumiendo que 'order_branch_id' es un input o select
+    const id_branch = document.getElementById('order_branch_id').value;
+
     fetch(`/fud/${id_branch}/get-new-order`)
       .then(response => {
         if (!response.ok) {
@@ -234,26 +231,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return response.json();
       })
       .then(data => {
-        // Limpiar todas las tareas actuales antes de agregar las nuevas tareas
         limpiarTareas();
         agregarTitulos();
-        for(var i=0; i<data.length;i++){
-            agregarTareaAlDOM(data[i]);
-        }
+        data.forEach(order => {
+          agregarTareaAlDOM(order);
+        });
       })
       .catch(error => {
         console.error('Error:', error);
-        // Manejar errores de manera adecuada
+        alert('Error al obtener nuevas tareas desde el servidor');
       });
   }
 
-  // Función para limpiar todas las tareas actuales en el DOM
   function limpiarTareas() {
     const inProgressList = document.getElementById('in-progress-list');
     const sentList = document.getElementById('sent-list');
     const deliveredList = document.getElementById('delivered-list');
 
-    // Eliminar todos los hijos de cada lista de tareas
     while (inProgressList.firstChild) {
       inProgressList.removeChild(inProgressList.firstChild);
     }
@@ -265,50 +259,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Función para agregar una tarea al DOM
   function agregarTareaAlDOM(order) {
-    const { order_id, customer_name, order_address, order_status, commander_total, commander_date, order_id, order_branch_id } = order;
+    const { order_id, customer_name, order_address, order_status, commander_total, commander_date, order_branch_id } = order;
 
-    // Crear elemento de tarea
     const taskElement = document.createElement('div');
     taskElement.setAttribute('class', 'task');
     taskElement.setAttribute('data-id', order_id);
     taskElement.setAttribute('status', order_status);
 
-    // Contenido de la tarea
     const taskContent = document.createTextNode(`${customer_name}/${order_address}`);
     taskElement.appendChild(taskContent);
 
-    // Párrafo para el total del comandante
     const totalElement = document.createElement('p');
     totalElement.setAttribute('class', 'text-align-right');
     totalElement.textContent = `$${commander_total}`;
     taskElement.appendChild(totalElement);
 
-    //parrafo de fecha 
-    const textFecha=time_elapsed(commander_date) 
     const fechaElement = document.createElement('label');
     fechaElement.setAttribute('class', 'col-10');
-    fechaElement.textContent = `${textFecha}`;
+    fechaElement.textContent = time_elapsed(commander_date);
     taskElement.appendChild(fechaElement);
 
-    //button de editar 
     const button = document.createElement('button');
     button.setAttribute('class', 'btn btn-primary button-spacing');
     button.setAttribute('id', order_id);
-    button.textContent=✏️;
+    button.innerHTML = '&#9998;'; // Lápiz icono Unicode
     button.addEventListener('click', function() {
-        edit_order(order_id,order_branch_id);
+        edit_order(order_id, order_branch_id);
     });
     taskElement.appendChild(button);
 
-    // Determinar en qué lista agregar la tarea según su estado
     let targetList;
     switch (order_status) {
       case 'en-progreso':
-        targetList = document.getElementById('in-progress-list');
-        break;
-    case 'En preparacion':
+      case 'En preparacion':
         targetList = document.getElementById('in-progress-list');
         break;
       case 'enviado':
@@ -319,16 +303,13 @@ document.addEventListener('DOMContentLoaded', function() {
         break;
       default:
         console.warn(`Estado no reconocido para la tarea con ID ${order_id}`);
-        return; // Salir de la función si el estado no es reconocido
+        return;
     }
 
-    // Agregar el título si aún no está agregado
     if (targetList.childElementCount === 0) {
       const titleElement = document.createElement('h6');
       switch (order_status) {
         case 'en-progreso':
-          titleElement.textContent = 'En Progreso';
-          break;
         case 'En preparacion':
           titleElement.textContent = 'En Progreso';
           break;
@@ -340,18 +321,21 @@ document.addEventListener('DOMContentLoaded', function() {
           break;
         default:
           console.warn(`Estado no reconocido para la tarea con ID ${order_id}`);
-          return; // Salir de la función si el estado no es reconocido
+          return;
       }
       targetList.appendChild(titleElement);
     }
 
-    // Agregar la tarea al contenedor correspondiente
     targetList.appendChild(taskElement);
   }
 
-  // Llamar a la función para obtener nuevas tareas cada cierto intervalo de tiempo (por ejemplo, cada 5 segundos)
-  setInterval(obtenerNuevasTareas, 10000); // Intervalo en milisegundos (5000 ms = 5 segundos)
+  function edit_order(id_order, id_branch) {
+    window.location.href = `/fud/${id_branch}/${id_order}/edit-order`;
+  }
+
+  setInterval(obtenerNuevasTareas, 5000);
 });
+
 </script>
 
 <script>
