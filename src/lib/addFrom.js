@@ -2245,10 +2245,11 @@ router.post('/fud/add-order-post', async (req, res) => {
 
 router.post('/fud/:id_company/:id_branch/edit-order', async (req, res) => {
     const { id_company, id_branch } = req.params;
-    const { customer_name, address, cellphone, phone, comment, id_order } = req.body;
+    const { customer_name, address, cellphone, phone, comment, id_order} = req.body;
     const { delivery_driver } = req.body;
+    const {statusOrder} =req.body;
     console.log(delivery_driver)
-    if (await update_rder(id_order, customer_name, address, cellphone, phone, delivery_driver, comment)) {
+    if (await update_rder(id_order, customer_name, address, cellphone, phone, delivery_driver, comment, statusOrder)) {
         req.flash('success', 'El pedido fue actualizado con exito 🥳');
     } else {
         req.flash('message', 'El pedido no fue actualizado 😰');
@@ -2256,7 +2257,21 @@ router.post('/fud/:id_company/:id_branch/edit-order', async (req, res) => {
     res.redirect(`/fud/${id_company}/${id_branch}/order-free`)
 });
 
-async function update_rder(id_order, name_customer, address, cellphone, phone, id_employees, comment) {
+router.post('/fud/edit-order', async (req, res) => {
+    const { customer_name, address, cellphone, phone, comment, id_order} = req.body;
+    const { delivery_driver } = req.body;
+    const {statusOrder} =req.body;
+    console.log(statusOrder)
+    if (await update_rder(id_order, customer_name, address, cellphone, phone, delivery_driver, comment, statusOrder)) {
+        req.flash('success', 'El pedido fue actualizado con exito 🥳');
+    } else {
+        req.flash('message', 'El pedido no fue actualizado 😰');
+    }
+
+    res.redirect(`/fud/my-order`)
+});
+
+async function update_rder(id_order, name_customer, address, cellphone, phone, id_employees, comment,status) {
     try {
         const queryText = `
             UPDATE "Branch".order
@@ -2266,11 +2281,12 @@ async function update_rder(id_order, name_customer, address, cellphone, phone, i
                 cellphone = $4,
                 phone = $5,
                 id_employees = $6,
-                comment = $7
+                comment = $7,
+                status= $8
             WHERE
                 id = $1
         `;
-        const values = [id_order, name_customer, address, cellphone, phone, id_employees, comment];
+        const values = [id_order, name_customer, address, cellphone, phone, id_employees, comment, status];
         const result = await database.query(queryText, values);
         return true;
     } catch (error) {

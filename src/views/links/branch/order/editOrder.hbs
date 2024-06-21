@@ -96,7 +96,11 @@
                                     <label>{{timeago dataOrder.commander_date}}</label>
                                 </div>
                                 <div class="col-8">
-                                    Estado: <input type="text" class="form-control" id="customer_name" value="{{dataOrder.order_status}}" readonly>
+                                    <select id="" value="{{dataOrder.order_status}}" class="form-select" name="statusOrder" required>
+                                        <option value="en-progreso">en-progreso</option>
+                                        <option value="enviado">enviado</option>
+                                        <option value="entregado">entregado</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

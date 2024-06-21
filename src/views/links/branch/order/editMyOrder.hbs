@@ -84,10 +84,11 @@
             <div class="card-body p-4">
                 <label for=""><i class="fi-icon fi-sr-rectangle-list"></i> Tarjeta de Orden</label>
                 <hr>
-                {{#each branchFree}}
-                <form action="/fud/{{id_companies}}/{{id}}/edit-order" method="post">
-                {{/each}}
+                <form action="/fud/edit-order" method="post">
                 <input type="text" value="{{dataOrder.order_id}}" style="display: none;" name="id_order" id="id_order">
+                {{#each employees}}
+                    <input type="text" value="{{id}}" style="display: none;" name="delivery_driver" >
+                {{/each}}
                 <div class="row">
                     <div class="col-7">
                         <div class="row">
@@ -96,7 +97,11 @@
                                     <label>{{timeago dataOrder.commander_date}}</label>
                                 </div>
                                 <div class="col-8">
-                                    Estado: <input type="text" class="form-control" id="customer_name" value="{{dataOrder.order_status}}" readonly>
+                                    <select id="" value="{{dataOrder.order_status}}" class="form-select" name="statusOrder" required>
+                                        <option value="en-progreso">en-progreso</option>
+                                        <option value="enviado">enviado</option>
+                                        <option value="entregado">entregado</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -139,6 +144,7 @@
                         <br>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
                 </form>
                 <div class="container">
                     <hr>
