@@ -1,0 +1,88 @@
+.body-tables {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+#restaurant-layout {
+    display: grid;
+    grid-template-columns: repeat(10, 50px); /* Ajusta el número de columnas y el tamaño del bloque según sea necesario */
+    grid-gap: 5px;
+    margin-bottom: 20px;
+    width: max-content;
+}
+
+.tables-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    height: 50px;
+}
+
+.tables-large-square {
+    grid-column: span 2;
+    grid-row: span 1;
+    background-color: #EF454B;
+}
+
+.tables-mini-square {
+    grid-column: span 1;
+    grid-row: span 1;
+    background-color: #EF454B;
+}
+
+.tables-circle {
+    grid-column: span 1;
+    grid-row: span 1;
+    background-color: #EF454B;
+    border-radius: 50%;
+}
+
+.tables-active {
+    background-color: #38AE94 !important;
+}
+
+#controls {
+    display: flex;
+    gap: 10px;
+}
+
+.add-table {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+    background-color: #408DF0;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-table:hover {
+    background-color: #3274c9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.add-table:active {
+    background-color: #3274c9;
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-table:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
+}
