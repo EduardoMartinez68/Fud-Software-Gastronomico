@@ -1,144 +1,155 @@
 <link rel="stylesheet" href="/css/manager/supplies_products.css">
 <br><br>
-<div class="container">
-    <div class="row">
+<div class="container mt-4">
+  <div class="row">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="lista-insumos-tab" data-toggle="tab" href="#lista-insumos" role="tab" aria-controls="lista-insumos" aria-selected="true">Lista de insumos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="agregar-insumo-tab" data-toggle="tab" href="#agregar-insumo" role="tab" aria-controls="agregar-insumo" aria-selected="false">Agregar nuevo insumo</a>
+      </li>
+    </ul>
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="lista-insumos" role="tabpanel" aria-labelledby="lista-insumos-tab">
+        {{>manager/supplies/table}}
+      </div>
+      <div class="tab-pane fade" id="agregar-insumo" role="tabpanel" aria-labelledby="agregar-insumo-tab">
         {{#each branchFree}}
-            <div class="col">
-                <div class="card p-3 mb-4">
-                    <form action="/fud/{{id_companies}}/{{id}}/add-supplies-free" method="post" enctype="multipart/form-data">
-                        <center><h5><i class="fi-icon fi-ss-apple-whole"></i>Agregar nuevos insumo</h5></center>
+            <div class="card p-3 mb-4">
+                <form action="/fud/{{id_companies}}/{{id}}/add-supplies-free" method="post" enctype="multipart/form-data">
+                    <center><h5><i class="fi-icon fi-ss-apple-whole"></i>Agregar nuevos insumo</h5></center>
+                    <hr>
+
+                    <div class="row">
+                        <label for="">Informacion de Insumo</label>
+                        <div class="col">
+                            <div class="form-group" >
+                                <center>
+                                    <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" id="imgEmployee" class="img-from-supplies_products">
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <center>
+                                    <label for="inputImg" class="custom-file-upload">
+                                        <input type="file" name="image" accept="image/*" id="inputImg" style="display: none;">
+                                        <i class="fas fa-upload"></i> Subir imagen
+                                    </label>
+                                </center>
+                            </div>    
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Codigo de Barras *</label>
+                                <input type="text" placeholder="Codigo de Barras" name="barcode" class="form-control" required maxlength="60" style="width: 100%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Nombre *</label>
+                                <input type="text" placeholder="Nombre" name="name" class="form-control" required maxlength="60" style="width: 100%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Descripcion</label>
+                                <textarea type="text" placeholder="Descripcion" name="description" class="form-control" style="width: 100%;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check" name="">
+                                    <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory">
+                                    <label class="form-check-label" for="invalidCheck2">
+                                        Usar inventario
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                    <br><br>
+                    <div class="row">
                         <hr>
-
-                        <div class="row">
-                            <label for="">Informacion de Insumo</label>
-                            <div class="col">
-                                <div class="form-group" >
-                                    <center>
-                                        <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png" id="imgEmployee" class="img-from-supplies_products">
-                                    </center>
-                                </div>
-                                <div class="form-group">
-                                    <center>
-                                        <label for="inputImg" class="custom-file-upload">
-                                            <input type="file" name="image" accept="image/*" id="inputImg" style="display: none;">
-                                            <i class="fas fa-upload"></i> Subir imagen
-                                        </label>
-                                    </center>
-                                </div>    
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="">Codigo de Barras *</label>
-                                    <input type="text" placeholder="Codigo de Barras" name="barcode" class="form-control" required maxlength="60" style="width: 100%;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Nombre *</label>
-                                    <input type="text" placeholder="Nombre" name="name" class="form-control" required maxlength="60" style="width: 100%;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Descripcion</label>
-                                    <textarea type="text" placeholder="Descripcion" name="description" class="form-control" style="width: 100%;"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-check" name="">
-                                        <input class="form-check-input" type="checkbox" id="invalidCheck2" name="inventory">
-                                        <label class="form-check-label" for="invalidCheck2">
-                                            Usar inventario
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>    
+                        <label for="">Informacion de Venta</label>
                         <br><br>
-                        <div class="row">
-                            <hr>
-                            <label for="">Informacion de Venta</label>
-                            <br><br>
-                            <div class="content_box">
+                        <div class="content_box">
 
-                                <div class="content-sales active">
-                                    <div class="row">
+                            <div class="content-sales active">
+                                <div class="row">
+                                <div class="col">
+                                        <label>Monto de Compra *</label><br>
+                                        <input type="tex" class="form-control" name="purchase_amount" placeholder="Monto de Compra" autofocus required value="{{purchase_amount}}">
+                                    </div>
                                     <div class="col">
-                                            <label>Monto de Compra *</label><br>
-                                            <input type="tex" class="form-control" name="purchase_amount" placeholder="Monto de Compra" autofocus required value="{{purchase_amount}}">
-                                        </div>
-                                        <div class="col">
-                                        <label>Unidad de Compra</label>
-                                            <select value="{{purchase_unity}}" name="purchase_unity" class="form-select">
-                                                {{>unity/unitOfMeasure}}
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <label>Precio de Compra *</label><br>
-                                            <input type="tex" class="form-control" name="purchase_price" placeholder="Precio de Compra" required value="{{purchase_price}}">
-                                        </div>
-                                        <div class="col">
-                                        <label>Moneda de compra</label>
-                                            <select value="{{currency_purchase}}" name="currency_purchase" class="form-select">
-                                                {{>unity/unitOfMoney}}
-                                            </select>
-                                        </div>
+                                    <label>Unidad de Compra</label>
+                                        <select value="{{purchase_unity}}" name="purchase_unity" class="form-select">
+                                            {{>unity/unitOfMeasure}}
+                                        </select>
                                     </div>
-                                    <br>
-                                    
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>Monto de Venta *</label><br>
-                                            <input type="tex" class="form-control" name="sale_amount" placeholder="Monto de Venta" required value="{{purchase_price}}">
-                                        </div>
-                                        <div class="col">
-                                            <label>Unidad de Venta</label>
-                                            <select value="{{sale_unity}}" name="sale_unity" class="form-select">
-                                                {{>unity/unitOfMeasure}}
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <label>Precio de Venta</label><br>
-                                            <input type="tex" class="form-control" name="sale_price" placeholder="Precio de Venta" required value="{{sale_price}}">
-                                        </div>
-                                        <div class="col">
-                                        <label>Moneda de uso</label>
-                                            <select value="{{currency_sale}}" name="currency_sale" class="form-select">
-                                                {{>unity/unitOfMoney}}
-                                            </select>
-                                        </div>
+                                    <div class="col">
+                                        <label>Precio de Compra *</label><br>
+                                        <input type="tex" class="form-control" name="purchase_price" placeholder="Precio de Compra" required value="{{purchase_price}}">
                                     </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>Inventario Máximo</label><br>
-                                            <input type="tex" class="form-control" name="max_inventory" placeholder="Inventario Máximo" value="{{max_inventary}}">
-                                        </div>
-                                        <div class="col">
-                                            <label>Inventario Mínimo</label><br>
-                                            <input type="tex" class="form-control" name="minimum_inventory" placeholder="Inventario Mínimo" value="{{minimum_inventory}}">
-                                        </div>
-                                        <div class="col">
-                                            <label>Unidad de Medida *</label><br>
-                                            <select value="{{unit_inventory}}" name="unit_inventory" class="form-select">
-                                                {{>unity/unitOfMeasure}}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>Existencia</label><br>
-                                            <input type="tex" class="form-control" name="existence" placeholder="Existencia" required value="{{existence}}">
-                                        </div>
+                                    <div class="col">
+                                    <label>Moneda de compra</label>
+                                        <select value="{{currency_purchase}}" name="currency_purchase" class="form-select">
+                                            {{>unity/unitOfMoney}}
+                                        </select>
                                     </div>
                                 </div>
                                 <br>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Monto de Venta *</label><br>
+                                        <input type="tex" class="form-control" name="sale_amount" placeholder="Monto de Venta" required value="{{purchase_price}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Unidad de Venta</label>
+                                        <select value="{{sale_unity}}" name="sale_unity" class="form-select">
+                                            {{>unity/unitOfMeasure}}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>Precio de Venta</label><br>
+                                        <input type="tex" class="form-control" name="sale_price" placeholder="Precio de Venta" required value="{{sale_price}}">
+                                    </div>
+                                    <div class="col">
+                                    <label>Moneda de uso</label>
+                                        <select value="{{currency_sale}}" name="currency_sale" class="form-select">
+                                            {{>unity/unitOfMoney}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Inventario Máximo</label><br>
+                                        <input type="tex" class="form-control" name="max_inventory" placeholder="Inventario Máximo" value="{{max_inventary}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Inventario Mínimo</label><br>
+                                        <input type="tex" class="form-control" name="minimum_inventory" placeholder="Inventario Mínimo" value="{{minimum_inventory}}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Unidad de Medida *</label><br>
+                                        <select value="{{unit_inventory}}" name="unit_inventory" class="form-select">
+                                            {{>unity/unitOfMeasure}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Existencia</label><br>
+                                        <input type="tex" class="form-control" name="existence" placeholder="Existencia" required value="{{existence}}">
+                                    </div>
+                                </div>
                             </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         {{/each}}
-        <div class="col">
-            {{>manager/supplies/table}}
-        </div>
+      </div>
     </div>
+  </div>
 </div>
 <br><br><br>
 <script>
@@ -176,3 +187,10 @@
         })
     })
 </script>
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
