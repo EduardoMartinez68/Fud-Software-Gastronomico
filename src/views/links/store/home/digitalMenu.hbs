@@ -245,13 +245,13 @@
 {{>store/new/carouselNew}}
 
 <div class="container mt-5">
-    <input type="text" value="{{cell_phone}}" id="cellphone" style="display: none;">
-    <input type="text" id="emailClient" style="display: none;">
-    <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
-        onclick="select_customer('{{id_companies}}')" style="display: none;"><i class="fi-icon fi-sr-following"></i>
-        Client</button>
     <div class="row">
         {{#each branchFree}}
+        <input type="text" value="{{cell_phone}}" id="cellphone" style="display: none;">
+        <input type="text" id="emailClient" style="display: none;">
+        <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
+            onclick="select_customer('{{id_companies}}')" style="display: none;"><i class="fi-icon fi-sr-following"></i>
+            Client</button>
         <input type="text" value="{{id}}" style="display: none;" id="id_branch">
         {{/each}}
         <div class="card" id="table-order" style="display: none; width:100%; height: 130px;">
@@ -473,7 +473,9 @@
         const messageOrder=create_message_order(dataOrderSend)
 
         // Número de teléfono y mensaje
-        const number = '524443042129'//document.getElementById('cellphone');
+        const numberElement  = document.getElementById('cellphone');
+        let number = numberElement.value;
+        number = number.replace(/\+/g, '').replace(/\s+/g, ''); //delete the simbolo <+> and the space
         const mensaje = messageOrder+"\n\n"+listCombos;
 
         // Formatear el mensaje para URL

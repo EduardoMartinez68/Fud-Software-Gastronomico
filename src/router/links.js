@@ -5525,6 +5525,13 @@ async function the_user_can_add_most_combo(comboLength,packCombo){
     return comboLength < limit;
 }
 
+
+router.get('/:idBranch/:idCompany/edit-branch-free', isLoggedIn, async (req, res) => {
+    const country = await get_country();
+    const branchFree = await get_branch(req);
+    res.render("links/manager/branches/editBranchesFree", { branchFree, country });
+})
+
 router.get('/:id/Dashboard', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const sales_history = await databaseM.mongodb('history_sale', id, parseInt(req.user.id));
@@ -5541,7 +5548,6 @@ router.get('/report', isLoggedIn, (req, res) => {
 router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
     const { id_company, id_branch } = req.params;
     const branchFree = await get_data_branch(req);
-    console.log(branchFree)
     if (branchFree != null) {
         const digitalMenu=[{menu:''}]
         //we get all the combo of the branch 

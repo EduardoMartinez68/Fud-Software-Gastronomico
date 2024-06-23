@@ -820,25 +820,36 @@ router.post('/fud/:id_branch/:id_company/edit-branch', isLoggedIn, async (req, r
     const { id_company, id_branch } = req.params;
     //we will watching if this subscription exist in my database 
     const { idSubscription } = req.body;
-    if (!await this_subscription_exist_with_my_branch(idSubscription, id_branch)) {
-        //if this subscription was used, show a message of error 
-        req.flash('message', 'Esta suscripción ya fue utilizada 😮');
-    }
-    else {
-        //we will watching if can update the subscription
-        if (await update.update_subscription_branch(idSubscription, id_branch)) {
-            const newBranch = create_new_branch(req);
-            if (await update.update_branch(id_branch, newBranch)) {
-                req.flash('success', 'La sucursal fue actualizada con exito 😊')
-            }
-            else {
-                req.flash('message', 'La sucursal no fue actualizada 😰')
-            }
-        } else {
-            req.flash('message', 'Ocurrio un error con el servidor, vuelve a intentarlo 👉👈')
+    if(req.user.rol_user==rolFree){
+        const newBranch = create_new_branch(req);
+        if (await update.update_branch(id_branch, newBranch)) {
+            req.flash('success', 'La sucursal fue actualizada con exito 😊')
         }
+        else {
+            req.flash('message', 'La sucursal no fue actualizada 😰')
+        }
+        res.redirect('/fud/home');
+    }else{
+        if (!await this_subscription_exist_with_my_branch(idSubscription, id_branch)) {
+            //if this subscription was used, show a message of error 
+            req.flash('message', 'Esta suscripción ya fue utilizada 😮');
+        }
+        else {
+            //we will watching if can update the subscription
+            if (await update.update_subscription_branch(idSubscription, id_branch)) {
+                const newBranch = create_new_branch(req);
+                if (await update.update_branch(id_branch, newBranch)) {
+                    req.flash('success', 'La sucursal fue actualizada con exito 😊')
+                }
+                else {
+                    req.flash('message', 'La sucursal no fue actualizada 😰')
+                }
+            } else {
+                req.flash('message', 'Ocurrio un error con el servidor, vuelve a intentarlo 👉👈')
+            }
+        }
+        res.redirect('/fud/' + id_company + '/branches');
     }
-    res.redirect('/fud/' + id_company + '/branches');
 })
 
 async function this_subscription_exist_with_my_branch(idSubscription, id_branch) {
