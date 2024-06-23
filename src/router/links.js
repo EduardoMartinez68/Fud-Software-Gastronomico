@@ -5541,6 +5541,7 @@ router.get('/report', isLoggedIn, (req, res) => {
 router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
     const { id_company, id_branch } = req.params;
     const branchFree = await get_data_branch(req);
+    console.log(branchFree)
     if (branchFree != null) {
         const digitalMenu=[{menu:''}]
         //we get all the combo of the branch 

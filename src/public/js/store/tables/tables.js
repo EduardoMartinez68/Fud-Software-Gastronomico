@@ -1,31 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
     const layout = document.getElementById('restaurant-layout');
     const addTableButtons = document.querySelectorAll('.add-table');
+    const changeShapeButton = document.querySelector('.change-shape');
+    const deleteShapeButton = document.querySelector('.delete-shape');
     const numberTableInput = document.getElementById('numberTable');
-    
+
     let tableCounter = 1;
     let selectedTable = null; // Variable para almacenar la mesa seleccionada
     const tables = [];
 
     function createTableElement(table) {
         const tableDiv = document.createElement('div');
-        tableDiv.id = table.id;
-        tableDiv.className = `tables-table ${table.type} ${table.active ? 'tables-active' : ''}`;
-        tableDiv.innerText = table.id;
-        tableDiv.draggable = true;
+        tableDiv.id=table.id;
+        const theTableIsActivate=(tableDiv.id=='+')
+
+        //we will see if is activate 
+        if(theTableIsActivate){
+            tableDiv.className = `tables-table tables-mini-square`;
+            tableDiv.innerText = '+';
+            tableDiv.draggable = true;
+        }else{
+            tableDiv.className = `tables-table ${table.type} ${table.active ? 'tables-active' : ''}`;
+            tableDiv.innerText = table.id;
+            tableDiv.draggable = true;
+        }
 
         tableDiv.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', table.id);
         });
 
         tableDiv.addEventListener('click', () => {
+            if(theTableIsActivate){
+                tableDiv.id=`T${tableCounter++}`
+                table.id=tableDiv.id
+                tableDiv.innerText = table.id;
+            }
+
             // Quitar borde azul de la mesa previamente seleccionada
             if (selectedTable) {
-                selectedTable.style.borderColor = table.active ? 'transparent' : 'transparent';
+                selectedTable.style.borderColor = selectedTable.active ? '#38AE94' : 'transparent';
             }
 
             // Actualizar el input con el número de mesa seleccionada
-            numberTableInput.value = table.id;
+            numberTableInput.value = tableDiv.id;
 
             // Añadir borde azul a la mesa seleccionada
             tableDiv.style.borderColor = '#418EF1';
@@ -34,10 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
             table.active = !table.active;
             tableDiv.classList.toggle('tables-active');
             tableDiv.style.backgroundColor = table.active ? '#38AE94' : '#EF454B';
+            renderTables();
         });
 
-        tableDiv.style.backgroundColor = table.active ? '#38AE94' : '#EF454B';
-        tableDiv.style.borderColor = table.active ? '#38AE94' : '#EF454B';
+        //tableDiv.style.backgroundColor = table.active ? '#38AE94' : '#EF454B';
+        tableDiv.style.borderColor = table.active ? '#38AE94' : 'transparent';
         tableDiv.style.borderWidth = '4px'; // Grosor del borde aumentado
         tableDiv.style.borderStyle = 'solid'; // Estilo del borde
 
@@ -58,6 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Crear una cuadrícula de 21x21 mesas cuadradas mini por defecto
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const newTable = {
+                id: `+`,
+                type: 'tables-mini-square',
+                active: false
+            };
+            tables.push(newTable);
+        }
+    }
+
     addTableButtons.forEach(button => {
         button.addEventListener('click', () => {
             const newTableType = button.getAttribute('data-type');
@@ -69,6 +99,35 @@ document.addEventListener('DOMContentLoaded', () => {
             tables.push(newTable);
             renderTables();
         });
+    });
+
+    changeShapeButton.addEventListener('click', () => {
+        if (selectedTable) {
+            const table = tables.find(t => t.id === selectedTable.id);
+            if (table) {
+                if (table.type === 'tables-circle') {
+                    table.type = 'tables-mini-square';
+                } else if (table.type === 'tables-mini-square' || table.type === 'tables-large-square') {
+                    table.type = 'tables-circle';
+                }
+                renderTables();
+                numberTableInput.value = table.id;
+            }
+        }
+    });
+
+
+    deleteShapeButton.addEventListener('click', () => {
+        if (selectedTable) {
+            const table = tables.find(t => t.id === selectedTable.id);
+            if (table) {
+                table.id='+';
+                tableDiv.style.backgroundColor = '#A2A2A2';
+                numberTableInput.value = table.id;
+            }
+        }
+
+        renderTables();
     });
 
     renderTables();

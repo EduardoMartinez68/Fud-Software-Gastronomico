@@ -48,7 +48,7 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
         const answerServer = await get_answer_server(combos,link);
 
         //we will see if save the commander 
-        if (answerServer.message != 'Hubo un error al procesar la solicitud') {
+        if (!isNaN(answerServer.message)) {
             //we will see if the user would like do a send to his house 
             var dataOrder = document.getElementById('customer-name').value;
             if (dataOrder !== "" && dataOrder !== null){ //we will see if exist information about the order 

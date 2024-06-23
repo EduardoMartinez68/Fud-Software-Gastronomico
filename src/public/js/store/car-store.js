@@ -109,8 +109,6 @@ async function get_answer_server_store(combos, link) {
     }
 }
 
-
-
 async function get_answer_server_for_add_order(idCommander) {
     try {
         const url = '/fud/add-order-post';
@@ -218,7 +216,6 @@ function agregarNumero(numero) {
     update_pocket_money()
 }
 
-
 function update_pocket_money() {
     var numeroMostrado;
     var totalId;
@@ -236,7 +233,6 @@ function update_pocket_money() {
     var total = parseFloat(totalId.innerText);
     pocketMoney.innerText = parseFloat(numeroMostrado.value) - total;
 }
-
 
 function borrarNumero() {
     var numeroMostrado;

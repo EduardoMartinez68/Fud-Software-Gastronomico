@@ -2,6 +2,9 @@
 {{>web/filesOldWeb/styles}}
 --->
 {{>web/filesOldWeb/styles}}
+
+
+
 <link rel="stylesheet" href="/css/cart/cart.css">
 <link rel="stylesheet" href="/css/cssOther/swiper-bundle.min.css">
 </link><!--Card Slider-->
@@ -201,6 +204,11 @@
         cursor: pointer;
         color: #036fe2;
     }
+
+    .img-carousel-promo, .box-carousel-promo{
+        width: 100%;
+        height: auto;
+    }
 </style>
 
 
@@ -237,9 +245,11 @@
 {{>store/new/carouselNew}}
 
 <div class="container mt-5">
+    <input type="text" value="{{cell_phone}}" id="cellphone" style="display: none;">
     <input type="text" id="emailClient" style="display: none;">
-                <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
-                onclick="select_customer('{{id_companies}}')" style="display: none;"><i class="fi-icon fi-sr-following"></i> Client</button>
+    <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
+        onclick="select_customer('{{id_companies}}')" style="display: none;"><i class="fi-icon fi-sr-following"></i>
+        Client</button>
     <div class="row">
         {{#each branchFree}}
         <input type="text" value="{{id}}" style="display: none;" id="id_branch">
@@ -275,6 +285,9 @@
         </div>
     </div>
 
+    <button class="btn btn-primary button-spacing" onclick="create_new_order()"><i
+                            class="fi fi-ss-biking-mountain"></i> Dirección del pedido </button>
+    <br>
     <div class="container mt-5">
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -289,10 +302,6 @@
                     Carrito
                 </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="btn btn-primary button-spacing" onclick="create_new_order()"><i
-                        class="fi fi-ss-biking-mountain"></i> Dirección del pedido </button>
-            </li>
         </ul>
 
         <div class="tab-content">
@@ -301,11 +310,22 @@
                     {{#each dishAndCombo}}
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
                         <div class="menu-item">
+                            {{#if img}}
                             <img src="{{img}}" class="card-img-top img-combo" alt="{{name}}">
+                            {{else}}
+                            <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png"
+                                class="card-img-top img-combo" alt="{{name}}">
+                            {{/if}}
                             <div class="card-body">
+                                {{#if img}}
                                 <button class="btn"
                                     onclick="show_description_dish('{{name}}', '{{description}}', '{{price_1}}', '{{img}}')"
                                     style="opacity: .5;"><i class="fi fi-sr-info"></i> Ver información</button>
+                                {{else}}
+                                <button class="btn"
+                                    onclick="show_description_dish('{{name}}', '{{description}}', '{{price_1}}', 'https://cdn-icons-png.flaticon.com/512/6626/6626465.png')"
+                                    style="opacity: .5;"><i class="fi fi-sr-info"></i> Ver información</button>
+                                {{/if}}
                                 <h5 class="card-title">{{name}}</h5>
                                 <p class="card-text price">$ {{price_1}}</p>
                                 <button class="btn btn-add btn-block"
@@ -337,9 +357,17 @@
                 <br>
                 <br>
                 <center>
+                    <!--
                     <button class="btn-container-cart card-menu" id="btn-total-home-cellphone"
                         onclick="buy_my_car_store(this)" style="width: 50%;">Buy
                         $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
+                    --->
+
+                    <button class="btn-container-cart card-menu" id="btn-total-home-cellphone"
+                        onclick="send_message_to_whatssapp()" style="width: 50%;">
+                        Enviar
+                        <i class="fi-icon  fi-brands-whatsapp"></i>
+                    </button>
                 </center>
             </div>
         </div>
@@ -347,28 +375,7 @@
 
 
 
-    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-        <div class="row">
-            {{#each dishAndCombo}}
-            <div class="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
-                <div class="menu-item">
-                    <img src="{{img}}" class="card-img-top img-combo" alt="{{name}}">
-                    <div class="card-body">
-                        <button class="btn"
-                            onclick="show_description_dish('{{name}}', '{{description}}', '{{price_1}}', '{{img}}')"
-                            style="opacity: .5;"><i class="fi fi-sr-info"></i> Ver información</button>
-                        <h5 class="card-title">{{name}}</h5>
-                        <p class="card-text price">$ {{price_1}}</p>
-                        <button class="btn btn-add btn-block"
-                            onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')"><i
-                                class="fi-icon fi-sr-cart-arrow-down"></i> Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </div>
+
 </div>
 
 
@@ -448,6 +455,58 @@
                 confirmationMessage('Datos del envío Borrados', 'Los datos del pedido para el repartidor han sido borrados exitosamente 👍');
             }
         }
+    }
+
+    function send_message_to_whatssapp() {
+        var dataOrder = document.getElementById('customer-name').value;
+        if (dataOrder === ""){
+            warningMessage('ERROR 👁️', 'Necesitamos que ingreses información del envío')
+            return;      
+        }
+
+        //we will get the combos 
+        const combos = get_all_combo('total', 'moneyReceived', 'exchange', 'comment');
+        const listCombos=combo_format_message_for_whatsApp(combos)
+
+        //we will get the 
+        const dataOrderSend=get_data_order();
+        const messageOrder=create_message_order(dataOrderSend)
+
+        // Número de teléfono y mensaje
+        const number = '524443042129'//document.getElementById('cellphone');
+        const mensaje = messageOrder+"\n\n"+listCombos;
+
+        // Formatear el mensaje para URL
+        const mensajeCodificado = encodeURIComponent(mensaje);
+
+        // Construir el enlace de WhatsApp
+        const url = `https://wa.me/${number}?text=${mensajeCodificado}`;
+
+        // Abrir enlace en una nueva pestaña
+        window.open(url, '_blank');
+        delete_all_fish();
+    }
+
+    function create_message_order(dataOrder){
+        var message = "*------Datos de la orden:------*\n";
+        message += `Nombre del Cliente: ${dataOrder.name}\n`;
+        message += `Celular: ${dataOrder.cellphone}\n`;
+        message += `Telefono: ${dataOrder.phone}\n`;
+        message += `Dirección: ${dataOrder.address}\n`;
+        message += `Comentario: ${dataOrder.comment}\n`;
+        return message;
+    }
+
+    function combo_format_message_for_whatsApp(combos) {
+        var message = "*------Pedido------*\n";
+        combos.forEach((combo, index) => {
+            message += `////////producto  ${index}////////\n`;
+            message += `Nombre: ${combo.name}\n`;
+            message += `Precio: ${combo.price}\n`;
+            message += `Cantidad: ${combo.amount}\n`;
+            message += `Total: ${combo.total}\n`;
+        });
+        return message;
     }
 </script>
 

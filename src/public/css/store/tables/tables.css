@@ -15,6 +15,7 @@
     grid-gap: 5px;
     margin-bottom: 20px;
     width: max-content;
+    background-color: #FAFAFA;
 }
 
 .tables-table {
@@ -39,7 +40,9 @@
 .tables-mini-square {
     grid-column: span 1;
     grid-row: span 1;
-    background-color: #EF454B;
+    background-color: #A2A2A2;
+    border-color: #E8E8E8;
+    border-width: 1rem;
 }
 
 .tables-circle {
@@ -58,7 +61,7 @@
     gap: 10px;
 }
 
-.add-table {
+.btn-controler-table {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -70,19 +73,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-table:hover {
+.btn-controler-table:hover {
     background-color: #3274c9;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.add-table:active {
+.btn-controler-table:active {
     background-color: #3274c9;
     transform: translateY(0);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-table:focus {
+.btn-controler-table:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
 }
