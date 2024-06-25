@@ -89,7 +89,7 @@ async function update_branch(id_branch, branch) {
             email_branch=$12,
             cell_phone=$13,
             phone=$14,
-            token_uber_eat=$15
+            token_uber=$15
         WHERE 
             id=$16
     `;
