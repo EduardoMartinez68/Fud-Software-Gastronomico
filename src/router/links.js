@@ -5634,7 +5634,7 @@ async function obtenerPedidos(accessTokeUser) {
 }
 
 
-router.get(':id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
     try {
         const { id_company, id_branch } = req.params;
         // Here you get the user's access token from where you have it stored
