@@ -1322,7 +1322,7 @@ router.post('/fud/:id/:id_branch/add-supplies-free', isLoggedIn, async (req, res
 
     //we will see if the user can add most supplies 
     const allSupplies = await get_all_the_supplies_of_this_company(id, true);
-    if (allSupplies < get_supplies_max(packDatabase)) {
+    //if (allSupplies < get_supplies_max(packDatabase)) {
         //we will waching if the supplies can save the image 
         if (packDatabase == 0) {
             req.file = null;
@@ -1349,9 +1349,9 @@ router.post('/fud/:id/:id_branch/add-supplies-free', isLoggedIn, async (req, res
         else {
             req.flash('message', 'El insumo no fue agregado con éxito 👉👈')
         }
-    } else {
-        req.flash('message', 'El insumo no fue agregado porque necesitas actualizar tu version de base de datos 👉👈')
-    }
+    //} else {
+        //req.flash('message', 'El insumo no fue agregado porque necesitas actualizar tu version de base de datos 👉👈')
+    //}
 
 
     res.redirect(`/fud/${id}/${id_branch}/supplies-free`);

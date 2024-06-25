@@ -20,6 +20,9 @@ const path = require('path');
 const {APP_PASSWORD_STRIPE} = process.env;
 const stripe = require('stripe')(APP_PASSWORD_STRIPE);
 
+//rappi
+const axios = require('axios');
+
 //PDF
 const puppeteer = require('puppeteer');
 
@@ -5575,5 +5578,60 @@ router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
 router.get('/report-sales', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/sales");
 })
+
+/*REPORTE DE PEDIDOS DE USUARIO*/
+const {UBER_APPLICATION_ID,UBER_CLIENT_SECRET,UBER_SIGNING_KEY} = process.env;
+const uberClientId = UBER_APPLICATION_ID;
+const uberClientSecret = UBER_CLIENT_SECRET;
+const uberRedirectUri = 'http://localhost:3000/callback';
+
+// Ruta para redirigir a la página de autorización de Uber
+router.get('/auth', (req, res) => {
+    const authorizationUrl = `https://login.uber.com/oauth/v2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=eats.orders`;
+    res.redirect(authorizationUrl);
+});
+
+// Ruta de redirección de callback
+router.get('/callback', async (req, res) => {
+    const authorizationCode = req.query.code;
+
+    try {
+        // Intercambia el código de autorización por un token de acceso
+        const response = await axios.post('https://login.uber.com/oauth/v2/token', qs.stringify({
+            client_id: clientId,
+            client_secret: clientSecret,
+            grant_type: 'authorization_code',
+            redirect_uri: redirectUri,
+            code: authorizationCode
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        const accessToken = response.data.access_token;
+        res.send(`Token de acceso obtenido: ${accessToken}`);
+    } catch (error) {
+        res.status(500).send('Error al obtener el token de acceso');
+    }
+});
+
+// Función para obtener pedidos de Uber Eats usando el token de acceso del usuario
+async function obtenerPedidos(accessToken) {
+    try {
+        const response = await axios.get('https://api.uber.com/v1/eats/orders', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const pedidos = response.data;
+        console.log('Pedidos:', pedidos);
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+    }
+}
+
 
 module.exports = router;
