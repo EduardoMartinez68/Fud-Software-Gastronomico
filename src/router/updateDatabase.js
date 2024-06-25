@@ -88,9 +88,10 @@ async function update_branch(id_branch, branch) {
             postal_code=$11,
             email_branch=$12,
             cell_phone=$13,
-            phone=$14
+            phone=$14,
+            token_uber_eat=$15
         WHERE 
-            id=$15
+            id=$16
     `;
 
     const values = [
@@ -108,10 +109,10 @@ async function update_branch(id_branch, branch) {
         branch.email,
         branch.cell_phone,
         branch.phone,
+        branch.token_uber_eat,
         id_branch
     ];
 
-    console.log(queryText); // Solo para depuración, muestra la consulta SQL en la consola
     try {
         await database.query(queryText, values);
         return true;

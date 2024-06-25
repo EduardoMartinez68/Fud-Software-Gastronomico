@@ -873,7 +873,7 @@ async function this_subscription_exist_with_my_branch(idSubscription, id_branch)
 
 function create_new_branch(req) {
     const { id_company } = req.params;
-    const { name, alias, representative, phone, cell_phone, email, municipality, city, cologne, street, num_o, num_i, postal_code } = req.body;
+    const { name, alias, representative, phone, cell_phone, email, municipality, city, cologne, street, num_o, num_i, postal_code, token_uber_eat} = req.body;
     const newBranch = {
         id_company: id_company,
         name,
@@ -889,7 +889,8 @@ function create_new_branch(req) {
         street,
         num_o,
         num_i,
-        postal_code
+        postal_code,
+        token_uber_eat
     }
 
     return newBranch;

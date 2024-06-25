@@ -1,0 +1,21 @@
+<h1>Listado de Pedidos</h1>
+{{#if orderUber.length}}
+<ul>
+    {{#each orderUber}}
+    <li>
+        <strong>ID:</strong> {{this.id}}<br>
+        <hr>
+        <strong>Fecha:</strong> {{this.date}}<br>
+        <strong>Estado:</strong> {{this.status}}<br>
+        <strong>Productos:</strong>
+        <ul>
+            {{#each this.products}}
+                <li>{{this.name}} - {{this.quantity}}</li>
+            {{/each}}
+        </ul>
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+<p>No hay pedidos disponibles.</p>
+{{/if}}

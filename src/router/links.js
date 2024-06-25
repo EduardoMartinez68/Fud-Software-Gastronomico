@@ -5583,11 +5583,11 @@ router.get('/report-sales', isLoggedIn, (req, res) => {
 const {UBER_APPLICATION_ID,UBER_CLIENT_SECRET,UBER_SIGNING_KEY} = process.env;
 const uberClientId = UBER_APPLICATION_ID;
 const uberClientSecret = UBER_CLIENT_SECRET;
-const uberRedirectUri = 'http://localhost:3000/callback';
+const uberRedirectUri = 'https://fud-tech.cloud/fud/main';
 
 // Ruta para redirigir a la página de autorización de Uber
 router.get('/auth', (req, res) => {
-    const authorizationUrl = `https://login.uber.com/oauth/v2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=eats.orders`;
+    const authorizationUrl = `https://login.uber.com/oauth/v2/authorize?client_id=${uberClientId}&response_type=code&redirect_uri=${uberRedirectUri}&scope=eats.orders`;
     res.redirect(authorizationUrl);
 });
 
@@ -5617,11 +5617,11 @@ router.get('/callback', async (req, res) => {
 });
 
 // Función para obtener pedidos de Uber Eats usando el token de acceso del usuario
-async function obtenerPedidos(accessToken) {
+async function obtenerPedidos(accessTokeUser) {
     try {
         const response = await axios.get('https://api.uber.com/v1/eats/orders', {
             headers: {
-                'Authorization': `Bearer ${accessToken}`,
+                'Authorization': `Bearer ${accessTokeUser}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -5633,5 +5633,43 @@ async function obtenerPedidos(accessToken) {
     }
 }
 
+
+router.get(':id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
+    try {
+        const { id_company, id_branch } = req.params;
+        // Here you get the user's access token from where you have it stored
+        const accessToken = await get_uber_token_by_company_id(id_company);
+
+        // Call the function to get the orders using the access token
+        const orderUber = await obtenerPedidos(accessToken);
+
+        // Render the 'orders' view and pass the orders as data
+        res.render('/links/branch/delivery', { orderUber });
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+        res.render('error', { message: 'Error al obtener los pedidos' }); // Handle the error according to your application
+    }
+});
+
+async function get_uber_token_by_company_id(id_branch) {
+    const queryText = `
+        SELECT token_uber
+        FROM "Company".branches
+        WHERE id = $1
+    `;
+    const values = [id_branch];
+
+    try {
+        const result = await database.query(queryText, values);
+        if (result.rows.length > 0) {
+            return result.rows[0].token_uber; // Devuelve el token_uber si se encuentra
+        } else {
+            return null; // Retorna null si no se encuentra ningún registro con branchId dado
+        }
+    } catch (error) {
+        console.error('Error al obtener token_uber por ID:', error);
+        throw error;
+    }
+}
 
 module.exports = router;
