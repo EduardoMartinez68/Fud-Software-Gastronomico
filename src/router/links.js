@@ -5598,10 +5598,10 @@ router.get('/callback', async (req, res) => {
     try {
         // Intercambia el código de autorización por un token de acceso
         const response = await axios.post('https://login.uber.com/oauth/v2/token', qs.stringify({
-            client_id: clientId,
-            client_secret: clientSecret,
+            client_id: uberClientId,
+            client_secret: uberClientSecret,
             grant_type: 'authorization_code',
-            redirect_uri: redirectUri,
+            redirect_uri: uberRedirectUri,
             code: authorizationCode
         }), {
             headers: {
@@ -5627,9 +5627,10 @@ async function obtenerPedidos(accessTokeUser) {
         });
 
         const pedidos = response.data;
-        console.log('Pedidos:', pedidos);
+        return pedidos;
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
+        return null;
     }
 }
 
@@ -5644,7 +5645,7 @@ router.get('/:id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
         const orderUber = await obtenerPedidos(accessToken);
 
         // Render the 'orders' view and pass the orders as data
-        res.render('/links/branch/delivery', { orderUber });
+        res.render("links/branch/delivery/delivery", { orderUber });
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
         res.render('error', { message: 'Error al obtener los pedidos' }); // Handle the error according to your application
