@@ -395,7 +395,7 @@ router.post('/fud/:id_company/add-company-combo', async (req, res) => {
         const packCompany = await get_pack_database(id_company)
         //we will see if the user can save image in the database 
         if (packCompany == 0) {
-            req.file = null;
+            //req.file = null;
         }
 
         //get the new combo
