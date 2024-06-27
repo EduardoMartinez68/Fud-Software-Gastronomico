@@ -1,21 +1,88 @@
-<h1>Listado de Pedidos</h1>
-{{#if orderUber.length}}
-<ul>
-    {{#each orderUber}}
-    <li>
-        <strong>ID:</strong> {{this.id}}<br>
-        <hr>
-        <strong>Fecha:</strong> {{this.date}}<br>
-        <strong>Estado:</strong> {{this.status}}<br>
-        <strong>Productos:</strong>
-        <ul>
-            {{#each this.products}}
-                <li>{{this.name}} - {{this.quantity}}</li>
+<style>
+    .icon-delivery {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .card-item-delivery {
+        transition: transform 0.3s ease; 
+    }
+
+    .card-item-delivery:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+</style>
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"><a class="btn btn-primary" href="/fud/auth/ubereat">Conectarse a UberEat</a></div>
+        <div class="col-2"><a class="btn btn-primary" href="/fud/auth/rappi">Conectarse a Rappi</a></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <h5>Listado de Pedidos de UberEat</h5>
+            <hr>
+            {{#if orderUber.length}}
+            {{#each orderUber}}
+            <div class="card card-item-delivery">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="https://seeklogo.com/images/U/uber-eats-logo-CA3BA2098B-seeklogo.com.png" alt=""
+                                class="icon-delivery">
+                        </div>
+                        <div class="col">
+                            <strong>ID:</strong> {{this.id}}<br>
+                            <strong>Fecha:</strong> {{this.date}}<br>
+                            <strong>Estado:</strong> {{this.status}}<br>
+                            <strong>Productos:</strong>
+                            <ul>
+                                {{#each this.products}}
+                                <li>{{this.name}} - {{this.quantity}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {{/each}}
-        </ul>
-    </li>
-    {{/each}}
-</ul>
-{{else}}
-<p>No hay pedidos disponibles.</p>
-{{/if}}
+            {{else}}
+            <p>No hay pedidos disponibles.</p>
+            {{/if}}
+        </div>
+        <div class="col">
+            <h5>Listado de Pedidos de Rappi</h5>
+            <hr>
+            {{#if orderRappi.length}}
+            {{#each orderRappi}}
+            <div class="card card-item-delivery">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="https://play-lh.googleusercontent.com/bisXh1lptYJMezjq3Z1Gmx24dIY5IJJdL-5yJoAqlgWg9_nH2_wyqxo0P3O3cKXS-ak"
+                                alt="" class="icon-delivery">
+                        </div>
+                        <div class="col">
+                            <strong>ID del Pedido:</strong> {{this.id}}<br>
+                            <strong>Fecha:</strong> {{this.created_at}}<br>
+                            <strong>Estado:</strong> {{this.status}}<br>
+                            <strong>Productos:</strong>
+                            <ul>
+                                {{#each this.items}}
+                                <li>{{this.name}} - Cantidad: {{this.quantity}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            {{else}}
+            <p>No hay pedidos disponibles.</p>
+            {{/if}}
+        </div>
+    </div>
+</div>

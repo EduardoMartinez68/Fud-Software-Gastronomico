@@ -20,9 +20,6 @@ const path = require('path');
 const {APP_PASSWORD_STRIPE} = process.env;
 const stripe = require('stripe')(APP_PASSWORD_STRIPE);
 
-//rappi
-const axios = require('axios');
-
 //PDF
 const puppeteer = require('puppeteer');
 
@@ -5528,7 +5525,6 @@ async function the_user_can_add_most_combo(comboLength,packCombo){
     return comboLength < limit;
 }
 
-
 router.get('/:idBranch/:idCompany/edit-branch-free', isLoggedIn, async (req, res) => {
     const country = await get_country();
     const branchFree = await get_branch(req);
@@ -5547,7 +5543,6 @@ router.get('/report', isLoggedIn, (req, res) => {
 })
 
 /*store online*/
-
 router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
     const { id_company, id_branch } = req.params;
     const branchFree = await get_data_branch(req);
@@ -5579,29 +5574,163 @@ router.get('/report-sales', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/sales");
 })
 
-/*REPORTE DE PEDIDOS DE USUARIO*/
-const {UBER_APPLICATION_ID,UBER_CLIENT_SECRET,UBER_SIGNING_KEY} = process.env;
-const uberClientId = UBER_APPLICATION_ID;
-const uberClientSecret = UBER_CLIENT_SECRET;
-const uberRedirectUri = 'https://fud-tech.cloud/fud/main';
+//update tokens rappi and uber eat 
+async function update_token_rappi_branch(id_branch, token_rappi) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_rappi=$1
+        WHERE 
+            id=$2
+    `;
 
-// Ruta para redirigir a la página de autorización de Uber
-router.get('/auth', (req, res) => {
-    const authorizationUrl = `https://login.uber.com/oauth/v2/authorize?client_id=${uberClientId}&response_type=code&redirect_uri=${uberRedirectUri}&scope=eats.orders`;
+    const values = [
+        token_rappi,
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+async function update_token_uber_eat_branch(id_branch, token_uber) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_uber=$1
+        WHERE 
+            id=$2
+    `;
+
+    const values = [
+        token_uber,
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+router.get('/:id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
+    try {
+        const { id_company, id_branch } = req.params;
+        // Here you get the user's access token from where you have it stored
+        const accessToken = await get_token_by_branch_id(id_branch);
+
+        // Call the function to get the orders using the access token
+        const orderUber = [{id:0,created_at:'12/12/12',status:'activate'}]//await get_order_uber(accessToken.token_uber);
+        const orderRappi= [{id:0,created_at:'12/12/12',status:'activate'}]//await get_order_rappi(accessToken.token_rappi);
+
+        // Render the 'orders' view and pass the orders as data
+        res.render("links/branch/delivery/delivery", { orderUber, orderRappi});
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+        res.render('error', { message: 'Error al obtener los pedidos' }); // Handle the error according to your application
+    }
+});
+
+/////-----rappi--------//////////
+/*REPORTE DE PEDIDOS DE USUARIO*/
+const axios = require('axios');
+const {UBER_APPLICATION_ID,UBER_CLIENT_SECRET,UBER_SIGNING_KEY,RAPPI_CLIENT_ID,RAPPI_CLIENT_SECRET,RAPPI_REDIRECT_URI} = process.env;
+
+
+//rappi 
+const rappiClientId = RAPPI_CLIENT_ID;
+const rappiClientSecret = RAPPI_CLIENT_SECRET;
+const rappiRedirectUri = RAPPI_REDIRECT_URI;
+var https = require("https");
+
+// Ruta para redirigir a la página de autorización de Rappi
+router.get('/auth/rappi', (req, res) => {
+    const authorizationUrl = `https://api.rappi.com/oauth/authorize?client_id=${rappiClientId}&response_type=code&redirect_uri=${rappiRedirectUri}&scope=orders.read`;
     res.redirect(authorizationUrl);
 });
 
 // Ruta de redirección de callback
-router.get('/callback', async (req, res) => {
+router.get('/callback/rappi', async (req, res) => {
     const authorizationCode = req.query.code;
 
+    //get the data of the branch
+    const employee = await get_data_employee(req);
+    const data = employee[0]
+    const id_company = data.id_companies;
+    const id_branch = data.id_branches;
+
+    //we will see if can get a new token 
+    if (!authorizationCode) {
+        req.flash('message', 'La sucursal no fue conectada 😰 errro: Código de autorización no recibido');
+    }
+
     try {
-        // Intercambia el código de autorización por un token de acceso
-        const response = await axios.post('https://login.uber.com/oauth/v2/token', qs.stringify({
+      // Intercambia el código de autorización por un token de acceso
+      const response = await axios.post('https://api.rappi.com/oauth/token', querystring.stringify({
+        client_id: rappiClientId,
+        client_secret: rappiClientSecret,
+        grant_type: 'authorization_code',
+        redirect_uri: deliveryRedirectUri,
+        code: authorizationCode
+      }), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+  
+      const accessToken = response.data.access_token; //get the token 
+      await update_token_rappi_branch(id_branch,accessToken); //save the token in the database 
+      req.flash('success', 'La sucursal fue conectada con exito a rappi 😊')
+    } catch (error) {
+      console.error('Error al obtener el token de acceso:', error);
+      req.flash('message', 'La sucursal no fue conectada 😰 errro: '+error.message);
+    }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/delivery');
+});
+
+/////-----uber--------//////////
+const uberClientId = UBER_APPLICATION_ID;
+const uberClientSecret = UBER_CLIENT_SECRET;
+const deliveryRedirectUri = 'http://localhost:4000/fud/callback/ubereat' //'https://fud-tech.cloud/fud/main';
+const uberRedirectUrl='http://localhost:4000/fud/callback/ubereat' //'https://fud-tech.cloud/callback/ubereat'
+const querystring = require('querystring');
+
+// Ruta para redirigir a la página de autorización de Uber
+router.get('/auth/ubereat', (req, res) => {
+    const scope = 'eats.orders'; // El scope que quieres solicitar
+    const authorizationUrl = `https://login.uber.com/oauth/v2/authorize?client_id=${UBER_APPLICATION_ID}&response_type=code&redirect_uri=${encodeURIComponent(deliveryRedirectUri)}&scope=${scope}`;
+    res.redirect(authorizationUrl);
+});
+
+// Ruta de redirección de callback
+router.get('/callback/ubereat', async (req, res) => {
+    const authorizationCode = req.query.code;
+
+    //get the data of the branch
+    const employee = await get_data_employee(req);
+    const data = employee[0]
+    const id_company = data.id_companies;
+    const id_branch = data.id_branches;
+
+    if (!authorizationCode) {
+        req.flash('message', 'La sucursal no fue conectada 😰 errro: Código de autorización no recibido');
+    }
+
+    try {
+        const response = await axios.post('https://login.uber.com/oauth/v2/token', querystring.stringify({
             client_id: uberClientId,
             client_secret: uberClientSecret,
             grant_type: 'authorization_code',
-            redirect_uri: uberRedirectUri,
+            redirect_uri: uberRedirectUrl,
             code: authorizationCode
         }), {
             headers: {
@@ -5609,15 +5738,19 @@ router.get('/callback', async (req, res) => {
             }
         });
 
-        const accessToken = response.data.access_token;
-        res.send(`Token de acceso obtenido: ${accessToken}`);
+        const accessToken = response.data.access_token; //get the token 
+        await update_token_uber_eat_branch(id_branch,accessToken); //save the token in the database 
+        req.flash('success', 'La sucursal fue conectada con exito 😊')
     } catch (error) {
-        res.status(500).send('Error al obtener el token de acceso');
+        console.error('Error al obtener el token de acceso:', error.message);
+        req.flash('message', 'La sucursal no fue conectada 😰 errro: '+error.message);
     }
+
+    res.redirect('/fud/'+id_company+'/'+id_branch+'/delivery');
 });
 
 // Función para obtener pedidos de Uber Eats usando el token de acceso del usuario
-async function obtenerPedidos(accessTokeUser) {
+async function get_order_uber(accessTokeUser) {
     try {
         const response = await axios.get('https://api.uber.com/v1/eats/orders', {
             headers: {
@@ -5634,27 +5767,18 @@ async function obtenerPedidos(accessTokeUser) {
     }
 }
 
-
-router.get('/:id_company/:id_branch/delivery', isLoggedIn, async (req, res) => {
-    try {
-        const { id_company, id_branch } = req.params;
-        // Here you get the user's access token from where you have it stored
-        const accessToken = await get_uber_token_by_company_id(id_company);
-
-        // Call the function to get the orders using the access token
-        const orderUber = await obtenerPedidos(accessToken);
-
-        // Render the 'orders' view and pass the orders as data
-        res.render("links/branch/delivery/delivery", { orderUber });
-    } catch (error) {
-        console.error('Error al obtener los pedidos:', error);
-        res.render('error', { message: 'Error al obtener los pedidos' }); // Handle the error according to your application
-    }
+//rappi 
+router.post('https://rests-integrations-dev.auth0.com/oauth/token', isLoggedIn, async (req, res) => {
+    console.log(req.body)
 });
 
-async function get_uber_token_by_company_id(id_branch) {
+var https = require("https");
+
+
+
+async function get_token_by_branch_id(id_branch) {
     const queryText = `
-        SELECT token_uber
+        SELECT token_uber, token_rappi
         FROM "Company".branches
         WHERE id = $1
     `;
@@ -5663,7 +5787,7 @@ async function get_uber_token_by_company_id(id_branch) {
     try {
         const result = await database.query(queryText, values);
         if (result.rows.length > 0) {
-            return result.rows[0].token_uber; // Devuelve el token_uber si se encuentra
+            return result.rows[0]; // Devuelve el token_uber si se encuentra
         } else {
             return null; // Retorna null si no se encuentra ningún registro con branchId dado
         }
@@ -5672,5 +5796,23 @@ async function get_uber_token_by_company_id(id_branch) {
         throw error;
     }
 }
+
+// Función para obtener pedidos de Rappi usando el token de acceso del usuario
+async function get_order_rappi(accessToken) {
+    try {
+      const response = await axios.get('https://api.rappi.com/v1/orders', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const pedidos = response.data;
+      return pedidos;
+    } catch (error) {
+      console.error('Error al obtener los pedidos:', error);
+      throw error;
+    }
+  }
 
 module.exports = router;

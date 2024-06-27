@@ -122,6 +122,51 @@ async function update_branch(id_branch, branch) {
     }
 }
 
+async function update_token_rappi_branch(id_branch, token_rappi) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_rappi=$1
+        WHERE 
+            id=$2
+    `;
+
+    const values = [
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+async function update_token_uber_eat_branch(id_branch, token_uber) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_uber=$1
+        WHERE 
+            id=$2
+    `;
+
+    const values = [
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+
 async function update_customer(customerId, newCustomer) {
     var queryText = `
         UPDATE "Company".customers
@@ -471,5 +516,7 @@ module.exports = {
     update_provider_company,
     update_supplies_branch,
     update_combo_branch,
-    update_subscription_branch
+    update_subscription_branch,
+    update_token_uber_eat_branch,
+    update_token_rappi_branch
 };
