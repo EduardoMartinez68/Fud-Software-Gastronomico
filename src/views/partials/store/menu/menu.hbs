@@ -79,6 +79,11 @@
         cursor: pointer;
         color: #036fe2;
     }
+
+    .input-search-menu{
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
 </style>
 <div class="title-home-store">
     <br>
@@ -116,11 +121,12 @@
             <table class="" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th class="td1">
-                            <input type="text" placeholder="Escribe un código de barras..." class="form-control"
+                        <th class="td1"> 
+                            <input type="text" placeholder="Escribe un código de barras..." class="form-control input-search-menu"
                                 name="usernameSearch" autofocus id="search">
                         </th>
                         <!--
+                        🔍︎ | 
                         <th class="td2">
                             {{#each dataEmployee}}
                             <button class="btn btn-primary button-spacing" onclick="search_browser_div()"><i
@@ -140,8 +146,22 @@
                 onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Client</button>
             {{/each}}
         </div>
+        <!---
         <div class="col">
             <button class="btn btn-primary button-spacing" onclick="create_new_order()"><i class="fi fi-ss-biking-mountain"></i> Pedido a domicilio</button>
+        </div>
+        -->
+        <div class="col-2">
+            <div class="dropdown">
+                <button class="btn btn-primary button-spacing dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Funciones
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Orden Rapida</a></li>
+                    <li><a class="dropdown-item" onclick="create_new_order()" >Delivery</a></li>
+                    <li><a class="dropdown-item" href="#">Comandas</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -217,7 +237,7 @@
                 </table>
             </div>
             <br>
-            <button class="btn-container-cart card-menu" id="btn-total-home" onclick="buy_my_car(this)">Buy $0<i
+            <button class="btn-container-cart card-menu" id="btn-total-home" onclick="buy_my_car(this)">Pagar $0<i
                     class="fi-icon fi-sr-shopping-cart"></i></button>
             {{/each}}
         </div>
@@ -301,7 +321,7 @@
                         </div>
                         <br>
                         <button class="btn-container-cart card-menu" id="btn-total-home-cellphone"
-                            onclick="buy_my_car(this)">Buy $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
+                            onclick="buy_my_car(this)">Pagar $0<i class="fi-icon fi-sr-shopping-cart"></i></button>
                     {{/each}}
                 </div>
             </div>
@@ -377,7 +397,17 @@
         }
     }
 </script>
+<script>
 
+    //this is for update the input that is selected in the sweet alert of teh car
+  function selectInput(input) {
+    var inputs = document.querySelectorAll('.input-buy'); //get all the input of the sweet
+    inputs.forEach(function(el) {
+      el.classList.remove('selected'); //delete the classe <selected>
+    });
+    input.classList.add('selected'); //add the classe <selected> in the input that the user did click
+  }
+</script>
 
 
 
@@ -444,3 +474,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>

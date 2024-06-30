@@ -417,82 +417,100 @@ async function edit_price_car(title, price1, price2, price3) {
 
 async function show_message_buy_car(title, customer, total, typeOfCurrency) {
     var containerHtml = `
-      <style>
-        .container-buy{
-            background-color: white;
+    <style>
+        .container-buy {
+        background-color: white;
         }
-    
-        .total-buy{
-            font-size: 4rem;
+
+        .total-buy {
+        font-size: 4rem;
         }
-    
-        .buy{
-            font-size: 2rem;
+
+        .buy {
+        font-size: 2rem;
         }
-    
-        .btn-store{
-            background-color: white;
-            color: #7E7E7F;
-            font-size: 2rem;
-            width: 25%;
-            height: 100%;
-            border-color: transparent;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+
+        .btn-store {
+        background-color: white;
+        color: #7E7E7F;
+        font-size: 2rem;
+        width: 25%;
+        height: 100%;
+        border-color: transparent;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
         }
-    
-        .btn-delete{
-            font-size: 2rem;
-            width: 25%;
-            height: 100%;
-            border-color: transparent;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);      
+
+        .btn-delete {
+        font-size: 2rem;
+        width: 25%;
+        height: 100%;
+        border-color: transparent;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
         }
-    
-        .btn-buy{
-            border-radius: 5%;
-            border-color: transparent;
-            background-color: #5AB75D;
-            color: white;
-            width: 23%;
-            height: 10%;
-            font-size: 1rem;
+
+        .btn-buy {
+        border-radius: 5%;
+        border-color: transparent;
+        background-color: #5AB75D;
+        color: white;
+        width: 23%;
+        height: 10%;
+        font-size: 1rem;
         }
-    
-        .btn-cancel{
-            color: red;
-            border: 0;
-            border-color: transparent;
-            background-color: transparent;
+
+        .btn-cancel {
+        color: red;
+        border: 0;
+        border-color: transparent;
+        background-color: transparent;
         }
-    
-        .card-buy{
-            background-color: #F1F4F5;
+
+        .card-buy {
+        background-color: #F1F4F5;
         }
-    
-        .pocketMoney{
-            font-size: 1.5rem;
+
+        .pocketMoney {
+        font-size: 1.5rem;
         }
 
         .swal2-popup {
-            width: 80%; /* Ajusta el ancho del cuadro de contenido */
-            height: 100%; /* Ajusta la altura del cuadro de contenido */
+        width: 80%; /* Ajusta el ancho del cuadro de contenido */
+        height: 100%; /* Ajusta la altura del cuadro de contenido */
         }
 
+        .input-buy {
+        text-align: center;
+        }
 
-    @media screen and (max-width: 600px){
-        .total-buy{
+        .card-input {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-search-menu {
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media screen and (max-width: 600px) {
+        .total-buy {
             font-size: 1.7rem;
         }
+
         .swal2-popup {
             width: 80%; /* Ajusta el ancho del cuadro de contenido */
             height: 50%; /* Ajusta la altura del cuadro de contenido */
         }
 
-        .btn-store{
+        .btn-store {
             font-size: 1rem;
         }
-    }
-      </style>
+        }
+
+        .input-buy.selected {
+        border: 2px solid #0D6EFD; /* Cambia el estilo para inputs seleccionados */
+        box-shadow: 0 0 5px #0D6EFD;
+        }
+    </style>
     
     <div class="container mt-5 container-buy pc">
       <label><i class="fi fi-sr-user"></i>${customer}</label><br>
@@ -540,15 +558,39 @@ async function show_message_buy_car(title, customer, total, typeOfCurrency) {
           </div>
         </div>
         <div class="col-6">
+        <div class="row">
             <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
-            <br>
+        </div>
+        <div class="row">
             <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
-            <input type="text" class="form-control mb-3 buy" id="money" name="money" readonly >
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">💬 Comentario</label>
-                <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comentario..."></textarea>
+        </div>
+        <div class="row">
+            <div class="">
+            <center><label for="" class="pocketMoney"><i class="fi fi-sr-money-bill-wave"></i> Efectivo</label></center>
+            <input type="text" class="form-control mb-3 buy input-buy selected" id="money" name="money" readonly placeholder="$0.00" onclick="selectInput(this)">
             </div>
-            <br><br>
+        </div>
+        <div class="row">
+            <div class="col">
+            <div class="">
+                <center><label for="" class="pocketMoney"><i class="fi fi-sr-credit-card"></i> Tarjeta de Debito</label></center>
+                <input type="text" class="form-control mb-3 buy input-buy" id="money-credit-debit" name="money-credit-debit" readonly placeholder="$0.00" onclick="selectInput(this)">
+            </div>
+            </div>
+            <div class="col">
+            <div class="">
+                <center><label for="" class="pocketMoney"><i class="fi fi-sr-credit-card"></i> Tarjeta de Credito</label></center>
+                <input type="text" class="form-control mb-3 buy input-buy" id="money-credit-card" name="money-credit-card" readonly placeholder="$0.00" onclick="selectInput(this)">
+            </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="">
+            <label for="exampleFormControlTextarea1">💬 Comentario</label>
+            <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comentario..."></textarea>
+            </div>
+        </div>
+        <br><br>
         </div>
       </div>
     </div>
@@ -624,13 +666,13 @@ async function show_message_buy_car(title, customer, total, typeOfCurrency) {
             cancelButtonColor: 'rgb(220, 53, 69)',
             preConfirm: () => {
                 const cash = Swal.getPopup().querySelector('#money').value;
-                const debitCard = 0//Swal.getPopup().querySelector('#debitCard').value;
-                const creditCard = 0//Swal.getPopup().querySelector('#creditCard').value;
+                const debitCard = Swal.getPopup().querySelector('#money-credit-debit').value;
+                const creditCard = Swal.getPopup().querySelector('#money-credit-card').value;
                 const comment = Swal.getPopup().querySelector('#comment').value;
 
                 const cashCellphone = Swal.getPopup().querySelector('#money-cellphone').value;
-                const debitCardCellphone = 0//Swal.getPopup().querySelector('#debitCard').value;
-                const creditCardCellphone = 0//Swal.getPopup().querySelector('#creditCard').value;
+                const debitCardCellphone = 0//Swal.getPopup().querySelector('#money-credit-debit').value;
+                const creditCardCellphone = 0//Swal.getPopup().querySelector('#money-credit-card').value;
                 const commentCellphone = Swal.getPopup().querySelector('#comment-cellphone').value;
                 data = [cash, debitCard, creditCard, comment, cashCellphone, debitCardCellphone, creditCardCellphone, commentCellphone];
 

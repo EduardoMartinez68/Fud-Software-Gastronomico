@@ -1,44 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descuento del 30%</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .discount-icon {
-            position: relative;
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 50%;
-            background-color: #ff6347;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .discount-icon:before {
-            content: '30%';
-            display: block;
-        }
-        .discount-text {
-            font-size: 0.7em;
-            margin-top: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropdown Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.4.2/uicons-solid-rounded/css/uicons-solid-rounded.css">
+  <style>
+    .container-buy {
+      background-color: white;
+    }
+
+    .total-buy {
+      font-size: 4rem;
+    }
+
+    .buy {
+      font-size: 2rem;
+    }
+
+    .btn-store {
+      background-color: white;
+      color: #7E7E7F;
+      font-size: 2rem;
+      width: 25%;
+      height: 100%;
+      border-color: transparent;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-delete {
+      font-size: 2rem;
+      width: 25%;
+      height: 100%;
+      border-color: transparent;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-buy {
+      border-radius: 5%;
+      border-color: transparent;
+      background-color: #5AB75D;
+      color: white;
+      width: 23%;
+      height: 10%;
+      font-size: 1rem;
+    }
+
+    .btn-cancel {
+      color: red;
+      border: 0;
+      border-color: transparent;
+      background-color: transparent;
+    }
+
+    .card-buy {
+      background-color: #F1F4F5;
+    }
+
+    .pocketMoney {
+      font-size: 1.5rem;
+    }
+
+    .swal2-popup {
+      width: 80%; /* Ajusta el ancho del cuadro de contenido */
+      height: 100%; /* Ajusta la altura del cuadro de contenido */
+    }
+
+    .input-buy {
+      text-align: center;
+    }
+
+    .card-input {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-search-menu {
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (max-width: 600px) {
+      .total-buy {
+        font-size: 1.7rem;
+      }
+
+      .swal2-popup {
+        width: 80%; /* Ajusta el ancho del cuadro de contenido */
+        height: 50%; /* Ajusta la altura del cuadro de contenido */
+      }
+
+      .btn-store {
+        font-size: 1rem;
+      }
+    }
+
+    .input-buy.selected {
+      border: 2px solid #0D6EFD; /* Cambia el estilo para inputs seleccionados */
+      box-shadow: 0 0 5px #0D6EFD;
+    }
+  </style>
 </head>
 <body>
-    <div class="container mt-5 text-center">
-        <div class="discount-icon">
-            <div class="discount-text">descuento</div>
-        </div>
-    </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<div class="container mt-5 container-buy pc">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="card card-buy">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(100)">$ 100</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(200)">$ 200</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="updateNumber(500)">$ 500</button>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(1)">1</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(2)">2</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(3)">3</button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(4)">4</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(5)">5</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(6)">6</button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(7)">7</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(8)">8</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(9)">9</button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero('.')">.</button>
+              <button class="btn btn-primary btn-block btn-store" onclick="agregarNumero(0)">0</button>
+              <button class="btn btn-danger btn-block btn-delete" onclick="borrarNumero()"><i class="fi fi-rr-delete"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <b><label for="" class="total-buy">TOTAL: $</label><label for="" class="total-buy" id="total">${total}</label></b>
+        <br>
+        <label for="" class="pocketMoney">Cambio: $</label><label for="" class="pocketMoney" id="pocketMoney">0.00</label>
+      </div>
+      <div class="row">
+        <div class="">
+          <center><label for="" class="pocketMoney"><i class="fi fi-sr-money-bill-wave"></i> Efectivo</label></center>
+          <input type="text" class="form-control mb-3 buy input-buy" id="money" name="money" readonly placeholder="$0.00" onclick="selectInput(this)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="">
+            <center><label for="" class="pocketMoney"><i class="fi fi-sr-credit-card"></i> Tarjeta de debito</label></center>
+            <input type="text" class="form-control mb-3 buy input-buy" id="money-credit-debit" name="money" readonly placeholder="$0.00" onclick="selectInput(this)">
+          </div>
+        </div>
+        <div class="col">
+          <div class="">
+            <center><label for="" class="pocketMoney"><i class="fi fi-sr-credit-card"></i> Tarjeta de Credito</label></center>
+            <input type="text" class="form-control mb-3 buy input-buy" id="money-credit-card" name="money" readonly placeholder="$0.00" onclick="selectInput(this)">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="">
+          <label for="exampleFormControlTextarea1">💬 Comentario</label>
+          <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Comentario..."></textarea>
+        </div>
+      </div>
+      <br><br>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+  function selectInput(input) {
+    var inputs = document.querySelectorAll('.input-buy');
+    inputs.forEach(function(el) {
+      el.classList.remove('selected');
+    });
+    input.classList.add('selected');
+  }
+</script>
+
 </body>
 </html>

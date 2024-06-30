@@ -181,6 +181,20 @@ async function select_customer(idCompany) {
 }
 
 //----------------------
+function get_input_money_select_for_the_user_in_pc() {
+    // get all the inputs in the screen
+    var inputs = document.querySelectorAll('.input-buy');
+
+    // read all the inputs and we see if exist the classe <selected>
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].classList.contains('selected')) {
+            return inputs[i]; // retur the input that is select
+        }
+    }
+
+    return null; // return null if the user no selected none input
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     var inputMoneyCellphone = document.getElementById("money-cellphone");
 
@@ -197,8 +211,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function updateNumber(number){
     var numeroMostrado;
+    
     if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
-        numeroMostrado = document.getElementById("money");
+        numeroMostrado = get_input_money_select_for_the_user_in_pc();
     } else {
         numeroMostrado = document.getElementById("money-cellphone");
     }
@@ -208,7 +223,7 @@ function updateNumber(number){
 
 function agregarNumero(numero) {
     if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
-        numeroMostrado = document.getElementById("money");
+        numeroMostrado = get_input_money_select_for_the_user_in_pc();
         pocketMoney=document.getElementById('pocketMoney');
     } else {
         numeroMostrado = document.getElementById("money-cellphone");
@@ -219,28 +234,43 @@ function agregarNumero(numero) {
 }
 
 function update_pocket_money(){
-    var numeroMostrado;
+    var cash = 0;
+    var numberCardDebit = 0;
+    var numberCardCredit = 0;
+    var total = 0;
+    var pocketMoney = 0;
     var totalId;
-    var pocketMoney=document.getElementById('pocketMoney-cellphone');
+    var pocketMoneyElement;
 
-    if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
-        numeroMostrado = document.getElementById("money");
+    if (window.innerWidth >= 768) {
+        //get the value of the inpus of money
+        cash = parseFloat(document.getElementById("money").value) || 0;
+        numberCardDebit = parseFloat(document.getElementById("money-credit-debit").value) || 0;
+        numberCardCredit = parseFloat(document.getElementById("money-credit-card").value) || 0;
+
+        //get the character of the value of the money how the total and the pockey money
         totalId = document.getElementById('total');
-        pocketMoney=document.getElementById('pocketMoney');
+        pocketMoneyElement = document.getElementById('pocketMoney');
     } else {
-        numeroMostrado = document.getElementById("money-cellphone");
+        cash = parseFloat(document.getElementById("money-cellphone").value) || 0;
         totalId = document.getElementById('total-cellphone');
-        pocketMoney=document.getElementById('pocketMoney-cellphone');
+        pocketMoneyElement = document.getElementById('pocketMoney-cellphone');
     }
-    var total = parseFloat(totalId.innerText);
-    pocketMoney.innerText = parseFloat(numeroMostrado.value)-total;
+
+    total = parseFloat(totalId.innerText) || 0;
+    pocketMoney = (parseFloat(cash)+parseFloat(numberCardDebit)+parseFloat(numberCardCredit)) - total;
+
+    console.log("Pocket Money:", pocketMoney);
+
+    // Update pocketMoneyElement
+    pocketMoneyElement.innerText = pocketMoney.toFixed(2);
 }
 
 function borrarNumero() {
     var numeroMostrado;
     var pocketMoney;
     if (window.innerWidth >= 768) { // Ajusta el valor según el tamaño de pantalla deseado para tablets, ipads, laptops, etc.
-        numeroMostrado = document.getElementById("money");
+        numeroMostrado = get_input_money_select_for_the_user_in_pc()//document.getElementById("money");
         pocketMoney=document.getElementById('pocketMoney');
     } else {
         numeroMostrado = document.getElementById("money-cellphone");
@@ -378,7 +408,7 @@ function update_total() {
         total += parseFloat(totalText, 10);
         total = parseFloat(total.toFixed(2));
     }
-    btn.textContent = "Buy $" + total;
+    btn.textContent = "Pagar $" + total;
 }
 
 
