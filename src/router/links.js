@@ -610,42 +610,7 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 })
 
 //-----------------------------------------------------------------subscription
-/*
-router.post('/create-suscription-cloude',isLoggedIn, async (req, res) => {
-    try {
-      const prices = await stripe.prices.list({
-        lookup_keys: [req.body.lookup_key],
-        expand: ['data.product'],
-      });
-  
-      if (!prices.data || prices.data.length === 0) {
-        throw new Error('No se encontraron precios.');
-      }
-  
-      const session = await stripe.checkout.sessions.create({
-        billing_address_collection: 'auto',
-        line_items: [
-          {
-            price: prices.data[0].id,
-            // For metered billing, do not pass quantity
-            quantity: 1,
-          },
-        ],
-        mode: 'subscription',
-        success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
-        cancel_url: `https://fud-tech.cloud/fud/prices`,
-      });
-
-      res.redirect(303, session.url);
-    } catch (error) {
-      console.error('Error al crear la suscripción:', error);
-      res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
-    }
-});
-*/
-
 router.post('/add-app-fud', isLoggedIn, async (req, res) => {
-    /*
     try {
         // get the price with the ID of the price
         const price = await stripe.prices.retrieve(req.body.price_id);
@@ -662,16 +627,42 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
                 quantity: 1,
             }],
             mode: 'subscription',
-            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/welcome-subscription`,
+            success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/buy-app`,
             cancel_url: `https://fud-tech.cloud/fud/prices`,
         });
+
+        //we will wachign if exist a buy 
+        if(session.url!='https://fud-tech.cloud/fud/prices'){
+            const {app}=req.body;
+            const idUser=req.user.id; //get the id user 
+            /*
+            if(app=='new-terminal'){
+
+            }else if(app=='website-creation'){
+                
+            }else if(app=='digital-menu'){
+
+            }else if(app=='employee-schedules'){
+
+            }
+
+            const idCompany=await update_database_company_with_the_user_id(idUser,pack_database);
+            if (idCompany) {
+                if(!await update_pack_branch_with_the_company_id(idCompany,pack_branch)){
+                    req.flash('message', 'La sucursal no fue activada. Por favor, busca ayuda 🙅‍♂️')
+                }
+            }else{
+                req.flash('message', 'La base de datos no fue activada. Por favor, busca ayuda 🙅‍♂️')
+            }*/
+           
+        }
+
 
         res.redirect(303, session.url);
     } catch (error) {
         console.error('Error al crear la suscripción:', error);
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
-    }*/
-    res.redirect('/fud/prices');
+    }
 });
 
 
@@ -925,6 +916,9 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
 });
 */
 
+router.get('/:session_id/buy-app',isLoggedIn,async (req, res) => {
+    res.render('links//web/buyApp'); //this web is for return your user
+})
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
     await create_subscription(req,13); //this is for save the subscription in the database with the pack that buy the user 
