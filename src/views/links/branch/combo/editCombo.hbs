@@ -72,6 +72,8 @@
                             <h5>Codigo de Barras: {{dish_barcode}}</h5>
                             <label for="">Description:</label>
                             <label for="">{{dish_description}}</label>
+                            <br><br>
+                            <a class="btn btn-primary" href="/fud/{{id_companies}}/{{id_branches}}/{{id_dishes_and_combos}}/edit-data-combo-free"><i class="fi fi-sr-pencil"></i> Editar informacion del combo</a>
                         </div>
                     </div>
 
@@ -83,20 +85,22 @@
                             <label for="invalidCheck"></label>
                         </div>
                     </div>
+                    <label for=""><i class="fi fi-sr-ballot-check"></i> Información de facturación</label>
+                    <hr>
 
                     <!---navbar--->
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                                aria-selected="true"><i class="fi-icon fi-sr-usd-circle"></i> Sale prices</a>
+                                aria-selected="true"><i class="fi-icon fi-sr-usd-circle"></i> Precios de venta</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                                aria-selected="false"><i class="fi-icon fi-ss-apple-whole"></i> Supplies</a>
+                                aria-selected="false"><i class="fi-icon fi-ss-apple-whole"></i> Suministros</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#other" role="tab" aria-controls="profile"
-                                aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Other</a>
+                                aria-selected="false"><i class="fi-icon fi-ss-settings"></i> Otro</a>
                         </li>
                     </ul>
 
@@ -115,7 +119,7 @@
                         </div>
                     </div>
                     <br>
-                    <button class="btn btn-success" id="myForm" type="submit">Save</button>
+                    <button class="btn btn-success" id="myForm" type="submit">Guardar</button>
                 </form>
                 {{/each}}
                 <br><br>

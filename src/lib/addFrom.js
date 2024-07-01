@@ -497,7 +497,7 @@ function create_combo_data_branch(idCombo, idCompany, id_branch) {
 //edit combo 
 router.post('/fud/:id_company/:id_combo/edit-combo-company', isLoggedIn, async (req, res) => {
     const { id_company, id_combo } = req.params;
-    const { barcodeProducts } = req.body;
+    const { barcodeProducts} = req.body;
 
     //we will see if the user add a product or supplies 
     if (barcodeProducts == '') {
@@ -518,8 +518,16 @@ router.post('/fud/:id_company/:id_combo/edit-combo-company', isLoggedIn, async (
         else {
             req.flash('message', 'El combo no fue actualizado con éxito 😳')
         }
-
-        res.redirect('/fud/' + id_company + '/combos');
+        
+        //we will see if the user have the pack free 
+        if(req.user.rol_user!=rolFree){
+            //if the user have a rol of admin send to combo company
+            res.redirect('/fud/' + id_company + '/combos');
+        }else{
+            //if the user have a count free, get the branch id for redirect to the user 
+            const { id_branch} = req.body;
+            res.redirect('/fud/'+id_company+'/'+id_branch+'/combos-free');
+        }
     }
 })
 

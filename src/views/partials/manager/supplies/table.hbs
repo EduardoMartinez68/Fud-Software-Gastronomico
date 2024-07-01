@@ -1,5 +1,5 @@
 <div style="height: 750px; overflow-y: scroll;">
-    <table class="table table-hover"> <!--table-bordered-->
+    <table class="table table-hover" id="table-container"> <!--table-bordered-->
         <colgroup>
             <col style="width: 5%;"> <!--image-->
             <col style="width: 25%;"> <!--barcode-->
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             {{#each supplies}}
-                <tr>
+                <tr id="{{barcode}}">
                     {{#if img}}
                         <td><img src="{{img}}" class="img-s-p"></td>
                     {{else}}

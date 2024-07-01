@@ -1,5 +1,14 @@
 <link rel="stylesheet" href="/css/manager/supplies_products.css">
 <br><br>
+<div class="container">
+    {{#each branchFree}}
+    <div class="row">
+        <div class="col-8">
+            <input type="text" class="form-control" placeholder="Buscar código de barras..." id="search">
+        </div>
+    </div>
+    {{/each}}
+</div>
 <div class="container mt-4">
   <div class="row">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -187,7 +196,7 @@
         })
     })
 </script>
-
+<script src="/js/search.js"></script>
 
 
 

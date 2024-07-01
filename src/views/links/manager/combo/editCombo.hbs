@@ -11,6 +11,10 @@
                     {{#each company}}
                     <form action="/fud/{{id}}/{{id_combo}}/edit-combo-company" method="POST" enctype="multipart/form-data" id="comboForm">
                     {{/each}}
+                    {{#each dataForm}}
+                    <form action="/fud/{{id_company}}/{{id_combo}}/edit-combo-company" method="POST" enctype="multipart/form-data" id="comboForm">
+                    <input type="hidden" value="{{id_branch}}" name="id_branch">
+                    {{/each}}
                         {{>CEO/combo/fromEdit}}
                         <hr>
                         {{>CEO/combo/table}}

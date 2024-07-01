@@ -70,17 +70,27 @@
                             </li>
                         {{/each}}
                         {{#each branchFree}}
-                            <li><a href="/fud/home"><i class="fi-icon fi-sr-apps"> Menu</i></a></li>
-                            <li step="btn-navbar-supplies"><a href="/fud/{{id_companies}}/{{id}}/supplies-free"><i
-                                        class="fi-icon fi-sr-apple-whole"> Insumos</i></a></li>
-                            <li><a href="/fud/{{id_companies}}/{{id}}/combos-free"><i class="fi-icon fi-sr-restaurant">
-                                        Combos</i></a></li>
-                            <li><a href="/fud/{{id_companies}}/{{id}}/order-free"><i class="fi-icon fi-ss-biking-mountain">
-                                        Repartidor</i></a></li>
-                            <li><a href="/fud/myrestaurant/{{id_companies}}/{{id}}" target="_blank"><i class="fi-icon fi-sr-apps">
-                                        Menu Digital</i></a></li>
-                            <li><a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Anuncios</i></a></li>
-                            <li><a href="/fud/{{id}}/{{id_companies}}/edit-branch-free"><i class="fi-icon fi-sr-pencil"> Editar</i></a></li>
+                            <li>
+                                <a href="/fud/home"><i class="fi-icon fi-sr-apps"> Menu</i></a>
+                            </li>
+                            <li step="btn-navbar-supplies">
+                                <a href="/fud/{{id_companies}}/{{id}}/supplies-free"> <i class="fi-icon fi-sr-apple-whole"> Insumos</i></a>
+                            </li>
+                            <li>
+                                <a href="/fud/{{id_companies}}/{{id}}/combos-free"><i class="fi-icon fi-sr-restaurant"> Combos</i></a>
+                            </li>
+                            <li>
+                                <a href="/fud/{{id_companies}}/{{id}}/order-free"><i class="fi-icon fi-ss-biking-mountain"> Repartidor</i></a>
+                            </li>
+                            <li>
+                                <a href="/fud/myrestaurant/{{id_companies}}/{{id}}" target="_blank"><i class="fi-icon fi-ss-window-alt"> Menu Digital</i></a>
+                            </li>
+                            <li>
+                                <a href="/fud/{{id_companies}}/{{id}}/ad"><i class="fi-icon fi-sr-ad"> Anuncios</i></a>
+                            </li>
+                            <li>
+                                <a href="/fud/{{id}}/{{id_companies}}/edit-branch-free"><i class="fi-icon fi-sr-store-alt"> Sucursal</i></a>
+                            </li>
                             <!---
                             <li><a href="/fud/{{id_companies}}/{{id}}/delivery"><i class="fi-icon fi-sr-ballot">
                                         Uber Eat</i></a></li>

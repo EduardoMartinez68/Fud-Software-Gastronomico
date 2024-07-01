@@ -27,6 +27,10 @@
                                     <h6>{{name}}</h6>
                                     <label>{{barcode}}</label>
                                 </center>
+                                <br>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <button type="button"  class="btn btn-primary" onclick="delete_supplies('{{id_companies}}','{{id_branches}}','{{id_products_and_supplies}}')">🗑️ Eliminar insumo</button>
+                                </div>
                             </div>
 
                             <!--bar navigation
@@ -151,5 +155,11 @@
             })
         })
     </script>
-
+    <script>
+        async function delete_supplies(id_company,id_branch,id_products_and_supplies){
+            if(await questionMessage('Eliminar insumo 😳','¿Quieres eliminar estos suministros?')){
+                window.location.href = "/fud/"+id_company+"/"+id_branch+"/"+id_products_and_supplies+"/delete-supplies-free";
+            }
+        }
+    </script>
 {{>updateSelects}}

@@ -654,7 +654,6 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
             }else{
                 req.flash('message', 'La base de datos no fue activada. Por favor, busca ayuda 🙅‍♂️')
             }*/
-           
         }
 
 
@@ -664,7 +663,6 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
         res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
     }
 });
-
 
 router.post('/create-suscription-cloude', isLoggedIn, async (req, res) => {
     try {
@@ -3926,10 +3924,31 @@ router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch', isLogged
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_supplies } = req.params;
         const supplies = await get_supplies_with_id(id_supplies, true);
-        const branch = await await get_data_branch(req);
-        res.render('links/branch/supplies/editSupplies', { supplies, branch });    
+        if (req.user.rolFree==rolFree){
+            const branch = await get_data_branch(req);
+            res.render('links/branch/supplies/editSupplies', { supplies, branch });    
+        }    
+        else{
+            const branchFree = await get_data_branch(req);
+            res.render('links/branch/supplies/editSupplies', { supplies, branchFree });            
+        }  
     }
 })
+
+router.get('/:id_company/:id_branch/:id/delete-supplies-free', isLoggedIn, async (req, res) => {
+    const { id, id_company,id_branch } = req.params;
+    const pathOmg = await get_path_img('Kitchen', 'products_and_supplies', id)
+
+    if (await delate_supplies_company(id, pathOmg)) {
+        req.flash('success', 'El suministro fueron eliminado con éxito 😁')
+    }
+    else {
+        req.flash('message', 'Los suministros NO fueron eliminado 👉👈')
+    }
+
+    res.redirect('/fud/' + id_company +'/'+ id_branch + '/supplies-free');
+})
+
 
 router.get('/:id_company/:id_branch/recharge-supplies', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
@@ -4173,9 +4192,15 @@ router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-branch', isLog
         const { id_combo_features, id_branch } = req.params;
         const comboFeactures = await get_data_combo_factures(id_combo_features);
         const suppliesCombo = await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos, id_branch)
-        console.log(comboFeactures[0].id_dishes_and_combos)
-        const branch = await get_data_branch(req);
-        res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
+
+        //we will see if the user have a suscription free
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branchFree });           
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
+        }
     }
 })
 
@@ -4184,7 +4209,6 @@ router.get('/:id_company/:id_branch/:id_combo_features/edit-combo-free', isLogge
         const { id_combo_features, id_branch } = req.params;
         const comboFeactures = await get_data_combo_factures(id_combo_features);
         const suppliesCombo = await get_all_price_supplies_branch(comboFeactures[0].id_dishes_and_combos, id_branch)
-        console.log(comboFeactures[0].id_dishes_and_combos)
         const branch = await get_data_branch(req);
         res.render('links/branch/combo/editCombo', { comboFeactures, suppliesCombo, branch });
     //}
@@ -5243,6 +5267,28 @@ router.get('/store-home', isLoggedIn, async (req, res) => {
     res.render('links/store/home/home');
 })
 
+
+router.get('/:id_company/:id_branch/:id_dishes_and_combos/edit-data-combo-free', isLoggedIn, async (req, res) => {
+    const { id_dishes_and_combos, id_company } = req.params;
+
+    const branchFree = await get_data_branch(req);
+    const dataForm = [{
+        id_company: branchFree[0].id_companies,
+        id_branch: branchFree[0].id,
+        id_combo: id_dishes_and_combos
+    }]
+    console.log(dataForm)
+    const departments = await get_data_tabla_with_id_company(id_company, "Kitchen", "product_department");
+    const category = await get_data_tabla_with_id_company(id_company, "Kitchen", "product_category");
+
+    const supplies = await search_company_supplies_or_products_with_company(id_company, true);
+    const products = await search_company_supplies_or_products_with_company(id_company, false);
+    const suppliesCombo = await search_supplies_combo(id_dishes_and_combos);
+    const combo = await search_combo(id_company, id_dishes_and_combos);
+
+
+    res.render('links/manager/combo/editCombo', { branchFree, dataForm, departments, category, supplies, products, combo, suppliesCombo });
+})
 
 router.get('/:id_company/:id_branch/order-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;

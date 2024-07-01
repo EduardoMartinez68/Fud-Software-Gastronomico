@@ -1,13 +1,13 @@
 <hr>
 <div class="row">
     <div class="col-5">
-        <label for="validationCustom01">Average Price *</label>
+        <label for="validationCustom01">Precio promedio *</label>
         <input type="text" id="averagePrice" class="form-control" name="averagePrice" min="0" step="1" placeholder="Price" required readonly>
     </div>
 </div>
 <div class="row">
     <div class="col-2">
-        <label for="validationCustom01">Currency *</label>
+        <label for="validationCustom01">Divisa *</label>
         <select name="selectCurrency" class="form-select" aria-label="Default select example">
             {{>unity/unitOfMoney}}
         </select>
@@ -17,11 +17,11 @@
 
     <div class="row">
         <div class="col">
-            <label for="validationCustom01">Sale price *</label>
+            <label for="validationCustom01">Precio de venta*</label>
             <input type="text" id="price1" class="form-control"  name="price1" min="0" step="1" placeholder="Sale price" required oninput="calculate_input_price(1)" value="{{price_1}}">
         </div>
         <div class="col">
-            <label for="validationCustom01">% Revenue *</label>
+            <label for="validationCustom01">% Ganancia *</label>
             <input type="text" id="revenue1" class="form-control"  name="revenue1" min="0" step="1" placeholder="Revenue" required oninput="calculate_input_revenue(1)" value="{{revenue_1}}">
         </div>
     </div>
@@ -29,29 +29,29 @@
     <br>
     <div class="row">
         <div class="col-3">
-            <button type="button" onclick="toggleDiv(1)" class="form-control">Add more price <i class="fi-icon fi-sr-add"></i></button>
+            <button type="button" onclick="toggleDiv(1)" class="form-control">Añadir más precio <i class="fi-icon fi-sr-add"></i></button>
         </div>
     </div>
     <div class="row">
         <div id="div1" class="hidden">
             <div class="row">
                 <div class="col">
-                    <label for="validationCustom01">Sale price 2</label>
-                    <input type="text" id="price2" class="form-control"  name="price2" min="0" step="1" placeholder="Price 2" oninput="calculate_input_price(2)" value="{{price_2}}">
+                    <label for="validationCustom01">Segundo precio de venta</label>
+                    <input type="text" id="price2" class="form-control"  name="price2" min="0" step="1" placeholder="Precio" oninput="calculate_input_price(2)" value="{{price_2}}">
                 </div>
                 <div class="col">
-                    <label for="validationCustom01">% Revenue 2</label>
-                    <input type="text" id="revenue2" class="form-control"  name="revenue2" min="0" step="1" placeholder="Revenue 2" oninput="calculate_input_revenue(2)" value="{{revenue_2}}">
+                    <label for="validationCustom01">% Ganancia</label>
+                    <input type="text" id="revenue2" class="form-control"  name="revenue2" min="0" step="1" placeholder="% Ganancia" oninput="calculate_input_revenue(2)" value="{{revenue_2}}">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="validationCustom01">Sale price 3</label>
-                    <input type="text" id="price3" class="form-control"  name="price3" min="0" step="1" placeholder="Price 3" oninput="calculate_input_price(3)" value="{{price_3}}">
+                    <label for="validationCustom01">Tercer precio de venta</label>
+                    <input type="text" id="price3" class="form-control"  name="price3" min="0" step="1" placeholder="precio" oninput="calculate_input_price(3)" value="{{price_3}}">
                 </div>
                 <div class="col">
-                    <label for="validationCustom01">% Revenue 3</label>
-                    <input type="text" id="revenue3" class="form-control"  name="revenue3" min="0" step="1" placeholder="Revenue 3" oninput="calculate_input_revenue(3)" value="{{revenue_3}}">
+                    <label for="validationCustom01">% Ganancia</label>
+                    <input type="text" id="revenue3" class="form-control"  name="revenue3" min="0" step="1" placeholder="% Ganancia" oninput="calculate_input_revenue(3)" value="{{revenue_3}}">
                 </div>
             </div>
         </div>
