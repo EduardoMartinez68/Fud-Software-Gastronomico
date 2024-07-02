@@ -14,6 +14,9 @@
                         {{#each branch}}
                         <form action="/fud/{{id_companies}}/{{id}}/add-employees" method="POST" enctype="multipart/form-data">
                         {{/each}}
+                        {{#each branchFree}}
+                        <form action="/fud/{{id_companies}}/{{id}}/add-employees" method="POST" enctype="multipart/form-data">
+                        {{/each}}
                             <div class="form-group" >
                                 <center>
                                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="imgEmployee" class="userImg">

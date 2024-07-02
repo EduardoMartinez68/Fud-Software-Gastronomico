@@ -2360,7 +2360,15 @@ router.get('/:id/:idEmployee/edit-employees', isLoggedIn, async (req, res) => {
         const country = await get_country()
         const roles = await get_type_employees(id)
         const branches = await search_all_branch(id)
-        res.render('links/manager/employee/editEmployee', { employee, departments, country, roles, branches, company });
+
+        //we will see if the suscription is for a branch free
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/manager/employee/editEmployee', { employee, departments, country, roles, branchFree, company });          
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/manager/employee/editEmployee', { employee, departments, country, roles, branches, company });
+        }
     }
     else {
         res.redirect('/fud/home');
@@ -4423,8 +4431,15 @@ router.get('/:id_company/:id_branch/employees-branch', isLoggedIn, async (req, r
     if(await validate_subscription(req,res)){
         const { id_branch, id_company } = req.params;
         const employees = await search_employees_branch(id_branch);
-        const branch = await get_data_branch(req);
-        res.render('links/branch/employees/employee', { employees, branch });
+
+        //we will see if the suscription is for a branch free
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/branch/employees/employee', { employees, branchFree });           
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/branch/employees/employee', { employees, branch });
+        }
     }
 })
 
@@ -4442,13 +4457,21 @@ router.get('/:id_company/:id_branch/:id_user/employees', isLoggedIn, async (req,
 router.get('/:id_company/:id_branch/:id_employee/edit-employees', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_employee } = req.params;
-        const branch = await get_data_branch(req);
         const employee = await search_employee(id_employee);
         const departments = await search_employee_departments(id_company);
         const country = await get_country();
         const roles = await get_type_employees(id_company);
-        const branches = branch;
-        res.render('links/branch/employees/editEmployee', { employee, branch, departments, country, roles, branches });
+        
+        //we will see if the suscription is fud one 
+        if(req.user.rol_user == rolFree){
+            const branchFree = await get_data_branch(req);
+            const branches = branchFree;
+            res.render('links/branch/employees/editEmployee', { employee, branchFree, departments, country, roles, branches });      
+        }else{
+            const branch = await get_data_branch(req);
+            const branches = branch;
+            res.render('links/branch/employees/editEmployee', { employee, branch, departments, country, roles, branches });
+        }
     }
 })
 
@@ -4483,9 +4506,17 @@ router.get('/:id_company/:id_branch/add-employee', isLoggedIn, async (req, res) 
         const departments = await search_employee_departments(id_company);
         const country = await get_country()
         const roles = await get_type_employees(id_company)
-        const branch = await get_data_branch(req);
-        const branches = branch;
-        res.render(companyName + '/branch/employees/addEmployee', { departments, country, roles, branches, branch });
+
+        //we will see if the suscription is for fud one
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            const branches = branchFree;
+            res.render(companyName + '/branch/employees/addEmployee', { departments, country, roles, branches, branchFree });          
+        }else{
+            const branch = await get_data_branch(req);
+            const branches = branch;
+            res.render(companyName + '/branch/employees/addEmployee', { departments, country, roles, branches, branch });
+        }
     }
 })
 
@@ -5017,7 +5048,6 @@ async function home_manager(req,res){
     const employee=await get_data_employee(req)
     const idBranch=employee[0].id_branches;
     const branch = await get_data_branch_view_manager(idBranch)
-    console.log(idBranch)
     res.render('links/branch/home', { branch });
 }
 

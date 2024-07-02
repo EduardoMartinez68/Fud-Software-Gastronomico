@@ -1,76 +1,103 @@
+<style>
+    .disabled{
+        display: none;
+    }
+</style>
 <div class="col-md-8">
-    <!--This is the card for see the description of the product-->
     <div class="card text-center mb-4">
         <div class="card-body">
-            {{#if employee_user}}
-                {{#each employee_user}}
-                    <center><strong>{{first_name}} {{second_name}} {{last_name}}</strong><br></center>
-                    {{#if photo}}
-                        <img class="img-description" src="{{photo}}"><br>
-                    {{else}}
-                        <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/2919/2919160.png"><br>
-                    {{/if}}
+                <!---this is for when not exist a employee select--->
+                <div class="container-data-employee" id="-1">
+                    <label>user</label><br>
+                    <br><br><br>
                     <center>
-                        <label>{{user_name}}</label>
-                        <h6>{{email}}</h6>
-                        <button id="{{ID_usuario}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id_users}}/edit-employees')" class="btn-table-employee-edit" style="width: 50px;height:50px;"><i class="fi-department fi-sr-pencil"></i></button>
-                        <button id="{{id_user}}" onclick="delete_employee('{{id_companies}}','{{id_branches}}','{{id_users}}')" class="btn-table-employee-delete" style="width: 50px;height:50px;"><i class="fi-department fi-sr-trash"></i></button>
+                        <br><br><br><img class="img-description" src="https://cdn-icons-png.flaticon.com/512/838/838590.png"><br><br><br><br><br><br><br><br><br><br><br><br>
                     </center>
-                    <br>
-                    <div class="card mb-4">
-                        <div class="card-bod">
-                            <table class="my-table-price">
-                                <thead>
-                                    <tr>
-                                        <th><label>Departament</label></th>
-                                        <th><label>Role</label></th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <h6>{{name_departaments}}</h6>
-                                        </th>
-                                        <th>
-                                            <h6>{{name_role}}</h6>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th><label>Phone</label></th>
-                                        <th><label>Cellphone</label></th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <h6>{{phone}}</h6>
-                                        </th>
-                                        <th>
-                                            <h6>{{cell_phone}}</h6>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th><label>Comissions</label></th>
-                                        <th><label>Salary</label></th>                                   
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <h6>{{commissions}}</h6>
-                                        </th>
-                                        <th>
-                                            <h6>{{salary}} {{currency}}/{{type_of_salary}}</h6>
-                                        </th>
-                                    </tr>
-                                </thead>
-                            </table>
+                </div>
+
+                <!---data of the employees-->
+                {{#each employees}}
+                    <div class="container-data-employee disabled" id="{{id_users}}">
+                        <center><strong>{{first_name}} {{second_name}} {{last_name}}</strong><br></center>
+                        {{#if photo}}
+                            <img class="img-description" src="{{photo}}"><br>
+                        {{else}}
+                            <img class="img-description" src="https://cdn-icons-png.flaticon.com/512/2919/2919160.png"><br>
+                        {{/if}}
+                        <center>
+                            <label>{{user_name}}</label>
+                            <h6>{{email}}</h6>
+                            <button id="{{ID_usuario}}" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id_users}}/edit-employees')" class="btn-table-employee-edit" style="width: 50px;height:50px;"><i class="fi-department fi-sr-pencil"></i></button>
+                            <button id="{{id_user}}" onclick="delete_employee('{{id_companies}}','{{id_branches}}','{{id_users}}')" class="btn-table-employee-delete" style="width: 50px;height:50px;"><i class="fi-department fi-sr-trash"></i></button>
+                        </center>
+                        <br>
+                        <div class="card mb-4">
+                            <div class="card-bod">
+                                <table class="my-table-price">
+                                    <thead>
+                                        <tr>
+                                            <th><label>Departament</label></th>
+                                            <th><label>Role</label></th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <h6>{{name_departaments}}</h6>
+                                            </th>
+                                            <th>
+                                                <h6>{{name_role}}</h6>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th><label>Phone</label></th>
+                                            <th><label>Cellphone</label></th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <h6>{{phone}}</h6>
+                                            </th>
+                                            <th>
+                                                <h6>{{cell_phone}}</h6>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th><label>Comissions</label></th>
+                                            <th><label>Salary</label></th>                                   
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <h6>{{commissions}}</h6>
+                                            </th>
+                                            <th>
+                                                <h6>{{salary}} {{currency}}/{{type_of_salary}}</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
+                        <label>Adress:</label>
+                        <label>{{name}} {{city}} {{street}} {{num_ext}} {{num_int}}</label>
                     </div>
-                    <label>Adress:</label>
-                    <label>{{name}} {{city}} {{street}} {{num_ext}} {{num_int}}</label>
                 {{/each}}
-            {{else}}
-                <label>user</label><br>
-                <br><br><br>
-                <center>
-                    <br><br><br><img class="img-description" src="https://cdn-icons-png.flaticon.com/512/838/838590.png"><br><br><br><br><br><br><br><br><br><br><br><br>
-                </center>
-            {{/if}}
         </div>
     </div>
 </div>
+
+
+<script>
+    //get all the employees in the screen 
+    const divsEmployees = document.getElementsByClassName('container-data-employee');
+    function select_employee(idCompany,idBranch,idUser){
+        //we will to read all the employees div
+        for (let i = 0; i < divsEmployees.length; i++) {
+            //add the class <disabled> for that the div not can show his information 
+            if (!divsEmployees[i].classList.contains('disabled')) {
+                divsEmployees[i].classList.add('disabled');
+            }
+        }
+
+        //we will get the div select for the user for remove the class disabled 
+        let divSelect=document.getElementById(idUser)
+        divSelect.classList.remove('disabled'); //this is for that can show in the screen 
+    }
+</script>
