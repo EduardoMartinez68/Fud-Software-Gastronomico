@@ -1,3 +1,38 @@
+/*this is for the card of the data employee*/
+.disabled{
+    display: none;
+}
+
+
+/*this is for fit to cellphone*/
+.card-employee-cellphone{
+    display: none;
+}
+
+.btn-return-table {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 10px;
+    top: 10px; 
+    align-items: center;
+    text-align: center;
+    color: black;
+    font-size: 4rem;
+}
+
+/*this is for when the user not is in a cellphone show all*/
+@media (min-width: 769px) {
+    .card-employee-cellphone{
+        display: block;
+    }
+    
+    .btn-return-table{
+        display: none;
+    }
+}
+
+
 .img-info{
     border-radius: 50%; /* Uso de porcentaje para asegurar un borde circular */
     max-height: 50px;

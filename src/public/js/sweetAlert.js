@@ -181,7 +181,7 @@ async function edit_cant_combo(title, cant) {
 }
 
 /////////////////////////////////supplies//////////////////////////////////////////////
-async function edit_supplies_company(title, id, id_company, img, barcode, name, description, use_inventory) {
+async function edit_supplies_company(title, id, id_company, img, barcode, name, description, use_inventory,id_branch=null) {
     var containerHtml = `
         <style>
             .save-button {
@@ -210,7 +210,7 @@ async function edit_supplies_company(title, id, id_company, img, barcode, name, 
                     <i class="fas fa-upload"></i> Subir imagen
                 </label>
             </div>        
-
+            <input id="id_branch" class="swal2-input" placeholder="Barcode" value="${id_branch}" name="id_branch" type="hidden">
             <input id="barcode" class="swal2-input" placeholder="Barcode" value="${barcode}" name="barcode"><br>
             <input id="name" class="swal2-input" placeholder="Nombre" value="${name}" name="name"><br>
             <input id="description" class="swal2-input" placeholder="Descripcion" value="${description}" name="description"><br>

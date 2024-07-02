@@ -590,14 +590,20 @@ router.post('/fud/:id_company/:id/edit-supplies-form', isLoggedIn, async (req, r
         }
     }
 
-
-    //rederict the object for the that be 
-    if (thisIsASupplies) {
-        res.redirect('/fud/' + id_company + '/company-supplies');
-    }
-    else {
-        res.redirect('/fud/' + id_company + '/company-products');
-    }
+    //we will see if the user have a suscription for fud one 
+    if (req.user.rol_user==rolFree){
+        const { id_branch} = req.body; //get the id branch
+        res.redirect(`/fud/${id_company}/${id_branch}/supplies-free`);
+    }    
+    else{
+        //rederict the object for the that be 
+        if (thisIsASupplies) {
+            res.redirect('/fud/' + id_company + '/company-supplies');
+        }
+        else {
+            res.redirect('/fud/' + id_company + '/company-products');
+        }        
+    }  
 })
 
 async function get_data_supplies_product(id) {

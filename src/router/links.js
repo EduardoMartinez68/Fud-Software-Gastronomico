@@ -341,7 +341,10 @@ router.get('/restart-password', isNotLoggedIn, async (req, res) => {
 });
 
 router.post('/restart-password', isNotLoggedIn, async (req, res) => {
-    const {email}=req.body; //get the email of the user 
+    var {email}=req.body; //get the email of the user 
+    //delete the space in empty of the form for avoid a error in the login
+    email = email.trim();
+
     const idUser=await get_id_user_for_email(email); //search the id of the user
 
     //we will watching if exist a user with this email 
@@ -408,7 +411,14 @@ router.get('/confirm-restart-password', isNotLoggedIn, async (req, res) => {
 });
 
 router.post('/confirm-restart-password', isNotLoggedIn, async (req, res) => {
-    const {password1,password2,token}=req.body;
+    //get the data of the form 
+    var {password1,password2,token}=req.body;
+
+    //delete the space in empty of the form for avoid a error in the login
+    password1 = password1.trim();
+    password2 = password2.trim();
+    token = token.trim();
+
     //we will getting the id of the user with the token 
     const idUser=await get_id_user_for_token(token);
     
@@ -1759,6 +1769,7 @@ router.get('/:id_company/:id/delate-combo-company', isLoggedIn, async (req, res)
 
     res.redirect('/fud/' + id_company + '/combos');
 })
+
 
 async function delate_combo_company(id, pathImg) {
     try {
@@ -3932,7 +3943,9 @@ router.get('/:id_company/:id_branch/:id_supplies/edit-supplies-branch', isLogged
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_supplies } = req.params;
         const supplies = await get_supplies_with_id(id_supplies, true);
-        if (req.user.rolFree==rolFree){
+
+        //we will see if the user have a suscription for fud one 
+        if (req.user.rol_user==rolFree){
             const branch = await get_data_branch(req);
             res.render('links/branch/supplies/editSupplies', { supplies, branch });    
         }    
@@ -5513,7 +5526,11 @@ router.get('/:id_branch/:id_order/edit-my-order', async (req, res)=>{
     console.log(employees)
     res.render('links/branch/order/editMyOrder', {dataOrder,employees})
 });
-//--------------------------------restaurant free
+
+
+
+
+//----------------------------------------------------FUD ONE----------------------------------------------------//
 async function get_free_company(id_user){
     var queryText = 'SELECT id FROM "User".companies WHERE id_users = $1';
     var values = [id_user];
@@ -5614,6 +5631,21 @@ router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
         res.render('links/store/branchLost');
     }
 });
+
+router.get('/:id_company/:id_branch/:id/delete-combo-free', isLoggedIn, async (req, res) => {
+    const { id, id_company, id_branch} = req.params;
+    const pathImg = await get_path_img('Kitchen', 'dishes_and_combos', id) //get the image in our database 
+
+    //we will see if can delete the combo of the database 
+    if (await delate_combo_company(id, pathImg)) {
+        req.flash('success', 'El combo fue eliminado con éxito 😄')
+    }
+    else {
+        req.flash('message', 'El combo NO fue eliminado con éxito 😳')
+    }
+
+    res.redirect(`/fud/${id_company}/${id_branch}/combos-free`);
+})
 
 async function the_user_can_add_most_combo(comboLength,packCombo){
     const limits = {

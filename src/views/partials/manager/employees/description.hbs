@@ -1,9 +1,4 @@
-<style>
-    .disabled{
-        display: none;
-    }
-</style>
-<div class="col-md-8">
+<div class="col-md-8 card-employee-cellphone" id="container-description-employee">
     <div class="card text-center mb-4">
         <div class="card-body">
                 <!---this is for when not exist a employee select--->
@@ -18,6 +13,7 @@
                 <!---data of the employees-->
                 {{#each employees}}
                     <div class="container-data-employee disabled" id="{{id_users}}">
+                        <button class="btn btn-return-table" onclick="return_table()"><i class="fi-icon fi-rr-angle-left"></i></button>
                         <center><strong>{{first_name}} {{second_name}} {{last_name}}</strong><br></center>
                         {{#if photo}}
                             <img class="img-description" src="{{photo}}"><br>
@@ -82,22 +78,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    //get all the employees in the screen 
-    const divsEmployees = document.getElementsByClassName('container-data-employee');
-    function select_employee(idCompany,idBranch,idUser){
-        //we will to read all the employees div
-        for (let i = 0; i < divsEmployees.length; i++) {
-            //add the class <disabled> for that the div not can show his information 
-            if (!divsEmployees[i].classList.contains('disabled')) {
-                divsEmployees[i].classList.add('disabled');
-            }
-        }
-
-        //we will get the div select for the user for remove the class disabled 
-        let divSelect=document.getElementById(idUser)
-        divSelect.classList.remove('disabled'); //this is for that can show in the screen 
-    }
-</script>

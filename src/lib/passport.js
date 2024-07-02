@@ -12,8 +12,13 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req ,userName, password, done) => {
+    //we delete the space empty for avoid error when search the user in the database
+    userName = userName.trim();
+    password = password.trim();
+
+    //search the user in the database 
     const user=await search_user(userName);
-    if(user.rows.length>0){
+    if(user.rows.length>0){ //if exist a user with the username of the form
         //we will watch if the password is correct
         if (await helpers.matchPassword(password,user.rows[0].password)){
             done(null,user.rows[0],req.flash('success','Bienvenido '+user.rows[0].user_name+' ❤️'));
@@ -175,6 +180,7 @@ passport.use('local.signup', new LocalStrategy({
 }, async (req, userName, password, done) => {
     try {
         const { email, phone, businessName, acceptTerms } = req.body;
+        const correctedEmail = email.trim(); //this is for delete the space empty of the form for avoid a error in the login 
 
         //we know if this user accept the terms and condition 
         if (!acceptTerms) {
@@ -182,7 +188,7 @@ passport.use('local.signup', new LocalStrategy({
         }
 
         //we know if this email exist in the database 
-        if (await this_email_exists(email)) {
+        if (await this_email_exists(correctedEmail)) {
             return done(null, false, req.flash('message', 'Este email ya existe 😅'));
         }
     
@@ -193,19 +199,19 @@ passport.use('local.signup', new LocalStrategy({
         const password=create_password();
     
         // Create a new user
-        const newUser = await create_a_new_user_ad(req, userName, password,email,businessName);
+        const newUser = await create_a_new_user_ad(req, userName, password,correctedEmail,businessName);
 
         //we send the information of the new user 
         const message=`
             new user <br>
             Negocio: ${businessName} <br>
             phone: ${phone} <br>
-            email: ${email}
+            email: ${correctedEmail}
         `
         await sendEmail.send_email('technologyfud@gmail.com','eduardoa4848@Outlook.es',message)
         
-        //create a company 
-        const newCompany=await get_new_company(newUser.id,email,businessName,phone);
+        //create a company for the user 
+        const newCompany=await get_new_company(newUser.id,correctedEmail,businessName,phone);
         const idCompany=await addDatabase.add_company(newCompany) //add the new company and get the id 
         if (idCompany){ //if we can add the new company 
             const newBranch=create_branch_free(idCompany,businessName,phone, userName)

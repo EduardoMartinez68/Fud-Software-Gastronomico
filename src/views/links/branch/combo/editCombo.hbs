@@ -73,7 +73,8 @@
                             <label for="">Description:</label>
                             <label for="">{{dish_description}}</label>
                             <br><br>
-                            <a class="btn btn-primary" href="/fud/{{id_companies}}/{{id_branches}}/{{id_dishes_and_combos}}/edit-data-combo-free"><i class="fi fi-sr-pencil"></i> Editar informacion del combo</a>
+                            <a class="btn btn-primary" href="/fud/{{id_companies}}/{{id_branches}}/{{id_dishes_and_combos}}/edit-data-combo-free">✏️ Editar informacion del combo</a>
+                            <button class="btn btn-danger" id="{{id}}" onclick="delete_combo('{{id_dishes_and_combos}}','{{id_companies}}','{{id_branches}}')" type="button">🗑️ Eliminar combo</button>
                         </div>
                     </div>
 
@@ -153,6 +154,13 @@
             otherDiv.classList.add('hidden'); // Oculta el otro div
         } else {
             div.classList.add('hidden'); // Oculta el div seleccionado si ya está visible
+        }
+    }
+
+
+    async function delete_combo(id_combo,id_company,id_branch){
+        if(await questionMessage('Eliminar combo  😳','¿Quieres eliminar este combo?')){
+            window.location.href = `/fud/${id_company}/${id_branch}/${id_combo}/delete-combo-free`
         }
     }
 </script>
