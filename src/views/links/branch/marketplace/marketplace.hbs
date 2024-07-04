@@ -181,6 +181,10 @@
                     <hr>
                     <div class="d-flex justify-content-end">
                         <form action="/fud/add-app-fud" method="POST">
+                            <!---
+                                <input type="hidden" name="price_id" value="price_1PX6PXRofynVwfKYFbVzc8G0" />
+                                <input type="hidden" name="price_id" value="price_1PYuUJRofynVwfKY9SaJLXxZ" typePrice="tester"/>
+                            -->
                             <input type="hidden" name="price_id" value="price_1PX6PXRofynVwfKYFbVzc8G0" />
                             <input type="hidden" name="app" value="new_terminal"/>
                             <input type="hidden" name="id_company" value="{{id_companies}}"/>
@@ -220,13 +224,21 @@
                     <a class="info-link">Más información</a>
                     <hr>
                     <div class="d-flex justify-content-end">
-                        <form action="/fud/add-app-fud" method="POST">
-                            <input type="hidden" name="price_id" value="price_1PX6LRRofynVwfKY13PlCgiF" />
-                            <input type="hidden" name="app" value="website_creation"/>
-                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
-                            <input type="hidden" name="id_branch" value="{{id}}"/>
-                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
-                        </form>
+                        {{#if website_creation}}
+                            <a href="/fud/home" class="btn btn-comprar">Usar</a>
+                        {{else}}
+                            <form action="/fud/add-app-fud" method="POST">
+                                <!---
+                                <input type="hidden" name="price_id" value="price_1PX6LRRofynVwfKY13PlCgiF" />
+                                <input type="hidden" name="price_id" value="price_1PYuUJRofynVwfKY9SaJLXxZ" typePrice="tester"/>
+                                --->
+                                <input type="hidden" name="price_id" value="price_1PX6LRRofynVwfKY13PlCgiF" />
+                                <input type="hidden" name="app" value="website_creation"/>
+                                <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                                <input type="hidden" name="id_branch" value="{{id}}"/>
+                                <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                            </form>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -260,13 +272,21 @@
                     <a class="info-link">Más información</a>
                     <hr>
                     <div class="d-flex justify-content-end">
-                        <form action="/fud/add-app-fud" method="POST">
-                            <input type="hidden" name="price_id" value="price_1PX6NgRofynVwfKYbP0VwyZB" />
-                            <input type="hidden" name="app" value="digital_menu"/>
-                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
-                            <input type="hidden" name="id_branch" value="{{id}}"/>
-                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
-                        </form>
+                        {{#if digital_menu}}
+                            <a href="/fud/home" class="btn btn-comprar">Usar</a>
+                        {{else}}
+                            <form action="/fud/add-app-fud" method="POST">
+                                <!---
+                                <input type="hidden" name="price_id" value="price_1PX6NgRofynVwfKYbP0VwyZB" />
+                                <input type="hidden" name="price_id" value="price_1PYuUJRofynVwfKY9SaJLXxZ" typePrice="tester"/>
+                                --->
+                                <input type="hidden" name="price_id" value="price_1PX6NgRofynVwfKYbP0VwyZB" />
+                                <input type="hidden" name="app" value="digital_menu"/>
+                                <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                                <input type="hidden" name="id_branch" value="{{id}}"/>
+                                <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                            </form>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -305,13 +325,21 @@
                     <a class="info-link">Más información</a>
                     <hr>
                     <div class="d-flex justify-content-end">
+                        {{#if employee_schedules}}
+                            <a href="/fud/home" class="btn btn-comprar">Usar</a>
+                        {{else}}
                         <form action="/fud/add-app-fud" method="POST">
-                            <input type="hidden" name="price_id" value="price_1PX6OCRofynVwfKYcpxvrS86" />
-                            <input type="hidden" name="app" value="employee_schedules"/>
-                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
-                            <input type="hidden" name="id_branch" value="{{id}}"/>
-                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
-                        </form>
+                                <!---
+                                    <input type="hidden" name="price_id" value="price_1PX6OCRofynVwfKYcpxvrS86" typePrice="good"/>
+                                    <input type="hidden" name="price_id" value="price_1PYuUJRofynVwfKY9SaJLXxZ" typePrice="tester"/>
+                                --->
+                                <input type="hidden" name="price_id" value="price_1PX6OCRofynVwfKYcpxvrS86" typePrice="good"/>
+                                <input type="hidden" name="app" value="employee_schedules"/>
+                                <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                                <input type="hidden" name="id_branch" value="{{id}}"/>
+                                <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                            </form>
+                        {{/if}}
                     </div>
                 </div>
             </div>

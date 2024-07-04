@@ -641,23 +641,27 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
             }],
             mode: 'subscription',
             success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/buy-app`,
-            cancel_url: `https://fud-tech.cloud/fud/${id_company}/${id_branch}/marketplace`,
+            cancel_url: `https://fud-tech.cloud/fud/prices`,
         });
 
-        //we will wachign if exist a buy 
-        if(session.url!=`https://fud-tech.cloud/fud/${id_company}/${id_branch}/marketplace`){
-            const idUser=req.user.id; //get the id user 
+        // get the date current
+        const currentDate = new Date();
 
-            //we will uodate the status of the suscription 
-            if (await update_suscription_of_app_in_branch(id_branch,app)){
-                req.flash('message', 'La suscripcion fue activada.')
-            }
-            else{
-                req.flash('message', 'La base de datos no fue activada. Por favor, busca ayuda 🙅‍♂️')
-            }
+        // sum 30 days to the date current
+        currentDate.setDate(currentDate.getDate() + 30);
+
+        const idUser = req.user.id; // Obtén el ID del usuario
+        console.log('dueDate')
+        console.log(currentDate)
+
+        // update the date of the suscription in the database
+        if (await update_suscription_of_app_in_branch(id_branch, app, currentDate)) {
+            req.flash('success', 'La suscripción fue activada.');
+        } else {
+            req.flash('message', 'La suscripción no fue activada. Por favor, busca ayuda 🙅‍♂️');
         }
-
-
+    
+        // Redirect the user to the checkout session URL
         res.redirect(303, session.url);
     } catch (error) {
         console.error('Error al crear la suscripción:', error);
@@ -937,8 +941,26 @@ router.post('/create-suscription-free', isLoggedIn, async (req, res) => {
 */
 
 router.get('/:session_id/buy-app',isLoggedIn,async (req, res) => {
+    await create_subscription_app(req,14); //this is for save the subscription in the database with the pack that buy the user 
     res.render('links//web/buyApp'); //this web is for return your user
 })
+
+
+async function create_subscription_app(req,pack){
+    const {session_id}=req.params; //this is the key of stripe of the buy of the subscription 
+    const dataSubscription = await stripe.checkout.sessions.retrieve(session_id); //get the id of the subscription
+    const idSubscription = dataSubscription.subscription;
+    
+    
+    //we will waching if the subscription is activate for save the data in the database
+    const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription 
+    const status = subscription.status; //get the status of the suscription (active,canceled)
+    
+    if(status!='canceled'){
+        //if the subscription is activate, save the ID in the database 
+        await save_subscription_in_database(idSubscription,req.user.id,pack);
+    }
+}
 
 router.get('/:session_id/welcome-free',isLoggedIn,async (req, res) => {
     await create_subscription(req,13); //this is for save the subscription in the database with the pack that buy the user 
