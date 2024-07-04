@@ -653,7 +653,7 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
         const idUser = req.user.id; // Obtén el ID del usuario
 
         //we see if the buy the app 
-        if(session.url!='https://fud-tech.cloud/fud/prices'){
+        if(session.url!==session.cancel_url){
             // update the date of the suscription in the database
             if (await update_suscription_of_app_in_branch(id_branch, app, currentDate)) {
                 req.flash('success', 'La suscripción fue activada.');
