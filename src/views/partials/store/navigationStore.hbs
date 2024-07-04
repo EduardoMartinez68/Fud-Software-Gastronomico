@@ -21,8 +21,14 @@
         </li>
         <li class="list">
             <a>
-                <span class="icon-menu-home"><i class="fi-icon fi-sr-user"></i></span>
-                <span class="text-menu-home">Perfil</span>
+                <!---we will see if the user is the admin or a employee-->
+                {{#if branchFree}}
+                    <span class="icon-menu-home"><i class="fi-icon fi-sr-apps"></i></span>
+                    <span class="text-menu-home">Aplicaciones</span>
+                {{else}}
+                    <span class="icon-menu-home"><i class="fi-icon fi-sr-user"></i></span>
+                    <span class="text-menu-home">Perfil</span>
+                {{/if}}
             </a>
         </li>
         <div class="indicator"></div>

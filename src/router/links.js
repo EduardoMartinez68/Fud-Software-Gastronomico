@@ -621,6 +621,9 @@ router.get('/recipes', isLoggedIn, (req, res) => {
 
 //-----------------------------------------------------------------subscription
 router.post('/add-app-fud', isLoggedIn, async (req, res) => {
+    const {app}=req.body; //get the app that the user buy 
+    const {id_company,id_branch}=req.body; //get the data of the branch 
+
     try {
         // get the price with the ID of the price
         const price = await stripe.prices.retrieve(req.body.price_id);
@@ -638,41 +641,50 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
             }],
             mode: 'subscription',
             success_url: `https://fud-tech.cloud/fud/{CHECKOUT_SESSION_ID}/buy-app`,
-            cancel_url: `https://fud-tech.cloud/fud/prices`,
+            cancel_url: `https://fud-tech.cloud/fud/${id_company}/${id_branch}/marketplace`,
         });
 
         //we will wachign if exist a buy 
-        if(session.url!='https://fud-tech.cloud/fud/prices'){
-            const {app}=req.body;
+        if(session.url!=`https://fud-tech.cloud/fud/${id_company}/${id_branch}/marketplace`){
             const idUser=req.user.id; //get the id user 
-            /*
-            if(app=='new-terminal'){
 
-            }else if(app=='website-creation'){
-                
-            }else if(app=='digital-menu'){
-
-            }else if(app=='employee-schedules'){
-
+            //we will uodate the status of the suscription 
+            if (await update_suscription_of_app_in_branch(id_branch,app)){
+                req.flash('message', 'La suscripcion fue activada.')
             }
-
-            const idCompany=await update_database_company_with_the_user_id(idUser,pack_database);
-            if (idCompany) {
-                if(!await update_pack_branch_with_the_company_id(idCompany,pack_branch)){
-                    req.flash('message', 'La sucursal no fue activada. Por favor, busca ayuda 🙅‍♂️')
-                }
-            }else{
+            else{
                 req.flash('message', 'La base de datos no fue activada. Por favor, busca ayuda 🙅‍♂️')
-            }*/
+            }
         }
 
 
         res.redirect(303, session.url);
     } catch (error) {
         console.error('Error al crear la suscripción:', error);
-        res.status(500).send('Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde.');
+        req.flash('message', 'Error al crear la suscripción. Por favor, inténtelo de nuevo más tarde. 🙅‍♂️')
+        res.redirect(`https://fud-tech.cloud/fud/${id_company}/${id_branch}/marketplace`);
     }
 });
+
+async function update_suscription_of_app_in_branch(id_branch, app, due_date){
+    //this is for create the query with the app that the user buy
+    queryText = `
+    UPDATE "Company".branches
+    SET ${app} = $1
+    WHERE id = $2
+    `;
+
+    const values = [due_date, id_branch];
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating app:', error);
+        throw error;
+    }
+}
+
+
 
 router.post('/create-suscription-cloude', isLoggedIn, async (req, res) => {
     try {
@@ -5561,6 +5573,17 @@ async function home_free(req, res) {
     const link = `/fud/${id_user}/${id_company}/${id_branch}/${id_employee}/${id_role}/store-home`;
     res.redirect(link);
 }
+
+router.get('/:id_company/:id_branch/marketplace', isLoggedIn, async (req, res) => {
+    const { id_company, id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        res.render('links/branch/marketplace', { branchFree });
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
+
 
 router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, res) => {
     const { id_company, id_branch } = req.params;

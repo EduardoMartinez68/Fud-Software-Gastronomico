@@ -1,205 +1,342 @@
-<link rel="stylesheet" href="/css/marketplace/marketplace.css">
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2><b>Marketplace</b></h2>
-            <hr>
-            <div class="container-ad">
+<link rel="stylesheet" href="/css/web/web.css">
+<style>
+    .offert-price {
+        text-decoration: line-through;
+        /* Tachar el texto */
+    }
 
-            </div>
-        </div>
-    </div>
-    <br>
-    <br><br>
-    <hr>
+    .btn-comprar {
+        background-color: #1473E6;
+        /* Color verde */
+        color: white;
+        /* Color del texto */
+        border-radius: 15px;
+        /* Bordes redondeados */
+        font-weight: bold;
+        /* Texto en negrita */
+        font-size: 0.8rem;
+        right: 30px;
+    }
+
+    .btn-comprar:hover {
+        background-color: #1267cf;
+        /* Color verde más oscuro al pasar el mouse */
+    }
+
+    .icon-product-price {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        margin: .5rem;
+    }
+</style>
+<style>
+    /* Personalización del estilo de las pestañas */
+    .nav-tabs .nav-link {
+        color: #495057c0;
+        border: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav-tabs .nav-link:hover {
+        color: #495057;
+        border: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--color-company);
+        background-color: #fff;
+        border: none;
+        border-bottom: 2px solid var(--color-company);
+        ;
+    }
+
+    .tab-content {
+        border: 1px solid #dee2e6;
+        border-top: none;
+        padding: 20px;
+        background: #F5F5F5;
+    }
+
+    .card {
+        border-radius: 22px;
+        /*width: 24rem;*/
+    }
+
+    .info-label {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .info-link {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .info-link:hover {
+        cursor: pointer;
+        color: #036fe2;
+    }
+
+    .title-fud-individual {
+        color: #1D1D1F;
+        font-size: 4rem;
+    }
+
+    .btn-fud-one {
+        width: 50%;
+        height: 50px;
+        color: white;
+        background-color: var(--color-company);
+        text-align: center;
+        border-radius: 25px;
+        font-size: 1rem;
+    }
+
+    .btn-fud-one:hover {
+        border-color: var(--color-company);
+    }
+
+    .backgournd-individual {
+        background-color: #F5F5F7;
+    }
+
+
+    @media (max-width: 767px) {
+        .title-fud-individual {
+            font-size: 2rem;
+            /* Reduce el tamaño de la fuente */
+        }
+
+        .btn-fud-one {
+            width: 50%;
+            /* Ajusta el ancho del botón al 100% */
+            height: 45px;
+            /* Ajusta la altura del botón */
+            font-size: 0.7rem;
+            /* Ajusta el tamaño de la fuente del botón */
+        }
+
+        .tab-content {
+            padding: 15px;
+            /* Reduce el padding del contenido de las pestañas */
+        }
+
+        .card {
+            border-radius: 15px;
+            /* Ajusta el radio de la esquina de la tarjeta */
+            /* width: 100%; */
+            /* Ajusta el ancho de la tarjeta al 100% */
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            /* Ajusta el tamaño de la fuente de las etiquetas de información */
+        }
+
+        .nav-tabs .nav-link {
+            font-size: 0.875rem;
+            /* Ajusta el tamaño de la fuente de los enlaces de las pestañas */
+        }
+
+        h4 {
+            font-size: 0.9rem;
+        }
+
+        .container-products {
+            display: none;
+        }
+    }
+</style>
+
+{{#each branchFree}}
+<div class="container mt-5">
     <div class="row mb-4 justify-content-end">
         <div class="col-5">
             <div class="d-flex">
-                <input type="text" id="search-input" class="form-control me-2" placeholder="Buscar aplicaciones...">
+                <input type="text" id="search-input" class="form-control me-2" placeholder="Buscar aplicaciones..."
+                    style="background-color: white;">
             </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="p-3 container-marketplace" id="Füd crm clientes">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.freepik.com/512/5706/5706401.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Füd CRM 🤝</b></p>
-                        <label for="">
-                            Descubre Füd CRM: la herramienta esencial para gestionar y fortalecer tus relaciones con
-                            clientes. Optimiza ventas, automatiza marketing y mejora el servicio al cliente con nuestra
-                            plataforma intuitiva.
-                        </label>
-                        <p class="price-marketplace">$180/mes</p>
-                        <label for="" class="install-marketplace">1000+ instalaciones</label>
-                        <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
-                        <br>
+
+        <div class="col container-marketplace" id="nueva terminal restaurante">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3616/3616856.png" alt=""
+                        class="icon-product-price">
+                    <br>
+                    <h7 class="card-title"><b>Nueva Terminal</b></h7>
+                    <br>
+                    <label class="offert-price"><s>MXN $79/mes</s></label>
+                    <h3>MXN $59.00/mes</h3>
+                    <p class="card-text">
+                        ¡Adquiere ahora terminales adicionales para tu restaurante! Amplía tu capacidad de servicio con
+                        múltiples puntos de venta.
+                    </p>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <form action="/fud/add-app-fud" method="POST">
+                            <input type="hidden" name="price_id" value="price_1PX6PXRofynVwfKYFbVzc8G0" />
+                            <input type="hidden" name="app" value="new_terminal"/>
+                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                            <input type="hidden" name="id_branch" value="{{id}}"/>
+                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="p-3 container-marketplace" id="empleados restaurante equipo nueva terminal">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Nueva terminal 💻</b></p>
-                        <label for="">
-                            Agiliza tu punto de venta con una nueva terminal de cobro. Reduce las filas y mejora la
-                            experiencia de tus clientes con un proceso de pago más rápido y eficiente.
-                        </label>
-                        <p class="price-marketplace">$49/mes</p>
-                        <label for="" class="install-marketplace">1000+ instalaciones</label>
+        <div class="col container-marketplace" id="creación de página web digital">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3190/3190497.png" alt=""
+                        class="icon-product-price">
+                    <br>
+                    <h7 class="card-title"><b>Creación de Página Web</b></h7>
+                    <br>
+                    <label class="offert-price"><s>MXN $499.00/mes</s></label>
+                    <h3>MXN $399.00/mes</h3>
+                    <p class="card-text">
+                        Una herramienta poderosa y fácil de usar que te permite diseñar y lanzar una presencia en línea
+                        profesional para tu restaurante en minutos. Personaliza tu sitio hazlo interactivo,
+                        crea tu galería de fotos y testimonios de clientes. Incluyendo tu menu digital interactivo. 
+                    </p>
+                    <label for="" class="info-label">
+                        ✔️ Editor de pagina Web
                         <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
+                        ✔️ Presencia en en línea.
                         <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="p-3 container-marketplace" id="Füd horarios empleados">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.flaticon.com/512/566/566632.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Füd Horarios Empleados 🕑</b></p>
-                        <label for="">
-                            Nuestra herramienta de gestión de horarios de empleados facilita la planificación y
-                            organización de turnos. Optimiza la asignación de tareas, reduce conflictos de horarios y
-                            garantiza cobertura adecuada. Con una interfaz intuitiva, ahorra tiempo y mejora la
-                            eficiencia operativa
-                        </label>
-                        <p class="price-marketplace">$19.99/mes</p>
-                        <label for="" class="install-marketplace">1000+ instalaciones</label>
+                        ✔️ Mostrar ofertas y publicidad.
                         <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
-                        <br>
+                        ✔️ Incluye Menu Digital
+                        <br><br>
+                    </label>
+                    <a class="info-link">Más información</a>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <form action="/fud/add-app-fud" method="POST">
+                            <input type="hidden" name="price_id" value="price_1PX6LRRofynVwfKY13PlCgiF" />
+                            <input type="hidden" name="app" value="website_creation"/>
+                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                            <input type="hidden" name="id_branch" value="{{id}}"/>
+                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="p-3 container-marketplace" id="Füd provedores">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2555/2555001.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Füd Provedores 🚚</b></p>
-                        <label for="">
-                            Facilita la evaluación del rendimiento, seguimiento de pedidos, negociación de contratos y
-                            gestión de inventarios. Con una interfaz intuitiva, optimiza la cadena de suministro, reduce
-                            costos y mejora la eficiencia operativa, asegurando siempre disponibilidad y calidad de
-                            suministros.
-                        </label>
-                        <p class="price-marketplace">$19.99/mes</p>
-                        <label for="" class="install-marketplace">200+ instalaciones</label>
+        <div class="col container-marketplace" id="menu digital web">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt=""
+                        class="icon-product-price">
+                    <br>
+                    <h7 class="card-title"><b>Menu Digital</b></h7>
+                    <br>
+                    <label class="offert-price"><s>MXN $250.00/mes</s></label>
+                    <h3>MXN $200.00/mes</h3>
+                    <p class="card-text">
+                        ¡Moderniza tu restaurante con nuestro innovador menú digital! Ofrece una experiencia
+                        gastronómica única a tus clientes, permitiéndoles explorar tu delicioso menú de forma
+                        interactiva y visual. Simplifica la gestión de pedidos y maximiza la eficiencia de tu negocio.
+                    </p>
+                    <label for="" class="info-label">
+                        ✔️ Interacción y Personalización
                         <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
+                        ✔️ Pedidos en Línea
                         <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-3 container-marketplace" id="Füd reportes con IA ventas">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.flaticon.com/512/6784/6784466.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Füd Reporte con IA 📊</b></p>
-                        <label for="">
-                            Impulsa tu restaurante con la última tecnología. Nuestros informes y predicciones basados en
-                            IA te brindan datos precisos para optimizar tus operaciones. Anticipa tendencias, mejora la
-                            gestión de inventarios y maximiza tus ingresos con decisiones informadas.
-                        </label>
-                        <p class="price-marketplace">$129/mes</p>
-                        <label for="" class="install-marketplace">100+ instalaciones</label>
+                        ✔️ Pagos Electrónicos
                         <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
-                        <br>
+                        ✔️ Códigos QR
+                        <br><br>
+                    </label>
+                    <a class="info-link">Más información</a>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <form action="/fud/add-app-fud" method="POST">
+                            <input type="hidden" name="price_id" value="price_1PX6NgRofynVwfKYbP0VwyZB" />
+                            <input type="hidden" name="app" value="digital_menu"/>
+                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                            <input type="hidden" name="id_branch" value="{{id}}"/>
+                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="p-3 container-marketplace" id="Füd sitio web clientes">
-            <div class="row">
-                <div class="col-3">
-                    <div class="img-marketplace">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3190/3190497.png" alt="App Image" />
-                    </div>
-                </div>
-                <div class="col position-relative">
-                    <div class="description-marketplace">
-                        <p class="title-marketplace"><b>Füd Web 🌐</b></p>
-                        <label for="">
-                            ¿Te gustaría que tu restaurante esté abierto las 24 horas del día, los 7 días de la semana?
-                            Crea tu propia web de pedidos de comida y permite que tus clientes hagan sus pedidos cuando
-                            quieran. Aumenta tus ventas y la satisfacción de tus clientes con un servicio siempre
-                            disponible.
-                        </label>
-                        <p class="price-marketplace">$1,500/mes</p>
-                        <label for="" class="install-marketplace">500+ instalaciones</label>
-                        <br>
-                        <i class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i><i
-                            class="fi-start fi-sr-star"></i><i class="fi-start fi-sr-star"></i>
-                        <i class="fi-start fi-sr-star"></i>
-                        <button class="btn-marketplace-buy position-absolute end-0">Instalar <i
-                                class="fi-icon fi-sr-down-to-line"></i></button>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+    
+    <div class="row">
+        <div class="col container-marketplace" id="horarios de empleados gestion de restaurante">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <img src="https://cdn-icons-png.flaticon.com/512/566/566632.png" alt="" class="icon-product-price">
+                    <br>
+                    <h7 class="card-title"><b>Horarios de Empleados</b></h7>
+                    <br>
+                    <label class="offert-price"><s>MXN $220.00/mes</s></label>
+                    <h3>MXN $199.00/mes</h3>
+                    <p class="card-text">
+                        Optimiza la gestión del horario de tus empleados con nuestro software especializado. Programa
+                        turnos, asigna tareas y ajusta rápidamente horarios según la demanda. Simplifica la
+                        planificación y maximiza la eficiencia laboral.
+                    </p>
+                    <label for="" class="info-label">
+                        ✔️ Diferentes tipos de Horarios.
+                        <br>
+                        ✔️ Historial de Horarios.
+                        <br>
+                        ✔️ Actualización Automática de los Horarios cada semana.
+                        <br>
+                        ✔️ Gestión de entrada y salida de empleados.
+                        <br>
+                        ✔️ Calcular la nomina de los empleados.
+                        <br>
+                        ✔️ Calcular horas extras de los empleados.
+                        <br><br>
+                    </label>
+                    <a class="info-link">Más información</a>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <form action="/fud/add-app-fud" method="POST">
+                            <input type="hidden" name="price_id" value="price_1PX6OCRofynVwfKYcpxvrS86" />
+                            <input type="hidden" name="app" value="employee_schedules"/>
+                            <input type="hidden" name="id_company" value="{{id_companies}}"/>
+                            <input type="hidden" name="id_branch" value="{{id}}"/>
+                            <button id="checkout-and-portal-button" type="submit" class="btn btn-comprar">Instalar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col"></div>
+
+        <div class="col"></div>
+    </div>
+    <br>
+    <center>
+        <label for="">👁️
+            Todas las suscripciones del software Füd Technology se venden por única sucursal.
+            <br>
+            Cada sucursal de tu negocio necesita una licencia individual de Füd Technology para poder operar y
+            conectarse con los servicios de la nube.
+            <br>
+            Suponiendo que tienes 5 restaurantes, deberás tener 5 licencias del software para poder conectar todas tus
+            sucursales bajo la misma empresa.
+        </label>
+    </center>
+    <br>
 </div>
-<br><br><br><br><br><br><br><br><br>
+{{/each}}
+
 <script>
     document.getElementById('search-input').addEventListener('input', function () {
         let filter = this.value.toLowerCase();
@@ -215,3 +352,6 @@
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
