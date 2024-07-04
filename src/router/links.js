@@ -651,14 +651,15 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
         currentDate.setDate(currentDate.getDate() + 30);
 
         const idUser = req.user.id; // Obtén el ID del usuario
-        console.log('dueDate')
-        console.log(currentDate)
 
-        // update the date of the suscription in the database
-        if (await update_suscription_of_app_in_branch(id_branch, app, currentDate)) {
-            req.flash('success', 'La suscripción fue activada.');
-        } else {
-            req.flash('message', 'La suscripción no fue activada. Por favor, busca ayuda 🙅‍♂️');
+        //we see if the buy the app 
+        if(session.url!='https://fud-tech.cloud/fud/prices'){
+            // update the date of the suscription in the database
+            if (await update_suscription_of_app_in_branch(id_branch, app, currentDate)) {
+                req.flash('success', 'La suscripción fue activada.');
+            } else {
+                req.flash('message', 'La suscripción no fue activada. Por favor, busca ayuda 🙅‍♂️');
+            }
         }
     
         // Redirect the user to the checkout session URL
@@ -955,7 +956,7 @@ async function create_subscription_app(req,pack){
     //we will waching if the subscription is activate for save the data in the database
     const subscription = await stripe.subscriptions.retrieve(idSubscription); //get the data subscription 
     const status = subscription.status; //get the status of the suscription (active,canceled)
-    
+
     if(status!='canceled'){
         //if the subscription is activate, save the ID in the database 
         await save_subscription_in_database(idSubscription,req.user.id,pack);
