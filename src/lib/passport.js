@@ -7,6 +7,7 @@ const helpers=require('../lib/helpers.js');
 const sendEmail = require('../lib/sendEmail.js'); //this is for send emails 
 const addDatabase=require('../router/addDatabase');
 
+//-----------------------------login
 passport.use('local.login', new LocalStrategy({
     usernameField: 'userName',
     passwordField: 'password',
@@ -38,6 +39,7 @@ async function search_user(email){
     return await database.query(queryText, values);
 }
 
+//-----------------------------signup with captcha 
 const axios = require('axios'); //this is for manage the captcha
 const {MY_SECRET_KEY}=process.env; //this code is for get the data of the database
 passport.use('local.signup-ad', new LocalStrategy({
@@ -120,7 +122,6 @@ async function create_a_new_user(req,userName,password){
     return newUser;
 }
 
-
 async function this_user_exists(user_name){
     var queryText = 'SELECT * FROM "Fud".users Where user_name = $1';
     var values = [user_name];
@@ -170,7 +171,7 @@ async function add_user(user){
 
 
 
-//
+//-----------------------------signup
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'businessName',
     passwordField: 'phone',
@@ -358,7 +359,6 @@ function create_branch_free(id_companies,name_branch,phone,representative){
     return branch;
 }
 
-
 function create_password() {
     var character = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var password = '';
@@ -422,6 +422,12 @@ async function get_new_company(userId,email,businessName,phone){
 
     return company;
 }
+
+
+
+
+
+
 
 //this function not mov
 passport.serializeUser((user,done)=>{

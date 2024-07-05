@@ -98,6 +98,12 @@ const companyName='/fud' //Füd
 app.use(require('./router'))
 app.use(require('./router/authentication'))
 app.use(companyName,require('./router/links'))
+app.use(companyName,require('./router/links/fudone'))
+app.use(companyName,require('./router/links/ceo'))
+app.use(companyName,require('./router/links/manager'))
+
+
+
 app.use(require('./lib/addFrom'));
 
 //add database
