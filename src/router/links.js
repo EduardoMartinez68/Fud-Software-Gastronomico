@@ -644,22 +644,24 @@ router.post('/add-app-fud', isLoggedIn, async (req, res) => {
             cancel_url: `https://fud-tech.cloud/fud/prices`,
         });
 
-        // get the date current
-        const currentDate = new Date();
+        //we wait to that the session is complete, that the user do clic in cancel or buy 
+        const sessionCompleted = await stripe.checkout.sessions.retrieve(session.id);
 
-        // sum 30 days to the date current
-        currentDate.setDate(currentDate.getDate() + 30);
+        //when the user do clic buy update the suscription 
+        if (sessionCompleted.payment_status === 'paid') {
+            // get the date current
+            const currentDate = new Date();
 
-        const idUser = req.user.id; // Obtén el ID del usuario
-
-        //we see if the buy the app 
-        if(session.url!==session.cancel_url){
+            // sum 30 days to the date current
+            currentDate.setDate(currentDate.getDate() + 30);
+            
             // update the date of the suscription in the database
             if (await update_suscription_of_app_in_branch(id_branch, app, currentDate)) {
                 req.flash('success', 'La suscripción fue activada.');
             } else {
                 req.flash('message', 'La suscripción no fue activada. Por favor, busca ayuda 🙅‍♂️');
             }
+            
         }
     
         // Redirect the user to the checkout session URL
