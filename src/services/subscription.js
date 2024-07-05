@@ -1,3 +1,6 @@
+const database = require('../database');
+const addDatabase = require('../router/addDatabase');
+const rolFree=0
 
 async function validate_subscription(req,res){
     return true;
@@ -220,7 +223,6 @@ async function save_subscription_in_database(id_subscription,id_user,id_packs_fu
     }
 }
 
-
 async function create_subscription_app(req,pack){
     const {session_id}=req.params; //this is the key of stripe of the buy of the subscription 
     const dataSubscription = await stripe.checkout.sessions.retrieve(session_id); //get the id of the subscription
@@ -237,6 +239,102 @@ async function create_subscription_app(req,pack){
     }
 }
 
+async function update_suscription_of_app_in_branch(id_branch, app, due_date){
+    //this is for create the query with the app that the user buy
+    queryText = `
+    UPDATE "Company".branches
+    SET ${app} = $1
+    WHERE id = $2
+    `;
+
+    const values = [due_date, id_branch];
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating app:', error);
+        throw error;
+    }
+}
+
+async function update_database_company_with_the_user_id(idUser, newPackDatabase){
+    const queryText = `
+        UPDATE "User".companies
+        SET pack_database = $1
+        WHERE id = (
+            SELECT id
+            FROM "User".companies
+            WHERE id_users = $2
+            LIMIT 1
+        )
+        RETURNING id
+    `;
+    
+    const values = [newPackDatabase, idUser];
+    
+    try {
+        const result = await database.query(queryText, values);
+        if (result.rows.length > 0) {
+            const companyId = result.rows[0].id;
+            console.log('Pack database updated for company ID:', companyId);
+            return companyId;
+        } else {
+            console.log('No company found for the given user ID.');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error updating pack database:', error);
+        throw error;
+    }
+}
+
+async function update_pack_branch_with_the_company_id(idCompany, newPackBranch){
+    const queryText = `
+        UPDATE "Company".branches
+        SET pack_branch = $1
+        WHERE id = (
+            SELECT id
+            FROM "Company".branches
+            WHERE id_companies = $2
+            LIMIT 1
+        )
+    `;
+    
+    const values = [newPackBranch, idCompany];
+    
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error updating pack branch:', error);
+        return false;
+    }
+}
+
+async function delete_subscription(id_subscription){
+    try {
+        // Cancelar la suscripción utilizando la API de Stripe
+        const canceledSubscription = await stripe.subscriptions.cancel(id_subscription);
+        var queryText = 'DELETE FROM "User".subscription WHERE id= $1';
+        var values = [id_subscription];
+        await database.query(queryText, values);
+
+        return true;
+        // Devolver una respuesta de éxito
+        //res.status(200).json({ mensaje: 'Suscripción cancelada exitosamente', suscripcion: canceledSubscription });
+      } catch (error) {
+        console.log(error)
+        return false;
+        // Manejar errores
+        //res.status(500).json({ error: error.message });
+      }
+}
+
+
+
+
+
+
 module.exports = {
     validate_subscription,
     get_subscription_by_branch_id,
@@ -250,5 +348,9 @@ module.exports = {
     create_subscription,
     create_subscription_free,
     save_subscription_in_database,
-    create_subscription_app
+    create_subscription_app,
+    delete_subscription,
+    update_pack_branch_with_the_company_id,
+    update_database_company_with_the_user_id,
+    update_suscription_of_app_in_branch
 };

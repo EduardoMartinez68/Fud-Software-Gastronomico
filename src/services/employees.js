@@ -95,6 +95,59 @@ async function get_type_employees(idCompany) {
     return data;
 }
 
+async function delete_type_employee(idTypeEmployee) {
+    try {
+        var queryText = 'DELETE FROM "Employee".roles_employees WHERE id = $1';
+        var values = [idTypeEmployee];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+async function get_data_tole_employees(idRoleEmployee) {
+    var queryText = 'SELECT * FROM "Employee".roles_employees WHERE id= $1';
+    var values = [idRoleEmployee];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
+}
+
+async function delete_departament_employee(idDepartament) {
+    try {
+        var queryText = 'DELETE FROM "Employee".departments_employees WHERE id = $1';
+        var values = [idDepartament];
+        await database.query(queryText, values); // Delete combo
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
+
+async function update_department_employe(idDepartament, name, description) {
+    try {
+        var queryText = `UPDATE "Employee".departments_employees SET name_departaments = $1, description = $2 WHERE id = $3`;
+        var values = [name, description, idDepartament];
+        await database.query(queryText, values); // update supplies
+        return true;
+    } catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
+async function get_data_employee(req) {
+    const id_user = req.user.id;
+    var queryText = 'SELECT * FROM "Company"."employees" WHERE id_users= $1';
+    var values = [id_user];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
+}
+
 
 module.exports = {
     search_employees,
@@ -103,5 +156,10 @@ module.exports = {
     delete_employee,
     search_employee_departments,
     get_country,
-    get_type_employees
+    get_type_employees,
+    delete_type_employee,
+    get_data_tole_employees,
+    delete_departament_employee,
+    update_department_employe,
+    get_data_employee
 };

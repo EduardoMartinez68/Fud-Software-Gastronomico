@@ -4,6 +4,22 @@ const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
 const database = require('../../database');
 const addDatabase = require('../../router/addDatabase');
 
+/*
+*----------------------functions-----------------*/
+//functions supplies
+const {
+    get_supplies_or_features,
+    get_supplies_with_id,
+    update_supplies_company,
+    get_new_data_supplies_company,
+    delate_supplies_company,
+    this_is_a_supplies_or_a_products,
+    search_company_supplies_or_products_with_company,
+    search_company_supplies_or_products_with_id_company,
+    search_company_supplies_or_products,
+    update_product_category
+} = require('../../services/supplies');
+
 //function suscription 
 const {
     validate_subscription,
@@ -865,35 +881,6 @@ router.get('/:id_company/:id_branch/:id_ad/delete-ad', isLoggedIn, async (req, r
     }
 })
 
-async function get_ad_image(adId) {
-    var queryText = `
-        SELECT 
-            img
-        FROM 
-            "Branch"."Ad"
-        WHERE 
-            id = $1;
-    `;
-    var values = [adId];
-    const result = await database.query(queryText, values);
-    return result.rows[0]?.img; // Devuelve solo la imagen si existe
-}
-
-async function delete_ad(id) {
-    try {
-        const queryText = `
-            DELETE FROM "Branch"."Ad"
-            WHERE id = $1
-        `;
-        const values = [id];
-        await database.query(queryText, values);
-        return true;
-    } catch (error) {
-        console.error("Error to delete ad:", error);
-        return false;
-    }
-}
-
 router.post('/:id_company/:id_branch/:id_ad/update-ad-offer', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_ad } = req.params;
@@ -913,25 +900,6 @@ router.post('/:id_company/:id_branch/:id_ad/update-ad-offer', isLoggedIn, async 
         res.redirect('/fud/' + id_company + '/' + id_branch + '/ad');
     }
 })
-
-async function update_ad(adId, newImg) {
-    try {
-        var queryText = `
-            UPDATE 
-                "Branch"."Ad"
-            SET 
-                img = $1
-            WHERE 
-                id = $2;
-        `;
-        var values = [newImg, adId];
-        await database.query(queryText, values);
-        return true;
-    } catch (error) {
-        console.log('No was update the database ad ' + error)
-        return false;
-    }
-}
 
 //schelude marketplace
 router.get('/:id_comopany/:id_branch/schedules', isLoggedIn, async (req, res) => {

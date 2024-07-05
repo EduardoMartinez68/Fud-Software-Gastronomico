@@ -101,8 +101,9 @@ app.use(companyName,require('./router/links'))
 app.use(companyName,require('./router/links/fudone'))
 app.use(companyName,require('./router/links/ceo'))
 app.use(companyName,require('./router/links/manager'))
-
-
+app.use(companyName,require('./router/links/subscription'))
+app.use(companyName,require('./router/links/store'))
+app.use(companyName,require('./router/links/delivery'))
 
 app.use(require('./lib/addFrom'));
 
