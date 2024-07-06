@@ -1,3 +1,6 @@
+const database = require('../database');
+const addDatabase = require('../router/addDatabase');
+
 async function get_all_order_by_id_branch(idBranches) {
     const queryText = `
         SELECT
@@ -139,3 +142,11 @@ async function update_order_status_by_id(orderId, newStatus) {
         throw error;
     }
 }
+
+
+module.exports = {
+    get_all_order_by_id_branch,
+    get_all_order_by_id_employee,
+    get_order_by_id,
+    update_order_status_by_id
+};

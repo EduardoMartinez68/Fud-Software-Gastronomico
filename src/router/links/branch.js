@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
 const database = require('../../database');
-const addDatabase = require('../../router/addDatabase');
+const addDatabase = require('../addDatabase');
 
 /*
 *----------------------functions-----------------*/
@@ -10,15 +10,16 @@ const addDatabase = require('../../router/addDatabase');
 const {
     get_supplies_or_features,
     get_supplies_with_id,
-    update_supplies_company,
-    get_new_data_supplies_company,
     delate_supplies_company,
-    this_is_a_supplies_or_a_products,
-    search_company_supplies_or_products_with_company,
     search_company_supplies_or_products_with_id_company,
-    search_company_supplies_or_products,
-    update_product_category
 } = require('../../services/supplies');
+
+//functions supplies
+const {
+    search_supplies_combo,
+    get_all_dish_and_combo
+} = require('../../services/combos');
+
 
 //function suscription 
 const {
@@ -1111,11 +1112,37 @@ async function update_history_schedule(id, id_schedules) {
 
 //
 router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) => {
+    const {id_branch}=req.body
     const branchFree = await get_data_branch(req);
-    res.render(companyName + '/branch/marketplace/marketplace',{branchFree}); //this web is for return your user
+    res.render('links/branch/marketplace/marketplace',{branchFree}); //this web is for return your user
 })
 
+/*store online*/
+router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
+    const { id_company, id_branch } = req.params;
+    const branchFree = await get_data_branch(req);
+    if (branchFree != null) {
+        const digitalMenu=[{menu:''}]
+        //we get all the combo of the branch 
+        const dishAndCombo = await get_all_dish_and_combo(id_company, id_branch);
+        const newAd = await get_all_ad(id_branch, 'new');
+        /*
+        const newCombos = await get_data_recent_combos(id_company);
+        const mostSold = await get_all_data_combo_most_sold(id_branch);
 
+        //we going to get all the type of ad in the branch
+        const offerAd = await get_all_ad(id_branch, 'offer');
+        const newAd = await get_all_ad(id_branch, 'new');
+        const combosAd = await get_all_ad(id_branch, 'combo');
+        const specialsAd = await get_all_ad(id_branch, 'special');
+
+        res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newCombos,mostSold,offerAd,newAd,combosAd,specialsAd});
+        */
+        res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newAd});
+    } else {
+        res.render('links/store/branchLost');
+    }
+});
 
 
 

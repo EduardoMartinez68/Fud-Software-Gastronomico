@@ -64,11 +64,58 @@ async function delete_all_supplies_combo(id) {
     }
 }
 
+async function get_combo_features(idBranche) {
+    var queryText = `
+    SELECT 
+        f.*,
+        d.img,
+        d.barcode,
+        d.name,
+        d.description,
+        pc_cat.name as category_name,
+        pd_dept.name as department_name
+    FROM 
+        "Inventory".dish_and_combo_features f
+    INNER JOIN 
+        "Kitchen".dishes_and_combos d ON f.id_dishes_and_combos = d.id
+    LEFT JOIN
+        "Kitchen".product_category pc_cat ON d.id_product_category = pc_cat.id
+    LEFT JOIN
+        "Kitchen".product_department pd_dept ON d.id_product_department = pd_dept.id
+    WHERE 
+        f.id_branches = $1
+    `;
+    var values = [idBranche];
+    const result = await database.query(queryText, values);
+    const data = result.rows;
+    return data;
+}
+
+async function get_all_dish_and_combo(idCompany, idBranch) {
+    var queryText = `
+        SELECT 
+            i.*,
+            d.barcode,
+            d.name,
+            d.description,
+            d.img,
+            d.id_product_department,
+            d.id_product_category
+        FROM "Inventory".dish_and_combo_features i
+        INNER JOIN "Kitchen".dishes_and_combos d ON i.id_dishes_and_combos = d.id
+        WHERE i.id_branches = $1
+    `;
+    var values = [idBranch];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
 
 module.exports = {
     get_all_combos,
     search_combo,
     search_supplies_combo,
     delate_combo_company,
-    delete_all_supplies_combo
+    delete_all_supplies_combo,
+    get_combo_features,
+    get_all_dish_and_combo
 };

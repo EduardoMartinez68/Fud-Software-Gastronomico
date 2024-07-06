@@ -1,3 +1,6 @@
+const database = require('../database');
+const addDatabase = require('../router/addDatabase');
+
 async function get_data_tabla_with_id_company(id_company, schema, table) {
     var queryText = `SELECT * FROM "${schema}".${table} WHERE id_companies= $1`;
     var values = [id_company];
@@ -50,3 +53,13 @@ async function delete_my_company(id_company,req){
         return false;
     }
 }
+
+
+
+module.exports = {
+    get_data_tabla_with_id_company,
+    the_user_have_this_company,
+    search_the_company_of_the_user,
+    get_data_company_with_id,
+    delete_my_company
+};

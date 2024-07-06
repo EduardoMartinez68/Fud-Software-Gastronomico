@@ -130,8 +130,6 @@ async function update_product_category(id, name, description) {
     }
 }
 
-
-
 module.exports = {
     get_supplies_or_features,
     get_supplies_with_id,

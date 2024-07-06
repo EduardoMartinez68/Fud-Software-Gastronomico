@@ -21,13 +21,25 @@ const {
 //functions branch
 const {
     get_data_branch,
+    get_branch
 } = require('../../services/branch');
 
 //functions branch
 const {
     get_combo_features,
+    search_supplies_combo,
+    search_combo,
 } = require('../../services/combos');
 
+//functions branch
+const {
+    get_data_tabla_with_id_company
+} = require('../../services/company');
+
+//functions supplies
+const {
+    get_country
+} = require('../../services/employees');
 
 /*
 *----------------------router-----------------*/
@@ -77,9 +89,9 @@ router.get('/:id/:id_branch/combos-free', isLoggedIn, async (req, res) => {
 });
 
 router.get('/:id_company/:id_branch/:id_dishes_and_combos/edit-data-combo-free', isLoggedIn, async (req, res) => {
-    const { id_dishes_and_combos, id_company } = req.params;
+    const { id_dishes_and_combos, id_branch,id_company } = req.params;
 
-    const branchFree = await get_data_branch(req);
+    const branchFree = await get_data_branch(id_branch);
     const dataForm = [{
         id_company: branchFree[0].id_companies,
         id_branch: branchFree[0].id,
@@ -97,27 +109,6 @@ router.get('/:id_company/:id_branch/:id_dishes_and_combos/edit-data-combo-free',
 
     res.render('links/manager/combo/editCombo', { branchFree, dataForm, departments, category, supplies, products, combo, suppliesCombo });
 })
-
-router.get('/:id_company/:id_branch/order-free', isLoggedIn, async (req, res) => {
-    const {id_branch } = req.params;
-    const branchFree = await get_data_branch(req);
-    if (branchFree != null) {
-        const order=await get_all_order_by_id_branch(id_branch);
-        res.render('links/branch/order/order', {branchFree, order});
-    } else {
-        res.render('links/store/branchLost');
-    }
-});
-
-router.get('/:id_company/:id_branch/marketplace', isLoggedIn, async (req, res) => {
-    const { id_company, id_branch } = req.params;
-    const branchFree = await get_data_branch(req);
-    if (branchFree != null) {
-        res.render('links/branch/marketplace', { branchFree });
-    } else {
-        res.render('links/store/branchLost');
-    }
-});
 
 router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;
