@@ -1110,6 +1110,7 @@ async function update_history_schedule(id, id_schedules) {
 }
 
 
+
 //
 router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) => {
     const {id_branch}=req.body

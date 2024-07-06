@@ -144,9 +144,119 @@ async function update_order_status_by_id(orderId, newStatus) {
 }
 
 
+//-----------------------------------------------------------------delivery uber and rappi-----------------------------------------------------------------
+// Función para obtener pedidos de Uber Eats usando el token de acceso del usuario
+async function get_order_uber(accessTokeUser) {
+    try {
+        const response = await axios.get('https://api.uber.com/v1/eats/orders', {
+            headers: {
+                'Authorization': `Bearer ${accessTokeUser}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const pedidos = response.data;
+        return pedidos;
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+        return null;
+    }
+}
+
+async function get_token_by_branch_id(id_branch) {
+    const queryText = `
+        SELECT token_uber, token_rappi
+        FROM "Company".branches
+        WHERE id = $1
+    `;
+    const values = [id_branch];
+
+    try {
+        const result = await database.query(queryText, values);
+        if (result.rows.length > 0) {
+            return result.rows[0]; // Devuelve el token_uber si se encuentra
+        } else {
+            return null; // Retorna null si no se encuentra ningún registro con branchId dado
+        }
+    } catch (error) {
+        console.error('Error al obtener token_uber por ID:', error);
+        throw error;
+    }
+}
+
+//update tokens rappi and uber eat 
+async function update_token_rappi_branch(id_branch, token_rappi) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_rappi=$1
+        WHERE 
+            id=$2
+    `;
+
+    const values = [
+        token_rappi,
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+async function update_token_uber_eat_branch(id_branch, token_uber) {
+    var queryText = `
+        UPDATE "Company".branches 
+        SET 
+            token_uber=$1
+        WHERE 
+            id=$2
+    `;
+
+    const values = [
+        token_uber,
+        id_branch
+    ];
+
+    try {
+        await database.query(queryText, values);
+        return true;
+    } catch (error) {
+        console.error('Error update :', error);
+        return false;
+    }
+}
+
+// Función para obtener pedidos de Rappi usando el token de acceso del usuario
+async function get_order_rappi(accessToken) {
+    try {
+      const response = await axios.get('https://api.rappi.com/v1/orders', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const pedidos = response.data;
+      return pedidos;
+    } catch (error) {
+      console.error('Error al obtener los pedidos:', error);
+      throw error;
+    }
+}
+
 module.exports = {
     get_all_order_by_id_branch,
     get_all_order_by_id_employee,
     get_order_by_id,
-    update_order_status_by_id
+    update_order_status_by_id,
+    get_order_rappi,
+    update_token_uber_eat_branch,
+    update_token_rappi_branch,
+    get_token_by_branch_id,
+    get_order_uber
 };

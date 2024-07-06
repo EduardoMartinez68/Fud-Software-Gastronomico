@@ -104,6 +104,7 @@ app.use(companyName,require('./router/links/branch'))
 app.use(companyName,require('./router/links/subscription'))
 app.use(companyName,require('./router/links/store'))
 app.use(companyName,require('./router/links/delivery'))
+app.use(companyName,require('./router/links/app'))
 
 app.use(require('./lib/addFrom'));
 

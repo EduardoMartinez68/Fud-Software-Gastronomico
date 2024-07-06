@@ -64,11 +64,33 @@ async function get_id_branch(id_company){
 
     }
 }
+
+async function get_pack_branch(id_branch){
+    try {
+        const queryText = `
+            SELECT pack_database
+            FROM "Company".branches
+            WHERE id = $1
+        `;
+        const { rows } = await database.query(queryText, [id_branch]);
+        if (rows.length > 0) {
+            return rows[0].pack_database;
+        } else {
+            return null; 
+        }
+    } catch (error) {
+        console.error('Error al obtener pack_database:', error);
+        return 0;
+    }
+}
+
+
 module.exports = {
     delete_branch_company,
     get_branch,
     search_all_branch,
     get_data_branch_view_manager,
     get_data_branch,
-    get_id_branch
+    get_id_branch,
+    get_pack_branch
 };
