@@ -115,6 +115,11 @@ const {
     get_branchIds_by_company
 } = require('../../services/sales_and_move');
 
+//functions sales and move
+const {
+    check_company
+} = require('../../services/company');
+
 
 const rolFree=0
 //-------------------------------------------------------------------company
@@ -515,7 +520,7 @@ router.get('/:id/food-department', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     const { id } = req.params;
     const departments = await get_department(id);
-    res.render(companyName + '/manager/areas/department', { company, departments })
+    res.render('links/manager/areas/department', { company, departments })
 });
 
 router.get('/:id_company/:id/delate-food-department', isLoggedIn, async (req, res) => {
