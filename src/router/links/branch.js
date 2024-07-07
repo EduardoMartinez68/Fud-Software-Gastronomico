@@ -48,6 +48,15 @@ const {
     delete_profile_picture,
     delete_user
 } = require('../../services/employees');
+
+//functions ad
+const {
+    get_ad_image,
+    delete_ad,
+    update_ad
+} = require('../../services/ad');
+
+
 const rolFree=0
 const companyName='links'
 
