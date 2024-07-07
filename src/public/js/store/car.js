@@ -498,7 +498,6 @@ function removal_amount(newValue) {
     return (newValue != '') && (newValue > 0)
 }
 
-
 function get_all_combo(totalCar,moneyReceived,exchange,comment) {
     var bodyTable = tabla.getElementsByTagName("tbody")[0];
 

@@ -106,7 +106,7 @@ const uberRedirectUrl='http://localhost:4000/fud/callback/ubereat' //'https://fu
 const querystring = require('querystring');
 
 
-//--------------------------------------------------------rappi 
+//--------------------------------------------------------rappi
 const rappiClientId = RAPPI_CLIENT_ID;
 const rappiClientSecret = RAPPI_CLIENT_SECRET;
 const rappiRedirectUri = RAPPI_REDIRECT_URI;

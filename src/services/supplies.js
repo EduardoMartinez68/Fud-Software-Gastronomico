@@ -1,6 +1,15 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('./connectionWithDatabaseImage');
 
 //----------------------------------------------------------------supplies and products 
 async function search_company_supplies_or_products(req, supplies) {
@@ -47,6 +56,7 @@ async function delate_supplies_company(id, pathOmg) {
         await delate_image_upload(pathOmg); //delate img
         return true;
     } catch (error) {
+        console.log('error to delete the supplies in the company: '+error)
         return false;
     }
 }

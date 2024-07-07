@@ -1407,7 +1407,7 @@ async function get_all_the_supplies_of_this_company(id_branch, type) {
     return data;
 }
 
-//edit supplies branch 
+//edit supplies branch car-post
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch', isLoggedIn, async (req, res) => {
     const { id_company, id_branch, id_supplies } = req.params;
 
@@ -1822,6 +1822,7 @@ router.post('/fud/client', isLoggedIn, async (req, res) => {
 router.post('/fud/:id_customer/car-post', isLoggedIn, async (req, res) => {
     var commander = ''
     var text = ''
+    var total=0
     try {
         //get the data of the server
         const combos = req.body;
@@ -1853,6 +1854,7 @@ router.post('/fud/:id_customer/car-post', isLoggedIn, async (req, res) => {
             //save the comander
             commander = create_commander(idBranch, id_employee, id_customer, commanderDish, combos[0].totalCar, combos[0].moneyReceived, combos[0].exchange, combos[0].comment, day)
             text = await addDatabase.add_commanders(commander); //save the id commander
+            total=combos[0].totalCar
         }
 
         //send an answer to the customer
@@ -1863,7 +1865,7 @@ router.post('/fud/:id_customer/car-post', isLoggedIn, async (req, res) => {
     }
 
     try {
-        await printer.print_ticket(commander); //this is for print the ticket 
+        await printer.print_ticket(commander,total); //this is for print the ticket 
         res.status(200).json({ message: text });
     } catch (error) {
         console.error('Error:', error);

@@ -133,6 +133,8 @@ async function delate_image(id) {
 
 
 module.exports = {
+    get_path_img,
+    delate_image_upload,
     upload_image_to_space,
     delete_image_from_space,
     create_a_new_image,

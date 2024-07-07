@@ -14,6 +14,7 @@
     "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
+    "@zxing/text-encoding": "^0.9.0",
     "aws-sdk": "^2.1624.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
@@ -41,6 +42,7 @@
     "serialport": "^12.0.0",
     "stripe": "^14.23.0",
     "sweetalert": "^2.1.2",
+    "thermalprinter": "^0.3.10",
     "timeago.js": "^4.0.2",
     "usb": "^2.12.1",
     "uuid": "^9.0.0"

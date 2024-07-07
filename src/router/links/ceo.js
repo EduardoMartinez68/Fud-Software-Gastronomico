@@ -1099,7 +1099,7 @@ router.get('/:id/:idCustomer/edit-customer', isLoggedIn, async (req, res) => {
 })
 
 
-//-------------------------------------------------------------branch 
+//-------------------------------------------------------------branch
 router.get('/:id/branches', isLoggedIn, async (req, res) => {
     const country = await get_country();
     const company = await check_company(req);

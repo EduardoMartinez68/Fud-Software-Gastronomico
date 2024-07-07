@@ -5,7 +5,17 @@ const database = require('../../database');
 const addDatabase = require('../addDatabase');
 
 /*
-*----------------------functions-----------------*/
+*----------------------functions-----------------*/ 
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('../../services/connectionWithDatabaseImage');
+
 //functions supplies
 const {
     get_supplies_or_features,
