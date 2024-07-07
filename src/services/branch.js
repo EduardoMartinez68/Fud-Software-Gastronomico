@@ -1,7 +1,6 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
-
 async function delete_branch_company(idBranch) {
     try {
         var queryText = 'DELETE FROM "Company".branches WHERE id = $1';
@@ -83,6 +82,8 @@ async function get_pack_branch(id_branch){
         return 0;
     }
 }
+
+
 
 
 module.exports = {

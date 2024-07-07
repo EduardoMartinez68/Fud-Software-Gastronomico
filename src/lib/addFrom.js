@@ -671,6 +671,7 @@ async function update_supplies_company_img(newSupplies) {
         return false;
     }
 }
+
 //add providers
 async function this_provider_exists(provider) {
     //we will search the department employees of the user 
@@ -1176,7 +1177,6 @@ async function delete_user(id) {
     }
 }
 
-
 function compare_password(P1, P2) {
     if (P1 == '') {
         return false;
@@ -1676,7 +1676,6 @@ router.post('/fud/:id_company/:id_branch/ad-specialAd', isLoggedIn, async (req, 
 
     res.redirect('/fud/' + id_company + '/' + id_branch + '/ad');
 })
-
 
 async function create_ad(req, id_branch, type) {
     const image = await create_a_new_image(req);

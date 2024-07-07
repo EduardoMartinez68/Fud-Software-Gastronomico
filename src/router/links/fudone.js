@@ -4,6 +4,16 @@ const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
 
 /*
 *----------------------functions-----------------*/
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('../../services/connectionWithDatabaseImage');
+
 //functions supplies
 const {
     get_supplies_or_features,
@@ -29,11 +39,13 @@ const {
     get_combo_features,
     search_supplies_combo,
     search_combo,
+    delate_combo_company
 } = require('../../services/combos');
 
 //functions branch
 const {
-    get_data_tabla_with_id_company
+    get_data_tabla_with_id_company,
+    get_pack_database
 } = require('../../services/company');
 
 //functions supplies
@@ -112,7 +124,7 @@ router.get('/:id_company/:id_branch/:id_dishes_and_combos/edit-data-combo-free',
 
 router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;
-    const branchFree = await get_data_branch(req);
+    const branchFree = await get_data_branch(id_branch);
     if (branchFree != null) {
         const { id } = req.params;
         const packCombo=await get_pack_database(id);
@@ -126,13 +138,17 @@ router.get('/:id/:id_branch/add-combos-free', isLoggedIn, async (req, res) => {
             res.render('links/free/combo/addCombo', { branchFree,departments,category,supplies,products,suppliesCombo});
         }
         else{
-            res.redirect('fud/'+id+'/'+id_branch+'/combos-free');
             req.flash('message','Ya alcanzaste el limite maximo para tu base de datos actual. Debes actualizar tu sucursal a la siguiente version 😅')
+            res.redirect('/fud/'+id+'/'+id_branch+'/combos-free');
         }
     } else {
         res.render('links/store/branchLost');
     }
 });
+
+function the_user_can_add_most_combo(combos,packCombo){
+    return combos<=packCombo
+}
 
 router.get('/:id_company/:id_branch/:id/delete-combo-free', isLoggedIn, async (req, res) => {
     const { id, id_company, id_branch} = req.params;

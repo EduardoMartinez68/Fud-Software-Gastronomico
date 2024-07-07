@@ -1,6 +1,15 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('./connectionWithDatabaseImage');
 
 async function search_employees(idCompany) {
     // We search for the company's employees with additional information from other tables.
@@ -148,6 +157,38 @@ async function get_data_employee(req) {
     return data;
 }
 
+async function delete_profile_picture(idUser) {
+    //we will see if the user have a profile picture
+    const pathImg = await get_profile_picture(idUser);
+    //if esxit a image, we going to delete 
+    if (pathImg != null) {
+        delate_image_upload(pathImg)
+    }
+}
+
+async function get_profile_picture(idUser) {
+    //we will search the user that the manager would like delete
+    var queryText = 'SELECT photo FROM "Fud".users WHERE id= $1';
+    var values = [idUser];
+    const result = await database.query(queryText, values);
+    if (result.rows.length > 0 && 'photo' in result.rows[0]) {
+        return result.rows[0].photo;
+    } else {
+        return null;
+    }
+}
+
+async function delete_user(idUser) {
+    try {
+        var queryText = 'DELETE FROM "Fud".users WHERE id = $1';
+        var values = [idUser];
+        await database.query(queryText, values); // Delete employee
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar en la base de datos:', error);
+        return false;
+    }
+}
 
 module.exports = {
     search_employees,
@@ -161,5 +202,8 @@ module.exports = {
     get_data_tole_employees,
     delete_departament_employee,
     update_department_employe,
-    get_data_employee
+    get_data_employee,
+    delete_profile_picture,
+    get_profile_picture,
+    delete_user
 };

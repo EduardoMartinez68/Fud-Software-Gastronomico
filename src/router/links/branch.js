@@ -44,10 +44,12 @@ const {
     delete_employee,
     search_employee_departments,
     get_country,
-    get_type_employees
+    get_type_employees,
+    delete_profile_picture,
+    delete_user
 } = require('../../services/employees');
 const rolFree=0
-
+const companyName='links'
 
 async function get_data_branch(req) {
     const { id_branch } = req.params;

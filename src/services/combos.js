@@ -1,6 +1,10 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
+//functions image
+const {
+    delate_image_upload,
+} = require('./connectionWithDatabaseImage');
 
 async function get_all_combos(req) {
     //we will search the company of the user 
@@ -48,6 +52,7 @@ async function delate_combo_company(id, pathImg) {
         await database.query(queryText, values); //delate combo
         return true;
     } catch (error) {
+        console.error('Error al eliminar el combo de la base de datos:', error);
         return false;
     }
 }

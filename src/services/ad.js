@@ -1,6 +1,15 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('./connectionWithDatabaseImage');
 
 async function get_all_ad(idBranch, type) {
     var queryText = `

@@ -1,6 +1,6 @@
 const database = require('../database');
 const addDatabase = require('../router/addDatabase');
-
+//functions image
 async function get_data_tabla_with_id_company(id_company, schema, table) {
     var queryText = `SELECT * FROM "${schema}".${table} WHERE id_companies= $1`;
     var values = [id_company];

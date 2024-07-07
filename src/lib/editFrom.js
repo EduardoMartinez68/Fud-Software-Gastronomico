@@ -6,7 +6,6 @@ const helpers=require('../lib/helpers.js');
 const update=require('../router/updateDatabase');
 
 //edit company
-
 function mandatory_company_data(req){
     //we get the required data
     const {name,alias,email,representative,municipality,city,cologne,street,postal_code} = req.body;

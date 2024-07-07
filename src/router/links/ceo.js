@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
 
+//functions image
+const {
+    get_path_img,
+    delate_image_upload,
+    upload_image_to_space,
+    delete_image_from_space,
+    create_a_new_image,
+    delate_image
+} = require('../../services/connectionWithDatabaseImage');
+
 //functions employees
 const {
     search_employees,
