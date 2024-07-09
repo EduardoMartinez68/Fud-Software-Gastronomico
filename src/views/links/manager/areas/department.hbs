@@ -9,8 +9,8 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th><label>Name</label></th>
-                        <th><label>Description</label></th>
+                        <th><label>Nombre</label></th>
+                        <th><label>Descripcion</label></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -21,8 +21,8 @@
                             <td><label>{{name}}</label></td>
                             <td><label>{{description}}</label></td>
                             <td>
-                                <button class="btn btn-danger" id="{{id}}" onclick="delate_department(this.id,{{id_companies}})"><i class="fi-department fi-sr-trash"></i></button>
-                                <button class="btn btn-danger" id="{{id}}" onclick="edit_department(this.id,{{id_companies}},'{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                                <button class="btn btn-danger" id="{{id}}" onclick="delate_department(this.id,'{{id_companies}}')"><i class="fi-department fi-sr-trash"></i></button>
+                                <button class="btn btn-danger" id="{{id}}" onclick="edit_department(this.id,'{{id_companies}}','{{name}}','{{description}}')"><i class="fi-department fi-sr-pencil"></i></button>
                             </td>
                         </tr>
                     {{/each}}
@@ -33,6 +33,7 @@
         <div class="card">
             <div class="card-body">
                 <br>
+                <!--this is for add departament in the CEO--->
                 {{#each company}}
                     <form action="/fud/{{id}}/add-department" method="POST" enctype="multipart/form-data">
                         <center><h5><i class="fi-icon fi-sr-store-alt"></i>Add a new department</h5></center>
@@ -47,6 +48,22 @@
                         <button type="submit" class="btn btn-success btn-block" id="">Save</button>
                     </form>
                 {{/each}}
+                <!--this is for add departament in fud one--->
+                {{#each branchFree}}
+                    <form action="/fud/{{id_companies}}/add-department" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" placeholder="Nombre" name="id_branch" class="from-control" value="{{id}}">
+                        <center><h5><i class="fi-icon fi-sr-store-alt"></i>Agregar un nuevo departamento</h5></center>
+                        <hr>
+                        <div class="form-group">
+                            <input type="text" placeholder="Nombre" name="name" class="from-control" required maxlength="20" style="width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Descripcion" name="description" class="from-control" style="width: 100%;">
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-success btn-block" id="">Guardar</button>
+                    </form>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -55,7 +72,7 @@
 
 <script>
     async function delate_department(id,id_company){
-        if(await questionMessage('Delate department','Do you want to delete this department?')){
+        if(await questionMessage('Eliminar departamento 😱','¿Quieres eliminar este departamento?')){
             window.location.href = "/fud/"+id_company+"/"+id+"/delate-food-department";
         }
     }
@@ -67,7 +84,7 @@
         }
 
         //we will to get the data of the new department
-        const data=await edit_data_departments('Edit department',nameDepartment,descriptionDepartment);
+        const data=await edit_data_departments('Editar departamento ✏️',nameDepartment,descriptionDepartment);
         if(data){
             //get the data of the from 
             var name = data[0];
@@ -82,7 +99,7 @@
                 window.location.href = "/fud/"+id_company+"/"+id+"/"+name+"/"+description+"/edit-food-department";
             }
             else{
-                warningMessage('Department','You must add a name to the department');
+                warningMessage('Department','Necesitas agregar un nombre al departamento');
             }
         }
     }

@@ -83,7 +83,20 @@ async function get_pack_branch(id_branch){
     }
 }
 
+async function get_all_box_of_the_branch_with_his_id(id_branch){
+    //we will search all the box that exist in the branch
+    var queryText = `
+        SELECT b.*, br.id_companies
+        FROM "Branch".boxes b
+        JOIN "Company".branches br ON b.id_branches = br.id
+        WHERE b.id_branches = $1;
+    `;
 
+    //var queryText = `SELECT * from "Branch".boxes WHERE id_branches = $1`
+    var values = [id_branch];
+    const result = await database.query(queryText, values);
+    return result.rows;
+}
 
 
 module.exports = {
@@ -93,5 +106,6 @@ module.exports = {
     get_data_branch_view_manager,
     get_data_branch,
     get_id_branch,
-    get_pack_branch
+    get_pack_branch,
+    get_all_box_of_the_branch_with_his_id
 };

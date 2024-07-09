@@ -47,18 +47,6 @@ router.post('/fud/editCompany',passport.authenticate('local.edit_company',{
     failureFlash:true
 }));
 
-router.post('/fud/:id/add-department',passport.authenticate('local.add_department',{
-    successRedirect: '/fud/home', // /fud/:id/food-department
-    failureRedirect: '/fud/home',
-    failureFlash:true
-}));
-
-router.post('/fud/:id/add-category',passport.authenticate('local.add_category',{
-    successRedirect: '/fud/home', // /fud/:id/food-department
-    failureRedirect: '/fud/home',
-    failureFlash:true
-}));
-
 router.post('/fud/:id/add-branch',passport.authenticate('local.add_branch',{
     successRedirect: '/fud/home',
     failureRedirect: '/fud/home',

@@ -122,8 +122,15 @@
                 <thead>
                     <tr>
                         <th class="td1"> 
+                            <!--
                             <input type="text" placeholder="Escribe un código de barras..." class="form-control input-search-menu"
                                 name="usernameSearch" autofocus id="search">
+                            --->
+                            
+                            <div class="search-container">
+                                <input type="text" class="search-input" placeholder="Escribe un código de barras..." id="search" autofocus name="usernameSearch">
+                                <i class="fi fi-br-search search-icon"></i>
+                            </div>
                         </th>
                         <!--
                         🔍︎ | 
@@ -144,6 +151,11 @@
                 <input type="text" value="{{id_branches}}" style="display: none;" id="id_branch">
                 <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
                 onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Client</button>
+            {{/each}}
+            {{#each boxes}}
+                <select name="" id="" class="form-select">
+                    <option value="">{{name}}</option>
+                </select>
             {{/each}}
         </div>
         <!---

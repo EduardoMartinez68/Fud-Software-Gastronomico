@@ -14,7 +14,8 @@ const {
 } = require('../../services/connectionWithDatabaseImage');
 //functions branch
 const {
-    get_data_branch
+    get_data_branch,
+    get_all_box_of_the_branch_with_his_id
 } = require('../../services/branch');
 
 const {
@@ -31,6 +32,8 @@ const {
     get_all_data_combo_most_sold,
     get_data_recent_combos,
 } = require('../../services/store');
+
+
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
     try {
@@ -56,6 +59,7 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         const combosAd = await get_all_ad(id_branch, 'combo');
         const specialsAd = await get_all_ad(id_branch, 'special');
         const addition = '{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}'; // Ejemplo de datos adicionales
+        const boxes=await get_all_box_of_the_branch_with_his_id(id_branch)
 
         const templateData = {
             branchFree,
@@ -67,6 +71,7 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
             newAd,
             combosAd,
             specialsAd,
+            boxes,
             addition: JSON.stringify(addition)
         };
         res.render('links/store/home/home', templateData);

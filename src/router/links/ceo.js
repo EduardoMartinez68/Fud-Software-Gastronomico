@@ -117,7 +117,8 @@ const {
 
 //functions sales and move
 const {
-    check_company
+    check_company,
+    check_company_other,
 } = require('../../services/company');
 
 
@@ -531,7 +532,12 @@ router.get('/:id_company/:id/delate-food-department', isLoggedIn, async (req, re
     if (company.length > 0) {
         //we going to see if we can delate the department 
         if (await delate_product_department(id)) {
-            res.redirect('/fud/' + id_company + '/food-department');
+            //we will see if the user have a suscription of fud one 
+            if(req.user.rol_user==rolFree){
+                res.redirect('/fud/home');
+            }else{
+                res.redirect('/fud/' + id_company + '/food-department');
+            }
         }
         else {
             res.redirect('/fud/home');
@@ -551,7 +557,12 @@ router.get('/:id_company/:id/:name/:description/edit-food-department', isLoggedI
     if (company.length > 0) {
         //we going to see if we can delate the department 
         if (await update_product_department(id, name, description)) {
-            res.redirect('/fud/' + id_company + '/food-department');
+            //we will see if the user have a suscription of fud one 
+            if(req.user.rol_user==rolFree){
+                res.redirect('/fud/home');
+            }else{
+                res.redirect('/fud/' + id_company + '/food-department');
+            }
         }
         else {
             res.redirect('/fud/home');
@@ -560,7 +571,6 @@ router.get('/:id_company/:id/:name/:description/edit-food-department', isLoggedI
     else {
         res.redirect('/fud/home');
     }
-
 });
 
 //----------------------------------------------------------------food category

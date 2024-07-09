@@ -30,7 +30,40 @@
                 <br>
             </div>
         </form>
-        
+    </div>
+{{/each}}
+{{#each branchFree}}
+    <div class="card">
+        <form action="/fud/{{id_companies}}/{{id}}/add-box" method="post">
+            <div class="form-group">
+                <div class="container">
+                    <br>
+                    <center>
+                        <i class="fi-icon fi-ss-cash-register"></i>Agregar una nueva caja
+                        <hr>
+                    </center>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <label for="exampleInputEmail1">Numero de caja *</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Numero..." min="0" name="number" required>
+                    </div>
+                    <div class="col-8">
+                        <label>Ip Printer</label>
+                        <input type="text" class="form-control"  placeholder="Ip Printer..." name="ipPrinter">
+                    </div>
+                </div>
+                <br>
+                <center>
+                <div class="col-6">
+                    <center>
+                       <button class="btn btn-success btn-block" type="submit">Guardar</button> 
+                    </center>
+                </div>
+                </center>
+                <br>
+            </div>
+        </form>
     </div>
 {{/each}}
 

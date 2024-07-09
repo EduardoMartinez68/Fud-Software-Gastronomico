@@ -230,25 +230,31 @@ router.post('/fud/:id_company/edit-company', async (req, res) => {
 
 
 //add department
-passport.use('local.add_department', new LocalStrategy({
-    usernameField: 'name',
-    passwordField: 'name',
-    passReqToCallback: true
-}, async (req, name, password, done) => {
-    console.log(req.body);
+router.post('/fud/:id/add-department', async (req, res) => {
+    const {id}=req.params;
+    const {name}=req.body;
     if (!await this_department_exists(req, name)) {
         const newDepartment = get_new_department(req);
         if (await addDatabase.add_product_department(newDepartment)) {
-            done(null, false, req.flash('success', 'El departamento fue agregado con éxito! 😊'));
+            req.flash('success', 'El departamento fue agregado con éxito! 😊');
         }
         else {
-            done(null, false, req.flash('message', 'No se pudo agregar a la base de datos 😰'));
+            req.flash('message', 'No se pudo agregar a la base de datos 😰');
         }
     }
     else {
-        done(null, false, req.flash('message', 'Este departamento ya existe 😅'));
+        req.flash('message', 'Este departamento ya existe 😅');
     }
-}));
+
+    //we will see if the user is in a version of fud one 
+    if(req.user.rol_user==rolFree){
+        const {id_branch}=req.body;
+        res.redirect(`/fud/${id}/${id_branch}/food-department-free`);
+    }else{
+        res.redirect(`/fud/${id}/food-department`);
+    }
+});
+
 
 function get_new_department(req) {
     //get the data of the new department
@@ -297,6 +303,33 @@ passport.use('local.add_category', new LocalStrategy({
         done(null, false, req.flash('message', 'Este departamento ya existe en tu empresa 👉👈'));
     }
 }));
+
+router.post('/fud/:id/add-department', async (req, res) => {
+    const {id}=req.params;
+    const {name}=req.body;
+    
+    if (!await this_category_exists(req, name)) {
+        const newDepartment = get_new_category(req);
+        if (await addDatabase.add_product_category(newDepartment)) {
+            req.flash('success', 'El departamento fue agregado con éxito! 😄');
+        }
+        else {
+            req.flash('message', 'El departamento no fue agregado 😰');
+        }
+    }
+    else {
+        req.flash('message', 'Este departamento ya existe en tu empresa 👉👈');
+    }
+
+    //we will see if the user is in a version of fud one 
+    if(req.user.rol_user==rolFree){
+        const {id_branch}=req.body;
+        res.redirect(`/fud/${id}/${id_branch}/food-department-free`);
+    }else{
+        res.redirect(`/fud/${id}/food-department`);
+    }
+});
+
 
 function get_new_category(req) {
     //get the data of the new department

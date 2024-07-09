@@ -56,6 +56,13 @@ const {
     update_ad
 } = require('../../services/ad');
 
+//functions food department
+const {
+    get_department,
+    delate_product_department,
+    update_product_department,
+    this_department_be
+} = require('../../services/foodDepartment');
 
 const rolFree=0
 const companyName='links'
@@ -169,7 +176,7 @@ async function this_supplies_exist(idBranc,idSupplies) {
     return data.length > 0;
 }
 
-//products 
+//----------------------------------------------------------------products 
 router.get('/:id_company/:id_branch/products', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_branch } = req.params;
@@ -244,7 +251,7 @@ async function update_inventory_supplies_branch(idSupplies, newExistence) {
         return false;
     }
 }
-//combos
+//----------------------------------------------------------------combos
 router.get('/:id_company/:id_branch/combos', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch } = req.params;
@@ -589,7 +596,7 @@ router.get('/:id_company/:id_branch/customer', isLoggedIn, async (req, res) => {
     }
 })
 
-//employees
+//----------------------------------------------------------------employees
 router.get('/:id_company/:id_branch/employees-branch', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_branch, id_company } = req.params;
@@ -756,8 +763,14 @@ router.get('/:id_company/:id_branch/box', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_branch, id_company } = req.params;
         const boxes = await get_box_branch(id_branch);
+        //we will see if the user use fud one 
         const branch = await get_data_branch(req);
-        res.render('links/branch/box/box', { branch, boxes });
+        const branchFree=branch
+        if (req.user.rol_user==rolFree){
+            res.render('links/branch/box/box', { branchFree, boxes });
+        }else{
+            res.render('links/branch/box/box', { branch, boxes });
+        }
     }
 })
 
@@ -814,9 +827,9 @@ router.get('/:id_company/:id_branch/:id_box/delete-box', isLoggedIn, async (req,
         const { id_branch, id_company, id_box } = req.params;
         //we will watching if caned delete the box
         if (await delete_box_branch(parseInt(id_box))) {
-            req.flash('success', 'La caja fue eliminada con los suministros 👍')
+            req.flash('success', 'La caja fue eliminada con exito 👍')
         } else {
-            req.flash('messagge', 'La caja no fue eliminada 🗑️')
+            req.flash('messagge', 'La caja no fue eliminada 👁️')
         }
 
         res.redirect('/fud/' + id_company + '/' + id_branch + '/box');
@@ -838,7 +851,7 @@ async function delete_box_branch(id) {
     }
 }
 
-//ad
+//----------------------------------------------------------------ad
 router.get('/:id_company/:id_branch/ad', isLoggedIn, async (req, res) => {
     //if(await validate_subscription(req,res)){
         const { id_branch } = req.params;
@@ -923,7 +936,7 @@ router.post('/:id_company/:id_branch/:id_ad/update-ad-offer', isLoggedIn, async 
     }
 })
 
-//schelude marketplace
+//----------------------------------------------------------------schelude marketplace
 router.get('/:id_comopany/:id_branch/schedules', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_company, id_branch, id_ad } = req.params;
@@ -1130,6 +1143,19 @@ async function update_history_schedule(id, id_schedules) {
     }
 }
 
+//----------------------------------------------------------------food department
+router.get('/:id_company/:id_branch/add-department-free', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    const saucers = await get_data(req);
+    res.render(companyName + '/store/dish', { company, saucers });
+});
+
+router.get('/:id_company/:id_branch/food-department-free', isLoggedIn, async (req, res) => {
+    const { id_company , id_branch} = req.params;
+    const branchFree = await get_data_branch(req);
+    const departments = await get_department(id_company);
+    res.render('links/manager/areas/department', { branchFree, departments })
+});
 
 
 //
