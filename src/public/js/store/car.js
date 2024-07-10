@@ -43,8 +43,19 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
         const button = document.getElementById('emailClient');
         const idClient = button.getAttribute('idClient');
 
+        //we will print the ticket 
+        const selectElementPrinter = document.getElementById('dataPrinter');
+        const ipPrinter = selectElementPrinter.value;
+
+        //we will see if exist a ip for that not exist a error
+        var link=''
+        if(ipPrinter){
+            link = `/fud/${idClient}/${ipPrinter}/car-post`;
+        }else{
+            link = `/fud/${idClient}/car-post`;
+        }
+
         //we will watching if the server can complete the pay and setting the inventory
-        const link = '/fud/' + idClient + '/car-post';
         const answerServer = await get_answer_server(combos,link);
 
         //we will see if save the commander 
@@ -85,7 +96,6 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
 async function get_answer_server(combos, link) {
     try {
         const url = link;
-
         // Configurar la solicitud
         const options = {
             method: 'POST', // Puedes usar POST en lugar de GET si necesitas enviar muchos datos
