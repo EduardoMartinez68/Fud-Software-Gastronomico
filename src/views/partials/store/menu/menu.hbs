@@ -120,6 +120,7 @@
         <div class="col-4">
             <label for="">Impresora</label>
             <select name="" id="dataPrinter" class="form-select">
+                <option value="">No imprimir Ticket</option>
                 {{#each boxes}}
                     <option value="{{ip_printer}}">{{num_box}}</option>
                 {{/each}}
@@ -164,7 +165,7 @@
             <table class="" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th style="width: 100%;"> 
+                        <th> 
                             <!--
                             <input type="text" placeholder="Escribe un código de barras..." class="form-control input-search-menu"
                                 name="usernameSearch" autofocus id="search">

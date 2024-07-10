@@ -1830,7 +1830,6 @@ router.post('/fud/client', isLoggedIn, async (req, res) => {
     }
 })
 
-
 router.post('/fud/:id_customer/car-post', isLoggedIn, async (req, res) => {
     var commander = ''
     var text = ''
