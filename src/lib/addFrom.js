@@ -284,27 +284,7 @@ async function this_department_exists(req, name) {
 }
 
 //add category
-passport.use('local.add_category', new LocalStrategy({
-    usernameField: 'name',
-    passwordField: 'name',
-    passReqToCallback: true
-}, async (req, name, password, done) => {
-    console.log(req.body);
-    if (!await this_category_exists(req, name)) {
-        const newDepartment = get_new_category(req);
-        if (await addDatabase.add_product_category(newDepartment)) {
-            done(null, false, req.flash('success', 'El departamento fue agregado con éxito! 😄'));
-        }
-        else {
-            done(null, false, req.flash('message', 'El departamento no fue agregado 😰'));
-        }
-    }
-    else {
-        done(null, false, req.flash('message', 'Este departamento ya existe en tu empresa 👉👈'));
-    }
-}));
-
-router.post('/fud/:id/add-department', async (req, res) => {
+router.post('/fud/:id/add-category', async (req, res) => {
     const {id}=req.params;
     const {name}=req.body;
     
@@ -324,7 +304,7 @@ router.post('/fud/:id/add-department', async (req, res) => {
     //we will see if the user is in a version of fud one 
     if(req.user.rol_user==rolFree){
         const {id_branch}=req.body;
-        res.redirect(`/fud/${id}/${id_branch}/food-department-free`);
+        res.redirect(`/fud/${id}/${id_branch}/food-area-free`);
     }else{
         res.redirect(`/fud/${id}/food-department`);
     }

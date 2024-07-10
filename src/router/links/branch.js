@@ -1147,16 +1147,8 @@ async function update_history_schedule(id, id_schedules) {
 router.get('/:id_company/:id_branch/add-department-free', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     const saucers = await get_data(req);
-    res.render(companyName + '/store/dish', { company, saucers });
+    res.render('links/store/dish', { company, saucers });
 });
-
-router.get('/:id_company/:id_branch/food-department-free', isLoggedIn, async (req, res) => {
-    const { id_company , id_branch} = req.params;
-    const branchFree = await get_data_branch(req);
-    const departments = await get_department(id_company);
-    res.render('links/manager/areas/department', { branchFree, departments })
-});
-
 
 //
 router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) => {

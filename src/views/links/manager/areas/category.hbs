@@ -47,6 +47,21 @@
                         <button type="submit" class="btn btn-success btn-block" id="">Save</button>
                     </form>
                 {{/each}}
+                {{#each branchFree}}
+                    <form action="/fud/{{id_companies}}/add-category" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" placeholder="Name" name="id_branch" id="id_branch" class="from-control" required value="{{id}}">
+                        <center><h5><i class="fi-icon fi-sr-ballot"></i>Agregar una nueva categoría</h5></center>
+                        <hr>
+                        <div class="form-group">
+                            <input type="text" placeholder="Nombre" name="name" class="from-control" required maxlength="20" style="width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Descripcion" name="description" class="from-control" style="width: 100%;">
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-success btn-block" id="">Guardar</button>
+                    </form>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -55,8 +70,14 @@
 
 <script>
     async function delate_department(id,id_company){
-        if(await questionMessage('Delate department','Do you want to delete this department?')){
-            window.location.href = "/fud/"+id_company+"/"+id+"/delate-food-category";
+        if(await questionMessage('Eliminar departamento 😳','¿Quieres eliminar este departamento?')){
+            //we will see if the user have a count of fud one
+            const id_branch=document.getElementById('id_branch').value;
+            if(id_branch){
+                window.location.href = `/fud/${id_company}/${id_branch}/${id}/delete-food-category`;
+            }else{
+                window.location.href = `/fud/${id_company}/${id}/delete-food-category`;
+            }
         }
     }
 
@@ -79,10 +100,16 @@
                     description="-";
                 }              
 
-                window.location.href = "/fud/"+id_company+"/"+id+"/"+name+"/"+description+"/edit-food-category";
+                //we will see if the user have a count of fud one
+                const id_branch=document.getElementById('id_branch').value;
+                if(id_branch){
+                    window.location.href = `/fud/${id_company}/${id_branch}/${id}/${name}/${description}/edit-food-category-free`;
+                }else{
+                    window.location.href = `/fud/${id_company}/${id}/${name}/${description}/edit-food-category`;
+                }
             }
             else{
-                warningMessage('Department','You must add a name to the department');
+                warningMessage('Department','Debes agregar un nombre al departamento');
             }
         }
     }

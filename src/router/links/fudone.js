@@ -45,13 +45,23 @@ const {
 //functions branch
 const {
     get_data_tabla_with_id_company,
-    get_pack_database
+    get_pack_database,
+    check_company_other
 } = require('../../services/company');
 
 //functions supplies
 const {
     get_country
 } = require('../../services/employees');
+
+
+const {
+    get_category,
+    delate_product_category
+} = require('../../services/foodCategory');
+const {
+    get_department,
+} = require('../../services/foodDepartment');
 
 /*
 *----------------------router-----------------*/
@@ -66,6 +76,8 @@ router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, 
     }
 });
 
+
+//------------------------------------employees
 router.get('/:id_company/:id_branch/employees-free', isLoggedIn, async (req, res) => {
     const { id_company, id_branch } = req.params;
     const branchFree = await get_data_branch(req);
@@ -76,6 +88,8 @@ router.get('/:id_company/:id_branch/employees-free', isLoggedIn, async (req, res
     }
 });
 
+
+//------------------------------------supplies
 router.get('/:id/:id_branch/supplies-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;
     const branchFree = await get_data_branch(id_branch);
@@ -88,6 +102,8 @@ router.get('/:id/:id_branch/supplies-free', isLoggedIn, async (req, res) => {
     }
 });
 
+
+//------------------------------------combo
 router.get('/:id/:id_branch/combos-free', isLoggedIn, async (req, res) => {
     const {id_branch } = req.params;
     const branchFree = await get_data_branch(id_branch);
@@ -165,6 +181,8 @@ router.get('/:id_company/:id_branch/:id/delete-combo-free', isLoggedIn, async (r
     res.redirect(`/fud/${id_company}/${id_branch}/combos-free`);
 })
 
+
+//------------------------------------branch
 router.get('/:idBranch/:idCompany/edit-branch-free', isLoggedIn, async (req, res) => {
     const country = await get_country();
     const branchFree = await get_branch(req);
@@ -177,13 +195,74 @@ router.get('/:id/Dashboard', isLoggedIn, async (req, res) => {
     res.render('links/manager/reports/dashboard', sales_history);
 });
 
+
+//------------------------------------report
 router.get('/report', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/report");
 })
 
-/*reports*/
 router.get('/report-sales', isLoggedIn, (req, res) => {
     res.render("links/manager/reports/sales");
 })
+//------------------------------------food departament and category 
+router.get('/:id/food-category', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    const { id } = req.params;
+    const categories = await get_category(id);
+    res.render(companyName + '/manager/areas/category', { company, categories })
+});
+
+router.get('/:id_company/:idBranch/food-area-free', isLoggedIn, async (req, res) => {
+    const { id_company , idBranch} = req.params;
+    const categories = await get_category(id_company);
+    const branchFree = await get_branch(req);
+    res.render('links/manager/areas/category', { branchFree, categories })
+});
+
+router.get('/:id_company/:id_branch/:id/:name/:description/edit-food-category-free', isLoggedIn, async (req, res) => {
+    const company = await check_company_other(req);
+    const { id_company, id_branch, id, name, description } = req.params;
+
+    //we will watch if the user have this company
+    if (company.length > 0) {
+        //we going to see if we can delate the department 
+        if (await update_product_category(id, name, description)) {
+            req.flash('success', 'La categoria fue actualizada con éxito 😄')
+        }
+        else {
+            req.flash('message', 'La categoria NO fue actualizada con éxito 😳')
+        }
+
+        res.redirect(`/fud/${id_company}/${id_branch}/food-area-free`);
+    }
+    else {
+        req.flash('message', 'No tienes los permisos para esto 😳')
+        res.redirect('/fud/home');
+    }
+});
+
+router.get('/:id_company/:id_branch/:id/delete-food-category', isLoggedIn, async (req, res) => {
+    const company = await check_company_other(req);
+    const { id, id_company, id_branch} = req.params;
+
+    //we will watch if the user have this company
+    if (company.length > 0) {
+        //we going to see if we can delate the department 
+        if (await delate_product_category(id)) {
+            req.flash('success', 'La categoria fue eliminada con éxito 😄')
+        }
+        else {
+            req.flash('message', 'La categoria NO fue eliminada con éxito 😳')
+        }
+
+        res.redirect(`/fud/${id_company}/${id_branch}/food-area-free`);
+    }
+    else {
+        req.flash('message', 'No tienes los permisos para esto 😳')
+        res.redirect('/fud/home');
+    }
+
+});
+
 
 module.exports = router;

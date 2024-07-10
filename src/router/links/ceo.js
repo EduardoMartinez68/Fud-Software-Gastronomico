@@ -587,7 +587,7 @@ router.get('/:id/add-category', isLoggedIn, async (req, res) => {
     res.render(companyName + '/store/dish', { company, saucers });
 });
 
-router.get('/:id_company/:id/delate-food-category', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id/delete-food-category', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id, id_company } = req.params;
 
@@ -606,7 +606,7 @@ router.get('/:id_company/:id/delate-food-category', isLoggedIn, async (req, res)
     }
 });
 
-router.get('/:id_company/:id/delate-food-category', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id/delete-food-category', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id, id_company } = req.params;
 
@@ -632,8 +632,9 @@ router.get('/:id_company/:id/:name/:description/edit-food-category', isLoggedIn,
 
     //we will watch if the user have this company
     if (company.length > 0) {
-        //we going to see if we can delate the department 
+        //we going to see if we can delete the department 
         if (await update_product_category(id, name, description)) {
+            //we will see if exist the user is use fud one 
             res.redirect('/fud/' + id_company + '/food-category');
         }
         else {
@@ -643,7 +644,6 @@ router.get('/:id_company/:id/:name/:description/edit-food-category', isLoggedIn,
     else {
         res.redirect('/fud/home');
     }
-
 });
 
 //-------------------------------------------------------------sales 
