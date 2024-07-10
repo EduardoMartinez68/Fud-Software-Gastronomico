@@ -84,7 +84,7 @@ async function get_pack_branch(id_branch){
 }
 
 async function get_all_box_of_the_branch_with_his_id(id_branch){
-    //we will search all the box that exist in the branch
+    //we will search all the box that exist in the branc
     var queryText = `
         SELECT b.*, br.id_companies
         FROM "Branch".boxes b

@@ -60,7 +60,7 @@ async function delete_all_car(total,moneyReceived,exchange,comment) {
             delete_all_fish();
 
             //restart the email of the customer
-            button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
+            button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Buscar Cliente';
             button.setAttribute('idClient', null);
 
             //we will playing a effect sound 
@@ -165,11 +165,11 @@ async function select_customer(idCompany) {
             button.setAttribute('idClient', idCustomer);
             customerFound=true;
         } else {
-            button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
+            button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Buscar Cliente';
             button.setAttribute('idClient', null);
         }
     } else {
-        button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Client';
+        button.innerHTML = '<i class="fi-icon fi-sr-following"></i> Buscar Cliente';
         button.setAttribute('idClient', null);
     }
     loadingOverlay.style.display = "none";

@@ -60,7 +60,6 @@ router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', 
         const specialsAd = await get_all_ad(id_branch, 'special');
         const addition = '{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}'; // Ejemplo de datos adicionales
         const boxes=await get_all_box_of_the_branch_with_his_id(id_branch)
-
         const templateData = {
             branchFree,
             dishAndCombo,

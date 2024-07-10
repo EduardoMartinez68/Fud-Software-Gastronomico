@@ -84,6 +84,10 @@
         border-radius: 15px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
+
+    .li-link{
+        cursor: pointer;
+    }
 </style>
 <div class="title-home-store">
     <br>
@@ -112,6 +116,45 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-4">
+            <label for="">Impresora</label>
+            <select name="" id="" class="form-select">
+                {{#each boxes}}
+                    <option value="{{ip_printer}}">{{num_box}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col-8">
+            <label for=""></label>
+            <div class="dropdown">
+                <button class="btn btn-primary button-spacing dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Funciones
+                </button>
+                <ul class="dropdown-menu">
+                    <!--
+                    <li><a class="dropdown-item" href="#">Orden Rapida</a></li>
+                    <li><a class="dropdown-item" href="#">Comandas</a></li>
+                    --->
+                    {{#each dataEmployee}}
+                        <input type="text" value="{{id_branches}}" style="display: none;" id="id_branch">
+                        <li class="li-link"><a class="dropdown-item" id="emailClient" email="" idClient="null" onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Buscar Cliente</a></li>
+                        <li class="li-link"><a class="dropdown-item" onclick="create_new_order()" ><i class="fi-icon fi-br-biking-mountain"></i> Delivery</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <!---
+        <div class="col">
+            <label for=""></label><br>
+            {{#each dataEmployee}}
+                <input type="text" value="{{id_branches}}" style="display: none;" id="id_branch">
+                <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
+                onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Buscar Cliente</button>
+            {{/each}}
+        </div>
+        --->
+    </div>
     <hr>
 </div>
 <div class="container-menu-store px-3 py-3">
@@ -121,7 +164,7 @@
             <table class="" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th class="td1"> 
+                        <th style="width: 100%;"> 
                             <!--
                             <input type="text" placeholder="Escribe un código de barras..." class="form-control input-search-menu"
                                 name="usernameSearch" autofocus id="search">
@@ -141,42 +184,16 @@
                             <button class="btn" onclick="car_returns('{{id}}','{{id_branches}}')"><img src="https://cdn-icons-png.flaticon.com/512/3176/3176255.png" alt="" class="img-icon"></button>
                             -->
                         {{/each}}
-                        </th>
                     </tr>
                 </thead>
             </table>
-        </div>
-        <div class="col-2">
-            {{#each dataEmployee}}
-                <input type="text" value="{{id_branches}}" style="display: none;" id="id_branch">
-                <button class="btn btn-primary button-spacing" id="emailClient" email="" idClient="null"
-                onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Client</button>
-            {{/each}}
-            {{#each boxes}}
-                <select name="" id="" class="form-select">
-                    <option value="">{{name}}</option>
-                </select>
-            {{/each}}
         </div>
         <!---
         <div class="col">
             <button class="btn btn-primary button-spacing" onclick="create_new_order()"><i class="fi fi-ss-biking-mountain"></i> Pedido a domicilio</button>
         </div>
         -->
-        <div class="col-2">
-            <div class="dropdown">
-                <button class="btn btn-primary button-spacing dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Funciones
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Orden Rapida</a></li>
-                    <li><a class="dropdown-item" onclick="create_new_order()" >Delivery</a></li>
-                    <li><a class="dropdown-item" href="#">Comandas</a></li>
-                </ul>
-            </div>
-        </div>
     </div>
-
     <!--
         <button class="btn btn-primary button-spacing"
             onclick="cash_movement('{{id}}','{{id_branches}}')"><i
@@ -232,26 +249,28 @@
             </div>
         </div>
         <div class="col-4">
-            {{#each dataEmployee}}
-            <div class="table-container">
-                <table id="table-car-home" border="1" class="table-menu">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <div class="row">
+                {{#each dataEmployee}}
+                    <div class="table-container">
+                        <table id="table-car-home" border="1" class="table-menu">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <button class="btn-container-cart card-menu" id="btn-total-home" onclick="buy_my_car(this)">Pagar $0<i
+                            class="fi-icon fi-sr-shopping-cart"></i></button>
+                {{/each}}
             </div>
-            <br>
-            <button class="btn-container-cart card-menu" id="btn-total-home" onclick="buy_my_car(this)">Pagar $0<i
-                    class="fi-icon fi-sr-shopping-cart"></i></button>
-            {{/each}}
         </div>
     </div>
 

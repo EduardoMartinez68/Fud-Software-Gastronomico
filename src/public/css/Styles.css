@@ -522,7 +522,7 @@ label #btn-navbar-cancel{
 /*-----------------------------------input search---------------------------*/
 .search-container {
     position: relative;
-    width: 80%;
+    width: 100%;
 }
 
 .search-input {

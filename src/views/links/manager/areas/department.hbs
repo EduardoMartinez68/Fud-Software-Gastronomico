@@ -51,7 +51,7 @@
                 <!--this is for add departament in fud one--->
                 {{#each branchFree}}
                     <form action="/fud/{{id_companies}}/add-department" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" placeholder="Nombre" name="id_branch" class="from-control" value="{{id}}">
+                        <input type="hidden" placeholder="Nombre" name="id_branch" id="id_branch" class="from-control" value="{{id}}">
                         <center><h5><i class="fi-icon fi-sr-store-alt"></i>Agregar un nuevo departamento</h5></center>
                         <hr>
                         <div class="form-group">
@@ -71,9 +71,16 @@
 </div>
 
 <script>
+    const id_branch=document.getElementById('id_branch').value;
+
     async function delate_department(id,id_company){
         if(await questionMessage('Eliminar departamento 😱','¿Quieres eliminar este departamento?')){
-            window.location.href = "/fud/"+id_company+"/"+id+"/delate-food-department";
+            //we will see if the user have a count of fud one 
+            if(id_branch){
+                window.location.href = `/fud/${id_company}/${id_branch}/${id}/delete-food-department`;
+            }else{
+                window.location.href = `/fud/${id_company}/${id}/delete-food-department`;
+            }
         }
     }
 
@@ -96,7 +103,12 @@
                     description="-";
                 }              
 
-                window.location.href = "/fud/"+id_company+"/"+id+"/"+name+"/"+description+"/edit-food-department";
+                //we will see if the user have a count of fud one 
+                if(id_branch){
+                    window.location.href = `/fud/${id_company}/${id_branch}/${id}/${name}/${description}/edit-food-department`;
+                }else{
+                    window.location.href = `/fud/${id_company}/${id}/${name}/${description}/edit-food-department`;
+                }
             }
             else{
                 warningMessage('Department','Necesitas agregar un nombre al departamento');
