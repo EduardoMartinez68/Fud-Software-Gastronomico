@@ -85,7 +85,7 @@ router.get('/store-home', isLoggedIn, async (req, res) => {
 })
 
 
-router.get('/create-invoice', isLoggedIn, async (req, res) => {
+router.get('/:id_company/:id_branch/:id_employee/create-invoice', isLoggedIn, async (req, res) => {
     res.render('links/store/invoice/createInvoice');
 })
 

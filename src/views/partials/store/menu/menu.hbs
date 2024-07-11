@@ -141,7 +141,9 @@
                         <input type="text" value="{{id_branches}}" style="display: none;" id="id_branch">
                         <li class="li-link"><a class="dropdown-item" id="emailClient" email="" idClient="null" onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-following"></i> Buscar Cliente</a></li>
                         <li class="li-link"><a class="dropdown-item" onclick="create_new_order()" ><i class="fi-icon fi-br-biking-mountain"></i> Delivery</a></li>
-                        <li class="li-link"><a class="dropdown-item" id="emailClient" email="" idClient="null" onclick="select_customer('{{id_companies}}')"><i class="fi-icon fi-sr-file-invoice-dollar"></i> Nueva Factura</a></li>
+                        <!---
+                        <li class="li-link"><a class="dropdown-item" id="emailClient" email="" idClient="null" onclick="nextWeb('{{id_companies}}/{{id_branches}}/{{id}}/create-invoice')"><i class="fi-icon fi-sr-file-invoice-dollar"></i> Nueva Factura</a></li>
+                        -->
                     {{/each}}
                 </ul>
             </div>
