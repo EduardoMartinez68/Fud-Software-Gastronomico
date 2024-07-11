@@ -1,0 +1,181 @@
+
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .submit-btn {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .add-product-btn {
+            margin-top: 20px;
+        }
+        .product hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .img-table{
+            width: 100%;
+            height: 100%;
+        }
+
+        /*search*/
+        .search-container {
+            position: relative;
+            display: inline-block;
+            width: 70%; /* Ajusta el ancho según tus necesidades */
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 10px; /* Ajusta el padding según el tamaño del icono */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+            border-radius: 30px;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #007BFF; /* Color de borde al enfocar */
+        }
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #666;
+        }
+    </style>
+</head>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form id="invoice-form">
+                    <label class="text-center mb-4"><i class="fi fi-sr-file-invoice-dollar"></i> Crear Factura</label>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="invoice-number" class="form-label">Número de Factura:</label>
+                            <input type="text" class="form-control" id="invoice-number" name="invoiceNumber" required value="2024-06-01-1-8-001-GH101020FF10" readonly id="number-facture">
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="customer-name" class="form-label">Nombre del Cliente:</label>
+                                <input type="text" class="form-control" id="customer-name" name="customerName" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="customer-address" class="form-label">Dirección:</label>
+                                <input class="form-control" id="customer-address" name="customerAddress" rows="3" required></input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="customer-email" class="form-label">Email del Cliente:</label>
+                                <input type="email" class="form-control" id="customer-email" name="customerEmail" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="invoice-date" class="form-label">Fecha de pago:</label>
+                                <input type="date" class="form-control" id="invoice-date" name="invoiceDate" required>
+                            </div>                  
+                        </div>
+                    </div>
+
+                    <hr>
+                    <label for=""><i class="fi fi-ss-hamburger-soda"></i> Descripcion del pedido</label>
+                    <div class="mb-3 table-responsive">
+                        <table class="table product-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Código de Barra</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-table-body">
+                                <tr>
+                                    <td style="width: 10%;">
+                                        <img src="https://www.nestleprofessional.com.mx/sites/default/files/styles/np_recipe_detail/public/2023-08/147020-79299-9187ee8d160862c154e7936c2c13682f.png?itok=vbCMDbqZ" alt="" class="img-table">
+                                    </td>
+                                    <td>hamburguesa</td>
+                                    <td>Hamburguesa</td>
+                                    <td>60</td>
+                                    <td>1</td>
+                                    <td>60</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="total">
+                        <label for="total">Total:</label>
+                        <span id="total">$60.00</span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Crear Factura</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        //this is for create the id of the invoice
+        document.addEventListener("DOMContentLoaded", function() {
+            const invoiceNumberInput = document.getElementById("invoice-number");
+
+            function generateRandomString(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                return result;
+            }
+
+            function updateInvoiceNumber() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const randomString = generateRandomString(18);
+                const newInvoiceNumber = `${year}-${month}-${day}-${randomString}`;
+                invoiceNumberInput.value = newInvoiceNumber;
+            }
+
+            updateInvoiceNumber();
+        });
+    </script>
