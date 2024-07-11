@@ -1,0 +1,57 @@
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .new-invoice-btn {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .new-invoice-btn:hover {
+        background-color: #218838;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <label><i class="fi fi-sr-file-invoice-dollar"></i> Facturas</label>
+        <button class="new-invoice-btn">Crear Nueva Factura</button>
+    </div>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Número de Factura</th>
+                    <th>Fecha de Creación</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024-06-01-1-8-001-GH101020FF10</td>
+                    <td>2024-06-01</td>
+                    <td>Juan Pérez</td>
+                    <td>$120.00</td>
+                    <td>Pagado</td>
+                    <td>
+                        <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                        <button class="btn btn-danger" id="{{id}}" onclick="edit_supplies(this.id,{{id_companies}},'{{img}}','{{barcode}}','{{name}}','{{description}}','{{use_inventory}}')"><i class="fi-department fi-sr-eye"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1921,6 +1921,7 @@ router.post('/fud/:id_customer/:ipPrinter/car-post', isLoggedIn, async (req, res
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud' });
     }
 
+    //this is for that not exist a error when printer
     try {
         await printer.print_ticket(commander,total); //this is for print the ticket 
         res.status(200).json({ message: text });

@@ -33,6 +33,10 @@ const {
     get_data_recent_combos,
 } = require('../../services/store');
 
+const {
+    get_all_invoice_with_the_id_of_the_branch
+} = require('../../services/invoice');
+
 
 
 router.get('/:id_user/:id_company/:id_branch/:id_employee/:id_role/store-home', isLoggedIn, async (req, res) => {
@@ -87,6 +91,13 @@ router.get('/store-home', isLoggedIn, async (req, res) => {
 
 router.get('/:id_company/:id_branch/:id_employee/create-invoice', isLoggedIn, async (req, res) => {
     res.render('links/store/invoice/createInvoice');
+})
+
+router.get('/:id_company/:id_branch/invoice', isLoggedIn, async (req, res) => {
+    const {id_branch}=req.params;
+    const branchFree = await get_data_branch(id_branch);
+    const invoice=await get_all_invoice_with_the_id_of_the_branch(id_branch);
+    res.render('links/store/invoice/invoice',{branchFree,invoice});
 })
 
 
