@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
-
+/*
+*----------------------functions-----------------*/
 //functions image
 const {
     get_path_img,
@@ -121,7 +122,8 @@ const {
     check_company_other,
 } = require('../../services/company');
 
-
+/*
+*----------------------links-----------------*/
 const rolFree=0
 //-------------------------------------------------------------------company
 router.get('/:id/company-home', isLoggedIn, async (req, res) => {

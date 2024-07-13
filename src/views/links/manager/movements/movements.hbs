@@ -1,6 +1,6 @@
 <br><br>
 <div class="container">
-    <label for=""><i class="fi-icon fi-sr-money-from-bracket"></i> Movements History</label>
+    <label for=""><i class="fi-icon fi-sr-money-from-bracket"></i> Historia de los movimientos</label>
     <hr>
     <div style="overflow-y: auto; max-height: 800px;">
         <table class="table table-hover"> <!--table-bordered-->
@@ -13,11 +13,11 @@
             </colgroup>
             <thead>
             <tr>
-                <th>Branch</th>
-                <th>Employee</th>
-                <th>Move</th>
-                <th>Comment</th>
-                <th>Date</th>
+                <th>Sucursal</th>
+                <th>Empleado</th>
+                <th>Movimiento</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
     </div>
     {{#each dataMovent}}
         {{#if id_branch}}
-            <button class="btn" onclick="nextWeb('{{id_company}}/{{id_branch}}/{{oldNumberPage}}/movements')"><i class="fi-icon fi-br-angle-left"></i></button>{{pageNumber}}<button class="btn" onclick="nextWeb('{{id_company}}/{{id_branch}}/{{newNumberPage}}/sales')"><i class="fi-icon fi-br-angle-right"></i></button>
+            <button class="btn" onclick="nextWeb('{{id_company}}/{{id_branch}}/{{oldNumberPage}}/movements')"><i class="fi-icon fi-br-angle-left"></i></button>{{pageNumber}}<button class="btn" onclick="nextWeb('{{id_company}}/{{id_branch}}/{{newNumberPage}}/movements')"><i class="fi-icon fi-br-angle-right"></i></button>
         {{else}}
             <button class="btn" onclick="nextWeb('{{id_company}}/{{oldNumberPage}}/movements')"><i class="fi-icon fi-br-angle-left"></i></button>{{pageNumber}}<button class="btn" onclick="nextWeb('{{id_company}}/{{newNumberPage}}/sales-company')"><i class="fi-icon fi-br-angle-right"></i></button>
         {{/if}}

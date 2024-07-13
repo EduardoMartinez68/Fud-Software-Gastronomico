@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('../../lib/auth');
-
+/*
+*----------------------functions-----------------*/
 //functions subscription
 const {
     validate_subscription,
@@ -23,7 +24,15 @@ const {
     update_suscription_of_app_in_branch
 } = require('../../services/subscription');
 
+//functions sales and move
+const {
+    check_company,
+    check_company_other,
+} = require('../../services/company');
 
+/*
+*----------------------links-----------------*/
+const companyName='links'
 router.post('/add-app-fud', isLoggedIn, async (req, res) => {
     const {app}=req.body; //get the app that the user buy 
     const {id_company,id_branch}=req.body; //get the data of the branch 
@@ -258,7 +267,6 @@ router.get('/subscription', isLoggedIn, async (req, res) => {
     const company = await check_company_other(req);
     const { id_company } = req.params;
     const subscription=await get_subscription_for_id_user(req.user.id); //get all the suscription of the user for his id 
-    console.log(subscription)
     res.render(companyName + '/manager/options/subscription', { company , subscription});
 });
 

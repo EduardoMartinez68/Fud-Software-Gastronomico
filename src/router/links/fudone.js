@@ -51,7 +51,8 @@ const {
 
 //functions supplies
 const {
-    get_country
+    get_country,
+    get_type_employees
 } = require('../../services/employees');
 
 
@@ -311,6 +312,15 @@ router.get('/:id_company/:id_branch/:id/delete-food-category', isLoggedIn, async
     }
 
 });
+
+
+//------------------------------------type user 
+router.get('/:id_company/:id_branch/type-user', isLoggedIn, async (req, res) => {
+    const { id_company } = req.params;
+    const branchFree = await check_company_other(req);
+    const typeEmployees = await get_type_employees(id_company)
+    res.render('links/manager/role_type_employees/typeEmployees', { branchFree, typeEmployees });
+})
 
 
 module.exports = router;

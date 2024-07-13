@@ -64,6 +64,7 @@ const {
     this_department_be
 } = require('../../services/foodDepartment');
 
+
 const rolFree=0
 const companyName='links'
 
@@ -709,8 +710,13 @@ router.get('/:id_company/:id_branch/:number_page/sales', isLoggedIn, async (req,
         const dataSales=[{id_company,id_branch,oldNumberPage,newNumberPage,pageNumber}]
 
         const sales = await get_sales_branch(id_branch,salesStart,salesEnd);
-        const branch = await get_data_branch(req);
-        res.render('links/manager/sales/sales', { branch, sales ,dataSales});
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/manager/sales/sales', { branchFree, sales ,dataSales});
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/manager/sales/sales', { branch, sales ,dataSales});
+        }
     }
 })
 
@@ -753,11 +759,47 @@ router.get('/:id_company/:id_branch/:number_page/movements', isLoggedIn, async (
         const oldNumberPage=pageNumber -1;
 
         const dataMovent=[{id_company,id_branch,oldNumberPage,newNumberPage,pageNumber}]
-        const movements = await get_movements_company(id_company,movementsStart,movementsEnd);
-        const branch = await get_data_branch(req);
-        res.render('links/manager/movements/movements', { branch, movements , dataMovent});
+        const movements = await get_movement_history_with_id_branch(id_branch,movementsStart,movementsEnd);
+        if(req.user.rol_user==rolFree){
+            const branchFree = await get_data_branch(req);
+            res.render('links/manager/movements/movements', { branchFree, movements , dataMovent});
+        }else{
+            const branch = await get_data_branch(req);
+            res.render('links/manager/movements/movements', { branch, movements , dataMovent});
+        }
     }
 })
+
+async function get_movement_history_with_id_branch(idBranch, start, end) {
+    try {
+        const query = `
+            SELECT 
+                mh.*, 
+                u.first_name AS employee_first_name, 
+                u.second_name AS employee_second_name, 
+                u.last_name AS employee_last_name, 
+                b.name_branch
+            FROM 
+                "Box".movement_history mh
+            LEFT JOIN 
+                "Company".employees e ON mh.id_employees = e.id
+            LEFT JOIN 
+                "Fud".users u ON e.id_users = u.id
+            LEFT JOIN 
+                "Company".branches b ON mh.id_branches = b.id
+            WHERE 
+                mh.id_branches = $1
+            LIMIT $2 OFFSET $3;
+        `;
+        const values = [idBranch, end - start, start];
+        const result = await database.query(query, values);
+
+        return result.rows;
+    } catch (error) {
+        console.error("Error al obtener datos de movimiento:", error);
+        throw error;
+    }
+}
 
 router.get('/:id_company/:id_branch/box', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){

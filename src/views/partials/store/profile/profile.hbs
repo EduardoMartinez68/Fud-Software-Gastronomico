@@ -81,7 +81,7 @@
             <!-- Ad -->
             <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/ad')">
                 <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1060/1060382.png" alt="" class="img-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="" class="img-icon">
                 </div>
                 <label>Anuncios</label>
             </div>
@@ -122,8 +122,11 @@
                 </div>
                 <label>Area de comida</label>
             </div>
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center">
-
+            <div class="col-sm-4 col-md-3 col-lg-2 text-center"  onclick="nextWeb('{{id_companies}}/{{id}}/0/sales')">
+                <div class="app-icon text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="" class="img-icon">
+                </div>
+                <label>Ventas</label>
             </div>
             <!-- logout 
             <div class="col-sm-4 col-md-3 col-lg-2 text-center">
@@ -133,6 +136,37 @@
                 <label>Facturas</label>
             </div>
             -->
+        </div>
+        <div class="row justify-content-center">
+            <!-- move -->
+            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/0/movements')">
+                <div class="app-icon text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="" class="img-icon">
+                </div>
+                <label>Movimientos</label>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id}}/{{id_companies}}/edit-branch-free')">
+                <div class="app-icon text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1168/1168625.png" alt="" class="img-icon">
+                </div>
+                <label>Configuraciones</label>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-2 text-center">
+                <!---
+                <div class="app-icon text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="" class="img-icon">
+                </div>
+                <label>Departamento de empleados</label>
+                --->
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-2 text-center">
+                <!---
+                <div class="app-icon text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="" class="img-icon">
+                </div>
+                <label>Areas de empleados</label>
+                --->
+            </div>
         </div>
     </div>
 {{/each}}
@@ -162,3 +196,4 @@
     </div>
     </center>
 {{/if}}
+<br><br><br><br>

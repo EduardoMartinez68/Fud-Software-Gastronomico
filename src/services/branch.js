@@ -51,7 +51,6 @@ async function get_data_branch(id_branch) {
     return data;
 }
 
-
 async function get_id_branch(id_company){
     var queryText = 'SELECT * FROM "Company".branches Where id_companies= $1';
     var values = [parseInt(req.user.id)];
