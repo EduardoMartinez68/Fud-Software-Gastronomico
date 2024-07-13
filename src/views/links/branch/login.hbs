@@ -5,8 +5,113 @@
     <link rel="stylesheet" href="/css/session.css">
     <!--this is the style of the new navbar, not delete--->
     {{>web/filesOldWeb/styles}}
+    <style>
+        .number-pad button {
+            width: 100%;
+            font-size: 1.5rem;
+        }
+        .password-input {
+            pointer-events: none;
+            background-color: #f8f9fa;
+            text-align: center;
+            font-size: 2rem; /* Ajusta este valor según sea necesario */
+            color: black;
+        }
+
+        .btn-success{
+            background-color: rgb(40, 167, 69);
+            border-color: rgb(40, 167, 69);
+        }
+
+        .btn-success:hover {
+            background-color: rgb(30, 130, 54); /* Color verde más oscuro cuando se hace hover */
+            border-color: rgb(30, 130, 54);
+        }
+    </style>
 </head>
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        {{#each dataLoginBranch}}
+            <form action="{{id_companies}}/{{id_branch}}/login" method="post">
+                    <div class="col-md-4">
+                        <center>
+                            <h1 class="title-session">{{name}}</h1>
+                            {{#if path_logo}}
+                                <img src="{{path_logo}}" class="company-logo-login">
+                            {{else}}
+                                <img src="https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png">
+                            {{/if}}
+                        </center>
+                        <br>
+                        <div class="form-group">
+                            <label for="passwordInput">PIN</label>
+                            <input type="text" class="form-control password-input" id="passwordInput" readonly placeholder="*****">
+                        </div>
+                        <div class="number-pad">
+                            <div class="row">
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(1)">1</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(2)">2</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(3)">3</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(4)">4</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(5)">5</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(6)">6</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(7)">7</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(8)">8</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(9)">9</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-danger" onclick="clearInput()">C</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-secondary" onclick="addNumber(0)">0</button>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <button class="btn btn-success" onclick="submitPassword()">✔</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        {{/each}}
+    </div>
+</div>
+
+
+
+
+<script>
+    function addNumber(num) {
+        document.getElementById("passwordInput").value += num;
+    }
+
+    function clearInput() {
+        document.getElementById("passwordInput").value = '';
+    }
+
+    function submitPassword() {
+        // Aquí puedes manejar el envío de la contraseña
+        alert('Contraseña: ' + document.getElementById("passwordInput").value);
+    }
+</script>
+<!--
 <body>
     {{#each company}}
         <section class="body-session">
@@ -58,7 +163,7 @@
 </body>
 
 </html>
-
+--->
 
 
 <!--this is the js of the new navbar, not delete--->

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <link rel="stylesheet" href="/css/session.css">
     <!--this is the style of the new navbar, not delete--->
     {{>web/filesOldWeb/styles}}
     <style>
-        .fi-session{
+        .fi-session {
             color: black;
         }
     </style>
@@ -22,34 +22,36 @@
                         <div class="card-body">
                             <form action="/fud/login" method="POST">
                                 <center>
-                                    <h1 class="title-session">Login</h1>
+                                    <h1 class="title-session">Iniciar sesión</h1>
                                 </center>
                                 <br>
-                                <div class="form-group">
-                                    <lable>
-                                        <i class="fi-session fi-rr-user">E-mail *</i>
-                                        <input type="text" id="userName" name="userName" placeholder="E-mail"
-                                            class="form-control" autofocus>
-                                    </lable>
-                                </div>
-
                                 <div class="row g-2 align-items-center">
                                     <div class="col-11">
-                                        <i class="fi-session fi-rr-lock">Passwoard *</i>
-                                        <input type="password" id="password" name="password" placeholder="password"
-                                            class="form-control">                                    </div>
+                                        <i class="fi-session fi-rr-user">Correo electrónico *</i>
+                                        <input type="text" id="userName" name="userName" placeholder="Correo electrónico"
+                                            class="form-control" autofocus>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-11">
+                                        <i class="fi-session fi-rr-lock">Contraseña *</i>
+                                        <input type="password" id="password" name="password" placeholder="Contraseña"
+                                            class="form-control">
+                                    </div>
                                     <div class="col-auto align-items-center" style="container: center;">
                                         <br>
                                         <button type="button" id="showPasswordBtn" onclick="togglePasswordVisibility()" class="btn"> <i class="fi-session fi-rr-eye"></i></button>
                                     </div>
                                 </div>
                                 <br>
-                                <button class="btn btn-success btn-block">Login</button>
+                                <button class="btn btn-success btn-block">Iniciar sesión</button>
                                 <br><br>
-                                <center><a class="link-session" href="/fud/restart-password">Forgot your password?</a></center>
+                                <center><a class="link-session" href="/fud/restart-password">¿Olvidaste tu contraseña?</a></center>
                                 <br><br><br>
-                                <label class="link-session">Don't have an account?</label><a class="link-singUp"
-                                    href="/fud/signup">Sing Up</a>
+                                <label class="link-session">¿No tienes una cuenta?</label><a class="link-singUp"
+                                    href="/fud/signup">Regístrate</a>
                                 <br><br>
                             </form>
                         </div>
@@ -67,7 +69,7 @@
     function togglePasswordVisibility() {
         var passwordInput = document.getElementById("password");
         var showPasswordBtn = document.getElementById("showPasswordBtn");
-        
+
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
             showPasswordBtn.innerHTML = '<i class="fi-session fi-sr-eye-crossed "></i>'; // Cambia el ícono del botón

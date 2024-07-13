@@ -23,6 +23,10 @@ const puppeteer = require('puppeteer');
 const rolFree=0
 
 //////////////////////
+const {
+    get_data_company_with_id,
+} = require('../services/company');
+
 //packs 
 async function get_data(req) {
     const { id } = req.params;
@@ -122,6 +126,13 @@ router.get('/:id_company/login', isNotLoggedIn, async (req, res) => {
     const {id_company}=req.params;
     const company = await get_data_company_with_id(id_company);
     res.render('links/branch/login',{company}); //this web is for return your user
+})
+
+router.get('/:id_company/:id_branch/login', isNotLoggedIn, async (req, res) => {
+    const {id_company}=req.params;
+    const digitalMenu={}
+    const dataLoginBranch=await get_data_company_with_id(id_company);
+    res.render('links/branch/login',{digitalMenu,dataLoginBranch}); //this web is for return your user
 })
 
 

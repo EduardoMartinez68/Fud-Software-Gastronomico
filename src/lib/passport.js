@@ -178,7 +178,7 @@ passport.use('local.signup', new LocalStrategy({
     emailField: 'email',
     acceptTermsField: 'acceptTerms',
     passReqToCallback: true
-}, async (req, userName, password, done) => {
+}, async (req, userName2, password, done) => {
     try {
         const { email, phone, businessName, acceptTerms } = req.body;
         const correctedEmail = email.trim(); //this is for delete the space empty of the form for avoid a error in the login 

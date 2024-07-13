@@ -39,8 +39,10 @@
     padding: 0px;
 }
 
-.company-logo-login{
+.company-logo-login {
     width: 250px;
     height: 250px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 }
