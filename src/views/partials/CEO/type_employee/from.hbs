@@ -1,47 +1,45 @@
 <div class="tab-pane fade show active" id="navbar-character" role="tabpanel" aria-labelledby="navbar-character-tab">
     <div class="card">
         <div class="card-body">
-            <label><i class="fi-icon fi-sr-shield-check"></i>Information of the type user</label>
+            <label><i class="fi-icon fi-sr-shield-check"></i> Información del tipo de usuario</label>
             <hr>
             <div class="row">
                 <div class="col">
-                    <label for="">Name</label>
-                    <input type="text" class="form-control" placeholder="Name" name="name" required value="{{name_role}}">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" placeholder="Nombre" name="name" required value="{{name_role}}">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="">Salary $</label>
-                    <input type="text" class="form-control" placeholder="Salary" name="salary" required value="{{salary}}">
+                    <label for="">Salario $</label>
+                    <input type="text" class="form-control" placeholder="Salario" name="salary" required value="{{salary}}">
                 </div>
                 <div class="col">
-                    <label for="">Currency</label>
-                    <select  id="currency" class="form-control" name="currency" value="{{currency}}">
+                    <label for="">Moneda</label>
+                    <select id="currency" class="form-control" name="currency" value="{{currency}}">
                         <option value="mx">🇲🇽 MXN &#x20B1;</option>
-                        <option value="us">🇺🇸 USD &#x0024;</option>
                     </select>
                 </div>
                 <div class="col">
-                    <label for="">Type Salary</label>
+                    <label for="">Tipo de Salario</label>
                     <select id="typeSalary" class="form-control" name="typeSalary" value="{{type_of_salary}}">
-                        <option value="Minute">Minutes</option>
-                        <option value="Hour">Hours</option>
-                        <option value="Day">Days</option>
-                        <option value="Week">Week</option>
-                        <option value="Fortnight">Fortnight</option>
-                        <option value="Month">Month</option>
+                        <option value="Minute">Minutos</option>
+                        <option value="Hour">Horas</option>
+                        <option value="Day">Días</option>
+                        <option value="Week">Semana</option>
+                        <option value="Fortnight">Quincena</option>
+                        <option value="Month">Mes</option>
                     </select>
                 </div>
             </div>
-            
             <div class="row">
                 <div class="col">
-                    <label for="">% Discount for product</label>
-                    <input type="text" class="form-control" placeholder="Discount for product" name="discount" value="{{discount_for_product}}">
+                    <label for="">% Descuento en productos</label>
+                    <input type="text" class="form-control" placeholder="Descuento en productos" name="discount" value="{{discount_for_product}}">
                 </div>
                 <div class="col">
-                    <label for="">% Commissions</label>
-                    <input type="text" class="form-control" placeholder="Commissions" name="comissions" value="{{commissions}}">
+                    <label for="">% Comisiones</label>
+                    <input type="text" class="form-control" placeholder="Comisiones" name="comissions" value="{{commissions}}">
                 </div>
             </div>
         </div>

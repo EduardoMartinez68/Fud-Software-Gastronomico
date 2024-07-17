@@ -21,14 +21,19 @@ const {
     delete_employee,
     search_employee_departments,
     get_country,
-    get_type_employees
+    get_type_employees,
+    get_data_tole_employees,
+    delete_type_employee,
+    update_department_employe,
+    delete_departament_employee
 } = require('../../services/employees');
 
 //functions branch
 const {
     delete_branch_company,
     get_branch,
-    search_all_branch
+    search_all_branch,
+    get_data_branch
 } = require('../../services/branch');
 
 //functions supplies
@@ -122,7 +127,7 @@ const {
     check_company_other,
 } = require('../../services/company');
 
-/*
+/* 
 *----------------------links-----------------*/
 const rolFree=0
 //-------------------------------------------------------------------company
@@ -312,6 +317,22 @@ router.get('/:id/:idTypeEmployee/delete-role-user', isLoggedIn, async (req, res)
     }
 })
 
+router.get('/:id/:id_branch/:idTypeEmployee/delete-role-user', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    if (company.length > 0) {
+        const { id, idTypeEmployee,id_branch } = req.params;
+        if (await delete_type_employee(idTypeEmployee)) {
+            req.flash('success', 'El rol fue eliminado con éxito 🗑️')
+        } else {
+            req.flash('message', 'El rol no fue eliminado con éxito 😮')
+        }
+        res.redirect(`/fud/${id}/${id_branch}/type-employees-free`);
+    }
+    else {
+        res.redirect('/fud/home');
+    }
+})
+
 
 router.get('/:id/:idRoleEmployee/edit-role-user', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
@@ -319,6 +340,19 @@ router.get('/:id/:idRoleEmployee/edit-role-user', isLoggedIn, async (req, res) =
         const { idRoleEmployee } = req.params;
         const roleEmployee = await get_data_tole_employees(idRoleEmployee)
         res.render('links/manager/role_type_employees/editRoleEmployee', { roleEmployee });
+    }
+    else {
+        res.redirect('/fud/home');
+    }
+})
+
+router.get('/:id/:id_branch/:idRoleEmployee/edit-role-user', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    if (company.length > 0) {
+        const { idRoleEmployee, id_branch} = req.params;
+        const roleEmployee = await get_data_tole_employees(idRoleEmployee)
+        const branchFree=await get_data_branch(id_branch)
+        res.render('links/manager/role_type_employees/editRoleEmployee', { branchFree, roleEmployee });
     }
     else {
         res.redirect('/fud/home');
@@ -337,6 +371,14 @@ router.get('/:id/employee-department', isLoggedIn, async (req, res) => {
         res.redirect('/fud/home');
     }
 })
+
+router.get('/:id_company/:id_branch/employee-department', isLoggedIn, async (req, res) => {
+    const { id_company, id_branch} = req.params;
+    const departments = await search_employee_departments(id_company);
+    const branchFree=await get_data_branch(id_branch)
+    res.render('links/manager/role_type_employees/departmentEmployees', { branchFree, departments });
+})
+
 
 router.get('/:id/:idDepartament/delete_departament', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
@@ -357,6 +399,25 @@ router.get('/:id/:idDepartament/delete_departament', isLoggedIn, async (req, res
     res.redirect('/fud/' + id + '/employee-department');
 })
 
+router.get('/:id/:id_branch/:idDepartament/delete_departament', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    const { id, id_branch, idDepartament } = req.params;
+
+    if (company.length > 0) {
+        if (await delete_departament_employee(idDepartament)) {
+            req.flash('success', '"El departamento fue eliminado con éxito 😊')
+        }
+        else {
+            req.flash('message', 'El departamento no fue eliminado 😮')
+        }
+    }
+    else {
+        res.redirect('/fud/home');
+    }
+
+    res.redirect(`/fud/${id}/${id_branch}/employee-department`)
+})
+
 router.get('/:id/:idDepartament/:name/:description/edit-department-employee', isLoggedIn, async (req, res) => {
     const company = await check_company(req);
     const { id } = req.params;
@@ -375,6 +436,25 @@ router.get('/:id/:idDepartament/:name/:description/edit-department-employee', is
     }
 
     res.redirect('/fud/' + id + '/employee-department');
+})
+
+router.get('/:id/:id_branch/:idDepartament/:name/:description/edit-department-employee', isLoggedIn, async (req, res) => {
+    const company = await check_company(req);
+    const { id,id_branch} = req.params;
+
+    if (company.length > 0) {
+        const { idDepartament, name, description } = req.params;
+        if (await update_department_employe(idDepartament, name, description)) {
+            req.flash('success', 'El departamento fue actualizado con éxito 🚀')
+        }
+        else {
+            req.flash('message', 'El departamento no fue actualizado 😅')
+        }
+    }
+    else {
+        res.redirect('/fud/home');
+    }
+    res.redirect(`/fud/${id}/${id_branch}/employee-department`)
 })
 
 //----------------------------------------------------------------supplies and products 

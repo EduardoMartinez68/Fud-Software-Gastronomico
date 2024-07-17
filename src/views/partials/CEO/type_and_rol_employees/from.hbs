@@ -1,6 +1,12 @@
 <br>
 {{#each company}}
     <form action="/fud/{{id}}/add-department-employees" method="POST" enctype="multipart/form-data">
+{{/each}}
+
+{{#each branchFree}}
+    <form action="/fud/{{id_companies}}/add-department-employees" method="POST" enctype="multipart/form-data">
+    <input type="hidden" value="{{id}}" name="id_branch" id="id_branch">
+{{/each}}
         <center><h5><i class="fi-icon fi-ss-apartment"></i>Agregar un nuevo departamento de empleados</h5></center>
         <hr>
         <div class="form-group">
@@ -12,7 +18,6 @@
         <hr>
         <button type="submit" class="btn btn-success btn-block" id="">Guardar</button>
     </form>
-{{/each}}
 
 
 <script src="/js/store/other.js"></script>

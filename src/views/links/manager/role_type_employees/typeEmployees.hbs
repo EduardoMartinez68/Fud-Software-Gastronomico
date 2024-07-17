@@ -15,8 +15,15 @@
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <br>
+        <!--this is for add a type employee when the user have a subscription in fud franchise-->
         {{#each company}}
         <form action="/fud/{{id}}/add-type-employees" method="POST" enctype="multipart/form-data">
+        {{/each}}
+        
+        <!--this is for add a type employee when the user have a subscription in fud one-->
+        {{#each branchFree}}
+        <form action="/fud/{{id_companies}}/add-type-employees" method="POST" enctype="multipart/form-data">
+        <input type="hidden" value="{{id}}" name="id_branch" id="id_branch">
         {{/each}}
           {{>CEO/type_employee/navbar}}
         </form>
@@ -52,4 +59,29 @@
     console.log(id_company)
     //await new_company_supplies('Add a new supplies')
   }
+</script>
+
+
+<script>
+    async function delete_role_employee(id,id_company){
+        if(await questionMessage('🗑️ Eliminar rol de empleado','¿Quieres eliminar este rol de empleado?')){
+            //we will see if the user have a subscription to fud one 
+            const idBranch=document.getElementById('id_branch').value;
+            if(idBranch){
+                window.location.href = `/fud/${id_company}/${idBranch}/${id}/delete-role-user`;
+            }else{
+                window.location.href = `/fud/${id_company}/${id}/delete-role-user`;
+            }
+        }
+    }
+
+    async function edit_role_employee(id,id_company){
+        //we will see if the user have a subscription to fud one 
+        const idBranch=document.getElementById('id_branch').value;
+        if(idBranch){
+            window.location.href = `/fud/${id_company}/${idBranch}/${id}/edit-role-user`;
+        }else{
+            window.location.href = `/fud/${id_company}/${id}/edit-role-user`;
+        }
+    }
 </script>

@@ -31,19 +31,3 @@
     {{/each}}
     </tbody>
 </table>
-
-
-
-
-
-<script>
-    async function delete_role_employee(id,id_company){
-        if(await questionMessage('🗑️ Eliminar rol de empleado','¿Quieres eliminar este rol de empleado?')){
-            window.location.href = "/fud/"+id_company+"/"+id+"/delete-role-user";
-        }
-    }
-
-    async function edit_role_employee(id,id_company){
-        window.location.href = "/fud/"+id_company+"/"+id+"/edit-role-user";
-    }
-</script>

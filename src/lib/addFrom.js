@@ -982,7 +982,14 @@ router.post('/fud/:id_company/add-department-employees', isLoggedIn, async (req,
     else {
         req.flash('message', 'the department not was add 😰')
     }
-    res.redirect('/fud/' + id_company + '/employee-department');
+
+    //we will see if the user have the subscription to fud one 
+    if(req.user.rol_user==rolFree){
+        const { id_branch } = req.body;
+        res.redirect(`/fud/${id_company}/${id_branch}/employee-department`);
+    }else{
+        res.redirect(`/fud/${id_company}/employee-department`);
+    }
 })
 
 function create_department_employee(req) {
@@ -1012,7 +1019,14 @@ router.post('/fud/:id_company/add-type-employees', isLoggedIn, async (req, res) 
             req.flash('message', 'El tipo de empleado no fue agregado 😰')
         }
     }
-    res.redirect('/fud/' + id_company + '/type-user');
+
+    //we will see if the user have a subscription to fud one 
+    if(req.user.rol_user==rolFree){
+        const { id_branch } = req.body;
+        res.redirect(`/fud/${id_company}/${id_branch}/type-employees-free`);
+    }else{
+        res.redirect(`/fud/${id_company}/type-user`);
+    }
 })
 
 async function this_type_employee_exist(idCompany, name) {
@@ -1126,8 +1140,14 @@ router.post('/fud/:id_company/:id_role/edit-role-employees', isLoggedIn, async (
     else {
         req.flash('message', 'El rol de empleado no fue actualizado 😅')
     }
-    //refresh the web with the new role update
-    res.redirect('/fud/' + id_company + '/type-user');
+
+    //we will see if the user have the subscription a fud one
+    if(req.user.rol_user==rolFree){
+        const { id_branch } = req.body;
+        res.redirect(`/fud/${id_company}/${id_branch}/type-employees-free`);
+    }else{
+        res.redirect(`/fud/${id_company}/type-user`);
+    }
 })
 
 //add employees

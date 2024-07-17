@@ -579,6 +579,14 @@ router.get('/:id_company/:id_branch/type-employees', isLoggedIn, async (req, res
     }
 })
 
+router.get('/:id_company/:id_branch/type-employees-free', isLoggedIn, async (req, res) => {
+    const { id_company } = req.params;
+    const typeEmployees = await get_type_employees(id_company)
+    const branchFree=await get_data_branch(req);
+    res.render('links/manager/role_type_employees/typeEmployees', { branchFree, typeEmployees });
+})
+
+
 router.get('/:id_company/:id_branch/:id_role_employee/edit-role-user', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
         const { id_role_employee } = req.params;

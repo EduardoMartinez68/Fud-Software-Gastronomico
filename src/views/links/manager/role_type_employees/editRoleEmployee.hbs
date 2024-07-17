@@ -4,10 +4,21 @@
         <center><h6>Editar '{{name}}'</h6></center>
         <hr>
     </div>
+{{/each}}
+
+    {{#each roleEmployee}}
     <form action="/fud/{{id_companies}}/{{id}}/edit-role-employees" method="POST" enctype="multipart/form-data">
+    {{/each}}
+
+    <!--this is for when the user have a subscription in fud one-->
+    {{#each branchFree}}
+        <input type="hidden" value="{{id}}" name="id_branch">
+    {{/each}}
+
+    {{#each roleEmployee}}
         {{>CEO/type_employee/navbar}}
     </form>
-{{/each}}
+    {{/each}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
