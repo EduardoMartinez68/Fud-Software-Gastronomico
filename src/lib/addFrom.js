@@ -1455,7 +1455,7 @@ router.get('/fud/:rol/actualizar-roles', async (req, res) => {
     }
 });
 
-router.post('/fud/actualizar-roles', isLoggedIn, async (req, res) => {
+router.get('/fud/actualizar-roles', isLoggedIn, async (req, res) => {
     try {
         var queryText = `
             UPDATE "Fud".users
