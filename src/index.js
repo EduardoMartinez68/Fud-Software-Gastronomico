@@ -46,6 +46,7 @@ const pgPool = new pg.Pool({
     ssl: {
         rejectUnauthorized: false,
     }
+    
 });
 app.use(session({
     secret: 'FudSession',

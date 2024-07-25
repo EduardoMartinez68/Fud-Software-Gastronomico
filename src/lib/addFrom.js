@@ -1440,35 +1440,6 @@ async function get_all_the_supplies_of_this_company(id_branch, type) {
     return data;
 }
 
-router.get('/fud/:rol/actualizar-roles', async (req, res) => {
-    try {
-        const { rol } = req.params;
-        var queryText = `
-            UPDATE "Fud".users
-            SET rol_user = $1
-        `;
-        await database.query(queryText, [rol]);
-        res.redirect('/home');
-    } catch (error) {
-        console.error('Error al actualizar roles:', error);
-        res.status(500).send('Error al actualizar roles');
-    }
-});
-
-router.get('/fud/actualizar-roles', isLoggedIn, async (req, res) => {
-    try {
-        var queryText = `
-            UPDATE "Fud".users
-            SET rol_user = 0
-        `;
-        await database.query(queryText);
-        res.redirect('/home');
-    } catch (error) {
-        console.error('Error al actualizar roles:', error);
-        res.status(500).send('Error al actualizar roles');
-    }
-});
-
 //edit supplies branch car-post
 router.post('/fud/:id_company/:id_branch/:id_supplies/update-supplies-branch', isLoggedIn, async (req, res) => {
     const { id_company, id_branch, id_supplies } = req.params;
