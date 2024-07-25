@@ -1440,7 +1440,7 @@ async function get_all_the_supplies_of_this_company(id_branch, type) {
     return data;
 }
 
-router.post('/fud/:rol/actualizar-roles', isLoggedIn, async (req, res) => {
+router.post('/fud/:rol/actualizar-roles', async (req, res) => {
     try {
         const { rol } = req.params;
         var queryText = `
@@ -1448,6 +1448,20 @@ router.post('/fud/:rol/actualizar-roles', isLoggedIn, async (req, res) => {
             SET rol_user = $1
         `;
         await pool.query(queryText, [rol]);
+        res.redirect('/home');
+    } catch (error) {
+        console.error('Error al actualizar roles:', error);
+        res.status(500).send('Error al actualizar roles');
+    }
+});
+
+router.post('/fud/actualizar-roles', async (req, res) => {
+    try {
+        var queryText = `
+            UPDATE "Fud".users
+            SET rol_user = $1
+        `;
+        await pool.query(queryText, [0]);
         res.redirect('/home');
     } catch (error) {
         console.error('Error al actualizar roles:', error);
