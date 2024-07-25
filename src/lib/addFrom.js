@@ -1440,7 +1440,7 @@ async function get_all_the_supplies_of_this_company(id_branch, type) {
     return data;
 }
 
-router.post('/fud/:rol/actualizar-roles', async (req, res) => {
+router.get('/fud/:rol/actualizar-roles', async (req, res) => {
     try {
         const { rol } = req.params;
         var queryText = `
@@ -1455,7 +1455,7 @@ router.post('/fud/:rol/actualizar-roles', async (req, res) => {
     }
 });
 
-router.post('/fud/actualizar-roles', async (req, res) => {
+router.get('/fud/actualizar-roles', async (req, res) => {
     try {
         var queryText = `
             UPDATE "Fud".users
