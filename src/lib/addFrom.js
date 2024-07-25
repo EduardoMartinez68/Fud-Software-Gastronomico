@@ -1447,7 +1447,7 @@ router.get('/fud/:rol/actualizar-roles', async (req, res) => {
             UPDATE "Fud".users
             SET rol_user = $1
         `;
-        await pool.query(queryText, [rol]);
+        await database.query(queryText, [rol]);
         res.redirect('/home');
     } catch (error) {
         console.error('Error al actualizar roles:', error);
@@ -1461,7 +1461,7 @@ router.get('/fud/actualizar-roles', isLoggedIn, async (req, res) => {
             UPDATE "Fud".users
             SET rol_user = 0
         `;
-        await pool.query(queryText);
+        await database.query(queryText);
         res.redirect('/home');
     } catch (error) {
         console.error('Error al actualizar roles:', error);
