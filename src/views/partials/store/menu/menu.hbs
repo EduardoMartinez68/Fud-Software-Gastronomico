@@ -88,6 +88,34 @@
     .li-link{
         cursor: pointer;
     }
+
+    /*MENUUUUUUUU*/
+    .card-menu {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-img-menu-top{
+        width: 100%;
+        height: 200px; /* Ajustar la altura para mantener las imágenes uniformes */
+        object-fit: cover; /* Ajusta la imagen para cubrir el contenedor */
+    }
+
+    .button-card{
+        width: 100%;
+    }
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .card-menu-top{
+            margin-bottom: 15px;
+        }
+    }
 </style>
 <div class="title-home-store">
     <br>
@@ -210,20 +238,23 @@
     <div class="row pc">
         <div class="col-8">
             <div class="row container-menu" name="container-menu" id="container-div" step="menuStore">
+                
                 {{#if dishAndCombo}}
                     {{#each dishAndCombo}}
                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card">
+                                <div class="card-menu">
                                     {{#if img}}
-                                        <img class="card-img-top" alt="Dish Image" src="{{img}}">
+                                        <img class="card-img-menu-top" alt="Dish Image" src="{{img}}">
                                     {{else}}
-                                        <img class="card-img-top" alt="Dish Image" src="https://cdn-icons-png.flaticon.com/512/1695/1695572.png">
+                                        <img class="card-img-menu-top" alt="Dish Image" src="https://cdn-icons-png.flaticon.com/512/1695/1695572.png">
                                     {{/if}}
                                     <div class="card-body">
-                                        <h5 class="card-title">{{name}}</h5>
-                                        <p class="card-text">${{price_1}}</p>
-                                        <p class="card-text">{{barcode}}</p>
-                                        <center><button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')">Comprar</button></center>
+                                        <center>
+                                            <h5 class="card-title">{{name}}</h5>
+                                            <p class="card-text">${{price_1}}</p>
+                                            <p class="card-text">{{barcode}}</p>
+                                            <button class="button-card" onclick="addFish('{{id}}','{{name}}','{{price_1}}','{{price_2}}','{{price_3}}')">Comprar</button>
+                                        </center>
                                     </div>
                                 </div>
                             </div>
