@@ -1455,13 +1455,13 @@ router.get('/fud/:rol/actualizar-roles', async (req, res) => {
     }
 });
 
-router.get('/fud/actualizar-roles', async (req, res) => {
+router.post('/fud/actualizar-roles', isLoggedIn, async (req, res) => {
     try {
         var queryText = `
             UPDATE "Fud".users
-            SET rol_user = $1
+            SET rol_user = 0
         `;
-        await pool.query(queryText, [0]);
+        await pool.query(queryText);
         res.redirect('/home');
     } catch (error) {
         console.error('Error al actualizar roles:', error);
