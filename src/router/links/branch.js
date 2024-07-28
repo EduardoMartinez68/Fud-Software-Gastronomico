@@ -63,6 +63,7 @@ const {
     update_product_department,
     this_department_be
 } = require('../../services/foodDepartment');
+const { get_data_company, get_data_company_with_id } = require('../../services/company');
 
 
 const rolFree=0
@@ -1210,7 +1211,11 @@ router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) =>
 /*store online*/
 router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
     const { id_company, id_branch } = req.params;
+    const dataCompany=await get_data_company_with_id(id_company);
     const branchFree = await get_data_branch(req);
+    //const dataCompany=await get_data_company(req);
+    //console.log(dataCompany)
+
     if (branchFree != null) {
         const digitalMenu=[{menu:''}]
         //we get all the combo of the branch 
@@ -1228,7 +1233,7 @@ router.get('/myrestaurant/:id_company/:id_branch', async (req, res) => {
 
         res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newCombos,mostSold,offerAd,newAd,combosAd,specialsAd});
         */
-        res.render('links/store/home/digitalMenu', { branchFree ,digitalMenu,dishAndCombo,newAd});
+        res.render('links/store/home/digitalMenu', { dataCompany, branchFree ,digitalMenu,dishAndCombo,newAd});
     } else {
         res.render('links/store/branchLost');
     }

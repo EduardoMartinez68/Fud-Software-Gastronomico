@@ -108,12 +108,18 @@
     }
 
     .button-card{
-        width: 100%;
+        width: 150px;
     }
+
+
     /* Responsive design */
     @media (max-width: 768px) {
         .card-menu-top{
             margin-bottom: 15px;
+        }
+
+        .button-card{
+            width: 100px;
         }
     }
 </style>
@@ -221,27 +227,18 @@
                 </thead>
             </table>
         </div>
-        <!---
-        <div class="col">
-            <button class="btn btn-primary button-spacing" onclick="create_new_order()"><i class="fi fi-ss-biking-mountain"></i> Pedido a domicilio</button>
-        </div>
-        -->
     </div>
-    <!--
-        <button class="btn btn-primary button-spacing"
-            onclick="cash_movement('{{id}}','{{id_branches}}')"><i
-                class="fi fi-sr-hand-holding-usd"></i></button>
-        <button class="btn btn-primary button-spacing"
-            onclick="cash_movement('{{id}}','{{id_branches}}')"><i
-                class="fi fi-ss-cash-register"></i></button>
-    -->
     <div class="row pc">
         <div class="col-8">
             <div class="row container-menu" name="container-menu" id="container-div" step="menuStore">
                 
                 {{#if dishAndCombo}}
                     {{#each dishAndCombo}}
-                            <div class="col-lg-3 col-md-4 col-sm-6">
+                    <!--
+                            <div class="col-lg-3 col-md-3 col-sm-6">pc</div>
+                            <div class="col-lg-4 col-md-3 col-sm-6">tablet</div>
+                    --->
+                            <div class="col-lg-4 col-md-3 col-sm-6">
                                 <div class="card-menu">
                                     {{#if img}}
                                         <img class="card-img-menu-top" alt="Dish Image" src="{{img}}">
