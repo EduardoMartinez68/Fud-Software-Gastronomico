@@ -3,138 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Dashboard</title>
     <style>
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-}
+        .body-apps {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #DCDAE8;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
 
-.header {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
+        .container-app {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjusted for larger icons */
+            grid-auto-rows: minmax(120px, auto); /* Adjusted for larger icons */
+            gap: 20px;
+            max-width: 1000px;
+            padding: 20px;
+            grid-template-columns: repeat(6, 1fr); /* Limit to 6 columns */
+        }
 
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            transition: transform 0.3s ease;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 80px; /* Adjust the size here */
+            height: 80px; /* Adjust the size here */
+        }
 
-.card-img-top {
-    width: 100%;
-    height: 200px; /* Ajusta según tus necesidades */
-    object-fit: cover; /* Asegura que la imagen se ajuste al contenedor sin deformarse */
-}
+        .app-icon img {
+            width: 40px; /* Adjust the size here */
+            height: 40px; /* Adjust the size here */
+            margin-bottom: 5px;
+        }
+        .app-icon i {
+            width: 40px; /* Adjust the size here */
+            height: 40px; /* Adjust the size here */
+            margin-bottom: 5px;
+        }
+        .app-icon span {
+            font-size: 12px; /* Adjust the font size here */
+            font-weight: bold;
+            color: #333;
+        }
 
-.card-body {
-    padding: 15px;
-    text-align: center;
-}
+        .app-icon:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container-app {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Fewer columns on tablets */
+                grid-auto-rows: minmax(100px, auto);
+            }
 
-.card-title {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
+            .app-icon {
+                width: 100px; /* Adjusted size for tablets */
+                height: 100px; /* Adjusted size for tablets */
+                padding: 15px; /* Adjusted padding */
+            }
 
-.card-text {
-    font-size: 1em;
-    margin-bottom: 5px;
-}
+            .app-icon img {
+                width: 50px; /* Adjusted size for tablets */
+                height: 50px; /* Adjusted size for tablets */
+            }
 
-.btn-primary {
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    color: #fff;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+            .app-icon span {
+                font-size: 14px; /* Adjusted font size for tablets */
+            }
+        }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+        @media (max-width: 480px) {
+            .container-app {
+                grid-template-columns: 1fr; /* One column on mobile */
+                grid-auto-rows: minmax(120px, auto); /* Adjusted size for mobile */
+            }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .card {
-        margin-bottom: 15px;
-    }
-}
+            .app-icon {
+                width: 100%; /* Full width on mobile */
+                height: auto;
+                padding: 20px; /* Adjusted padding */
+            }
+
+            .app-icon img {
+                width: 70px; /* Larger icons for mobile */
+                height: 70px; /* Larger icons for mobile */
+            }
+
+            .app-icon span {
+                font-size: 18px; /* Larger font size for mobile */
+            }
+        }
     </style>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>Restaurant Menu</h1>
-        </header>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="https://fud-images.sfo2.digitaloceanspaces.com/https%3A//fud-images.sfo2.digitaloceanspaces.com/06f5d09b-2dbc-431d-ab11-4ee9590f6cf3.jpeg" class="card-img-top" alt="Dish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Dish Name 1</h5>
-                        <p class="card-text">Price: $12.99</p>
-                        <p class="card-text">Barcode: 987654321012</p>
-                        <button class="btn btn-primary">Buy</button>
-                    </div>
-                </div>
+    <div class="body-apps">
+        <div class="container-app">
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/1147/1147832.png" alt="Insumos">
+                <span>Insumos</span>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="https://fud-images.sfo2.digitaloceanspaces.com/https%3A//fud-images.sfo2.digitaloceanspaces.com/80297c4b-594b-4543-8cc4-106c79fb289b.webp" class="card-img-top" alt="Dish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Dish Name 2</h5>
-                        <p class="card-text">Price: $15.99</p>
-                        <p class="card-text">Barcode: 987654321013</p>
-                        <button class="btn btn-primary">Buy</button>
-                    </div>
-                </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="Combos">
+                <span>Combos</span>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="https://www.nestleprofessional.com.mx/sites/default/files/styles/np_recipe_detail/public/2023-08/147020-79299-9187ee8d160862c154e7936c2c13682f.png?itok=vbCMDbqZ" class="card-img-top" alt="Dish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Dish Name 3</h5>
-                        <p class="card-text">Price: $18.99</p>
-                        <p class="card-text">Barcode: 987654321014</p>
-                        <button class="btn btn-primary">Buy</button>
-                    </div>
-                </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="">
+                <span>Empleados</span>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="https://www.nestleprofessional.com.mx/sites/default/files/styles/np_recipe_detail/public/2023-08/147020-79299-9187ee8d160862c154e7936c2c13682f.png?itok=vbCMDbqZ" class="card-img-top" alt="Dish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Dish Name 4</h5>
-                        <p class="card-text">Price: $9.99</p>
-                        <p class="card-text">Barcode: 987654321015</p>
-                        <button class="btn btn-primary">Buy</button>
-                    </div>
-                </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" alt="Ofertas">
+                <span>Repartidor</span>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="https://fud-images.sfo2.digitaloceanspaces.com/https%3A//fud-images.sfo2.digitaloceanspaces.com/2fa9376f-85de-43b0-b40a-3977880a42c7.webp" class="card-img-top" alt="Dish Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Dish Name 5</h5>
-                        <p class="card-text">Price: $14.99</p>
-                        <p class="card-text">Barcode: 987654321016</p>
-                        <button class="btn btn-primary">Buy</button>
-                    </div>
-                </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt="Repartidores">
+                <span>Menu Digital</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="Movimientos">
+                <span>Anuncios</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="Departamentos">
+                <span>Sucursal</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/8828/8828939.png" alt="Departamentos">
+                <span>Cajas</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
+                <span>Departamento de Comida</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
+                <span>Area de Comida</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="Departamentos">
+                <span>Ventas</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="Departamentos">
+                <span>Movimientos</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="Departamentos">
+                <span>Departamento de empleados</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="Departamentos">
+                <span>Roles de empleados</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/4372/4372862.png" alt="Áreas">
+                <span>Marketplace</span>
             </div>
         </div>
     </div>

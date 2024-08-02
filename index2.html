@@ -1,162 +1,254 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Factura</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dashboard</title>
     <style>
-        .container {
-            margin-top: 50px;
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #DCDAE8;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevent scrolling while menu is open */
         }
-        .total {
-            text-align: right;
-            font-size: 1.2em;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        .submit-btn {
-            background-color: #007BFF;
-            color: #fff;
+
+        .menu-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
             border: none;
             border-radius: 5px;
+            padding: 10px 20px;
             cursor: pointer;
-            padding: 10px;
+            z-index: 1000;
+        }
+
+        .menu-toggle:hover {
+            background-color: #555;
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin-top: 20px;
+            height: 100%;
+            background-color: #DCDAE8;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: translateY(-100%);
         }
-        .submit-btn:hover {
-            background-color: #0056b3;
+
+        .menu.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
         }
-        .add-product-btn {
-            margin-top: 20px;
-        }
-        .product hr {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .badge-paid {
+
+        .close-menu {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #28a745;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
             color: white;
-            padding: 5px 10px;
-            font-size: 1em;
+            border: none;
             border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .close-menu:hover {
+            background-color: #555;
+        }
+
+        .container-app {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjusted for larger icons */
+            grid-auto-rows: minmax(120px, auto); /* Adjusted for larger icons */
+            gap: 20px;
+            max-width: 1000px;
+            padding: 20px;
+            grid-template-columns: repeat(6, 1fr); /* Limit to 6 columns */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .menu.active .container-app {
+            opacity: 1;
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            transition: transform 0.3s ease;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 80px; /* Adjust the size here */
+            height: 80px; /* Adjust the size here */
+        }
+
+        .app-icon img {
+            width: 40px; /* Adjust the size here */
+            height: 40px; /* Adjust the size here */
+            margin-bottom: 5px;
+        }
+
+        .app-icon span {
+            font-size: 12px; /* Adjust the font size here */
+            font-weight: bold;
+            color: #333;
+        }
+
+        .app-icon:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container-app {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Fewer columns on tablets */
+                grid-auto-rows: minmax(100px, auto);
+            }
+
+            .app-icon {
+                width: 100px; /* Adjusted size for tablets */
+                height: 100px; /* Adjusted size for tablets */
+                padding: 15px; /* Adjusted padding */
+            }
+
+            .app-icon img {
+                width: 50px; /* Adjusted size for tablets */
+                height: 50px; /* Adjusted size for tablets */
+            }
+
+            .app-icon span {
+                font-size: 14px; /* Adjusted font size for tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container-app {
+                grid-template-columns: 1fr; /* One column on mobile */
+                grid-auto-rows: minmax(120px, auto); /* Adjusted size for mobile */
+            }
+
+            .app-icon {
+                width: 100%; /* Full width on mobile */
+                height: auto;
+                padding: 20px; /* Adjusted padding */
+            }
+
+            .app-icon img {
+                width: 70px; /* Larger icons for mobile */
+                height: 70px; /* Larger icons for mobile */
+            }
+
+            .app-icon span {
+                font-size: 18px; /* Larger font size for mobile */
+            }
         }
     </style>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 <body>
-    <div class="container">
-        <div class="card position-relative">
-            <div class="card-body">
-                <!-- Etiqueta "Pagado" -->
-                <div class="badge-paid">Pagado</div>
-                <h1 class="text-center mb-4">Crear Factura</h1>
-                <form id="invoice-form">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="invoice-number" class="form-label">Número de Factura:</label>
-                            <input type="text" class="form-control" id="invoice-number" name="invoiceNumber" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="invoice-date" class="form-label">Fecha:</label>
-                            <input type="date" class="form-control" id="invoice-date" name="invoiceDate" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="customer-name" class="form-label">Nombre del Cliente:</label>
-                        <input type="text" class="form-control" id="customer-name" name="customerName" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="customer-address" class="form-label">Dirección del Cliente:</label>
-                        <textarea class="form-control" id="customer-address" name="customerAddress" rows="3" required></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="customer-email" class="form-label">Email del Cliente:</label>
-                        <input type="email" class="form-control" id="customer-email" name="customerEmail" required>
-                    </div>
-
-                    <div id="products">
-                        <div class="product">
-                            <div class="mb-3">
-                                <label for="product-description-1" class="form-label">Descripción del Producto/Servicio:</label>
-                                <input type="text" class="form-control" id="product-description-1" name="productDescription[]" required>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <label for="product-quantity-1" class="form-label">Cantidad:</label>
-                                    <input type="number" class="form-control" id="product-quantity-1" name="productQuantity[]" min="1" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="product-price-1" class="form-label">Precio Unitario:</label>
-                                    <input type="number" class="form-control" id="product-price-1" name="productPrice[]" step="0.01" required>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-success add-product-btn" onclick="addProduct()">Agregar Producto/Servicio</button>
-
-                    <div class="total">
-                        <label for="total">Total:</label>
-                        <span id="total">$0.00</span>
-                    </div>
-
-                    <button type="submit" class="submit-btn">Crear Factura</button>
-                </form>
+    <button class="menu-toggle">☰ Menu</button>
+    <div class="menu">
+        <button class="close-menu">×</button>
+        <div class="container-app">
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/1147/1147832.png" alt="Insumos">
+                <span>Insumos</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="Combos">
+                <span>Combos</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="">
+                <span>Empleados</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" alt="Ofertas">
+                <span>Repartidor</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt="Repartidores">
+                <span>Menu Digital</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="Movimientos">
+                <span>Anuncios</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="Departamentos">
+                <span>Sucursal</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/8828/8828939.png" alt="Departamentos">
+                <span>Cajas</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
+                <span>Departamento de Comida</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
+                <span>Area de Comida</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="Departamentos">
+                <span>Ventas</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="Departamentos">
+                <span>Movimientos</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="Departamentos">
+                <span>Departamento de empleados</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="Departamentos">
+                <span>Roles de empleados</span>
+            </div>
+            <div class="app-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/4372/4372862.png" alt="Áreas">
+                <span>Marketplace</span>
             </div>
         </div>
     </div>
 
     <script>
-        let productCount = 1;
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+        const closeMenu = document.querySelector('.close-menu');
 
-        function addProduct() {
-            productCount++;
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product');
-            productDiv.innerHTML = `
-                <div class="mb-3">
-                    <label for="product-description-${productCount}" class="form-label">Descripción del Producto/Servicio:</label>
-                    <input type="text" class="form-control" id="product-description-${productCount}" name="productDescription[]" required>
-                </div>
-                <div class="row g-2">
-                    <div class="col-md-6">
-                        <label for="product-quantity-${productCount}" class="form-label">Cantidad:</label>
-                        <input type="number" class="form-control" id="product-quantity-${productCount}" name="productQuantity[]" min="1" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="product-price-${productCount}" class="form-label">Precio Unitario:</label>
-                        <input type="number" class="form-control" id="product-price-${productCount}" name="productPrice[]" step="0.01" required>
-                    </div>
-                </div>
-                <hr>
-            `;
-            document.getElementById('products').appendChild(productDiv);
-        }
-
-        document.getElementById('invoice-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            calculateTotal();
-            // Aquí puedes agregar la lógica para enviar el formulario
+        menuToggle.addEventListener('click', () => {
+            menu.classList.add('active');
         });
 
-        function calculateTotal() {
-            let total = 0;
-            const quantities = document.querySelectorAll('input[name="productQuantity[]"]');
-            const prices = document.querySelectorAll('input[name="productPrice[]"]');
-            quantities.forEach((quantity, index) => {
-                total += quantity.value * prices[index].value;
-            });
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
+        closeMenu.addEventListener('click', () => {
+            menu.classList.remove('active');
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
