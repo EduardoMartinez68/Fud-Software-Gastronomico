@@ -1,254 +1,370 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>ERP de Contabilidad</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        /* Reset de estilos */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #DCDAE8;
-            display: flex;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Prevent scrolling while menu is open */
+            box-sizing: border-box;
         }
 
-        .menu-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            z-index: 1000;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F9F9F9;
+            color: #333;
+            line-height: 1.6;
         }
 
-        .menu-toggle:hover {
-            background-color: #555;
-        }
-
-        .menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #DCDAE8;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            opacity: 0;
-            transform: translateY(-100%);
-        }
-
-        .menu.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .close-menu {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .close-menu:hover {
-            background-color: #555;
-        }
-
-        .container-app {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjusted for larger icons */
-            grid-auto-rows: minmax(120px, auto); /* Adjusted for larger icons */
-            gap: 20px;
-            max-width: 1000px;
+        header {
+            background-color: #4A90E2;
+            color: #FFFFFF;
             padding: 20px;
-            grid-template-columns: repeat(6, 1fr); /* Limit to 6 columns */
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .menu.active .container-app {
-            opacity: 1;
-        }
-
-        .app-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            border-radius: 10px;
-            padding: 10px;
-            transition: transform 0.3s ease;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 80px; /* Adjust the size here */
-            height: 80px; /* Adjust the size here */
+            font-size: 28px;
+            font-weight: 500;
         }
 
-        .app-icon img {
-            width: 40px; /* Adjust the size here */
-            height: 40px; /* Adjust the size here */
+        main {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4A90E2;
+        }
+
+        .employee-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .employee-card {
+            background-color: #F4F4F4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            width: calc(33.333% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .employee-card:hover {
+            background-color: #E0E0E0;
+            transform: translateY(-5px);
+        }
+
+        .employee-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0; /* Prevents the photo from shrinking */
+        }
+
+        .employee-info {
+            flex: 1;
+        }
+
+        .employee-name {
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 5px;
         }
 
-        .app-icon span {
-            font-size: 12px; /* Adjust the font size here */
-            font-weight: bold;
+        .employee-schedule, .hours-scheduled, .hours-worked {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .accounting-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .stat h3 {
+            font-size: 20px;
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .stat p {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .week-calendar {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .day-box {
+            width: 10%;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #FFFFFF;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .day-box.red {
+            background-color: rgba(233, 79, 79, 0.8);
+        }
+
+        .day-box.green {
+            background-color: rgba(76, 175, 80, 0.8);
+        }
+
+        .day-box.yellow {
+            background-color: rgba(255, 235, 59, 0.8);
             color: #333;
         }
 
-        .app-icon:hover {
-            transform: scale(1.1);
-            cursor: pointer;
+        .day-box.blue {
+            background-color: rgba(41, 182, 246, 0.8);
         }
 
-        /* Responsive styles */
+        .day-box.gray {
+            background-color: rgba(158, 158, 158, 0.8);
+        }
+
+        /* Responsivo */
         @media (max-width: 768px) {
-            .container-app {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Fewer columns on tablets */
-                grid-auto-rows: minmax(100px, auto);
+            .employee-card {
+                width: calc(50% - 20px);
             }
 
-            .app-icon {
-                width: 100px; /* Adjusted size for tablets */
-                height: 100px; /* Adjusted size for tablets */
-                padding: 15px; /* Adjusted padding */
-            }
-
-            .app-icon img {
-                width: 50px; /* Adjusted size for tablets */
-                height: 50px; /* Adjusted size for tablets */
-            }
-
-            .app-icon span {
-                font-size: 14px; /* Adjusted font size for tablets */
+            .accounting-stats {
+                flex-direction: column;
             }
         }
 
         @media (max-width: 480px) {
-            .container-app {
-                grid-template-columns: 1fr; /* One column on mobile */
-                grid-auto-rows: minmax(120px, auto); /* Adjusted size for mobile */
+            .employee-card {
+                width: 100%;
             }
 
-            .app-icon {
-                width: 100%; /* Full width on mobile */
-                height: auto;
-                padding: 20px; /* Adjusted padding */
+            .stat {
+                min-width: 100%;
             }
 
-            .app-icon img {
-                width: 70px; /* Larger icons for mobile */
-                height: 70px; /* Larger icons for mobile */
+            .week-calendar {
+                flex-direction: column;
             }
 
-            .app-icon span {
-                font-size: 18px; /* Larger font size for mobile */
+            .day-box {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
             }
         }
+
+
+        /*button select*/
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-button {
+            background-color: #4A90E2;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-button {
+            background-color: #3e78c9;
+        }
+
+        /*date select*/
+        .date-range-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .date-range-container h2 {
+            margin-bottom: 20px;
+            color: #4A90E2;
+        }
+
+        .date-range {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .date-range-container label {
+            margin: 10px 0;
+            display: block;
+            color: #333;
+        }
+
+        .date-range-container input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: calc(100% - 12px);
+            margin: 0 6px;
+        }
+
+        .date-range-container input[type="submit"] {
+            margin-top: 20px;
+            background-color: #4A90E2;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .date-range-container input[type="submit"]:hover {
+            background-color: #3e78c9;
+        }
     </style>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 <body>
-    <button class="menu-toggle">☰ Menu</button>
-    <div class="menu">
-        <button class="close-menu">×</button>
-        <div class="container-app">
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/1147/1147832.png" alt="Insumos">
-                <span>Insumos</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="Combos">
-                <span>Combos</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="">
-                <span>Empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" alt="Ofertas">
-                <span>Repartidor</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt="Repartidores">
-                <span>Menu Digital</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="Movimientos">
-                <span>Anuncios</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="Departamentos">
-                <span>Sucursal</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/8828/8828939.png" alt="Departamentos">
-                <span>Cajas</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
-                <span>Departamento de Comida</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
-                <span>Area de Comida</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="Departamentos">
-                <span>Ventas</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="Departamentos">
-                <span>Movimientos</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="Departamentos">
-                <span>Departamento de empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="Departamentos">
-                <span>Roles de empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/4372/4372862.png" alt="Áreas">
-                <span>Marketplace</span>
-            </div>
+    <header>
+        ERP de Contabilidad
+    </header>
+    <main>
+        <div class="container">
+            <br><br>
+            <section class="accounting-measures">
+                <h2>Medición de Contabilidad</h2>
+                <div class="accounting-stats">
+                    <div class="stat">
+                        <h3>Total Ingresos</h3>
+                        <p>$10,000</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Total Gastos</h3>
+                        <p>$7,500</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Ganancias Netas</h3>
+                        <p>$2,500</p>
+                    </div>
+                    <!-- Agregar más estadísticas según sea necesario -->
+                </div>
+            </section>
+            <br>
+            <section class="employee-management">
+                <h2>Gestión de Empleados</h2>
+                <div class="employee-list">
+                    <!-- Ejemplo de empleado -->
+                    <div class="employee-card">
+                        <img src="https://img.freepik.com/fotos-premium/retrato-mujer-dentista-consultorio-dental_10069-4969.jpg" alt="Foto de perfil de empleado" class="employee-photo">
+                        <div class="employee-info">
+                            <div class="employee-name">Ana Pérez</div>
+                            <div class="employee-schedule">Horario: 9 AM - 5 PM</div>
+                            <div class="hours-scheduled">Horas Programadas: 40</div>
+                            <div class="hours-worked">Horas Trabajadas: 38</div>
+                            <div class="week-calendar">
+                                <div class="day-box red">L</div>
+                                <div class="day-box green">M</div>
+                                <div class="day-box yellow">X</div>
+                                <div class="day-box green">J</div>
+                                <div class="day-box green">V</div>
+                                <div class="day-box blue">S</div>
+                                <div class="day-box gray">D</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="employee-card">
+                        <img src="https://previews.123rf.com/images/diawka/diawka1704/diawka170400044/75881656-retrato-de-mujer-dentista-de-la-celebraci%C3%B3n-modelo-de-los-dientes-y-las-herramientas-sobre-la-pared.jpg" alt="Foto de perfil de empleado" class="employee-photo">
+                        <div class="employee-info">
+                            <div class="employee-name">Ana Pérez</div>
+                            <div class="employee-schedule">Horario: 9 AM - 5 PM</div>
+                            <div class="hours-scheduled">Horas Programadas: 40</div>
+                            <div class="hours-worked">Horas Trabajadas: 38</div>
+                            <div class="week-calendar">
+                                <div class="day-box green">L</div>
+                                <div class="day-box green">M</div>
+                                <div class="day-box green">X</div>
+                                <div class="day-box blue">J</div>
+                                <div class="day-box blue">V</div>
+                                <div class="day-box gray">S</div>
+                                <div class="day-box gray">D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </div>
-
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menu = document.querySelector('.menu');
-        const closeMenu = document.querySelector('.close-menu');
-
-        menuToggle.addEventListener('click', () => {
-            menu.classList.add('active');
-        });
-
-        closeMenu.addEventListener('click', () => {
-            menu.classList.remove('active');
-        });
-    </script>
+    </main>
 </body>
 </html>

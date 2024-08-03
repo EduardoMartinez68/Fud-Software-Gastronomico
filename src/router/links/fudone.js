@@ -66,6 +66,19 @@ const {
     delate_product_department
 } = require('../../services/foodDepartment');
 
+
+//functions providers
+//functions providers
+const {
+    search_providers,
+    search_all_providers,
+    search_providers_for_name,
+    search_all_providers_for_name,
+    search_provider,
+    delete_provider
+} = require('../../services/providers');
+
+
 /*
 *----------------------router-----------------*/
 router.get('/:id_user/:id_company/:id_branch/my-store', isLoggedIn, async (req, res) => {
@@ -258,8 +271,6 @@ router.get('/:id_company/:id_branch/:id/:name/:description/edit-food-department'
         res.redirect('/fud/home');
     }
 });
-
-
 
 router.get('/:id_company/:idBranch/food-area-free', isLoggedIn, async (req, res) => {
     const { id_company , idBranch} = req.params;

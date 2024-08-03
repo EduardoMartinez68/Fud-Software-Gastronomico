@@ -36,10 +36,10 @@
                     <td>{{existence}}/{{sale_unity}}</td>
                     <td>{{sale_price}}/{{currency_sale}}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="edit_inventory('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{sale_unity}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
+                        <button class="btn btn-edit" onclick="edit_inventory('{{id_companies}}','{{id_branches}}','{{id}}','{{img}}','{{barcode}}','{{name}}','{{existence}}','{{sale_unity}}')"><i class="fi-department fi-ss-truck-loading"></i></button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-department fi-sr-pencil"></i></button>
+                        <button class="btn btn-edit" onclick="edit_supplies('{{id_companies}}','{{id_branches}}','{{id}}')"><i class="fi-department fi-sr-pencil"></i></button>
                     </td>
                 </tr>
             {{/each}}

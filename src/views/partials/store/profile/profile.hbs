@@ -1,3 +1,4 @@
+<!----
 <style>
     .fi-app {
         font-size: 50px;
@@ -34,162 +35,30 @@
         width: 70%;
     }
 </style>
+---->
 <br><br>
-{{#if branchFree}}
-{{#each branchFree}}
-    <div class="container">
-        <center><h5><i class="fi fi-sr-hat-chef"></i> Aplicaciones</h5></center>
-        <hr>
-        <div class="row justify-content-center">
-            <!-- App 1 -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/supplies-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5323/5323820.png" alt=""  class="img-icon">
-                </div>
-                <label>Insumos</label>
-            </div>
-            <!-- Combo -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/combos-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="" class="img-icon">
-                </div>
-                <label>Combos</label>
-            </div>
-            <!-- Employees -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/employees-branch')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="" class="img-icon">
-                </div>
-                <label>Empleados</label>
-            </div>
-            <!-- em -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/order-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" alt="" class="img-icon">
-                </div>
-                <label>Repartidor</label>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <!-- Menu Digital -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('myrestaurant/{{id_companies}}/{{id}}')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt="" class="img-icon">
-                </div>
-                <label>Menu Digital</label>
-            </div>
-            <!-- Ad -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/ad')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="" class="img-icon">
-                </div>
-                <label>Anuncios</label>
-            </div>
-            <!-- configure -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id}}/{{id_companies}}/edit-branch-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="" class="img-icon">
-                </div>
-                <label>Sucursal</label>
-            </div>
-            <!-- logout -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/marketplace')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4372/4372862.png" alt="" class="img-icon">
-                </div>
-                <label>Marketplace</label>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <!-- Menu Digital -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/box')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/8828/8828939.png" alt="" class="img-icon">
-                </div>
-                <label>Cajas</label>
-            </div>
-            <!-- food departament -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/food-department-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="" class="img-icon">
-                </div>
-                <label>Departamento de comida</label>
-            </div>
-            <!-- area departament -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/food-area-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="" class="img-icon">
-                </div>
-                <label>Area de comida</label>
-            </div>
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center"  onclick="nextWeb('{{id_companies}}/{{id}}/0/sales')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="" class="img-icon">
-                </div>
-                <label>Ventas</label>
-            </div>
-            <!-- logout 
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/411/411745.png" alt="" class="img-icon" onclick="nextWeb('{{id_companies}}/{{id}}/invoice')">
-                </div>
-                <label>Facturas</label>
-            </div>
-            -->
-        </div>
-        <div class="row justify-content-center">
-            <!-- move -->
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/0/movements')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="" class="img-icon">
-                </div>
-                <label>Movimientos</label>
-            </div>
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/employee-department')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="" class="img-icon">
-                </div>
-                <label>Departamentos de empleados</label>
-            </div>
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id_companies}}/{{id}}/type-employees-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="" class="img-icon">
-                </div>
-                <label>Roles de empleados</label>
-            </div>
-            <div class="col-sm-4 col-md-3 col-lg-2 text-center" onclick="nextWeb('{{id}}/{{id_companies}}/edit-branch-free')">
-                <div class="app-icon text-white">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1168/1168625.png" alt="" class="img-icon">
-                </div>
-                <label>Configuraciones</label>
-            </div>
-        </div>
-    </div>
-{{/each}}
-{{else}}
 <center>
-    <div class="container p-4">
-        <div class="row">
-            <div class="col-md-4 mx-auto">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <center>
-                            {{#if user.photo}}
-                                <img src="{{user.photo}}" class="img-profile">
-                            {{else}}
-                                <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-profile">
-                            {{/if}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-body">
+                    <center>
+                        {{#if user.photo}}
+                            <img src="{{user.photo}}" class="img-profile">
+                        {{else}}
+                            <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-profile">
+                        {{/if}}
 
-                            <h3>Bienvenido {{user.user_name}}</h3>
-                            <h4>{{user.name}}</h4>
-                            <label>{{user.email}}</label>
-                        </center>
-                        <br>
-                    </div>
+                        <h3>Bienvenido {{user.user_name}}</h3>
+                        <h4>{{user.name}}</h4>
+                        <label>{{user.email}}</label>
+                    </center>
+                    <br>
                 </div>
             </div>
         </div>
     </div>
-    </center>
-{{/if}}
+</div>
+</center>
 <br><br><br><br>

@@ -1,15 +1,15 @@
 /**/
 :root {
-    --color-company: rgb(255, 255, 255);
+    --color-company: #0A74CC;
     --color-footer:  #131313;
     /*rgb(57,78,194);*/
     --color-hover: rgb(131, 2, 26);
     /*rgb(46, 62, 151);*/
     --color-body: rgb(246, 245, 248);
     
-    --color-session1: rgb(204, 3, 40);
+    --color-session1: #0A74CC;
     /* rgb(57,78,194);*/
-    --color-session2: rgb(170, 1, 32);
+    --color-session2: #0A74CC;
     /* rgb(97, 53, 253);*/
 
     --color-confirmation: rgb(25, 135, 84);
@@ -24,6 +24,11 @@ a {
 
 .title-company{
     color: var(--color-company);
+}
+
+.btn-edit{
+    background-color: var(--color-session1);
+    color: white;
 }
 
 .bar-link{

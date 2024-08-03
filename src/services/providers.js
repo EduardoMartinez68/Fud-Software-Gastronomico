@@ -2,6 +2,7 @@ const database = require('../database');
 const addDatabase = require('../router/addDatabase');
 const rolFree=0
 
+//functions branch
 async function search_providers(idBranch) {
     //we will search the company of the user 
     //var queryText = 'SELECT * FROM "Branch".providers WHERE id_branches= $1';
@@ -18,7 +19,7 @@ async function search_providers(idBranch) {
 }
 
 async function search_all_providers(id_company) {
-    const allBranch = await search_all_branch_company(id_company);
+    const allBranch = await search_all_branch(id_company);
     const providers = []
 
     //we will to read all the branch of the company for get his providers 
@@ -34,6 +35,20 @@ async function search_all_providers(id_company) {
 
     return providers;
 }
+
+async function search_all_branch(id_company) {
+    var queryText = `
+        SELECT branches.*, country.name AS country_name
+        FROM "Company".branches
+        INNER JOIN "Fud".country ON branches.id_country = country.id
+        WHERE branches.id_companies = $1`;
+
+    var values = [id_company];
+    const result = await database.query(queryText, values);
+
+    return result.rows;
+}
+
 
 async function search_providers_for_name(idBranch, name_provider) {
     //we will search the company of the user 

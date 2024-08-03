@@ -65,6 +65,16 @@ const {
 } = require('../../services/foodDepartment');
 const { get_data_company, get_data_company_with_id } = require('../../services/company');
 
+//functions providers
+const {
+    search_providers,
+    search_all_providers,
+    search_providers_for_name,
+    search_all_providers_for_name,
+    search_provider,
+    delete_provider
+} = require('../../services/providers');
+
 
 const rolFree=0
 const companyName='links'
@@ -586,7 +596,6 @@ router.get('/:id_company/:id_branch/type-employees-free', isLoggedIn, async (req
     const branchFree=await get_data_branch(req);
     res.render('links/manager/role_type_employees/typeEmployees', { branchFree, typeEmployees });
 })
-
 
 router.get('/:id_company/:id_branch/:id_role_employee/edit-role-user', isLoggedIn, async (req, res) => {
     if(await validate_subscription(req,res)){
@@ -1206,6 +1215,89 @@ router.get('/:id_company/:id_branch/marketplace', isLoggedIn,async (req, res) =>
     const {id_branch}=req.body
     const branchFree = await get_data_branch(req);
     res.render('links/branch/marketplace/marketplace',{branchFree}); //this web is for return your user
+})
+
+//----------------------------------------------------------------providers
+router.get('/:id_company/:id_branch/providers', isLoggedIn, async (req, res) => {
+    //if this company is of the user, we will to search all the providers of tha company
+    const { id_company , id_branch} = req.params;
+    const providers = await search_all_providers(id_company);
+
+    //if the company not have providers render other view
+    if (providers.length == 0) {
+        if(req.user.rol_user==rolFree){
+            const branchFree=await get_data_branch(id_branch);
+            res.render('links/manager/providers/providers', { branchFree });
+        }else{
+            const branch=await get_data_branch(id_branch);
+            res.render('links/manager/providers/providers', { branch });
+        }
+    }
+    else {
+        res.render('links/manager/providers/providers', { branchFree, providers });
+    }
+})
+
+router.get('/:id_company/:name_provider/search-provider', isLoggedIn, async (req, res) => {
+    //we will see if the company is of the user 
+    const company = await this_company_is_of_this_user(req, res)
+    if (company != null) {
+        //if this company is of the user, we will to search all the providers of tha company
+        const { id_company, name_provider } = req.params;
+        const providers = await search_all_providers_for_name(id_company, name_provider);
+        //if the company not have providers render other view
+        if (providers.length == 0) {
+            res.render('links/manager/providers/providers', { company });
+        }
+        else {
+            res.render('links/manager/providers/providers', { company, providers });
+        }
+    }
+})
+
+router.get('/:id_company/add-providers', isLoggedIn, async (req, res) => {
+    const { id_company } = req.params;
+    const branches = await search_all_branch(id_company)
+    res.render('links/manager/providers/addProviders', { company, branches });
+})
+
+router.get('/:id_provider/edit-providers', isLoggedIn, async (req, res) => {
+    //if this company is of the user, we will to search the provider of tha company
+    const { id_provider } = req.params;
+    const provider = await search_provider(id_provider);
+    if(req.user.rol_user==rolFree){
+        const branchFree=await get_data_branch(id_branch);
+        res.render('links/manager/providers/editProviders', { provider, branchFree });
+    }else{
+        const branch=await get_data_branch(id_branch);
+        res.render('links/manager/providers/editProviders', { provider, branch });
+    }
+})
+
+router.get('/:id_company/:id_branch/:id_provider/edit-prover', isLoggedIn, async (req, res) => {
+    //if this company is of the user, we will to search the provider of tha company
+    const { id_provider } = req.params;
+    const provider = await search_provider(id_provider);
+    if(req.user.rol_user==rolFree){
+        const branchFree=await get_data_branch(id_branch);
+        res.render('links/manager/providers/editProviders', { provider, branchFree });
+    }else{
+        const branch=await get_data_branch(id_branch);
+        res.render('links/manager/providers/editProviders', { provider, branch });
+    }
+})
+
+router.get('/:id_company/:id_provider/delete-provider', isLoggedIn, async (req, res) => {
+    const { id_provider, id_company } = req.params;
+    if (await delete_provider(id_provider)) {
+        req.flash('success', 'El proveedor fue eliminado con éxito 😉')
+    }
+    else {
+        req.flash('message', 'El proveedor no fue eliminado 😮')
+    }
+
+    res.redirect('/fud/' + id_company + '/providers');
+    
 })
 
 /*store online*/

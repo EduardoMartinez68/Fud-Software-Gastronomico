@@ -1,7 +1,7 @@
-const color_company='rgb(255,0,42)'//'rgb(204,3,40)';
-const color_hover='rgb(170, 1, 32);'
-const color_session1='rgb(204,3,40)';
-const color_session2='rgb(170, 1, 32)';
+const color_company='#0A74CC'//'rgb(204,3,40)' rgb(255,0,42);
+const color_hover='#004080;'
+const color_session1='#0A74CC';
+const color_session2='#0A74CC';
 
 ///
 function set_color_company(rgb){

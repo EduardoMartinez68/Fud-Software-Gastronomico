@@ -1,177 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Punto de Venta (POS)</title>
     <style>
-        .body-apps {
+        body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #DCDAE8;
-            display: flex;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container-app {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjusted for larger icons */
-            grid-auto-rows: minmax(120px, auto); /* Adjusted for larger icons */
-            gap: 20px;
-            max-width: 1000px;
-            padding: 20px;
-            grid-template-columns: repeat(6, 1fr); /* Limit to 6 columns */
-        }
-
-        .app-icon {
+            background-color: #F4F4F9;
+            color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background-color: white;
-            border-radius: 10px;
-            padding: 10px;
-            transition: transform 0.3s ease;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 80px; /* Adjust the size here */
-            height: 80px; /* Adjust the size here */
         }
 
-        .app-icon img {
-            width: 40px; /* Adjust the size here */
-            height: 40px; /* Adjust the size here */
-            margin-bottom: 5px;
+        header {
+            width: 100%;
+            background-color: #5271FF;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .app-icon i {
-            width: 40px; /* Adjust the size here */
-            height: 40px; /* Adjust the size here */
-            margin-bottom: 5px;
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            gap: 20px;
         }
-        .app-icon span {
-            font-size: 12px; /* Adjust the font size here */
+
+        .product-container {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 800px;
+            /* Altura máxima para permitir el scroll */
+            overflow-y: auto;
+            /* Habilita el scroll vertical */
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 columnas */
+            gap: 20px;
+            justify-items: center;
+            /* Centra las tarjetas horizontalmente en cada columna */
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            width: 100%;
+            /* Hacer que las tarjetas ocupen el 100% del ancho disponible en la columna */
+            max-width: 200px;
+            /* Tamaño máximo de las tarjetas */
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .product-card .barcode {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .product-card .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+        }
+
+        .checkout-btn {
+            background-color: #28a745;
+            /* Verde */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: #218838;
+            /* Verde más oscuro */
+        }
+
+        .cart-container {
+            flex: 1;
+            background-color: white;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            /* Altura máxima del carrito */
+            overflow-y: auto;
+            /* Habilita el scroll si es necesario */
+        }
+
+        /* CSS para el carrito de compras */
+        .cart-container {
+            flex: 1;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            /* Altura máxima del carrito */
+            overflow-y: auto;
+            /* Habilita el scroll si es necesario */
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            padding: 12px;
+            text-align: center;
+            /* Centra el texto */
+            font-size: 16px;
+            color: #333;
+        }
+
+        .cart-table th {
+            background-color: #5271FF;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            /* Redondear solo la parte superior */
+        }
+
+        .cart-table td {
+            background-color: #ffffff;
+            border: 1px solid #E0E0E0;
+            border-radius: 5px;
+            /* Bordes redondeados para celdas */
+        }
+
+        .cart-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+            /* Alternar color de filas */
+        }
+
+        .cart-table tr:nth-child(odd) {
+            background-color: #ffffff;
+            /* Alternar color de filas */
+        }
+
+        .cart-table tr:hover {
+            background-color: #e2e2e2;
+            /* Color de fondo al pasar el cursor */
+        }
+
+        .cart-table tfoot {
+            background-color: #f5f5f5;
+            /* Fondo para el pie de tabla */
+        }
+
+        .cart-table tfoot td {
+            padding: 12px;
+            text-align: center;
+            /* Centra el texto en el pie de tabla */
             font-weight: bold;
             color: #333;
         }
 
-        .app-icon:hover {
-            transform: scale(1.1);
+        /* Estilo para el botón del carrito */
+        .toggle-cart-btn {
+            display: none;
+            /* Ocultar el botón por defecto en pantallas grandes */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #5271FF;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 24px;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            /* Asegura que el botón esté por encima de otros elementos */
         }
-        /* Responsive styles */
+
+        .toggle-cart-btn:hover {
+            background-color: #4059d3;
+        }
+
+        /* Media queries para dispositivos móviles */
         @media (max-width: 768px) {
-            .container-app {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Fewer columns on tablets */
-                grid-auto-rows: minmax(100px, auto);
+            .main-container {
+                flex-direction: column;
+                /* Cambia la dirección de la columna principal en móviles */
             }
 
-            .app-icon {
-                width: 100px; /* Adjusted size for tablets */
-                height: 100px; /* Adjusted size for tablets */
-                padding: 15px; /* Adjusted padding */
+            .product-grid {
+                grid-template-columns: repeat(1, 1fr);
+                /* 1 columna en móviles */
             }
 
-            .app-icon img {
-                width: 50px; /* Adjusted size for tablets */
-                height: 50px; /* Adjusted size for tablets */
+            .product-card {
+                max-width: 100%;
+                /* Tamaño máximo de las tarjetas en móviles */
             }
 
-            .app-icon span {
-                font-size: 14px; /* Adjusted font size for tablets */
+            .cart-container {
+                display: none;
+                /* Ocultar el carrito en móviles por defecto */
+            }
+
+            .toggle-cart-btn {
+                display: block;
+                /* Mostrar el botón en móviles */
             }
         }
 
-        @media (max-width: 480px) {
-            .container-app {
-                grid-template-columns: 1fr; /* One column on mobile */
-                grid-auto-rows: minmax(120px, auto); /* Adjusted size for mobile */
-            }
-
-            .app-icon {
-                width: 100%; /* Full width on mobile */
-                height: auto;
-                padding: 20px; /* Adjusted padding */
-            }
-
-            .app-icon img {
-                width: 70px; /* Larger icons for mobile */
-                height: 70px; /* Larger icons for mobile */
-            }
-
-            .app-icon span {
-                font-size: 18px; /* Larger font size for mobile */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* 2 columnas en tablets */
             }
         }
     </style>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css'>
 </head>
+
 <body>
-    <div class="body-apps">
-        <div class="container-app">
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/1147/1147832.png" alt="Insumos">
-                <span>Insumos</span>
+    <header>Punto de Venta (POS)</header>
+    <div class="main-container">
+        <div class="product-container none">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar producto...">
             </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/6626/6626465.png" alt="Combos">
-                <span>Combos</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5188/5188850.png" alt="">
-                <span>Empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" alt="Ofertas">
-                <span>Repartidor</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/256/2180/2180060.png" alt="Repartidores">
-                <span>Menu Digital</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/6165/6165633.png" alt="Movimientos">
-                <span>Anuncios</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/4682/4682602.png" alt="Departamentos">
-                <span>Sucursal</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/8828/8828939.png" alt="Departamentos">
-                <span>Cajas</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
-                <span>Departamento de Comida</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3974/3974868.png" alt="Departamentos">
-                <span>Area de Comida</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5305/5305244.png" alt="Departamentos">
-                <span>Ventas</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/9226/9226528.png" alt="Departamentos">
-                <span>Movimientos</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/5957/5957016.png" alt="Departamentos">
-                <span>Departamento de empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/3652/3652287.png" alt="Departamentos">
-                <span>Roles de empleados</span>
-            </div>
-            <div class="app-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/4372/4372862.png" alt="Áreas">
-                <span>Marketplace</span>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://www.laranitadelapaz.com.mx/images/thumbs/0004771_agua-bonafont-12-botellas-de-600-ml_615.jpeg"
+                        alt="Agua Bonafont">
+                    <div class="barcode">Código: 0004771</div>
+                    <div class="product-name">Agua Bonafont 600ml</div>
+                    <button class="add-to-cart-btn">Agregar al carrito</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3342/3342177.png" alt="Agua Bonafont">
+                    <div class="barcode">Código: 0004772</div>
+                    <div class="product-name">Agua Bonafont 600ml</div>
+                    <button class="add-to-cart-btn">Agregar al carrito</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3342/3342177.png" alt="Agua Bonafont">
+                    <div class="barcode">Código: 0004772</div>
+                    <div class="product-name">Agua Bonafont 600ml</div>
+                    <button class="add-to-cart-btn">Agregar al carrito</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3342/3342177.png" alt="Agua Bonafont">
+                    <div class="barcode">Código: 0004772</div>
+                    <div class="product-name">Agua Bonafont 600ml</div>
+                    <button class="add-to-cart-btn">Agregar al carrito</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3342/3342177.png" alt="Agua Bonafont">
+                    <div class="barcode">Código: 0004772</div>
+                    <div class="product-name">Agua Bonafont 600ml</div>
+                    <button class="add-to-cart-btn">Agregar al carrito</button>
+                </div>
             </div>
         </div>
+        <div class="cart-container">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Código</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agua Bonafont 600ml</td>
+                        <td>0004771</td>
+                        <td>1</td>
+                        <td>$10.00</td>
+                        <td>$10.00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">Total</td>
+                        <td>$10.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="checkout-btn">Pagar</button>
+        </div>
     </div>
+    <button class="toggle-cart-btn"><i class="fi fi-sr-shopping-cart"></i></button>
+    <script>
+        // Script para el botón de carrito de compras
+        document.querySelector('.toggle-cart-btn').addEventListener('click', function () {
+            const cartContainer = document.querySelector('.cart-container');
+            const productContainer = document.querySelector('.product-container');
+            productContainer.style.display = (cartContainer.style.display === 'none' || cartContainer.style.display === '') ? 'none' : 'flex';
+            cartContainer.style.display = (cartContainer.style.display === 'none' || cartContainer.style.display === '') ? 'flex' : 'none';
+        });
+    </script>
 </body>
+
 </html>
